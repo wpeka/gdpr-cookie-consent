@@ -36,7 +36,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 		require plugin_dir_path( __FILE__ ) . 'classes/class-wpl-cookie-consent-script-blocker-frontend.php';
 		// Creating necessary tables for script blocker.
 		register_activation_hook( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME, array( $this, 'wpl_activator' ) );
-		add_action( 'admin_init', array( $this, 'wpl_activator' ) );
+		add_action( 'admin_init', array( $this, 'wpl_maybe_install_tables' ) );
 
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
 			add_filter( 'gdprcookieconsent_script_blocker_sub_tabs', array( $this, 'wpl_script_blocker_sub_tabs' ) );
@@ -71,6 +71,20 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	}
 
 	/**
+	 * Install tables for the current site only when the plugin version has changed.
+	 *
+	 * Runs on admin_init (which also fires on every admin-ajax.php request), so it must
+	 * stay cheap: the version option is autoloaded and no queries run once it matches.
+	 */
+	public function wpl_maybe_install_tables() {
+		if ( get_option( 'wpl_script_blocker_db_version' ) === GDPR_COOKIE_CONSENT_VERSION ) {
+			return;
+		}
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		$this->wpl_install_tables();
+	}
+
+	/**
 	 * Installs necessary tables.
 	 *
 	 * @since 3.0.0
@@ -97,194 +111,195 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 			);";
 			dbDelta( $create_table_sql );
 		}
-		$total_data = $wpdb->get_row( 'SELECT COUNT(id) AS ttnum FROM `' . $wpdb->prefix . 'wpl_cookie_scripts`', ARRAY_A ); // db call ok; no-cache ok.
-		if ( '0' === $total_data['ttnum'] || $total_data['ttnum'] ) {
-			// Get category id for Unclassified.
-			$data_arr = $this->get_category_by_slug( 'unclassified' );
-			if ( isset( $data_arr ) && ! empty( $data_arr ) ) {
-				foreach ( $data_arr as $data ) {
-					if ( isset( $data->id_gdpr_cookie_category ) ) {
-						$category = $data->id_gdpr_cookie_category;
-					} else {
-						$category = 5;
-					}
-				}
-			} else {
-				$category = 5;
-			}
-			// Insert records into Script blocker table.
-			$records = array(
-				array(
-					'script_key'         => 'googleanalytics',
-					'script_title'       => 'GA4 Analytics',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'GA4 scripts',
-				),
-				array(
-					'script_key'         => 'facebook_pixel',
-					'script_title'       => 'Meta Pixel',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Meta pixel scripts',
-				),
-				array(
-					'script_key'         => 'google_tag_manager',
-					'script_title'       => 'Google Tag Manager',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Google tag manager Scripts',
-				),
-				array(
-					'script_key'         => 'hotjar',
-					'script_title'       => 'Hotjar Analytics',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Hotjar analytics scripts',
-				),
-				array(
-					'script_key'         => 'google_publisher_tag',
-					'script_title'       => 'Google Publisher Tag',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Google publisher tag (Google Ad manager)',
-				),
-				array(
-					'script_key'         => 'youtube_embed',
-					'script_title'       => 'Youtube Embed',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Youtube player embed',
-				),
-				array(
-					'script_key'         => 'vimeo_embed',
-					'script_title'       => 'Vimeo Embed',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Vimeo player embed',
-				),
-				array(
-					'script_key'         => 'google_maps',
-					'script_title'       => 'Google Maps',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Google maps embed',
-				),
-				array(
-					'script_key'         => 'addthis_widget',
-					'script_title'       => 'Addthis Widget',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Addthis social widget',
-				),
-				array(
-					'script_key'         => 'sharethis_widget',
-					'script_title'       => 'Sharethis Widget',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Sharethis social widget',
-				),
-				array(
-					'script_key'         => 'twitter_widget',
-					'script_title'       => 'X Widget',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'X social widget',
-				),
-				array(
-					'script_key'         => 'soundcloud_embed',
-					'script_title'       => 'Soundcloud Embed',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Soundcloud player embed',
-				),
-				array(
-					'script_key'         => 'slideshare_embed',
-					'script_title'       => 'Slideshare Embed',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Slideshare embed',
-				),
-				array(
-					'script_key'         => 'linkedin_widget',
-					'script_title'       => 'Linkedin Widget',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Linkedin social widget',
-				),
-				array(
-					'script_key'         => 'instagram_embed',
-					'script_title'       => 'Instagram Embed',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Instagram embed',
-				),
-				array(
-					'script_key'         => 'pinterest',
-					'script_title'       => 'Pinterest Widget',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Pinterest widget',
-				),
-				array(
-					'script_key'         => 'tawk',
-					'script_title'       => 'Tawk Widget',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Chat widget',
-				),
-				array(
-					'script_key'         => 'hubspot',
-					'script_title'       => 'Hubspot Analytics',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Hubspot Analytics',
-				),
-				array(
-					'script_key'         => 'recaptcha',
-					'script_title'       => 'Google Recaptcha',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Google Recaptcha',
-				),
-				array(
-					'script_key'         => 'adsense',
-					'script_title'       => 'Google Adsense',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Google Adsense',
-				),
-				array(
-					'script_key'         => 'matomo',
-					'script_title'       => 'Matomo Analytics',
-					'script_category'    => $category,
-					'script_status'      => 1,
-					'script_description' => 'Matomo Analytics',
-				),
-			);
-			foreach ( $records as $key => $value ) {
-				$data_exists = $wpdb->get_row( $wpdb->prepare( 'SELECT id FROM `' . $wpdb->prefix . 'wpl_cookie_scripts` WHERE `script_key`=%s', array( $value['script_key'] ) ), ARRAY_A ); // db call ok; no-cache ok.
-				if ( $data_exists ) {
-					// Update the script_title and script_description if the entry exists.
-					$wpdb->update(
-						$table_name,
-						array(
-							'script_title'       => $value['script_title'], // Replace with the new title.
-							'script_description' => $value['script_description'], // Replace with the new description.
-						),
-						array( 'id' => $data_exists['id'] ),
-						array(
-							'%s', // Format for script_title.
-							'%s', // Format for script_description.
-						),
-						array( '%d' ) // Format for WHERE clause.
-					);
+		// Get category id for Unclassified.
+		$data_arr = $this->get_category_by_slug( 'unclassified' );
+		if ( isset( $data_arr ) && ! empty( $data_arr ) ) {
+			foreach ( $data_arr as $data ) {
+				if ( isset( $data->id_gdpr_cookie_category ) ) {
+					$category = $data->id_gdpr_cookie_category;
 				} else {
-					// Insert a new entry if it doesn't exist.
-					$wpdb->insert( $table_name, $value ); // db call ok; no-cache ok.
+					$category = 5;
 				}
+			}
+		} else {
+			$category = 5;
+		}
+		// Insert records into Script blocker table.
+		$records = array(
+			array(
+				'script_key'         => 'googleanalytics',
+				'script_title'       => 'GA4 Analytics',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'GA4 scripts',
+			),
+			array(
+				'script_key'         => 'facebook_pixel',
+				'script_title'       => 'Meta Pixel',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Meta pixel scripts',
+			),
+			array(
+				'script_key'         => 'google_tag_manager',
+				'script_title'       => 'Google Tag Manager',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Google tag manager Scripts',
+			),
+			array(
+				'script_key'         => 'hotjar',
+				'script_title'       => 'Hotjar Analytics',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Hotjar analytics scripts',
+			),
+			array(
+				'script_key'         => 'google_publisher_tag',
+				'script_title'       => 'Google Publisher Tag',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Google publisher tag (Google Ad manager)',
+			),
+			array(
+				'script_key'         => 'youtube_embed',
+				'script_title'       => 'Youtube Embed',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Youtube player embed',
+			),
+			array(
+				'script_key'         => 'vimeo_embed',
+				'script_title'       => 'Vimeo Embed',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Vimeo player embed',
+			),
+			array(
+				'script_key'         => 'google_maps',
+				'script_title'       => 'Google Maps',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Google maps embed',
+			),
+			array(
+				'script_key'         => 'addthis_widget',
+				'script_title'       => 'Addthis Widget',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Addthis social widget',
+			),
+			array(
+				'script_key'         => 'sharethis_widget',
+				'script_title'       => 'Sharethis Widget',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Sharethis social widget',
+			),
+			array(
+				'script_key'         => 'twitter_widget',
+				'script_title'       => 'X Widget',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'X social widget',
+			),
+			array(
+				'script_key'         => 'soundcloud_embed',
+				'script_title'       => 'Soundcloud Embed',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Soundcloud player embed',
+			),
+			array(
+				'script_key'         => 'slideshare_embed',
+				'script_title'       => 'Slideshare Embed',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Slideshare embed',
+			),
+			array(
+				'script_key'         => 'linkedin_widget',
+				'script_title'       => 'Linkedin Widget',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Linkedin social widget',
+			),
+			array(
+				'script_key'         => 'instagram_embed',
+				'script_title'       => 'Instagram Embed',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Instagram embed',
+			),
+			array(
+				'script_key'         => 'pinterest',
+				'script_title'       => 'Pinterest Widget',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Pinterest widget',
+			),
+			array(
+				'script_key'         => 'tawk',
+				'script_title'       => 'Tawk Widget',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Chat widget',
+			),
+			array(
+				'script_key'         => 'hubspot',
+				'script_title'       => 'Hubspot Analytics',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Hubspot Analytics',
+			),
+			array(
+				'script_key'         => 'recaptcha',
+				'script_title'       => 'Google Recaptcha',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Google Recaptcha',
+			),
+			array(
+				'script_key'         => 'adsense',
+				'script_title'       => 'Google Adsense',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Google Adsense',
+			),
+			array(
+				'script_key'         => 'matomo',
+				'script_title'       => 'Matomo Analytics',
+				'script_category'    => $category,
+				'script_status'      => 1,
+				'script_description' => 'Matomo Analytics',
+			),
+		);
+		foreach ( $records as $key => $value ) {
+			$data_exists = $wpdb->get_row( $wpdb->prepare( 'SELECT id, script_title, script_description FROM `' . $wpdb->prefix . 'wpl_cookie_scripts` WHERE `script_key`=%s', array( $value['script_key'] ) ), ARRAY_A ); // db call ok; no-cache ok.
+			if ( $data_exists ) {
+				// Update the script_title and script_description only if they have changed.
+				if ( $data_exists['script_title'] === $value['script_title'] && $data_exists['script_description'] === $value['script_description'] ) {
+					continue;
+				}
+				$wpdb->update(
+					$table_name,
+					array(
+						'script_title'       => $value['script_title'], // Replace with the new title.
+						'script_description' => $value['script_description'], // Replace with the new description.
+					),
+					array( 'id' => $data_exists['id'] ),
+					array(
+						'%s', // Format for script_title.
+						'%s', // Format for script_description.
+					),
+					array( '%d' ) // Format for WHERE clause.
+				);
+			} else {
+				// Insert a new entry if it doesn't exist.
+				$wpdb->insert( $table_name, $value ); // db call ok; no-cache ok.
 			}
 		}
+		update_option( 'wpl_script_blocker_db_version', GDPR_COOKIE_CONSENT_VERSION );
 	}
 
 	/**

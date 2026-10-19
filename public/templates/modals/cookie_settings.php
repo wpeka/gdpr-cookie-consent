@@ -12,21 +12,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
  
-	$data = Gdpr_Cookie_Consent::gdpr_get_all_vendors();
-	$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
-	$gacm_data = Gdpr_Cookie_Consent::gdpr_get_gacm_vendors();
-	$gacm_consent_data = isset( $iabtcf_consent_data["gacm_consent"]) ? $iabtcf_consent_data["gacm_consent"] : [];
-	$allGacmVendorsFlag = false;
-	$consent_data = isset( $iabtcf_consent_data["consent"] ) ? $iabtcf_consent_data["consent"] : [];
-	$features_text = $data->featureStandardText;
-	$legint_data = isset( $iabtcf_consent_data["legint"] ) ? $iabtcf_consent_data["legint"] : [];
-	$purpose_consent_data = isset( $iabtcf_consent_data["purpose_consent"] ) ? $iabtcf_consent_data["purpose_consent"] : [];
-	$purpose_legint_data = isset( $iabtcf_consent_data["purpose_legint"] ) ? $iabtcf_consent_data["purpose_legint"] : [];
-	$feature_consent_data = isset( $iabtcf_consent_data["feature_consent"] ) ? $iabtcf_consent_data["feature_consent"] : [];
-	$allVendors = isset( $iabtcf_consent_data["allvendorIds"] ) ? $iabtcf_consent_data["allvendorIds"] : [];
-	$allSpecialFeatures = isset( $iabtcf_consent_data["allSpecialFeatureIds"] ) ? $iabtcf_consent_data["allSpecialFeatureIds"] : [];
-	$allVendorsFlag = false;	//flag for all vendors toggle button
-	$allFeaturesFlag = false;
+	// IAB TCF / GACM data is only rendered inside the $is_iabtcf_on block below.
+	$is_iabtcf_on = in_array( $the_options['is_iabtcf_on'], array( true, 'true', 1, '1' ), true );
+	if ( $is_iabtcf_on ) {
+		$data = Gdpr_Cookie_Consent::gdpr_get_all_vendors();
+		$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
+		$gacm_data = Gdpr_Cookie_Consent::gdpr_get_gacm_vendors();
+		$gacm_consent_data = isset( $iabtcf_consent_data["gacm_consent"]) ? $iabtcf_consent_data["gacm_consent"] : [];
+		$allGacmVendorsFlag = false;
+		$consent_data = isset( $iabtcf_consent_data["consent"] ) ? $iabtcf_consent_data["consent"] : [];
+		$features_text = isset( $data->featureStandardText ) ? $data->featureStandardText : '';
+		$legint_data = isset( $iabtcf_consent_data["legint"] ) ? $iabtcf_consent_data["legint"] : [];
+		$purpose_consent_data = isset( $iabtcf_consent_data["purpose_consent"] ) ? $iabtcf_consent_data["purpose_consent"] : [];
+		$purpose_legint_data = isset( $iabtcf_consent_data["purpose_legint"] ) ? $iabtcf_consent_data["purpose_legint"] : [];
+		$feature_consent_data = isset( $iabtcf_consent_data["feature_consent"] ) ? $iabtcf_consent_data["feature_consent"] : [];
+		$allVendors = isset( $iabtcf_consent_data["allvendorIds"] ) ? $iabtcf_consent_data["allvendorIds"] : [];
+		$allSpecialFeatures = isset( $iabtcf_consent_data["allSpecialFeatureIds"] ) ? $iabtcf_consent_data["allSpecialFeatureIds"] : [];
+		$allVendorsFlag = false;	//flag for all vendors toggle button
+		$allFeaturesFlag = false;
+	}
 
 	if(!function_exists('gdpr_is_gpc_honored')){
 		function gdpr_is_gpc_honored( $the_options ) {
@@ -141,11 +145,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 							$content_law = isset( $content_law ) ? $content_law : $the_options['cookie_usage_for'];
 							?>
                  		<?php if ( $content_law==='gdpr' ) :?>
-								<div class="gdpr-about-cookies"><?php echo $the_options['is_iabtcf_on'] ? esc_html( $cookie_data['dash_about_message_iabtcf'] ) : esc_html( $cookie_data['dash_about_message'] ); // phpcs:ignore ?></div>
+								<div class="gdpr-about-cookies"><?php echo $is_iabtcf_on ? esc_html( $cookie_data['dash_about_message_iabtcf'] ) : esc_html( $cookie_data['dash_about_message'] ); // phpcs:ignore ?></div>
 							<?php elseif (  $content_law==='lgpd') :?>
 								<div class="gdpr-about-cookies"><?php echo esc_html( $cookie_data['dash_about_message_lgpd'] ); // phpcs:ignore ?></div>
 							<?php elseif ( $content_law==='both' ) :?>
-								<div class="gdpr-about-cookies"><?php echo $the_options['is_iabtcf_on'] ? esc_html( $cookie_data['dash_about_message_iabtcf'] ) : esc_html( $cookie_data['dash_about_message'] ); // phpcs:ignore ?></div>
+								<div class="gdpr-about-cookies"><?php echo $is_iabtcf_on ? esc_html( $cookie_data['dash_about_message_iabtcf'] ) : esc_html( $cookie_data['dash_about_message'] ); // phpcs:ignore ?></div>
 							<?php endif; 
 							if($the_options['is_gcm_on'] === 'true' || $the_options['is_gcm_on'] === true || $the_options['is_gcm_on'] === '1') : ?>
 							<div class="gdpr-about-cookies">
@@ -157,7 +161,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									</a>
 							</div>
 							<?php endif;
-						if ( $the_options['is_iabtcf_on']) :
+						if ( $is_iabtcf_on ) :
 						?>
 						<ul class="gdpr-iab-navbar" style="border-bottom: 1px solid <?php echo esc_attr($border_color); ?>;">
 							<li class="gdpr-iab-navbar-item" id="gdprIABTabCategory"><button class="gdpr-iab-navbar-button active">Cookie Categories</button></li>
@@ -354,7 +358,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							?>
 						</ul>
 						
-						<?php if ( $the_options['is_iabtcf_on']) : ?>
+						<?php if ( $is_iabtcf_on ) : ?>
 						<ul class="category-group feature-group tabContainer">
 							<?php
 						    $values = ["Purposes", "Special Purposes","Features","Special Features"];
@@ -716,7 +720,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 																	class="gacm-vendor-all-switch-handler" 
 																	type="checkbox" 
 																	name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
-																	value=<?php echo esc_attr( $data->allvendors ); ?>>
+																	value="<?php echo esc_attr( is_array($data->allvendors) ? implode(',', $data->allvendors) : $data->allvendors ); ?>">
 																	<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
 																		<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
 																	</label>
@@ -1023,7 +1027,7 @@ if( $the_options['cookie_usage_for'] === "ccpa" || $the_options['cookie_usage_fo
         ">
 			<div class="gdprmodal-header">
 				 <p><?php echo esc_html( $the_options['show_again_text'] ); ?></p>
-			<button type="button" class="gdpr_action_button close" data-dismiss="gdprmodal" data-gdpr_action="close" 
+				<button type="button" class="gdpr_action_button close" data-dismiss="gdprmodal" data-gdpr_action="close" 
                 style="
                     border: none;
                     height: 20px;

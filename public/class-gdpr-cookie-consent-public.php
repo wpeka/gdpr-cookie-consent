@@ -733,27 +733,29 @@ class Gdpr_Cookie_Consent_Public {
 			if ( in_array( $the_options['cookie_usage_for'], array( 'ccpa', 'us_state_laws', 'both' ), true ) ) {
 				wp_enqueue_script( $this->plugin_name . '-uspapi', plugin_dir_url( __FILE__ ) . 'js/iab/uspapi.js', array( 'jquery' ), $this->version, false );
 			}
-			// //tcf
-			wp_enqueue_script( $this->plugin_name. '-tcf' );
-			$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
-			$iabtcf_data = Gdpr_Cookie_Consent::gdpr_get_all_vendors();
-			$gacm_data = Gdpr_Cookie_Consent::gdpr_get_gacm_vendors();
-			wp_localize_script(
-				$this->plugin_name.'-tcf',
-				'iabtcf',
-				array(
-					'consentdata'              => $iabtcf_consent_data,
-					'data'					=> $iabtcf_data,		
-					'gacm_data'				=> $gacm_data,
-					'ajax_url'				=> WP_PLUGIN_URL.'/gdpr-cookie-consent/admin',
-					'consent_logging_nonce' => wp_create_nonce( 'wpl_consent_logging_nonce' ),
-					'consent_renew_nonce'   => wp_create_nonce( 'wpl_consent_renew_nonce' ),
-					'is_gacm_on'			=> $the_options['is_gacm_on'],
-					'is_gcm_advertiser_mode'=> $the_options['is_gcm_advertiser_mode'],
-					'is_iabtcf_on'			=> $the_options['is_iabtcf_on'],
-				)
-			);
-			wp_enqueue_script( $this->plugin_name . '-tcf', plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-admin-tcf.js', array( 'jquery' ), $this->version, false );
+			// IAB TCF: only load the CMP bundle and vendor data when IAB is enabled.
+			$is_iabtcf_on = in_array( $the_options['is_iabtcf_on'], array( true, 'true', 1, '1' ), true );
+			if ( $is_iabtcf_on ) {
+				wp_enqueue_script( $this->plugin_name. '-tcf' );
+				$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
+				$iabtcf_data = Gdpr_Cookie_Consent::gdpr_get_all_vendors();
+				$gacm_data = Gdpr_Cookie_Consent::gdpr_get_gacm_vendors();
+				wp_localize_script(
+					$this->plugin_name.'-tcf',
+					'iabtcf',
+					array(
+						'consentdata'              => $iabtcf_consent_data,
+						'data'					=> $iabtcf_data,		
+						'gacm_data'				=> $gacm_data,
+						'ajax_url'				=> WP_PLUGIN_URL.'/gdpr-cookie-consent/admin',
+						'consent_logging_nonce' => wp_create_nonce( 'wpl_consent_logging_nonce' ),
+						'consent_renew_nonce'   => wp_create_nonce( 'wpl_consent_renew_nonce' ),
+						'is_gacm_on'			=> $the_options['is_gacm_on'],
+						'is_gcm_advertiser_mode'=> $the_options['is_gcm_advertiser_mode'],
+						'is_iabtcf_on'			=> $the_options['is_iabtcf_on'],
+					)
+				);
+			}
 			
 			wp_enqueue_style( $this->plugin_name );
 			wp_enqueue_style( $this->plugin_name . '-custom' );
@@ -785,15 +787,17 @@ class Gdpr_Cookie_Consent_Public {
 					'selected_script_category' => $selected_script_category,
 				)
 			);
-			wp_localize_script(
-				$this->plugin_name.'-tcf',
-				'log_obj',
-				array(
-					'ajax_url'              => admin_url( 'admin-ajax.php' ),
-					'consent_logging_nonce' => wp_create_nonce( 'wpl_consent_logging_nonce' ),
-					'consent_renew_nonce'   => wp_create_nonce( 'wpl_consent_renew_nonce' ),
-				)
-			);
+			if ( $is_iabtcf_on ) {
+				wp_localize_script(
+					$this->plugin_name.'-tcf',
+					'log_obj',
+					array(
+						'ajax_url'              => admin_url( 'admin-ajax.php' ),
+						'consent_logging_nonce' => wp_create_nonce( 'wpl_consent_logging_nonce' ),
+						'consent_renew_nonce'   => wp_create_nonce( 'wpl_consent_renew_nonce' ),
+					)
+				);
+			}
 			add_filter( 'clean_url', array( $this, 'gdprcookieconsent_clean_async_url' ) );
 			$gdpr_message     = '';
 			$ccpa_message     = '';
@@ -1501,15 +1505,8 @@ class Gdpr_Cookie_Consent_Public {
 				$the_options['select_sites'] = null;
 			}
 
-			$gdpr_monthly_page_views = get_option('wpl_monthly_page_views', 0);
 			$settings = new GDPR_Cookie_Consent_Settings();
-			$api_user_plan     = $settings->get_plan();
-			$gdpr_monthly_page_views_percent = 0;
-			if ( 'free' === $api_user_plan ) { 
-				$gdpr_monthly_page_views_percent = ( ( $gdpr_monthly_page_views ) / 20000 ) * 100;
-			} else if ( '3sites' === $api_user_plan ) {
-				$gdpr_monthly_page_views_percent = ( ( $gdpr_monthly_page_views ) / 100000 ) * 100;
-			}
+			$gdpr_monthly_page_views_percent = Gdpr_Cookie_Consent_Page_Views::get_monthly_percent( $settings->get_plan() );
 
 
 			global $wpdb;
