@@ -735,6 +735,8 @@ class Gdpr_Cookie_Consent_Public {
 			}
 			// IAB TCF: only load the CMP bundle and vendor data when IAB is enabled.
 			$is_iabtcf_on = in_array( $the_options['is_iabtcf_on'], array( true, 'true', 1, '1' ), true );
+			// Also passed to gdpr_cookies_obj below, so it must exist when IAB is off.
+			$iabtcf_consent_data = array();
 			if ( $is_iabtcf_on ) {
 				wp_enqueue_script( $this->plugin_name. '-tcf' );
 				$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
