@@ -9649,11 +9649,7 @@ class Gdpr_Cookie_Consent_Admin {
 			$monthly_scan = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
 			$monthly_scan = (int) $monthly_scan;
 			$monthly_scan_limit = 5;
-		} else if (strtolower( $api_user_plan ) === '3sites') {
-			$monthly_scan = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
-			$monthly_scan = (int) $monthly_scan;
-			$monthly_scan_limit = 50;
-		}
+		} 
 
 		$gdpr_pages_scanned = get_option('gdpr_no_of_page_scan', 0);
 
@@ -12254,10 +12250,6 @@ public function gdpr_support_request_handler() {
 			$monthly_scan = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
 			$monthly_scan = (int) $monthly_scan;
 			$monthly_scan_limit = 5;
-		} else if (strtolower( $plan ) === '3sites') {
-			$monthly_scan = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
-			$monthly_scan = (int) $monthly_scan;
-			$monthly_scan_limit = 50;
 		}
 
 		$gdpr_pages_scanned = get_option('gdpr_no_of_page_scan', 0);
@@ -12316,11 +12308,7 @@ public function gdpr_support_request_handler() {
 			$monthly_scan = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
 			$monthly_scan = (int) $monthly_scan;
 			$monthly_scan_limit = 5;
-		} else if (strtolower( $plan ) === '3sites') {
-			$monthly_scan = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
-			$monthly_scan = (int) $monthly_scan;
-			$monthly_scan_limit = 50;
-		}
+		} 
 
 		$gdpr_pages_scanned = get_option('gdpr_no_of_page_scan', 0);
 
@@ -12645,11 +12633,7 @@ public function gdpr_support_request_handler() {
 			$monthly_scan = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
 			$monthly_scan = (int) $monthly_scan;
 			$monthly_scan_limit = 5;
-		} else if (strtolower( $api_user_plan ) === '3sites') {
-			$monthly_scan = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
-			$monthly_scan = (int) $monthly_scan;
-			$monthly_scan_limit = 50;
-		}
+		} 
 
 		$gdpr_pages_scanned = get_option('gdpr_no_of_page_scan', 0);
 

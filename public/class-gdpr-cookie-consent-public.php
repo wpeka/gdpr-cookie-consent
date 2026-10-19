@@ -735,6 +735,8 @@ class Gdpr_Cookie_Consent_Public {
 			}
 			// IAB TCF: only load the CMP bundle and vendor data when IAB is enabled.
 			$is_iabtcf_on = in_array( $the_options['is_iabtcf_on'], array( true, 'true', 1, '1' ), true );
+			// Also passed to gdpr_cookies_obj below, so it must exist when IAB is off.
+			$iabtcf_consent_data = array();
 			if ( $is_iabtcf_on ) {
 				wp_enqueue_script( $this->plugin_name. '-tcf' );
 				$iabtcf_consent_data = Gdpr_Cookie_Consent::gdpr_get_iabtcf_vendor_consent_data();
@@ -1562,7 +1564,7 @@ class Gdpr_Cookie_Consent_Public {
 				'is_iabtcf_on'                              => $the_options['is_iabtcf_on'],
 				'is_gcm_on'									=> $this->convert_boolean($the_options['is_gcm_on']),
 				'is_gcm_debug_on'							=> isset($the_options['is_gcm_debug_mode']) ? $this->convert_boolean($the_options['is_gcm_debug_mode']) : false,
-				'vendor_data'	                            => Gdpr_Cookie_Consent::gdpr_get_all_vendors(),
+				'vendor_data'	                            => $is_iabtcf_on ? $iabtcf_data : array(),
 				'cookieSettingsPopupAccentColor'	        => strtoupper(substr($finalColor, 0, -2)) === strtoupper($acceptAllBGColor) ? $the_options['button_accept_all_link_color'] : $acceptAllBGColor,
 				'template_parts' 	                        => $the_options['template_parts'],
 				'gdpr_monthly_page_views_percent'			=> $gdpr_monthly_page_views_percent,

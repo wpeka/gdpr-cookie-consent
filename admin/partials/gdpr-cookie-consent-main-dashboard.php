@@ -148,7 +148,7 @@ $total_steps = 2;
 						<div class="gdpr-cookie-consent-admin-login">
 							<div class="gdpr-cookie-consent-admin-login-icon">
 								<a <?php if ( $is_user_connected ) {
-									echo 'href="https://app.wplegalpages.com/my-account" target="_blank"';
+									echo 'href="https://app.wplegalpages.com/app" target="_blank"';
 								} else {
 									echo 'class="api-connect-to-account-btn"'; 
 								} ?> >
@@ -157,7 +157,7 @@ $total_steps = 2;
 							</div>
 							<div class="gdpr-cookie-consent-admin-login-text">
 								<a <?php if ( $is_user_connected ) {
-									echo 'href="https://app.wplegalpages.com/my-account" target="_blank"';
+									echo 'href="https://app.wplegalpages.com/app" target="_blank"';
 								} else {
 									echo 'class="api-connect-to-account-btn"'; 
 								} ?> ><?php echo $is_user_connected ? esc_html('My Account', 'gdpr-cookie-consent') :esc_html('Login', 'gdpr-cookie-consent'); ?></a>

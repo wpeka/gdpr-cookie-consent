@@ -4,7 +4,7 @@ Donate link: https://wplegalpages.com/
 Tags: cookie consent, cookie banner, consent management, cookie scanner, script blocking
 Requires at least: 6.2
 Tested up to: 7.1
-Stable tag: 4.4.7
+Stable tag: 4.4.8
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -214,6 +214,17 @@ Yes. The plugin is translation-ready and works with popular multilingual plugins
 11. Consent Log table
 
 == Change Log ==
+
+= 4.4.8 =
+* **Security Fix:** Hardened license activation and app authentication handlers by sanitizing and validating all incoming request data before it is stored.
+* **Security Fix:** Strengthened input sanitization and nonce verification for the Data Request form and consent logging.
+* **Security Fix:** Secured database queries in the Data Request, cookie scanner, consent logs and uninstall routines using prepared statements.
+* **Security Fix:** Improved output escaping across admin settings, the cookie banner, the preference center and policy data screens to prevent cross-site scripting (XSS).
+* **Security Fix:** Added stricter validation to policy data deletion and settings import requests.
+* **Performance Improvement:** Banner page views are now stored in a dedicated table instead of being rewritten to options on every page load, which reduces database writes and improves accuracy on busy sites.
+* **Performance Improvement:** IAB TCF scripts and vendor data now load only when IAB TCF is enabled.
+* **Code Quality:** Resolved WordPress VIP and PHPCS coding standard issues across the plugin.
+* **Bug Fixes:** Fixed the "Read More" button size setting, translation issues in the Compliance Records and cookie settings, and broken links on the dashboard.
 
 = 4.4.7 =
 * **IAB TCF 2.4 Support:** Added support for IAB TCF 2.4 to improve compatibility with the latest framework requirements.
@@ -944,6 +955,9 @@ Yes. The plugin is translation-ready and works with popular multilingual plugins
 * Initial version
 
 == Upgrade Notice ==
+
+= 4.4.8 =
+* This release includes important security fixes. Updating immediately is strongly recommended.
 
 = 4.4.7 =
 * **IAB TCF 2.4 Support:** Added support for IAB TCF 2.4 to improve compatibility with the latest framework requirements.
