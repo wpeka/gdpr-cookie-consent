@@ -447,7 +447,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 					</c-row>
 					<!-- Script Dependency -->
 					<c-row>
-						<c-col class="col-sm-4"><label><?php esc_html_e( 'Script Dependency', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Use this to load your script only after another script it depends on has been accepted and loaded. Ensures proper functionality and prevents errors.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+						<c-col class="col-sm-4"><label><?php esc_html_e( 'Script Dependency', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Use this to load your script only after another script it depends on has been accepted and loaded. Ensures proper functionality and prevents errors.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 						<c-col class="col-sm-8">
 							<c-switch v-bind="labelIcon" v-model="is_script_dependency_on" id="gdpr-cookie-consent-script-dependency-on" variant="3d"  color="success" :checked="!enable_safe && is_script_dependency_on" v-on:update:checked="onSwitchingScriptDependency" :disabled="enable_safe"></c-switch>
 							<input type="hidden" name="gcc-script-dependency-on" v-model="is_script_dependency_on" :disabled="enable_safe">
@@ -822,8 +822,8 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 		}
 		if ( ! $error ) {
 			$id      = intval( $_POST['id'] );
-			$type    = sanitize_text_field( $_POST['type'] );
-			$action  = sanitize_title( $_POST['button_action'] );
+			$type    = sanitize_text_field( wp_unslash( $_POST['type'] ) );
+			$action  = sanitize_title( wp_unslash( $_POST['button_action'] ) );
 			$data = json_decode( isset( $_POST['data'] ) ? wp_unslash( $_POST['data'] ) : '', true );
 			$data = is_array( $data ) ? map_deep( $data, 'sanitize_text_field' ) : array();
 			$scripts = get_option( 'wpl_options_custom-scripts', array() );

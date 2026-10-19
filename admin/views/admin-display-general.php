@@ -211,14 +211,14 @@ $general_sub_tab = apply_filters( 'gdprcookieconsent_general_sub_tabs', $general
 							echo "<optgroup label='Pages'>";
 							if ( is_array( $get_pages ) ) {
 								foreach ( $get_pages as $item ) {
-									echo '<option value=' . esc_html( $item->ID ) . '' . selected( in_array( $item->ID, $the_options['restrict_posts'] ) ) . '>' . esc_attr( $item->post_title ) . '</option>'; // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
+									echo '<option value=' . esc_attr( $item->ID ) . '' . selected( in_array( $item->ID, $the_options['restrict_posts'] ) ) . '>' . esc_html( $item->post_title ) . '</option>'; // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 								}
 							}
 							echo '<optgroup />';
 							echo "<optgroup label='Posts'>";
 							if ( is_array( $get_posts ) ) {
 								foreach ( $get_posts as $item ) {
-									echo '<option value=' . esc_html( $item->ID ) . '' . selected( in_array( $item->ID, $the_options['restrict_posts'] ) ) . '>' . esc_attr( $item->post_title ) . '</option>'; // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
+									echo '<option value=' . esc_attr( $item->ID ) . '' . selected( in_array( $item->ID, $the_options['restrict_posts'] ) ) . '>' . esc_html( $item->post_title ) . '</option>'; // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 								}
 							}
 							echo '<optgroup />';

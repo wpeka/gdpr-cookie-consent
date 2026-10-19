@@ -51,8 +51,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 </div>
 <div id="gdpr_messagebar_detail_body">
 	<div id="gdpr_messagebar_detail_body_content_tabs">
-		<a id="gdpr_messagebar_detail_body_content_tabs_overview" class="gdpr_messagebar_detail_body_content_tab gdpr_messagebar_detail_body_content_tab_item_selected" tabindex="0" href="#"><?php echo esc_attr( $cookie_data['declaration'] ); ?></a>
-		<a id="gdpr_messagebar_detail_body_content_tabs_about" class="gdpr_messagebar_detail_body_content_tab" tabindex="0" href="#"><?php echo esc_attr( $cookie_data['about'] ); ?></a>
+		<a id="gdpr_messagebar_detail_body_content_tabs_overview" class="gdpr_messagebar_detail_body_content_tab gdpr_messagebar_detail_body_content_tab_item_selected" tabindex="0" href="#"><?php echo esc_html( $cookie_data['declaration'] ); ?></a>
+		<a id="gdpr_messagebar_detail_body_content_tabs_about" class="gdpr_messagebar_detail_body_content_tab" tabindex="0" href="#"><?php echo esc_html( $cookie_data['about'] ); ?></a>
 	</div>
 	<div id="gdpr_messagebar_detail_body_content">
 		<div id="gdpr_messagebar_detail_body_content_overview" style="display:block;">
