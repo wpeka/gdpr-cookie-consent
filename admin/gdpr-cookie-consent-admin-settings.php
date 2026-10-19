@@ -653,13 +653,9 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 								<c-row>
 									<c-col class="col-sm-32"><div id="gdpr-cookie-consent-settings-cookie-notice-top"><?php esc_html_e( 'Cookie Notice', 'gdpr-cookie-consent' ); ?></div></c-col>
 								</c-row>
-								<?php $gdpr_monthly_page_views = get_option('wpl_monthly_page_views', 0);
-									$gdpr_monthly_page_views_percent = 0;
-									if ( 'free' === $api_user_plan ) { 
-										$gdpr_monthly_page_views_percent = ( ( $gdpr_monthly_page_views ) / 20000 ) * 100;
-									} else if ( '3sites' === $api_user_plan ) {
-										$gdpr_monthly_page_views_percent = ( ( $gdpr_monthly_page_views ) / 100000 ) * 100;
-									}
+								<?php
+									$gdpr_monthly_page_views         = Gdpr_Cookie_Consent_Page_Views::get_monthly_views();
+									$gdpr_monthly_page_views_percent = Gdpr_Cookie_Consent_Page_Views::get_monthly_percent( $api_user_plan, $gdpr_monthly_page_views );
 								?>
 								<c-row>
 									<c-col class="col-sm-4"><label><?php esc_html_e( 'Enable Cookie Notice', 'gdpr-cookie-consent' ); ?></label></c-col>
@@ -2021,21 +2017,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-col>
 								</c-row>
 
-								<c-row class="gdpr-label-row">
-									<c-col class="col-sm-4">
-										<label><?php esc_html_e( 'Show as', 'gdpr-cookie-consent' ); ?></label>
-									</c-col>
-									<c-col class="col-sm-8">
-										<v-select
-											class="form-group"
-											id="gcc-readmore-as-button"
-											:reduce="label => label.code"
-											:options="show_as_options"
-											v-model="button_readmore_as_button"
-										></v-select>
-										<input type="hidden" name="gcc-readmore-as-button" v-model="button_readmore_as_button">
-									</c-col>
-								</c-row>
+								
 
 								<c-row class="gdpr-label-row">
 									<c-col class="col-sm-4">
@@ -4579,7 +4561,6 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 													</c-col>
 												</c-row>
 												<c-row v-show="(show_revoke_card || is_lgpd) && button_readmore_is_on" class="gdpr-label-row">
-													<c-col class="col-sm-6"><label><?php esc_html_e( 'Show as', 'gdpr-cookie-consent' ); ?></label></c-col>
 													<c-col class="col-sm-6"><label><?php esc_html_e( 'Page or Custom URL', 'gdpr-cookie-consent' ); ?></label></c-col>
 												</c-row>
 												
@@ -6756,29 +6737,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 										</c-col>
 									</c-row>
 
-									<c-row class="gdpr-label-row">
-										<c-col class="col-sm-4">
-											<label>
-												<?php esc_html_e( 'Show as', 'gdpr-cookie-consent' ); ?>
-											</label>
-										</c-col>
-
-										<c-col class="col-sm-8">
-											<v-select
-												class="form-group"
-												id="gcc-readmore-as-button"
-												:reduce="label => label.code"
-												:options="show_as_options"
-												v-model="button_readmore_as_button1"
-											></v-select>
-
-											<input
-												type="hidden"
-												name="gcc-readmore-as-button1"
-												v-model="button_readmore_as_button1"
-											>
-										</c-col>
-									</c-row>
+									
 
 									<c-row class="gdpr-label-row">
 										<c-col class="col-sm-4">
@@ -8994,29 +8953,7 @@ $remaining_percentage_scan_limit = ( get_option( 'gdpr_no_of_page_scan' ) / $tot
 									</c-col>
 								</c-row>
 
-								<c-row class="gdpr-label-row">
-									<c-col class="col-sm-4">
-										<label>
-											<?php esc_html_e( 'Show as', 'gdpr-cookie-consent' ); ?>
-										</label>
-									</c-col>
-
-									<c-col class="col-sm-8">
-										<v-select
-											class="form-group"
-											id="gcc-readmore-as-button"
-											:reduce="label => label.code"
-											:options="show_as_options"
-											v-model="button_readmore_as_button2"
-										></v-select>
-
-										<input
-											type="hidden"
-											name="gcc-readmore-as-button2"
-											v-model="button_readmore_as_button2"
-										>
-									</c-col>
-								</c-row>
+								
 
 								<c-row class="gdpr-label-row">
 									<c-col class="col-sm-4">

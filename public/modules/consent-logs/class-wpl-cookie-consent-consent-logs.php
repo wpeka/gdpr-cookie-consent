@@ -37,6 +37,12 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		$this->settings = new GDPR_Cookie_Consent_Settings();
 		$this->api_user_plan = $this->settings->get_plan();
 
+		// Refreshed only when the dashboard is rendered (admin page or the /get_dashboard-data
+		// REST route), not on admin_init: that also fires on every admin-ajax.php request,
+		// including the frontend banner pings. Registered outside the admin check because
+		// is_admin() is false for REST requests.
+		add_action( 'gdpr_refresh_consent_log_stats', array( $this, 'wpl_cl_maybe_refresh_stats' ) );
+
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
 			add_action( 'admin_menu', array( $this, 'wplcl_admin_menu' ), 12 );
 			add_action( 'manage_edit-wplconsentlogs_columns', array( $this, 'wplcl_manage_edit_columns' ) );
@@ -48,7 +54,6 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			add_action( 'pre_get_posts', array( $this, 'wplcl_extend_admin_search' ) );
 			add_action( 'gdpr_module_before_other_general', array( $this, 'wplcl_other_general' ), 5 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_custom_admin_styles' ) );
-			add_action( 'admin_init', array( $this, 'wpl_cl_cookie_details_pie_chart' ) );
 			add_action( 'gdpr_consent_log_table_dashboard', array( $this, 'consent_log_dashboard_table' ), 5 );
 		}
 
@@ -500,7 +505,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 * @since 6.3.5
 	 */
 	public function wplcl_increase_ignore_rate(){
-			
+		check_ajax_referer( 'wpl_consent_logging_nonce', 'security' );
 		$wpl_total_ignore_count = get_option('wpl_total_ignore_count');
 		if($wpl_total_ignore_count === false){
 			add_option("wpl_total_ignore_count", 0);
@@ -515,69 +520,21 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 * @since 6.3.5
 	 */
 	public function wplcl_increase_page_view(){
-		$key = gmdate('M d, Y');
-		$wpl_page_views = get_option('wpl_page_views');
-		if($wpl_page_views === false){
-			add_option("wpl_page_views", []);
-			$wpl_page_views = [];
-		}	
-		$wpl_total_page_views = get_option('wpl_total_page_views');
-		if($wpl_total_page_views === false){
-			add_option("wpl_total_page_views", 0);
-			$wpl_total_page_views = 0;
-		}
-    	// Check if the key exists in the $wpl_page_views array
-		if (isset($wpl_page_views[$key])) {
-			// If the key exists, increment its value
-			$wpl_page_views[$key] += 1;
+		check_ajax_referer( 'wpl_consent_logging_nonce', 'security' );
+		Gdpr_Cookie_Consent_Page_Views::increment();
+		$monthly_views = Gdpr_Cookie_Consent_Page_Views::get_monthly_views( true );
+
+		$limit = Gdpr_Cookie_Consent_Page_Views::get_monthly_limit( $this->api_user_plan );
+
+		if ( $limit && $monthly_views >= $limit ) {
+		    $notice_message = '20k monthly banner views used on your free plan. Go Pro to continue displaying it.';
 		} else {
-			// If the key doesn't exist, create it and set its value to 1
-			$wpl_page_views[$key] = 1;
+		    // Unlimited plan, or the limit is not reached: clear the notice message.
+		    $notice_message = '';
 		}
-		$wpl_total_page_views++;
-
-		$current_month = gmdate('M Y');
-		$monthly_views = $this->get_monthly_views($wpl_page_views, $current_month);
-		update_option('wpl_monthly_page_views', $monthly_views);
-		
-		$limits = [
-		  'free' => 20000,
-		  '3sites' => 100000,
-		  '10sites' => PHP_INT_MAX, // effect: unlimited
-		];
-		$limit = $limits[$this->api_user_plan] ?? PHP_INT_MAX;
-
-		$plan_limit_messages = [
-		    'free' => "20k monthly banner views used on your free plan. Go Pro to continue displaying it.",
-		    '3sites' => "100K monthly banner views used on your current plan. Upgrade to Business Plan to keep it running.",
-			'10sites' => ""
-		];
-
-		if ($monthly_views >= $limit) {
-		    if ($limit != PHP_INT_MAX) {
-		        update_option( 'page_view_notice_message', $plan_limit_messages[$this->api_user_plan] );
-		    }
-		} else {
-		    // If the limit is not reached, clear the notice message
-		    update_option( 'page_view_notice_message', '' );
+		if ( get_option( 'page_view_notice_message', '' ) !== $notice_message ) {
+		    update_option( 'page_view_notice_message', $notice_message );
 		}
-
-		update_option('wpl_page_views', $wpl_page_views);
-		update_option('wpl_total_page_views', $wpl_total_page_views);
-	}
-
-	/**
-	 * Calculate monthly page views.
-	 */
-	function get_monthly_views($wpl_page_views, $current_month) {
-		$monthly_views = 0;
-		foreach ($wpl_page_views as $date => $views) {
-			$date_obj = DateTime::createFromFormat('M d, Y', $date);
-			if ($date_obj && $date_obj->format('M Y') === $current_month) {
-				$monthly_views += $views;
-			}
-		}
-		return $monthly_views;
 	}
 
 	/**
@@ -1046,6 +1003,23 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		}
 		$columns['wplconsentlogspdf'] = '<div style="text-align: center;">' . __( 'Proof Of Consent', 'gdpr-cookie-consent' ) . '</div>';
 		return $columns;
+	}
+
+	/**
+	 * Recalculate the consent log totals (wpl_cl_* options) at most once per TTL.
+	 *
+	 * The full calculation scans every consent log in postmeta, so a transient marks the
+	 * stored totals as fresh and later dashboard loads / REST calls just read the options.
+	 *
+	 * @return void
+	 */
+	public function wpl_cl_maybe_refresh_stats() {
+		// Also recalculate when the totals are missing, e.g. right after they were deleted.
+		if ( get_transient( 'wpl_cl_stats_fresh' ) && false !== get_option( 'wpl_cl_accept' ) ) {
+			return;
+		}
+		$this->wpl_cl_cookie_details_pie_chart();
+		set_transient( 'wpl_cl_stats_fresh', 1, apply_filters( 'gdpr_consent_log_stats_ttl', HOUR_IN_SECONDS ) );
 	}
 
 	/**

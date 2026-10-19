@@ -67,16 +67,9 @@ if ( 'free' === $api_user_plan ) {
 	$gdpr_monthly_scan_percent = ( ( $scan_limit_int ) / 50 ) * 100;
 }
 
-$gdpr_monthly_page_views = get_option('wpl_monthly_page_views', 0);
-$gdpr_monthly_page_views_limit = 0;
-$gdpr_monthly_page_views_percent = 0;
-if ( 'free' === $api_user_plan ) { 
-	$gdpr_monthly_page_views_limit = 20000;
-	$gdpr_monthly_page_views_percent = ( ( $gdpr_monthly_page_views ) / 20000 ) * 100;
-} else if ( '3sites' === $api_user_plan ) {
-	$gdpr_monthly_page_views_limit = 100000;
-	$gdpr_monthly_page_views_percent = ( ( $gdpr_monthly_page_views ) / 100000 ) * 100;
-}
+$gdpr_monthly_page_views         = Gdpr_Cookie_Consent_Page_Views::get_monthly_views();
+$gdpr_monthly_page_views_limit   = Gdpr_Cookie_Consent_Page_Views::get_monthly_limit( $api_user_plan );
+$gdpr_monthly_page_views_percent = Gdpr_Cookie_Consent_Page_Views::get_monthly_percent( $api_user_plan, $gdpr_monthly_page_views );
 
 $gdpr_remaining_page_views = $gdpr_monthly_page_views_limit - $gdpr_monthly_page_views;
 
@@ -431,7 +424,7 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 							<div class="gdpr-monthly-scans-progress" style="
 								background: 
 									radial-gradient(closest-side, white 90%, transparent 80% 100%), 
-									conic-gradient( <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_attr('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_attr('#ca8b25', 'gdpr-cookie-consent') : esc_attr('#c93a38', 'gdpr-cookie-consent') ); ?> <?php echo esc_attr( $gdpr_monthly_scan_percent ); ?>%, <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_attr('#e6f5ee', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_attr('#fef7c3', 'gdpr-cookie-consent') : esc_attr('#f8e6e6', 'gdpr-cookie-consent') ); ?> 0);"
+									conic-gradient( <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_attr('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_attr('#ca8b25', 'gdpr-cookie-consent') : esc_attr('#c93a38', 'gdpr-cookie-consent') ); ?> <?php echo 'free' !== $api_user_plan ? esc_attr(0) : esc_attr( $gdpr_monthly_scan_percent ); ?>%, <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_attr('#e6f5ee', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_attr('#fef7c3', 'gdpr-cookie-consent') : esc_attr('#f8e6e6', 'gdpr-cookie-consent') ); ?> 0);"
 							>
 								<?php if ( 'free' === $api_user_plan ) { ?>
 									<span style="color: <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_attr('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_attr('#ca8b25', 'gdpr-cookie-consent') : esc_attr('#c93a38', 'gdpr-cookie-consent') ); ?>;"><?php echo esc_html( ceil( $gdpr_monthly_scan_percent ) ); ?>%</span>

@@ -139,10 +139,7 @@ class Gdpr_Cookie_Consent_Admin {
 			add_action('admin_notices', array($this,'gdpr_remove_admin_notices'),1);
 			add_action('all_admin_notices', array($this,'gdpr_remove_admin_notices'),1);
 			//option to store page views
-			if(get_option("wpl_page_views") === false) add_option("wpl_page_views", []);
 			if(get_option("page_view_notice_message") === false ) add_option( "page_view_notice_message", "");
-			if(get_option("wpl_monthly_page_views") === false ) add_option( "wpl_monthly_page_views", 0);
-			if(get_option("wpl_total_page_views") === false) add_option("wpl_total_page_views", 0);
 			add_action('wp_ajax_install_plugin', array($this, 'gdpr_wplp_install_plugin_ajax_handler'));
 			add_action('wp_ajax_gdpr_support_request', array($this, 'gdpr_support_request_handler'));
 			add_action('wp_ajax_nopriv_gdpr_support_request', array($this, 'gdpr_support_request_handler'));
@@ -753,12 +750,12 @@ class Gdpr_Cookie_Consent_Admin {
 				delete_option( 'wpl_logs_admin' );
 				delete_option( 'wpl_datarequests_db_version' );
 				delete_option( 'wpl_cl_decline' );
-				delete_option( 'wpl_page_views' );
+				Gdpr_Cookie_Consent_Page_Views::uninstall();
 				delete_option( 'page_view_notice_message' );
-				delete_option( 'wpl_monthly_page_views' );
 				delete_option( 'wpl_cl_accept' );
 				delete_option( 'wpl_cl_partially_accept' );
 				delete_option( 'wpl_cl_bypass' );
+				delete_transient( 'wpl_cl_stats_fresh' );
 				delete_option( 'wpl_geo_options' );
 				delete_option( 'wpl_bypass_script_blocker' );
 				delete_option( 'wpl_consent_timestamp' );
@@ -8997,6 +8994,8 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'You do not have sufficient permission to perform this operation', 'gdpr-cookie-consent' ) );
 		}
+		// Refresh the consent log totals (wpl_cl_*) read below.
+		do_action( 'gdpr_refresh_consent_log_stats' );
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
 
 		// Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
@@ -9017,8 +9016,8 @@ class Gdpr_Cookie_Consent_Admin {
 		if ( $is_cookie_on == 'true' ) {
 			$is_cookie_on = true;
 		}
-		$page_view_options = get_option("wpl_page_views");
-		$total_page_views = get_option("wpl_total_page_views");
+		$page_view_options = Gdpr_Cookie_Consent_Page_Views::get_daily_views();
+		$total_page_views = Gdpr_Cookie_Consent_Page_Views::get_total_views();
 		$is_pro_active     = get_option( 'wpl_pro_active' );
 		$api_key_activated = '';
 		$api_key_activated = get_option( 'wc_am_client_wpl_cookie_consent_activated' );
@@ -9553,8 +9552,8 @@ class Gdpr_Cookie_Consent_Admin {
 				'wpl_cl_accept'                    => get_option( 'wpl_cl_accept' ),
 				'wpl_cl_partially_accept'          => get_option( 'wpl_cl_partially_accept' ),
 				'wpl_cl_bypass'                    => get_option( 'wpl_cl_bypass' ),
-				'wpl_page_views'				   => get_option( 'wpl_page_views' ),
-				'total_page_views'				   => get_option('wpl_total_page_views'),
+				'wpl_page_views'				   => Gdpr_Cookie_Consent_Page_Views::get_daily_views(),
+				'total_page_views'				   => Gdpr_Cookie_Consent_Page_Views::get_total_views(),
 				'ignore_count'					   => get_option('wpl_total_ignore_count') === false ? 0 : get_option('wpl_total_ignore_count'),
 				'client_site_is_on'				   => $the_options['is_on'],
 				'is_other_cookie_plugin_activated' => $is_other_cookie_plugin_activated,
@@ -9656,7 +9655,8 @@ class Gdpr_Cookie_Consent_Admin {
 
 		$gdpr_pages_scanned = get_option('gdpr_no_of_page_scan', 0);
 
-		$gdpr_monthly_page_views = get_option('wpl_monthly_page_views', 0);
+		$gdpr_monthly_page_views = Gdpr_Cookie_Consent_Page_Views::get_monthly_views();
+		do_action( 'gdpr_refresh_consent_log_stats' );
 
 		$saved_schedule_data = get_option('gdpr_scan_schedule_data', array());
 		$schedule_scan_when = isset($saved_schedule_data['schedule_scan_when']) ? $saved_schedule_data['schedule_scan_when'] : null;
@@ -9684,8 +9684,8 @@ class Gdpr_Cookie_Consent_Admin {
 				'wpl_cl_accept'                    => get_option( 'wpl_cl_accept' ),
 				'wpl_cl_partially_accept'          => get_option( 'wpl_cl_partially_accept' ),
 				'wpl_cl_bypass'                    => get_option( 'wpl_cl_bypass' ),
-				'wpl_page_views'				   => get_option( 'wpl_page_views' ),
-				'total_page_views'				   => get_option('wpl_total_page_views'),
+				'wpl_page_views'				   => Gdpr_Cookie_Consent_Page_Views::get_daily_views(),
+				'total_page_views'				   => Gdpr_Cookie_Consent_Page_Views::get_total_views(),
 				'site_on'				           => $the_options['is_on'],
 				'other_cookie_plugin_activated'    => $is_other_cookie_plugin_activated,
 				'law_type'                         => $gdpr_policy,
@@ -12260,7 +12260,7 @@ public function gdpr_support_request_handler() {
 
 		$gdpr_pages_scanned = get_option('gdpr_no_of_page_scan', 0);
 
-		$gdpr_monthly_page_views = get_option('wpl_monthly_page_views', 0);
+		$gdpr_monthly_page_views = Gdpr_Cookie_Consent_Page_Views::get_monthly_views();
 		
 		return rest_ensure_response(
 			array(
@@ -12322,7 +12322,7 @@ public function gdpr_support_request_handler() {
 
 		$gdpr_pages_scanned = get_option('gdpr_no_of_page_scan', 0);
 
-		$gdpr_monthly_page_views = get_option('wpl_monthly_page_views', 0);
+		$gdpr_monthly_page_views = Gdpr_Cookie_Consent_Page_Views::get_monthly_views();
 
 
 		return rest_ensure_response(
@@ -12651,7 +12651,7 @@ public function gdpr_support_request_handler() {
 
 		$gdpr_pages_scanned = get_option('gdpr_no_of_page_scan', 0);
 
-		$gdpr_monthly_page_views = get_option('wpl_monthly_page_views', 0);
+		$gdpr_monthly_page_views = Gdpr_Cookie_Consent_Page_Views::get_monthly_views();
 
 		$advanced_scripts = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i', $advanced_scripts_table ), ARRAY_A );
 

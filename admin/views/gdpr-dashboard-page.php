@@ -45,13 +45,9 @@ require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-coo
 // Instantiate a new object of the GDPR_Cookie_Consent_Settings class.
 $this->settings = new GDPR_Cookie_Consent_Settings();
 $api_user_plan     = $this->settings->get_plan();
-$gdpr_monthly_page_views = get_option('wpl_monthly_page_views', 0);
-$gdpr_monthly_page_views_limit = 0;
-if ( 'free' === $api_user_plan ) { 
-	$gdpr_monthly_page_views_limit = 20000;
-} else if ( '3sites' === $api_user_plan ) {
-	$gdpr_monthly_page_views_limit = 100000;
-}// Call the is_connected() method from the instantiated object to check if the user is connected.
+$gdpr_monthly_page_views = Gdpr_Cookie_Consent_Page_Views::get_monthly_views();
+$gdpr_monthly_page_views_limit = Gdpr_Cookie_Consent_Page_Views::get_monthly_limit( $api_user_plan );
+// Call the is_connected() method from the instantiated object to check if the user is connected.
 $is_user_connected = $this->settings->is_connected();
 
 $class_for_blur_content = $is_user_connected ? '' : 'gdpr-blur-background'; // Add a class for styling purposes.
@@ -173,8 +169,8 @@ $response = wp_remote_post(
 			'total_scanned_pages'              => $total_scanned_pages,
 			'number_of_categories'             => $number_of_categories,
 			'wpl_cl_decline'                   => get_option( 'wpl_cl_decline' ),
-			'wpl_page_views'				   => get_option( 'wpl_page_views' ),
-			'total_page_views'				   => get_option('wpl_total_page_views'),
+			'wpl_page_views'				   => Gdpr_Cookie_Consent_Page_Views::get_daily_views(),
+			'total_page_views'				   => Gdpr_Cookie_Consent_Page_Views::get_total_views(),
 			'wpl_cl_accept'                    => get_option( 'wpl_cl_accept' ),
 			'wpl_cl_partially_accept'          => get_option( 'wpl_cl_partially_accept' ),
 			'wpl_cl_bypass'                    => get_option( 'wpl_cl_bypass' ),

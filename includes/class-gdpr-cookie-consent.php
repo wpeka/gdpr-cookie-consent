@@ -135,6 +135,11 @@ class Gdpr_Cookie_Consent {
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/class-gdpr-cookie-consent-i18n.php';
 
 		/**
+		 * Banner page view counter.
+		 */
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/class-gdpr-cookie-consent-page-views.php';
+
+		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/class-gdpr-cookie-consent-admin.php';
@@ -1515,7 +1520,12 @@ class Gdpr_Cookie_Consent {
 				$settings[ $key ] = self::gdpr_sanitise_settings( $key, $option );
 			}
 		}
-		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings );
+		// Persist newly added defaults only when the option is missing or the plugin version changed,
+		// not on every call: this getter runs many times per request, including on the frontend.
+		if ( empty( self::$stored_options ) || get_option( 'gdpr_settings_db_version' ) !== GDPR_COOKIE_CONSENT_VERSION ) {
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings );
+			update_option( 'gdpr_settings_db_version', GDPR_COOKIE_CONSENT_VERSION );
+		}
 		$settings['scan_in_progress'] = get_option('gdpr_scanning_action_hash') ? true : false;
 		return $settings;
 	}
@@ -1914,6 +1924,7 @@ class Gdpr_Cookie_Consent {
 			$vendors->featureVendorCount = 0;
 			$vendors->specialFeatures = new stdClass();
 			$vendors->specialFeatureVendorCount = 0;
+			$vendors->featureStandardText = "";
 			$vendors->allvendors = "";
 
 		} 

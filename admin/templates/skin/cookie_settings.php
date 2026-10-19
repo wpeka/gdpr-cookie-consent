@@ -827,7 +827,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 															class="gacm-vendor-all-switch-handler" 
 															type="checkbox" 
 															name="gdpr_messagebar_body_button" 
-															value=<?php echo esc_attr( $data->allvendors ); ?>>
+															value="<?php echo esc_attr( is_array($data->allvendors) ? implode(',', $data->allvendors) : $data->allvendors ); ?>">
 															<label for="gdpr_messagebar_body_button">
 																<span class="label-text"></span>
 															</label>
