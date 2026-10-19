@@ -1564,7 +1564,7 @@ class Gdpr_Cookie_Consent_Public {
 				'is_iabtcf_on'                              => $the_options['is_iabtcf_on'],
 				'is_gcm_on'									=> $this->convert_boolean($the_options['is_gcm_on']),
 				'is_gcm_debug_on'							=> isset($the_options['is_gcm_debug_mode']) ? $this->convert_boolean($the_options['is_gcm_debug_mode']) : false,
-				'vendor_data'	                            => Gdpr_Cookie_Consent::gdpr_get_all_vendors(),
+				'vendor_data'	                            => $is_iabtcf_on ? $iabtcf_data : array(),
 				'cookieSettingsPopupAccentColor'	        => strtoupper(substr($finalColor, 0, -2)) === strtoupper($acceptAllBGColor) ? $the_options['button_accept_all_link_color'] : $acceptAllBGColor,
 				'template_parts' 	                        => $the_options['template_parts'],
 				'gdpr_monthly_page_views_percent'			=> $gdpr_monthly_page_views_percent,
