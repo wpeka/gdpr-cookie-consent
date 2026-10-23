@@ -11436,11 +11436,12 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array($this, 'update_gcm_status'), // Function to handle the request
-				'permission_callback' => function() use ($is_user_connected) {
-					if ($is_user_connected) {
-						return true; // Allow access
+				'permission_callback' => function( WP_REST_Request $request ) use ($is_user_connected) {
+					if ( ! $is_user_connected ) {
+						return new WP_Error('rest_forbidden', 'Unauthorized access', array('status' => 401));
 					}
-					return new WP_Error('rest_forbidden', 'Unauthorized access', array('status' => 401));
+					// Scan results are signed by the GCM checker with this site's shared secret.
+					return $this->appwplp_verify_hmac_signature( $request );
 				},
 			)
 		);
