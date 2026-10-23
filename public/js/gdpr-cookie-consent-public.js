@@ -1513,7 +1513,7 @@ banner.style.display = "none";
           var analytics_consent = false, marketing_consent = false, preferences_consent = false;
 
           // Loop through each input checkbox to update preferences
-          jQuery(".gdpr_messagebar_detail input").each(function () {
+          jQuery(".gdpr_messagebar_detail input.category-switch-handler").each(function () {
             var key = jQuery(this).val();
 
             if (
@@ -2223,7 +2223,7 @@ banner.style.display = "none";
         //     break;
         // }
       });
-      jQuery(".gdpr_messagebar_detail input").each(function () {
+      jQuery(".gdpr_messagebar_detail input.category-switch-handler, .gdpr_messagebar_detail input[value='necessary']").each(function () {
         var key = jQuery(this).val();
         var gdpr_user_preference_arr = {};
         var gdpr_user_preference_val = "";
