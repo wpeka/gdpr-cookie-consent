@@ -318,6 +318,15 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
       }
       if (GDPR_Cookie.exists("wpl_tc_string")) {
         updateTCModel();
+      } else if (window.WPLConsent && window.WPLConsent.hasDecision("optin")) {
+        // A decision recorded before this bundle loaded (GPC, Do Not Track, a
+        // migrated consent) still needs its TC string.
+        var decision = (window.WPLConsent.get() || {}).decision;
+        if (decision == "accept_all") {
+          selectAllUpdateTCModel();
+        } else if (decision == "reject" || decision == "dismiss" || decision == "gpc" || decision == "dnt") {
+          rejectTCModel();
+        }
       }
     } catch (error) {
       console.error("Error during CMP initialization:", error);
@@ -517,25 +526,30 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
      *  be set before creating any instance of the GVL class.
      */
 
-    $(".gdpr_action_button").click(function (e) {
-      var elm = $(this);
-      var button_action = elm.attr("data-gdpr_action");
-      if (button_action == "accept") {
-        tcModel.gvl.readyPromise.then(() => {
+    // Every opt-in decision reaches the TC model through the consent core,
+    // including Close X and the browser privacy signals, not only the buttons.
+    function onConsentChange(event) {
+      if (!event || event.type !== "change") {
+        return;
+      }
+      var action = event.action;
+      if (action == "accept") {
+        gvl.readyPromise.then(() => {
           updateTCModel();
         });
-      }
-      if (button_action == "accept_all") {
-        tcModel.gvl.readyPromise.then(() => {
+      } else if (action == "accept_all") {
+        gvl.readyPromise.then(() => {
           selectAllUpdateTCModel();
         });
-      }
-      if (button_action == "reject") {
-        tcModel.gvl.readyPromise.then(() => {
+      } else if (action == "reject" || action == "dismiss" || action == "gpc" || action == "dnt") {
+        gvl.readyPromise.then(() => {
           rejectTCModel();
         });
       }
-    });
+    }
+    if (window.WPLConsent) {
+      window.WPLConsent.on(onConsentChange);
+    }
 
     $(".vendor-all-switch-handler").click(function () {
       $(".vendor-all-switch-handler", this);

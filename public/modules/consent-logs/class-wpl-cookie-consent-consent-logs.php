@@ -57,6 +57,8 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			add_action( 'gdpr_consent_log_table_dashboard', array( $this, 'consent_log_dashboard_table' ), 5 );
 		}
 
+		add_action( 'rest_api_init', array( $this, 'wplcl_register_rest_routes' ) );
+		// Pages cached before 4.5 still post consent through admin-ajax.
 		add_action( 'wp_ajax_nopriv_gdpr_log_consent_action', array( $this, 'wplcl_log_consent_action' ) );
 		add_action( 'wp_ajax_gdpr_log_consent_action', array( $this, 'wplcl_log_consent_action' ) );
 		add_action( 'wp_ajax_nopriv_gdpr_increase_page_view', array( $this, 'wplcl_increase_page_view' ) );
@@ -632,6 +634,253 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	}
 
 	/**
+	 * Register the consent log endpoint.
+	 *
+	 * @since 4.5.0
+	 */
+	public function wplcl_register_rest_routes() {
+		register_rest_route(
+			'gdpr/v2',
+			'/consent-log',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'wplcl_rest_log_consent' ),
+				// Visitors are anonymous and pages are cached, so there is no user or
+				// fresh nonce to check. The request is validated field by field below,
+				// limited to this site's origin, and rate limited per IP.
+				'permission_callback' => '__return_true',
+			)
+		);
+	}
+
+	/**
+	 * Store one consent decision sent by the consent core with sendBeacon.
+	 *
+	 * Only the decision itself is accepted: the consent ID, the action, the
+	 * category grants, the US opt-out, the law, and the consent and banner
+	 * versions. The visitor's cookie jar is not sent or stored.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function wplcl_rest_log_consent( $request ) {
+		$settings = Gdpr_Cookie_Consent::gdpr_get_settings();
+		if ( true !== $settings['logging_on'] && 'true' !== $settings['logging_on'] ) {
+			return new WP_REST_Response( null, 204 );
+		}
+
+		if ( ! $this->wplcl_is_same_origin( $request ) ) {
+			return new WP_Error( 'wpl_consent_log_origin', 'Cross-origin request.', array( 'status' => 403 ) );
+		}
+
+		$body = (string) $request->get_body();
+		if ( strlen( $body ) > 8192 ) {
+			return new WP_Error( 'wpl_consent_log_size', 'Request too large.', array( 'status' => 413 ) );
+		}
+
+		if ( ! $this->wplcl_rate_limit_ok() ) {
+			return new WP_Error( 'wpl_consent_log_rate', 'Too many requests.', array( 'status' => 429 ) );
+		}
+
+		$entry = $this->wplcl_validate_consent_entry( json_decode( $body, true ), $settings );
+		if ( is_wp_error( $entry ) ) {
+			return $entry;
+		}
+
+		$site_url        = $this->wplcl_get_origin_site_url( $entry['url'] );
+		$forward_enabled = ( true === $settings['consent_forward'] );
+		$consent_forward = $forward_enabled ? 'true' : 'false';
+		$args            = array( 'consent_details' => $entry['details'] );
+
+		$logged = (bool) $this->wpl_insert_consent_log( $args, null, $site_url, $consent_forward );
+
+		// Consent forwarding: the same decision is logged on each allow-listed blog.
+		if ( $logged && $forward_enabled && is_multisite() ) {
+			foreach ( $entry['sites'] as $site_id ) {
+				if ( get_current_blog_id() !== $site_id && $this->wplcl_is_forwarding_allowed( $site_id, $settings['select_sites'] ) ) {
+					$this->wpl_insert_consent_log( $args, $site_id, $site_url, $consent_forward );
+				}
+			}
+		}
+
+		return new WP_REST_Response( array( 'logged' => $logged ), $logged ? 201 : 500 );
+	}
+
+	/**
+	 * Validate a consent log payload and build the stored details.
+	 *
+	 * The details keep the keys the log table, CSV export and PDF already read
+	 * (wpl_viewed_cookie, wpl_user_preference as JSON, wpl_optout_cookie), and add
+	 * the consent record fields.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param mixed $data     Decoded JSON.
+	 * @param array $settings Plugin settings.
+	 * @return array|WP_Error
+	 */
+	public function wplcl_validate_consent_entry( $data, $settings ) {
+		if ( ! is_array( $data ) ) {
+			return new WP_Error( 'wpl_consent_log_invalid', 'Invalid payload.', array( 'status' => 400 ) );
+		}
+
+		$actions = array( 'accept', 'accept_all', 'reject', 'dismiss', 'optout', 'optin', 'gpc', 'dnt', 'legacy' );
+		$id      = isset( $data['id'] ) ? (string) $data['id'] : '';
+		$action  = isset( $data['action'] ) ? (string) $data['action'] : '';
+		if ( ! preg_match( '/^[A-Za-z0-9-]{8,64}$/', $id ) || ! in_array( $action, $actions, true ) ) {
+			return new WP_Error( 'wpl_consent_log_invalid', 'Invalid payload.', array( 'status' => 400 ) );
+		}
+
+		$known = array();
+		foreach ( Gdpr_Cookie_Consent_Cookie_Custom::get_categories( true ) as $category ) {
+			$known[] = $category['gdpr_cookie_category_slug'];
+		}
+
+		$categories = null;
+		if ( isset( $data['categories'] ) && is_array( $data['categories'] ) ) {
+			$categories = array();
+			foreach ( $known as $slug ) {
+				$categories[ $slug ] = ( 'necessary' === $slug ) || ( isset( $data['categories'][ $slug ] ) && true === $data['categories'][ $slug ] );
+			}
+		}
+		$optout = ( isset( $data['optout'] ) && is_bool( $data['optout'] ) ) ? $data['optout'] : null;
+		if ( null === $categories && null === $optout ) {
+			return new WP_Error( 'wpl_consent_log_invalid', 'Invalid payload.', array( 'status' => 400 ) );
+		}
+
+		$law = isset( $data['law'] ) ? sanitize_key( $data['law'] ) : '';
+		$src = isset( $data['src'] ) ? sanitize_key( $data['src'] ) : 'banner';
+
+		$details = array(
+			'consent_id'        => $id,
+			'consent_action'    => $action,
+			'consent_source'    => in_array( $src, array( 'banner', 'gpc', 'dnt', 'legacy' ), true ) ? $src : 'banner',
+			'consent_law'       => substr( $law, 0, 20 ),
+			'consent_version'   => isset( $data['cv'] ) ? absint( $data['cv'] ) : 0,
+			'consent_banner'    => ( isset( $data['banner'] ) && 2 === absint( $data['banner'] ) ) ? 2 : 1,
+			'consent_timestamp' => time(),
+			'gpc'               => ! empty( $data['gpc'] ) ? 'yes' : 'no',
+		);
+
+		if ( null !== $categories ) {
+			$preference = array();
+			foreach ( $categories as $slug => $granted ) {
+				$preference[ $slug ] = $granted ? 'yes' : 'no';
+			}
+			if ( 'dismiss' === $action ) {
+				$viewed = 'unset';
+			} elseif ( in_array( $action, array( 'reject', 'gpc', 'dnt' ), true ) ) {
+				$viewed = 'no';
+			} else {
+				$viewed = 'yes';
+			}
+			$details['wpl_viewed_cookie']   = $viewed;
+			$details['wpl_user_preference'] = wp_json_encode( $preference );
+			$details['consent_categories']  = $categories;
+		}
+		if ( null !== $optout ) {
+			$details['wpl_optout_cookie'] = $optout ? 'yes' : 'no';
+		}
+
+		$is_on = function ( $value ) {
+			return true === $value || 'true' === $value || 1 === $value || '1' === $value;
+		};
+		$tcf   = isset( $data['tcf'] ) ? (string) $data['tcf'] : '';
+		$ac    = isset( $data['ac'] ) ? (string) $data['ac'] : '';
+		if ( $is_on( $settings['is_iabtcf_on'] ) ) {
+			$details['wpl_tc_string'] = ( strlen( $tcf ) <= 4096 && preg_match( '/^[A-Za-z0-9_\-.]*$/', $tcf ) ) ? $tcf : '';
+		}
+		if ( $is_on( $settings['is_gacm_on'] ?? false ) ) {
+			$details['Additional_Consent_String'] = ( strlen( $ac ) <= 4096 && preg_match( '/^[0-9]+~[A-Za-z0-9.~]*$/', $ac ) ) ? $ac : '';
+		}
+
+		$sites = array();
+		if ( isset( $data['sites'] ) && is_array( $data['sites'] ) ) {
+			$sites = array_slice( array_unique( array_map( 'absint', $data['sites'] ) ), 0, 50 );
+		}
+
+		return array(
+			'details' => $details,
+			'url'     => isset( $data['url'] ) ? esc_url_raw( (string) $data['url'] ) : '',
+			'sites'   => $sites,
+		);
+	}
+
+	/**
+	 * Whether the request comes from a page on this site.
+	 *
+	 * sendBeacon sends an Origin header; a missing Origin and Referer is allowed
+	 * because privacy extensions strip them.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return bool
+	 */
+	private function wplcl_is_same_origin( $request ) {
+		$source = $request->get_header( 'origin' );
+		if ( empty( $source ) || 'null' === $source ) {
+			$source = $request->get_header( 'referer' );
+		}
+		if ( empty( $source ) ) {
+			return true;
+		}
+		$host = wp_parse_url( $source, PHP_URL_HOST );
+		if ( empty( $host ) ) {
+			return false;
+		}
+		foreach ( array( home_url(), site_url() ) as $known_url ) {
+			if ( strtolower( (string) wp_parse_url( $known_url, PHP_URL_HOST ) ) === strtolower( $host ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * At most 120 log entries per IP every 10 minutes (offices share one IP).
+	 *
+	 * @since 4.5.0
+	 * @return bool
+	 */
+	private function wplcl_rate_limit_ok() {
+		$ip  = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		$key = 'wpl_cl_rate_' . substr( hash_hmac( 'sha256', $ip, wp_salt( 'nonce' ) ), 0, 20 );
+		/**
+		 * Maximum consent log entries per IP per 10 minutes.
+		 *
+		 * @since 4.5.0
+		 * @param int $limit Limit.
+		 */
+		$limit = (int) apply_filters( 'gdprcookieconsent_consent_log_rate_limit', 120 );
+		$count = (int) get_transient( $key );
+		if ( $count >= $limit ) {
+			return false;
+		}
+		set_transient( $key, $count + 1, 10 * MINUTE_IN_SECONDS );
+		return true;
+	}
+
+	/**
+	 * The visitor's country from the local GeoLite2 database, if there is one.
+	 *
+	 * No third-party lookup: the visitor's IP is not sent anywhere.
+	 *
+	 * @since 4.5.0
+	 * @return string
+	 */
+	private function wplcl_get_visitor_country() {
+		if ( ! class_exists( 'Gdpr_Cookie_Consent_Geo_Ip' ) ) {
+			return 'Unknown';
+		}
+		$geoip = new Gdpr_Cookie_Consent_Geo_Ip();
+		$geo   = $geoip->wpl_get_geo_data();
+		return ( is_array( $geo ) && ! empty( $geo['country'] ) ) ? $geo['country'] : 'Unknown';
+	}
+
+	/**
 	 * Check whether consent may be forwarded to the given blog.
 	 *
 	 * The current blog is always permitted because the bundled script posts it
@@ -747,25 +996,9 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			$masking_level = isset( $the_options['ip_masking_level'] ) ? (string) $the_options['ip_masking_level'] : '2';
 			$skip_geo = $anonymization_enabled && in_array( $masking_level, array('3', 'full' ), true );
 
-			if ( $skip_geo ) {
-				$user_country = 'Unknown';
-			} else{
-			// Fetch country information using ip-api.com.
-			$api_url  = 'http://ip-api.com/json/' . $user_ip;
-			$response = wp_safe_remote_get( $api_url );
-			if ( is_wp_error( $response ) ) {
-				$data = 'Unknown'; // Handle the error gracefully.
-			} else {
-				$body = wp_remote_retrieve_body( $response );
-				$data = json_decode( $body );
-			}
-			if ( isset($data) && property_exists( $data, 'country' ) ) {
-				$user_country = $data->country;
-			} else {
-				$user_country = 'unknown';
-			}
-			}
-			if ( is_multisite() && $consent_forward == true ) {
+			$user_country = $skip_geo ? 'Unknown' : $this->wplcl_get_visitor_country();
+			// The flag arrives as the string 'true' or 'false'; 'false' == true in PHP.
+			if ( is_multisite() && ( true === $consent_forward || 'true' === $consent_forward ) ) {
 				global $wpdb;
 				switch_to_blog( $subSiteId );
 
