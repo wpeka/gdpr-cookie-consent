@@ -977,9 +977,9 @@ class Gdpr_Cookie_Consent_Public {
 		);
 		$language     = isset( $language_map[ $wpml_language ] ) ? $language_map[ $wpml_language ] : $wpml_language;
 		if ( ! isset( $translations['about'][ $language ] ) ) {
-			$language = strtok( $language, '-' );
+			$language = explode( '-', $language )[0];
 		}
-		if ( ! is_string( $language ) || ! isset( $translations['about'][ $language ] ) ) {
+		if ( ! isset( $translations['about'][ $language ] ) ) {
 			return $cookie_data;
 		}
 
