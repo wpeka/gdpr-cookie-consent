@@ -37,6 +37,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 		// Creating necessary tables for script blocker.
 		register_activation_hook( GDPR_COOKIE_CONSENT_PLUGIN_FILENAME, array( $this, 'wpl_activator' ) );
 		add_action( 'admin_init', array( $this, 'wpl_maybe_install_tables' ) );
+		add_action( 'admin_init', array( $this, 'wpl_maybe_seed_categories' ) );
 
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
 			add_filter( 'gdprcookieconsent_script_blocker_sub_tabs', array( $this, 'wpl_script_blocker_sub_tabs' ) );
@@ -85,6 +86,224 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 	}
 
 	/**
+	 * Move built-in rows that were never categorised to their pattern's category.
+	 *
+	 * Before 4.5 every built-in row was installed as Unclassified, and the
+	 * pattern's own category was never used. If every row is still Unclassified
+	 * the admin has not categorised anything yet, so each row takes its
+	 * pattern's category. If any row differs, the admin's choices are kept.
+	 * Runs once.
+	 *
+	 * @since 4.5.0
+	 */
+	public function wpl_maybe_seed_categories() {
+		if ( get_option( 'wpl_script_blocker_categories_seeded' ) ) {
+			return;
+		}
+		global $wpdb;
+		$table = $wpdb->prefix . $this->main_table;
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table ) ) ) !== $table ) { // db call ok; no-cache ok.
+			return;
+		}
+		$category_ids = $this->wpl_get_category_ids();
+		$rows         = $wpdb->get_results( "SELECT id, script_key, script_category FROM `$table`", ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery
+		if ( isset( $category_ids['unclassified'] ) && ! empty( $rows ) ) {
+			$untouched = true;
+			foreach ( $rows as $row ) {
+				if ( (int) $row['script_category'] !== (int) $category_ids['unclassified'] ) {
+					$untouched = false;
+					break;
+				}
+			}
+			if ( $untouched ) {
+				$patterns = $this->wpl_get_script_patterns();
+				foreach ( $rows as $row ) {
+					$cc = isset( $patterns[ $row['script_key'] ]['cc'] ) ? $patterns[ $row['script_key'] ]['cc'] : '';
+					if ( '' !== $cc && isset( $category_ids[ $cc ] ) ) {
+						$wpdb->update( $table, array( 'script_category' => $category_ids[ $cc ] ), array( 'id' => $row['id'] ), array( '%d' ), array( '%d' ) ); // db call ok; no-cache ok.
+					}
+				}
+			}
+		}
+		update_option( 'wpl_script_blocker_categories_seeded', 1 );
+	}
+
+	/**
+	 * Category IDs keyed by slug.
+	 *
+	 * @since 4.5.0
+	 * @return array
+	 */
+	public function wpl_get_category_ids() {
+		$ids = array();
+		foreach ( (array) $this->get_categories() as $category ) {
+			$ids[ $category->gdpr_cookie_category_slug ] = (int) $category->id_gdpr_cookie_category;
+		}
+		return $ids;
+	}
+
+	/**
+	 * Whether a cookie scan has asked for unblocked pages.
+	 *
+	 * The scanner needs to see the cookies trackers set, so pages are not
+	 * blocked while a scan runs. The flag expires on its own, so a scan that
+	 * never finishes cannot leave blocking off for good.
+	 *
+	 * @since 4.5.0
+	 * @return bool
+	 */
+	public static function wpl_is_scan_bypass_active() {
+		return (bool) get_transient( 'wpl_scan_bypass_script_blocker' );
+	}
+
+	/**
+	 * Build the blocking rules.
+	 *
+	 * Each rule: key, label, category (slug), category_name, urls (normalized
+	 * URL fragments matched against src/href/data and inside inline loaders),
+	 * needles (code fragments matched in inline scripts) and regex.
+	 *
+	 * A pattern's category comes from its row in the scripts table, then from
+	 * the pattern's own default, then from the configurable default. Disabled
+	 * rows and necessary categories are not blocked.
+	 *
+	 * @since 4.5.0
+	 * @return array
+	 */
+	public function wpl_build_rules() {
+		global $wpdb;
+		$categories = array();
+		foreach ( (array) $this->get_categories() as $category ) {
+			$categories[ $category->gdpr_cookie_category_slug ] = $category->gdpr_cookie_category_name;
+		}
+		/**
+		 * Category for a match whose own category is unknown.
+		 *
+		 * @since 4.5.0
+		 * @param string $slug Category slug.
+		 */
+		$default = (string) apply_filters( 'gdprcookieconsent_default_block_category', 'unclassified' );
+		if ( ! isset( $categories[ $default ] ) ) {
+			$default = 'unclassified';
+		}
+
+		// One query for every row and its category.
+		$rows  = array();
+		$table = $wpdb->prefix . $this->main_table;
+		$cats  = $wpdb->prefix . 'gdpr_cookie_scan_categories';
+		$data  = $wpdb->get_results( "SELECT s.script_key, s.script_status, c.gdpr_cookie_category_slug AS slug FROM `$table` s LEFT JOIN `$cats` c ON c.id_gdpr_cookie_category = s.script_category", ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery
+		foreach ( (array) $data as $row ) {
+			$rows[ $row['script_key'] ] = $row;
+		}
+
+		$rules = array();
+		foreach ( $this->wpl_get_script_patterns() as $key => $pattern ) {
+			$cc = ( ! empty( $pattern['cc'] ) && isset( $categories[ $pattern['cc'] ] ) ) ? $pattern['cc'] : $default;
+			if ( isset( $rows[ $key ] ) ) {
+				if ( '1' !== (string) $rows[ $key ]['script_status'] ) {
+					continue;
+				}
+				// A deleted category falls back to the pattern's own.
+				$slug = ( ! empty( $rows[ $key ]['slug'] ) && isset( $categories[ $rows[ $key ]['slug'] ] ) ) ? $rows[ $key ]['slug'] : $cc;
+			} else {
+				$slug = $cc;
+			}
+			$rule = $this->wpl_make_rule( $key, isset( $pattern['label'] ) ? $pattern['label'] : $key, $slug, $categories, $pattern );
+			if ( $rule ) {
+				$rules[] = $rule;
+			}
+		}
+
+		// Admin-defined rules: array( array( 'label', 'category', 'urls' => [], 'regex' => [] ) ).
+		$custom = get_option( 'wpl_custom_block_rules', array() );
+		foreach ( is_array( $custom ) ? $custom : array() as $i => $entry ) {
+			if ( ! is_array( $entry ) || empty( $entry['category'] ) ) {
+				continue;
+			}
+			$slug = isset( $categories[ $entry['category'] ] ) ? $entry['category'] : $default;
+			$rule = $this->wpl_make_rule( 'custom_' . $i, isset( $entry['label'] ) ? (string) $entry['label'] : 'Custom', $slug, $categories, array( 'url' => isset( $entry['urls'] ) ? $entry['urls'] : array(), 'regex' => isset( $entry['regex'] ) ? $entry['regex'] : array() ) );
+			if ( $rule ) {
+				$rules[] = $rule;
+			}
+		}
+
+		/**
+		 * Filters the script blocker rules.
+		 *
+		 * @since 4.5.0
+		 * @param array $rules Rules.
+		 */
+		return (array) apply_filters( 'gdprcookieconsent_block_rules', $rules );
+	}
+
+	/**
+	 * One rule from a pattern definition.
+	 *
+	 * @param string $key        Rule key.
+	 * @param string $label      Label.
+	 * @param string $slug       Category slug.
+	 * @param array  $categories Category names keyed by slug.
+	 * @param array  $pattern    Pattern: src, js, url, js_needle, html_elem, regex.
+	 * @return array|null
+	 */
+	private function wpl_make_rule( $key, $label, $slug, $categories, $pattern ) {
+		if ( 'necessary' === $slug ) {
+			return null;
+		}
+		$urls = array();
+		foreach ( array( 'src', 'js', 'url' ) as $field ) {
+			if ( ! empty( $pattern[ $field ] ) ) {
+				foreach ( (array) $pattern[ $field ] as $url ) {
+					$urls[] = $url;
+				}
+			}
+		}
+		if ( ! empty( $pattern['html_elem'] ) && is_array( $pattern['html_elem'] ) ) {
+			foreach ( $pattern['html_elem'] as $elem ) {
+				if ( isset( $elem['attr'] ) && false !== strpos( $elem['attr'], ':' ) ) {
+					$urls[] = substr( $elem['attr'], strpos( $elem['attr'], ':' ) + 1 );
+				}
+			}
+		}
+		$normalized = array();
+		foreach ( $urls as $url ) {
+			$url = Gdpr_Cookie_Consent_Script_Blocker_Frontend::wpl_normalize_url( $url );
+			if ( strlen( $url ) >= 4 ) {
+				$normalized[] = $url;
+			}
+		}
+		$needles = array();
+		if ( ! empty( $pattern['js_needle'] ) ) {
+			foreach ( (array) $pattern['js_needle'] as $needle ) {
+				if ( is_string( $needle ) && strlen( $needle ) >= 4 ) {
+					$needles[] = $needle;
+				}
+			}
+		}
+		$regex = array();
+		if ( ! empty( $pattern['regex'] ) ) {
+			foreach ( (array) $pattern['regex'] as $re ) {
+				// Only patterns that compile.
+				if ( is_string( $re ) && '' !== $re && false !== @preg_match( $re, '' ) ) { // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+					$regex[] = $re;
+				}
+			}
+		}
+		if ( empty( $normalized ) && empty( $needles ) && empty( $regex ) ) {
+			return null;
+		}
+		return array(
+			'key'           => (string) $key,
+			'label'         => (string) $label,
+			'category'      => $slug,
+			'category_name' => isset( $categories[ $slug ] ) ? $categories[ $slug ] : $slug,
+			'urls'          => array_values( array_unique( $normalized ) ),
+			'needles'       => array_values( array_unique( $needles ) ),
+			'regex'         => $regex,
+		);
+	}
+
+	/**
 	 * Installs necessary tables.
 	 *
 	 * @since 3.0.0
@@ -111,19 +330,10 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 			);";
 			dbDelta( $create_table_sql );
 		}
-		// Get category id for Unclassified.
-		$data_arr = $this->get_category_by_slug( 'unclassified' );
-		if ( isset( $data_arr ) && ! empty( $data_arr ) ) {
-			foreach ( $data_arr as $data ) {
-				if ( isset( $data->id_gdpr_cookie_category ) ) {
-					$category = $data->id_gdpr_cookie_category;
-				} else {
-					$category = 5;
-				}
-			}
-		} else {
-			$category = 5;
-		}
+		// New rows start in their pattern's category (the `cc` key), not Unclassified.
+		$category_ids = $this->wpl_get_category_ids();
+		$patterns     = $this->wpl_get_script_patterns();
+		$category     = isset( $category_ids['unclassified'] ) ? $category_ids['unclassified'] : 5;
 		// Insert records into Script blocker table.
 		$records = array(
 			array(
@@ -296,6 +506,10 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 				);
 			} else {
 				// Insert a new entry if it doesn't exist.
+				$cc = isset( $patterns[ $value['script_key'] ]['cc'] ) ? $patterns[ $value['script_key'] ]['cc'] : '';
+				if ( '' !== $cc && isset( $category_ids[ $cc ] ) ) {
+					$value['script_category'] = $category_ids[ $cc ];
+				}
 				$wpdb->insert( $table_name, $value ); // db call ok; no-cache ok.
 			}
 		}
@@ -1001,12 +1215,21 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 		$script_patterns = apply_filters(
 			'wpl_script_patterns',
 			array(
+				// `js`/`src`/`url` and html_elem values are URL fragments matched in src,
+				// href and data attributes (and in inline loaders); `js_needle` values are
+				// code fragments matched in inline scripts. Keep needles specific: a
+				// generic one blocks first-party code.
 				'googleanalytics'      => array(
 					'label'     => __( 'GA4', 'gdpr-cookie-consent' ),
 					'src'       => 'google-analytics.com',
-					'js'        => 'www.google-analytics.com/analytics.js',
+					'js'        => array(
+						'googletagmanager.com/gtag/js?id=G-',
+						'googletagmanager.com/gtag/js?id=UA-',
+						'google-analytics.com/analytics.js',
+						'google-analytics.com/ga.js',
+					),
 					'js_needle' => array(
-						'www.google-analytics.com/analytics.js',
+						'google-analytics.com/analytics.js',
 						'google-analytics.com/ga.js',
 						'stats.g.doubleclick.net/dc.js',
 						'window.ga=window.ga',
@@ -1018,14 +1241,13 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 				),
 				'facebook_pixel'       => array(
 					'label'     => __( 'Meta Pixel', 'gdpr-cookie-consent' ),
-					'js'        => 'connect.facebook.net/en_US/fbevents.js',
+					// Any locale, not only en_US.
+					'js'        => 'connect.facebook.net/',
 					'js_needle' => array(
-						'connect.facebook.net/en_US/fbevents.js',
-						'fbq',
-						'fjs',
-						'facebook-jssdk',
+						'fbevents.js',
+						'fbq(',
 					),
-					'cc'        => 'analytics',
+					'cc'        => 'marketing',
 					'html_elem' => array(
 						array(
 							'name' => 'img',
@@ -1035,32 +1257,40 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 				),
 				'google_tag_manager'   => array(
 					'label'     => __( 'Google Tag Manager', 'gdpr-cookie-consent' ),
-					'src'       => 'www.googletagmanager.com/ns.html?id=GTM-',
-					'js'        => 'googletagmanager.com/gtag/js',
+					'src'       => 'googletagmanager.com/ns.html',
+					'js'        => array(
+						'googletagmanager.com/gtm.js',
+						'googletagmanager.com/gtag/js',
+					),
 					'js_needle' => array(
-						'www.googletagmanager.com/gtm',
+						'googletagmanager.com/gtm',
 					),
 					'cc'        => 'analytics',
 				),
 				'hotjar'               => array(
 					'label'     => __( 'Hotjar', 'gdpr-cookie-consent' ),
+					'js'        => array( 'static.hotjar.com/', 'script.hotjar.com/' ),
 					'js_needle' => array(
 						'static.hotjar.com/c/hotjar-',
+						'_hjSettings',
 					),
 					'cc'        => 'analytics',
 				),
 				'google_publisher_tag' => array(
 					'label'     => __( 'Google Publisher Tag', 'gdpr-cookie-consent' ),
 					'js'        => array(
-						'www.googletagservices.com/tag/js/gpt.js',
-						'www.googleadservices.com/pagead/conversion.js',
+						'googletagservices.com/tag/js/gpt.js',
+						'securepubads.g.doubleclick.net/tag/js/gpt.js',
+						'googleadservices.com/pagead/conversion.js',
+						'googletagmanager.com/gtag/js?id=AW-',
+						'googletagmanager.com/gtag/js?id=DC-',
 					),
 					'js_needle' => array(
 						'googletag.pubads',
 						'googletag.enableServices',
 						'googletag.display',
-						'www.googletagservices.com/tag/js/gpt.js',
-						'www.googleadservices.com/pagead/conversion.js',
+						'googletagservices.com/tag/js/gpt.js',
+						'googleadservices.com/pagead/conversion.js',
 					),
 					'cc'        => 'marketing',
 					'html_elem' => array(
@@ -1076,35 +1306,29 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 				),
 				'youtube_embed'        => array(
 					'label'     => __( 'Youtube embed', 'gdpr-cookie-consent' ),
-					'js'        => 'www.youtube.com/player_api',
+					'js'        => array(
+						'youtube.com/player_api',
+						'youtube.com/iframe_api',
+						'youtube.com/s/player/',
+					),
 					'js_needle' => array(
-						'www.youtube.com/player_api',
 						'onYouTubePlayerAPIReady',
 						'YT.Player',
 						'onYouTubeIframeAPIReady',
-						'www.youtube.com/iframe_api',
 					),
 					'cc'        => 'preferences',
 					'html_elem' => array(
 						array(
 							'name' => 'iframe',
-							'attr' => 'src:www.youtube.com/embed',
+							'attr' => 'src:youtube.com/embed',
+						),
+						array(
+							'name' => 'iframe',
+							'attr' => 'src:youtube-nocookie.com/embed',
 						),
 						array(
 							'name' => 'iframe',
 							'attr' => 'src:youtu.be',
-						),
-						array(
-							'name' => 'object',
-							'attr' => 'data:www.youtube.com/embed',
-						),
-						array(
-							'name' => 'embed',
-							'attr' => 'src:www.youtube.com/embed',
-						),
-						array(
-							'name' => 'img',
-							'attr' => 'src:www.youtube.com/embed',
 						),
 					),
 				),
@@ -1112,10 +1336,8 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 					'label'     => __( 'Vimeo embed', 'gdpr-cookie-consent' ),
 					'js'        => 'player.vimeo.com/api/player.js',
 					'js_needle' => array(
-						'www.vimeo.com/api/oembed',
-						'player.vimeo.com/api/player.js',
+						'vimeo.com/api/oembed',
 						'Vimeo.Player',
-						'new Player',
 					),
 					'cc'        => 'preferences',
 					'html_elem' => array(
@@ -1130,18 +1352,20 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 					'js'        => 'maps.googleapis.com/maps/api',
 					'js_needle' => array(
 						'maps.googleapis.com/maps/api',
-						'google.map',
-						'initMap',
 					),
 					'cc'        => 'preferences',
 					'html_elem' => array(
 						array(
 							'name' => 'iframe',
-							'attr' => 'src:www.google.com/maps/embed',
+							'attr' => 'src:google.com/maps/embed',
 						),
 						array(
 							'name' => 'iframe',
 							'attr' => 'src:maps.google.com/maps',
+						),
+						array(
+							'name' => 'iframe',
+							'attr' => 'src:google.com/maps?',
 						),
 					),
 				),
@@ -1166,11 +1390,9 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 					'js'        => 'platform.twitter.com/widgets.js',
 					'js_needle' => array(
 						'platform.twitter.com/widgets.js',
-						'twitter-wjs',
 						'twttr.widgets',
 						'twttr.events',
 						'twttr.ready',
-						'window.twttr',
 					),
 					'cc'        => 'marketing',
 				),
@@ -1179,15 +1401,8 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 					'js'        => 'connect.soundcloud.com',
 					'js_needle' => array(
 						'SC.initialize',
-						'SC.get',
-						'SC.connectCallback',
-						'SC.connect',
-						'SC.put',
-						'SC.stream',
-						'SC.Recorder',
-						'SC.upload',
-						'SC.oEmbed',
-						'soundcloud.com',
+						'SC.Widget',
+						'connect.soundcloud.com',
 					),
 					'cc'        => 'preferences',
 					'html_elem' => array(
@@ -1203,21 +1418,24 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 				),
 				'slideshare_embed'     => array(
 					'label'     => __( 'Slideshare embed', 'gdpr-cookie-consent' ),
-					'js'        => 'www.slideshare.net/api/oembed',
+					'js'        => 'slideshare.net/api/oembed',
 					'js_needle' => array(
-						'www.slideshare.net/api/oembed',
+						'slideshare.net/api/oembed',
 					),
 					'cc'        => 'preferences',
 					'html_elem' => array(
 						array(
 							'name' => 'iframe',
-							'attr' => 'src:www.slideshare.net/slideshow',
+							'attr' => 'src:slideshare.net/slideshow',
 						),
 					),
 				),
 				'linkedin_widget'      => array(
 					'label'     => __( 'Linkedin widget/Analytics', 'gdpr-cookie-consent' ),
-					'js'        => 'platform.linkedin.com/in.js',
+					'js'        => array(
+						'platform.linkedin.com/in.js',
+						'snap.licdn.com/li.lms-analytics/',
+					),
 					'js_needle' => array(
 						'platform.linkedin.com/in.js',
 						'snap.licdn.com/li.lms-analytics/insight.min.js',
@@ -1229,20 +1447,24 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 							'name' => 'img',
 							'attr' => 'src:dc.ads.linkedin.com/collect/',
 						),
+						array(
+							'name' => 'img',
+							'attr' => 'src:px.ads.linkedin.com/collect',
+						),
 					),
 				),
 				'instagram_embed'      => array(
 					'label'     => __( 'Instagram embed', 'gdpr-cookie-consent' ),
-					'js'        => 'www.instagram.com/embed.js',
+					'js'        => 'instagram.com/embed.js',
 					'js_needle' => array(
-						'www.instagram.com/embed.js',
+						'instagram.com/embed.js',
 						'api.instagram.com/oembed',
 					),
 					'cc'        => 'preferences',
 					'html_elem' => array(
 						array(
 							'name' => 'iframe',
-							'attr' => 'src:www.instagram.com/p',
+							'attr' => 'src:instagram.com/p/',
 						),
 					),
 				),
@@ -1256,6 +1478,7 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 				),
 				'tawk'                 => array(
 					'label'     => __( 'Tawk widget', 'gdpr-cookie-consent' ),
+					'js'        => 'embed.tawk.to',
 					'js_needle' => array(
 						'embed.tawk.to',
 					),
@@ -1263,7 +1486,11 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 				),
 				'hubspot'              => array(
 					'label'     => __( 'Hubspot Analytics', 'gdpr-cookie-consent' ),
-					'js'        => 'js.hs-scripts.com',
+					'js'        => array(
+						'js.hs-scripts.com',
+						'js.hs-analytics.net',
+						'js.hsforms.net',
+					),
 					'js_needle' => array(
 						'js.hsforms.net',
 						'js.hs-scripts.com',
@@ -1274,21 +1501,21 @@ class Gdpr_Cookie_Consent_Script_Blocker {
 				'recaptcha'            => array(
 					'label' => __( 'Google Recaptcha', 'gdpr-cookie-consent' ),
 					'js'    => array(
-						'www.google.com/recaptcha/api.js',
-						'recaptcha.js',
-						'recaptcha/api',
+						'google.com/recaptcha/',
+						'recaptcha.net/recaptcha/',
+						'gstatic.com/recaptcha/',
 					),
 					'cc'    => 'analytics',
 				),
 				'adsense'              => array(
 					'label'     => __( 'Google Adsense', 'gdpr-cookie-consent' ),
 					'js'        => 'pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
-					'js_needle' => array( 'adsbygoogle.js' ),
-					'cc'        => 'analytics',
+					'js_needle' => array( 'adsbygoogle.js', 'adsbygoogle = window.adsbygoogle' ),
+					'cc'        => 'marketing',
 				),
 				'matomo'               => array(
 					'label'     => __( 'Matomo Analytics', 'gdpr-cookie-consent' ),
-					'js'        => 'matomo.js',
+					'js'        => array( 'matomo.js', 'piwik.js' ),
 					'js_needle' => array(
 						'_paq.push',
 						'_mtm.push',

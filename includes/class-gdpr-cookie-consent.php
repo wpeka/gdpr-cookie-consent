@@ -158,6 +158,8 @@ class Gdpr_Cookie_Consent {
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/modules/script-blocker/class-wpl-cookie-consent-script-blocker.php';
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-cookie-consent-consent-logs.php';
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/cookie-scanner/class-wpl-cookie-consent-cookie-scanner.php';
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/class-gdpr-cookie-consent-cookie-inventory.php';
+		add_action( 'admin_init', array( 'Gdpr_Cookie_Consent_Cookie_Inventory', 'maybe_migrate' ) );
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/geo-ip/class-wpl-cookie-consent-geo-ip.php';
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/admin/modules/ab-testing/class-wpl-cookie-consent-ab-testing.php';
 		/**
@@ -1288,6 +1290,7 @@ class Gdpr_Cookie_Consent {
 			'header_scripts'                         => '',
 			'body_scripts'                           => '',
 			'footer_scripts'                         => '',
+			// Consent category each custom scripts group is released by.
 			'restrict_posts'                         => array(),
 			'select_pages'                           => array(),
 			'header_dependency'					 	 => '',

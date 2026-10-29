@@ -184,12 +184,18 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 * @return array
 	 */
 	public function wpl_get_scan_cookies( $cookies_array ) {
-		$scan_cookies = $this->get_scan_cookie_list();
+		$scan_cookies = $this->get_scan_cookie_list( 0, 0 );
 		$scan_cookies = $scan_cookies['data'];
-		$cookie_array = array_merge( $scan_cookies, $cookies_array );
-		$temp_arr     = array_unique( array_column( $cookie_array, 'name' ) );
-		$cookie_array = array_intersect_key( $cookie_array, $temp_arr );
-		return $cookie_array;
+		// Manual entries come first so an admin's override wins over the scan,
+		// and the same name on two domains is kept as two cookies.
+		$merged = array();
+		foreach ( array_merge( (array) $cookies_array, $scan_cookies ) as $cookie ) {
+			$key = strtolower( $cookie['name'] . '|' . ltrim( (string) ( isset( $cookie['domain'] ) ? $cookie['domain'] : '' ), '.' ) );
+			if ( ! isset( $merged[ $key ] ) ) {
+				$merged[ $key ] = $cookie;
+			}
+		}
+		return array_values( $merged );
 	}
 
 	/**
@@ -927,6 +933,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 	 */
 	protected function insert_cookies( $scan_id, $url_id, $url, $cookie_data, $out ) {
 		global $wpdb;
+		Gdpr_Cookie_Consent_Cookie_Inventory::maybe_migrate();
 		$out       = array();
 		$url_table = $wpdb->prefix . $this->cookies_table;
 		$cat_table = $wpdb->prefix . $this->category_table;
@@ -938,24 +945,20 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 			$domain      = $cookie_data->domain;
 			$category    = isset( $cookie_data->category ) ? $cookie_data->category : 'Unclassified';
 			$description = $cookie_data->description;
-			$category_id = -1;
-					switch ( $category ) {
-						case 'Analytics':
-							$category_id = 1;
-							break;
-						case 'Marketing':
-							$category_id = 2;
-							break;
-						case 'Necessary':
-							$category_id = 3;
-							break;
-						case 'Preferences':
-							$category_id = 4;
-							break;
-						case 'Unclassified':
-							$category_id = 5;
-							break;
-					}
+			// The scanner names categories in English; their IDs differ per site.
+			$category_slugs = array(
+				'analytics'    => 'analytics',
+				'marketing'    => 'marketing',
+				'necessary'    => 'necessary',
+				'preferences'  => 'preferences',
+				'preference'   => 'preferences',
+				'unclassified' => 'unclassified',
+			);
+			$category_slug  = isset( $category_slugs[ strtolower( trim( $category ) ) ] ) ? $category_slugs[ strtolower( trim( $category ) ) ] : 'unclassified';
+			$category_id    = (int) $wpdb->get_var( $wpdb->prepare( "SELECT id_gdpr_cookie_category FROM `$cat_table` WHERE gdpr_cookie_category_slug = %s", $category_slug ) );
+			if ( ! $category_id ) {
+				$category_id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT id_gdpr_cookie_category FROM `$cat_table` WHERE gdpr_cookie_category_slug = %s", 'unclassified' ) );
+			}
 			$out[]       = '&nbsp;&nbsp;&nbsp;' . $name;
 			$sql = $wpdb->prepare(
 				"INSERT IGNORE INTO `$url_table`
@@ -968,9 +971,10 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 					`type`,
 					`category`,
 					`category_id`,
-					`description`
+					`description`,
+					`pattern`
 				)
-				VALUES (%d, %d, %s, %s, %s, %s, %s, %d, %s)",
+				VALUES (%d, %d, %s, %s, %s, %s, %s, %d, %s, %s)",
 				$scan_id,
 				$url_id,
 				$name,
@@ -979,7 +983,8 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 				$type,
 				$category,
 				$category_id,
-				$description
+				$description,
+				Gdpr_Cookie_Consent_Cookie_Inventory::pattern_for( $name )
 			);
 
 			$wpdb->query( $sql );
@@ -1187,24 +1192,32 @@ class Gdpr_Cookie_Consent_Cookie_Scanner {
 			$scan_table    = $wpdb->prefix . 'wpl_cookie_scan'; // Replace with your actual scan table name
 		
 			// Get the latest scan ID with current_action = 'scan_pages'
-			$latest_scan_id = $wpdb->get_var("SELECT id_wpl_cookie_scan FROM `$scan_table` WHERE status = '2' ORDER BY created_at DESC LIMIT 1");
+			$latest_scan_id = (int) $wpdb->get_var("SELECT id_wpl_cookie_scan FROM `$scan_table` WHERE status = '2' ORDER BY created_at DESC, id_wpl_cookie_scan DESC LIMIT 1");
 		
 			if ($latest_scan_id) {
-				$count_sql     = "SELECT COUNT(id_wpl_cookie_scan_cookies) AS ttnum FROM `$cookies_table`";
-				$count_arr     = $wpdb->get_row($count_sql, ARRAY_A);
+				// Only cookies the latest completed scan saw: a rescan re-attaches the
+				// cookies it finds again, so the ones it no longer finds drop out.
+				$count_arr = $wpdb->get_row( $wpdb->prepare( "SELECT COUNT(id_wpl_cookie_scan_cookies) AS ttnum FROM `$cookies_table` WHERE id_wpl_cookie_scan = %d", $latest_scan_id ), ARRAY_A );
 				if ( $count_arr ) {
 					$out['total'] = $count_arr['ttnum'];
 				}
-		
-				$sql = $wpdb->prepare(
-				    "SELECT * FROM `$cookies_table` 
-				     INNER JOIN `$cat_table` ON `$cookies_table`.category_id = `$cat_table`.id_gdpr_cookie_category 
-				     ORDER BY id_wpl_cookie_scan_cookies ASC" . ( $limit > 0 ? " LIMIT %d,%d" : '' ),
-				    $offset, $limit
-				);
+
+				// LEFT JOIN: a cookie whose category is missing is shown (and cleaned)
+				// as Unclassified instead of disappearing.
+				$sql = "SELECT * FROM `$cookies_table` 
+				     LEFT JOIN `$cat_table` ON `$cookies_table`.category_id = `$cat_table`.id_gdpr_cookie_category 
+				     WHERE `$cookies_table`.id_wpl_cookie_scan = %d
+				     ORDER BY id_wpl_cookie_scan_cookies ASC";
+				$sql = $limit > 0 ? $wpdb->prepare( $sql . ' LIMIT %d,%d', $latest_scan_id, $offset, $limit ) : $wpdb->prepare( $sql, $latest_scan_id );
 		
 				$data_arr = $wpdb->get_results($sql, ARRAY_A);
 				if ( $data_arr ) {
+					$unclassified = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM `$cat_table` WHERE gdpr_cookie_category_slug = %s", 'unclassified' ), ARRAY_A );
+					foreach ( $data_arr as $i => $row ) {
+						if ( empty( $row['gdpr_cookie_category_slug'] ) && $unclassified ) {
+							$data_arr[ $i ] = array_merge( $row, $unclassified, array( 'category_id' => $unclassified['id_gdpr_cookie_category'] ) );
+						}
+					}
 					$out['data'] = $data_arr;
 				}
 			}
