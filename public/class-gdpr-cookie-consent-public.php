@@ -25,7 +25,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Gdpr_Cookie_Consent_Public {
 
-
 	/**
 	 * The ID of this plugin.
 	 *
@@ -89,13 +88,340 @@ class Gdpr_Cookie_Consent_Public {
 		}
 
 		add_action( 'init', array( $this, 'init_random_banner' ) );
-		
+
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		if ( true === $the_options['is_on'] ) {
+			// Before anything else in <head>, including the GTM snippet below.
+			add_action( 'wp_head', array( $this, 'gdprcookieconsent_print_consent_core' ), -10000 );
+			// Last thing before the template renders.
+			add_action( 'template_redirect', array( $this, 'gdprcookieconsent_expire_denied_cookies' ), PHP_INT_MAX );
+		}
 		if($this->convert_boolean($the_options['is_gcm_on']) === true ){
 			add_action('wp_head', array( $this,'insert_custom_consent_script'), -9999);
 			add_action('wp_body_open',  array( $this,'insert_custom_consent_script_body'), -9999);
 		}
 		add_action( 'template_redirect', array( $this, 'gdprcookieconsent_set_auto_mode_cache_flag' ) );
+	}
+
+	/**
+	 * Print the consent core inline at the top of <head>.
+	 *
+	 * The core reads the visitor's consent synchronously, sets the Google Consent
+	 * Mode defaults (and, for a returning visitor, the update in the same tick),
+	 * provides the IAB stubs and owns every consent write. The banner UI stays
+	 * deferred in the footer.
+	 *
+	 * The config holds nothing visitor-specific except the law in auto mode,
+	 * where the page is already excluded from full-page caches.
+	 *
+	 * @since 4.5.0
+	 */
+	public function gdprcookieconsent_print_consent_core() {
+		if ( is_admin() || wp_doing_ajax() || is_feed() ) {
+			return;
+		}
+		$core_file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/js/gdpr-cookie-consent-core' . GDPR_CC_SUFFIX . '.js';
+		if ( ! is_readable( $core_file ) ) {
+			$core_file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/js/gdpr-cookie-consent-core.js';
+		}
+		$core = file_get_contents( $core_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local plugin file.
+		if ( false === $core ) {
+			return;
+		}
+		$config = $this->gdprcookieconsent_get_consent_core_config();
+		$script = 'window.wplConsentConfig = ' . wp_json_encode( $config, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_SLASHES ) . ";\n" . $core;
+		wp_print_inline_script_tag( $script, array( 'id' => 'wpl-consent-core' ) );
+	}
+
+	/**
+	 * Configuration for the consent core.
+	 *
+	 * @since 4.5.0
+	 * @return array
+	 */
+	public function gdprcookieconsent_get_consent_core_config() {
+		static $memo = null;
+		if ( null !== $memo ) {
+			return $memo;
+		}
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+
+		// Manual mode keeps the stored law as is ('both' stays 'both'); auto mode
+		// resolves it per visitor, and gdprcookieconsent_set_auto_mode_cache_flag()
+		// keeps those pages out of full-page caches.
+		$law = isset( $the_options['cookie_usage_for'] ) ? $the_options['cookie_usage_for'] : 'gdpr';
+		if ( $this->gdpr_is_auto_mode() ) {
+			$law = Gdpr_Cookie_Consent::resolve_law_for_country( $this->gdpr_get_visitor_country() );
+		}
+
+		$geo = $this->gdpr_get_geo_targeting_settings( $this->gdpr_get_effective_law( $the_options ), $the_options );
+
+		$categories = array();
+		foreach ( Gdpr_Cookie_Consent_Cookie_Custom::get_categories( true ) as $category ) {
+			$categories[] = array(
+				'slug'      => $category['gdpr_cookie_category_slug'],
+				'necessary' => 'necessary' === $category['gdpr_cookie_category_slug'],
+			);
+		}
+
+		$gcm_defaults = array();
+		foreach ( (array) json_decode( $the_options['gcm_defaults'] ?? '[]' ) as $gcm_config ) {
+			if ( ! is_object( $gcm_config ) ) {
+				continue;
+			}
+			$region = isset( $gcm_config->region ) ? (string) $gcm_config->region : 'All';
+			$entry  = array( 'region' => array() );
+			if ( 'All' !== $region ) {
+				$entry['region'] = array_values( array_filter( array_map( 'trim', explode( ',', sanitize_text_field( $region ) ) ) ) );
+			}
+			foreach ( array( 'ad_storage', 'ad_user_data', 'ad_personalization', 'analytics_storage', 'functionality_storage', 'personalization_storage', 'security_storage' ) as $signal ) {
+				$entry[ $signal ] = ( isset( $gcm_config->$signal ) && 'granted' === $gcm_config->$signal ) ? 'granted' : 'denied';
+			}
+			$gcm_defaults[] = $entry;
+		}
+		// Without a wait the first tags fire on the defaults before the update.
+		$wait_for_update = (int) ( $the_options['gcm_wait_for_update_duration'] ?? 0 );
+		if ( $wait_for_update < 0 ) {
+			$wait_for_update = 500;
+		}
+
+		$settings     = new GDPR_Cookie_Consent_Settings();
+		$quota_used   = (float) Gdpr_Cookie_Consent_Page_Views::get_monthly_percent( $settings->get_plan() );
+		$select_sites = ( true === $the_options['consent_forward'] && is_array( $the_options['select_sites'] ) ) ? array_values( array_map( 'absint', $the_options['select_sites'] ) ) : array();
+
+		$config = array(
+			'law'              => $law,
+			'consentVersion'   => (int) $the_options['consent_version'],
+			'categories'       => $categories,
+			/**
+			 * Categories a US-law opt-out of sale/sharing (or GPC) denies.
+			 *
+			 * @since 4.5.0
+			 * @param string[] $slugs Category slugs.
+			 */
+			'optoutCategories' => array_values( (array) apply_filters( 'gdprcookieconsent_us_optout_categories', array( 'marketing' ) ) ),
+			// Without worldwide targeting the uncached geo endpoint decides whether
+			// the banner (and so blocking) applies to this visitor.
+			'geoTargeted'      => ! $geo['worldwide'],
+			// The monthly banner-view quota is used up: no banner, so no blocking.
+			'disabled'         => $quota_used >= 100,
+			'cookie'           => array(
+				'name'   => 'wpl_consent',
+				'days'   => (int) $the_options['cookie_expiry'] > 0 ? (int) $the_options['cookie_expiry'] : 365,
+				/**
+				 * Domain for the consent cookie, e.g. '.example.com' to share consent
+				 * across subdomains. Empty for a host-only cookie.
+				 *
+				 * @since 4.5.0
+				 * @param string $domain Cookie domain.
+				 */
+				'domain' => (string) apply_filters( 'gdprcookieconsent_consent_cookie_domain', '' ),
+			),
+			/**
+			 * Keep writing the pre-4.5 consent cookies from the new record, for cached
+			 * pages still running the old script and for rollbacks.
+			 *
+			 * @since 4.5.0
+			 * @param bool $mirror Whether to mirror.
+			 */
+			'mirrorLegacy'     => (bool) apply_filters( 'gdprcookieconsent_mirror_legacy_cookies', true ),
+			'dnt'              => $this->convert_boolean( $the_options['do_not_track_on'] ),
+			'tcf'              => $this->convert_boolean( $the_options['is_iabtcf_on'] ),
+			'reload'           => array(
+				'accept'  => $this->convert_boolean( $the_options['accept_reload'] ),
+				'decline' => $this->convert_boolean( $the_options['decline_reload'] ),
+			),
+			'gcm'              => array(
+				'on'             => $this->convert_boolean( $the_options['is_gcm_on'] ),
+				'defaults'       => $gcm_defaults,
+				'waitForUpdate'  => $wait_for_update,
+				'adsRedact'      => $this->convert_boolean( $the_options['is_gcm_ads_redact'] ?? false ),
+				'urlPassthrough' => $this->convert_boolean( $the_options['is_gcm_url_passthrough'] ?? false ),
+			),
+			'blocker'          => $this->gdprcookieconsent_get_blocker_config( $the_options ),
+			'inventory'        => class_exists( 'Gdpr_Cookie_Consent_Cookie_Inventory' ) ? Gdpr_Cookie_Consent_Cookie_Inventory::inventory() : array(),
+			'log'              => array(
+				'on'     => $this->convert_boolean( $the_options['logging_on'] ),
+				'url'    => esc_url_raw( rest_url( 'gdpr/v2/consent-log' ) ),
+				'banner' => (int) $this->chosenBanner,
+				'sites'  => $select_sites,
+			),
+		);
+
+		/**
+		 * Filters the consent core configuration.
+		 *
+		 * @since 4.5.0
+		 * @param array $config Configuration.
+		 */
+		$memo = apply_filters( 'gdprcookieconsent_consent_core_config', $config );
+		return $memo;
+	}
+
+	/**
+	 * Expire the first-party cookies of categories the visitor has not granted.
+	 *
+	 * JavaScript cannot see HttpOnly cookies, and cookies set by PHP never pass
+	 * through the browser's cookie guard, so the server does the same check as
+	 * the consent core: it reads the consent record, expires matching cookies
+	 * the browser sent, and drops Set-Cookie headers for them that are queued
+	 * for this response.
+	 *
+	 * Only cookies in the inventory are touched, never the plugin's own or
+	 * WordPress login cookies. Responses are only changed for requests that
+	 * carry a denied cookie, so cached pages are unaffected.
+	 *
+	 * @since 4.5.0
+	 */
+	public function gdprcookieconsent_expire_denied_cookies() {
+		if ( is_admin() || headers_sent() || wp_doing_ajax() || ! class_exists( 'Gdpr_Cookie_Consent_Cookie_Inventory' ) ) {
+			return;
+		}
+		$denied = $this->gdprcookieconsent_denied_inventory();
+		if ( empty( $denied ) ) {
+			return;
+		}
+		$match = function ( $name ) use ( $denied ) {
+			if ( Gdpr_Cookie_Consent_Cookie_Inventory::is_protected( $name ) ) {
+				return null;
+			}
+			foreach ( $denied as $item ) {
+				if ( 1 === preg_match( $item['regex'], $name ) ) {
+					return $item;
+				}
+			}
+			return null;
+		};
+
+		// Set-Cookie headers already queued for a denied cookie.
+		$queued  = array();
+		$dropped = false;
+		foreach ( headers_list() as $header ) {
+			if ( 0 === stripos( $header, 'Set-Cookie:' ) ) {
+				$pair = trim( substr( $header, strlen( 'Set-Cookie:' ) ) );
+				$name = trim( substr( $pair, 0, (int) strpos( $pair, '=' ) ) );
+				if ( null !== $match( $name ) ) {
+					$dropped = true;
+					continue;
+				}
+				$queued[] = $header;
+			}
+		}
+		if ( $dropped ) {
+			header_remove( 'Set-Cookie' );
+			foreach ( $queued as $header ) {
+				header( $header, false );
+			}
+		}
+
+		// Cookies the browser sent.
+		$host    = strtolower( (string) wp_parse_url( home_url(), PHP_URL_HOST ) );
+		$domains = array( '' );
+		if ( $host && false !== strpos( $host, '.' ) && ! filter_var( $host, FILTER_VALIDATE_IP ) ) {
+			$parts = explode( '.', $host );
+			for ( $i = 0; $i < count( $parts ) - 1; $i++ ) {
+				$domains[] = implode( '.', array_slice( $parts, $i ) );
+			}
+		}
+		foreach ( array_keys( $_COOKIE ) as $name ) {
+			$name = (string) $name;
+			$item = $match( $name );
+			if ( null === $item ) {
+				continue;
+			}
+			foreach ( array_unique( array( '/', $item['path'] ) ) as $path ) {
+				foreach ( $domains as $domain ) {
+					setcookie( $name, '', 1, $path, $domain, is_ssl() );
+				}
+			}
+		}
+	}
+
+	/**
+	 * Inventory cookies whose category this request's visitor has not granted,
+	 * decided the way the consent core decides.
+	 *
+	 * @since 4.5.0
+	 * @return array List of array( 'regex', 'path' ).
+	 */
+	private function gdprcookieconsent_denied_inventory() {
+		$config = $this->gdprcookieconsent_get_consent_core_config();
+		if ( ! empty( $config['disabled'] ) || empty( $config['inventory'] ) ) {
+			return array();
+		}
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		if ( ! empty( $config['geoTargeted'] ) && ! $this->gdpr_should_show_banner_for_law( $this->gdpr_get_effective_law( $the_options ), $the_options, $this->gdpr_is_auto_mode() ) ) {
+			return array();
+		}
+
+		$record = null;
+		if ( isset( $_COOKIE['wpl_consent'] ) ) {
+			$raw = json_decode( wp_unslash( $_COOKIE['wpl_consent'] ), true ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- decoded and validated below.
+			if ( is_array( $raw ) && isset( $raw['v'] ) && 1 === (int) $raw['v'] && isset( $raw['cv'] ) && (int) $raw['cv'] === (int) $config['consentVersion'] ) {
+				$record = $raw;
+			}
+		}
+		$gpc  = isset( $_SERVER['HTTP_SEC_GPC'] ) && '1' === trim( sanitize_text_field( wp_unslash( $_SERVER['HTTP_SEC_GPC'] ) ) );
+		$law  = $config['law'];
+		$both = 'both' === $law;
+		$us   = $both || in_array( $law, array( 'ccpa', 'us_state_laws' ), true );
+		$opt  = $both || ! in_array( $law, array( 'ccpa', 'us_state_laws' ), true );
+
+		$granted = function ( $slug ) use ( $record, $gpc, $us, $opt, $config ) {
+			if ( 'necessary' === $slug ) {
+				return true;
+			}
+			if ( $opt && ( ! $record || ! isset( $record['categories'][ $slug ] ) || true !== $record['categories'][ $slug ] ) ) {
+				return false;
+			}
+			if ( $us && in_array( $slug, $config['optoutCategories'], true ) && ( $gpc || ( $record && isset( $record['optout'] ) && true === $record['optout'] ) ) ) {
+				return false;
+			}
+			return true;
+		};
+
+		$denied = array();
+		foreach ( $config['inventory'] as $item ) {
+			if ( 'cookie' === $item['s'] && ! $granted( $item['c'] ) ) {
+				$denied[] = array(
+					'regex' => Gdpr_Cookie_Consent_Cookie_Inventory::glob_to_regex( $item['p'] ),
+					'path'  => $item['path'],
+				);
+			}
+		}
+		return $denied;
+	}
+
+	/**
+	 * The script blocker rules the consent core needs to hold elements added
+	 * after the page was rendered: URL fragments and their category.
+	 *
+	 * @since 4.5.0
+	 * @param array $the_options Settings.
+	 * @return array
+	 */
+	private function gdprcookieconsent_get_blocker_config( $the_options ) {
+		$config = array(
+			'on'          => true === $the_options['is_script_blocker_on'],
+			/* translators: %s: cookie category name, rendered as a link that opens the consent banner. */
+			'placeholder' => __( 'Accept %s cookies to view the content.', 'gdpr-cookie-consent' ),
+			'rules'       => array(),
+		);
+		if ( ! $config['on'] || ! class_exists( 'Gdpr_Cookie_Consent_Script_Blocker_Frontend' ) || null === Gdpr_Cookie_Consent_Script_Blocker_Frontend::$instance ) {
+			return $config;
+		}
+		foreach ( Gdpr_Cookie_Consent_Script_Blocker_Frontend::$instance->wpl_get_rules() as $rule ) {
+			if ( empty( $rule['urls'] ) ) {
+				continue;
+			}
+			$config['rules'][] = array(
+				'k' => $rule['key'],
+				'c' => $rule['category'],
+				'n' => $rule['category_name'],
+				'u' => $rule['urls'],
+			);
+		}
+		return $config;
 	}
 
 	/**
@@ -222,98 +548,28 @@ class Gdpr_Cookie_Consent_Public {
 		$this->register_script_with_defer_async( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gdpr-cookie-consent-public' . GDPR_CC_SUFFIX . '.js', array( 'jquery' ), $this->version, true );
 		$this->register_script_with_defer( $this->plugin_name.'-tcf', plugin_dir_url( __FILE__ ) . '../admin/js/vue/gdpr-cookie-consent-admin-tcstring.js', array( 'jquery' ), $this->version, true );
 		$this->register_script_with_defer( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap/bootstrap.bundle.js', array( 'jquery' ), $this->version, true );
+
+		// The __uspapi API is printed in <head> so vendors can call it before the
+		// banner script loads. Accept the canonical 'us_state_laws' alongside the
+		// legacy 'ccpa'.
+		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		$law         = $this->gdpr_is_auto_mode() ? Gdpr_Cookie_Consent::resolve_law_for_country( $this->gdpr_get_visitor_country() ) : $the_options['cookie_usage_for'];
+		if ( true === $the_options['is_on'] && in_array( $law, array( 'ccpa', 'us_state_laws', 'both' ), true ) ) {
+			wp_enqueue_script( $this->plugin_name . '-uspapi', plugin_dir_url( __FILE__ ) . 'js/iab/uspapi.js', array(), $this->version, false );
+		}
 	}
 
+	/**
+	 * Print the Google Tag Manager snippet.
+	 *
+	 * The consent defaults (and the update for returning visitors) are set by the
+	 * consent core, printed before this at the top of <head>. Like any GTM
+	 * snippet it is held until consent while the script blocker's Google Tag
+	 * Manager rule is enabled; disable that rule to load GTM up front under
+	 * Consent Mode.
+	 */
 	public function insert_custom_consent_script() {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
-		$ads_data_redact = $this->convert_boolean($the_options['is_gcm_ads_redact']) === true;
-		$url_pass = $this->convert_boolean($the_options['is_gcm_url_passthrough']) === true;
-		$wait_for_update = (int) $the_options['gcm_wait_for_update_duration'];
-		$gcm_defaults = json_decode($the_options['gcm_defaults'] ?? '[]') ?? [];
-		foreach ($gcm_defaults as $config) :
-			$regions = array_map('trim', explode(',', sanitize_text_field($config->region)));
-			$regionParam = ($config->region === 'All') ? '' : 'region: ' . wp_json_encode( $regions );
-    ?>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag("consent", "default", {
-			<?php if ( $config->region !== 'All' ) : ?>
-				region: <?php echo wp_json_encode( $regions ); ?>,
-			<?php endif; ?>
-			ad_storage: "<?php echo esc_js( $config->ad_storage ); ?>",
-			ad_user_data: "<?php echo esc_js( $config->ad_user_data ); ?>",
-			ad_personalization: "<?php echo esc_js( $config->ad_personalization ); ?>",
-			analytics_storage: "<?php echo esc_js( $config->analytics_storage ); ?>",
-			functionality_storage: "<?php echo esc_js( $config->functionality_storage ); ?>",
-			personalization_storage: "<?php echo esc_js( $config->personalization_storage ); ?>",
-			security_storage: "<?php echo esc_js( $config->security_storage ); ?>",
-			wait_for_update: <?php echo wp_json_encode( $wait_for_update ); ?>,
-		});
-		gtag("set", "ads_data_redaction", <?php echo wp_json_encode( $ads_data_redact ); ?>);
-		gtag("set", "url_passthrough", <?php echo wp_json_encode( $url_pass ); ?>);
-		gtag("set", "developer_id.dZDM3Yj", true);
-    </script>
-    <?php
-	endforeach;
-		?>
-		<script>
-			function getCookie(name) {
-				let cookieArr = document.cookie.split(";");
-				for (let i = 0; i < cookieArr.length; i++) {
-					let cookiePair = cookieArr[i].split("=");
-					if (name === cookiePair[0].trim()) {
-						return decodeURIComponent(cookiePair[1]);
-					}
-				}
-				return null;
-			}
-
-			function updateGTMByCookies() {
-				let userPreferences = getCookie("wpl_user_preference");
-				let banner_visible = getCookie("wpl_viewed_cookie");
-
-				if (userPreferences && banner_visible == "yes") {
-					try {
-						userPreferences = JSON.parse(userPreferences);
-						
-						let analytics_consent = false;
-						let marketing_consent = false;
-						let preferences_consent = false;
-
-						Object.keys(userPreferences).forEach(key => {
-							if (key === "analytics" && userPreferences[key] === "yes") analytics_consent = true;
-							if (key === "marketing" && userPreferences[key] === "yes") marketing_consent = true;
-							if (key === "preferences" && userPreferences[key] === "yes") preferences_consent = true;
-						});
-
-						window.dataLayer = window.dataLayer || [];
-						function gtag() { dataLayer.push(arguments); }
-
-						gtag('consent', 'update', {
-							'ad_user_data': marketing_consent ? 'granted' : 'denied',
-							'ad_personalization': marketing_consent ? 'granted' : 'denied',
-							'ad_storage': marketing_consent ? 'granted' : 'denied',
-							'analytics_storage': analytics_consent ? 'granted' : 'denied',
-							'functionality_storage': 'granted',
-							'personalization_storage': preferences_consent ? 'granted' : 'denied',
-							'security_storage': 'granted'
-						});
-
-					} catch (error) {
-						console.error("Error parsing wpl_user_preference cookie:", error);
-					}
-				}
-			}
-
-			document.addEventListener('DOMContentLoaded', function() {
-				updateGTMByCookies();
-			});
-		</script>
-
-		<?php 
 		if(!empty($the_options['gtm_id'])){
 			?>
 				<!-- Google Tag Manager -->
@@ -446,7 +702,6 @@ class Gdpr_Cookie_Consent_Public {
 		return array(
 			'law_selection_mode' => $is_auto ? 'auto' : 'manual',
 			'geo_available'      => is_array( $geo ),
-			'ip'                 => is_array( $geo ) ? $geo['ip'] : '',
 			'country'            => is_array( $geo ) ? $geo['country'] : '',
 			'state'              => is_array( $geo ) ? $geo['state'] : '',
 			'city'               => is_array( $geo ) ? $geo['city'] : '',
@@ -729,10 +984,6 @@ class Gdpr_Cookie_Consent_Public {
 		);
 
 		if ( true === $the_options['is_on'] ) {
-			// Accept the canonical 'us_state_laws' alongside the legacy 'ccpa'.
-			if ( in_array( $the_options['cookie_usage_for'], array( 'ccpa', 'us_state_laws', 'both' ), true ) ) {
-				wp_enqueue_script( $this->plugin_name . '-uspapi', plugin_dir_url( __FILE__ ) . 'js/iab/uspapi.js', array( 'jquery' ), $this->version, false );
-			}
 			// IAB TCF: only load the CMP bundle and vendor data when IAB is enabled.
 			$is_iabtcf_on = in_array( $the_options['is_iabtcf_on'], array( true, 'true', 1, '1' ), true );
 			// Also passed to gdpr_cookies_obj below, so it must exist when IAB is off.
@@ -1118,14 +1369,10 @@ class Gdpr_Cookie_Consent_Public {
 			$categories      = Gdpr_Cookie_Consent_Cookie_Custom::get_categories( true );
 			$cookies         = $this->get_cookies();
 			$categories_data = array();
-			// The array returned by json_decode is being sanitised by function gdpr_cookie_consent_sanitize_decoded_function.
-			$preference_cookies = isset( $_COOKIE['wpl_user_preference'] ) ? json_decode( stripslashes( wp_unslash( $_COOKIE['wpl_user_preference'] ) ), true ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			if ( '' !== $preference_cookies ) {
-				$preference_cookies = $this->gdpr_cookie_consent_sanitize_decoded_json( $preference_cookies );
-			}
-
-			$viewed_cookie                = isset( $_COOKIE['wpl_viewed_cookie'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['wpl_viewed_cookie'] ) ) : '';
-			$the_options['viewed_cookie'] = $viewed_cookie;
+			// The page is the same for every visitor (full-page caches serve it to
+			// all of them), so nothing here depends on the visitor's consent. The
+			// settings toggles are ticked from the consent record in the browser.
+			$the_options['viewed_cookie'] = '';
 			foreach ( $categories as $category ) {
 				$total     = 0;
 				$temp      = array();
@@ -1140,11 +1387,7 @@ class Gdpr_Cookie_Consent_Public {
 				}
 				$category['data']  = $temp;
 				$category['total'] = $total;
-				if ( isset( $preference_cookies[ $category['gdpr_cookie_category_slug'] ] ) && 'yes' === $preference_cookies[ $category['gdpr_cookie_category_slug'] ] ) {
-					$category['is_ticked'] = true;
-				} else {
-					$category['is_ticked'] = false;
-				}
+				$category['is_ticked'] = false;
 				$categories_data[]      = $category;
 				$category['data']       = $json_temp;
 				$categories_json_data[] = $category;
@@ -1250,7 +1493,6 @@ class Gdpr_Cookie_Consent_Public {
 
 					$the_options['cookie_data'] = $cookie_data;
 					$the_options['gdpr_current_language'] = $the_options['lang_selected'];
-					update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 				}
 			}
 
@@ -1438,48 +1680,6 @@ class Gdpr_Cookie_Consent_Public {
 			</style>
 			<?php
 
-			// fetching the values of post id, ip and consent and mapping them to a array.
-
-			global $wpdb;
-
-			$meta_key_cl_ip            = '_wplconsentlogs_ip';
-			$meta_key_cl_renew_consent = '_wpl_renew_consent';
-			$trash_meta_key            = '_wp_trash_meta_status';
-			$trash_meta_value          = 'publish';
-
-			$results = $wpdb->get_results(
-				$wpdb->prepare(
-					"SELECT pm1.post_id, pm1.meta_value AS ip_value, pm2.meta_value AS consent_value
-					 FROM {$wpdb->prefix}postmeta AS pm1
-					 LEFT JOIN {$wpdb->prefix}postmeta AS pm2 ON pm1.post_id = pm2.post_id
-					 WHERE pm1.meta_key = %s
-					 AND pm2.meta_key = %s
-					 AND pm1.post_id NOT IN (
-						 SELECT post_id
-						 FROM {$wpdb->prefix}postmeta
-						 WHERE meta_key = %s AND meta_value = %s
-					 )",
-					$meta_key_cl_ip,
-					$meta_key_cl_renew_consent,
-					$trash_meta_key,
-					$trash_meta_value
-				)
-			);
-
-			$gdpr_post_meta_values_array = array();
-
-			foreach ( $results as $result ) {
-				$gdpr_post_meta_values_array[] = array(
-					'post_id'       => $result->post_id,
-					'ip_value'      => $result->ip_value,
-					'consent_value' => $result->consent_value,
-				);
-			}
-
-			$the_options['ip_and_consent_renew'] = $gdpr_post_meta_values_array;
-
-			$user_ip = $this->wpl_get_user_ip(); // get the current user's IP.
-
 			// make null if consent forward in of.
 			$currentid                     = get_current_blog_id();
 			$the_options['select_sites']   = is_array( $the_options['select_sites'] ) ? $the_options['select_sites'] : array();
@@ -1540,8 +1740,6 @@ class Gdpr_Cookie_Consent_Public {
 				'gdpr_cookiebar_settings'          		 	=> wp_json_encode( Gdpr_Cookie_Consent::gdpr_get_json_settings() ),
 				'iabtcf_consent_data'						=> $iabtcf_consent_data,
 				'gdpr_ab_options'							=> get_option('wpl_ab_options'),
-				'gdpr_consent_renew' 						=> $the_options['ip_and_consent_renew'],
-				'gdpr_user_ip'           					=> $user_ip,
 				'gdpr_do_not_track'      		    		=> $the_options['do_not_track_on'],
 				'ip_anonymization_on'                 		=> $the_options['ip_anonymization_on'],
 				'ip_masking_level'                          => $the_options['ip_masking_level'],
@@ -1799,31 +1997,30 @@ class Gdpr_Cookie_Consent_Public {
 	/**
 	 * Template redirect for header, body and footer scripts.
 	 *
+	 * The admin's custom scripts are printed on every page, for every visitor,
+	 * as normal scripts. The script blocker treats them like any other script
+	 * on the page, so the page never depends on the visitor's consent.
+	 *
 	 * @since 1.9.0
 	 */
-	public function gdprcookieconsent_template_redirect()
-	{
-		global $post;
-
-
-		$viewed_cookie = isset($_COOKIE['wpl_viewed_cookie']) ? sanitize_text_field(wp_unslash($_COOKIE['wpl_viewed_cookie'])) : '';
-		$the_options   = GDPR_Cookie_Consent::gdpr_get_settings();
-
-		$body_open_supported = function_exists('wp_body_open') && version_compare(get_bloginfo('version'), '5.2', '>=');
-
-		$disable_blocker = get_option('wpl_bypass_script_blocker');
-
-		if ((is_singular() && $post) || is_home()) {
-			if (($the_options['is_script_blocker_on'] && 'yes' === $viewed_cookie) || (!$the_options['is_script_blocker_on']) || $disable_blocker) {
-				add_action('wp_head', array($this, 'gdprcookieconsent_output_header'));
-				if ($body_open_supported) {
-					add_action('wp_body_open', array($this, 'gdprcookieconsent_output_body'));
-				}
-				add_action('wp_footer', array($this, 'gdprcookieconsent_output_footer'));
-			}
+	public function gdprcookieconsent_template_redirect() {
+		$the_options = GDPR_Cookie_Consent::gdpr_get_settings();
+		if ( true !== $the_options['is_on'] ) {
+			return;
 		}
+		add_action( 'wp_head', array( $this, 'gdprcookieconsent_output_header' ) );
+		if ( function_exists( 'wp_body_open' ) && did_action( 'wp_body_open' ) === 0 ) {
+			add_action( 'wp_body_open', array( $this, 'gdprcookieconsent_output_body' ) );
+		}
+		add_action( 'wp_footer', array( $this, 'gdprcookieconsent_output_footer' ) );
 	}
 
+	/**
+	 * Return the custom scripts for pages cached before 4.5, whose script still
+	 * asks for them after a click. Current pages print them directly.
+	 *
+	 * @deprecated 4.5.0
+	 */
 	public function gdprcookieconsent_inject_sripts_on_consent(){
 		$the_options = GDPR_Cookie_Consent::gdpr_get_settings();
 		$viewed_cookie = isset($_COOKIE['wpl_viewed_cookie']) ? sanitize_text_field(wp_unslash($_COOKIE['wpl_viewed_cookie'])) : '';
@@ -1847,7 +2044,6 @@ class Gdpr_Cookie_Consent_Public {
 		else{
 			wp_send_json_error('Scripts already added');
 		}
-		// Get scripts
 	}
 
 	/**
@@ -1855,68 +2051,8 @@ class Gdpr_Cookie_Consent_Public {
 	 *
 	 * @since 1.9.0
 	 */
-	public function gdprcookieconsent_output_header()
-	{
-		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
-		$header_scripts = $the_options['header_scripts'];
-		$is_script_dependency_on = $the_options['is_script_dependency_on'];
-		$footer_dependency = ( $is_script_dependency_on ) ? ( isset($the_options['footer_dependency']) ? sanitize_text_field($the_options['footer_dependency']) : '' ) : '';
-
-		$dependee_script = [];
-		if( $footer_dependency === "Header Scripts" ){
-			$dependee_script[] = "Footer";
-		}
-
-		if ($header_scripts) {
-			$escaped_script = wp_kses_post(wp_unslash($header_scripts));
-		
-			if (is_array($dependee_script) && count($dependee_script) > 0){
-				foreach( $dependee_script as $dependee ){
-					if( $dependee === "Footer" ) { 
-						echo "<script>
-							(function waitForFooter() {
-								if (window.footerScriptsLoaded) {
-									try {
-										{$escaped_script}
-									} catch(e) {
-										console.error('Header script error:', e);
-									}
-									window.headerScriptsLoaded = true;
-									} else {
-									setTimeout(waitForFooter, 50);
-								}
-							})();
-							</script>";
-					} else if ( $dependee === "Body" ) {
-						echo "<script>
-							(function waitForBody() {
-								if (window.bodyScriptsLoaded) {
-									try {
-										{$escaped_script}
-									} catch(e) {
-										console.error('Header script error:', e);
-									}
-									window.headerScriptsLoaded = true;
-									} else {
-									setTimeout(waitForBody, 50);
-								}
-							})();
-							</script>";
-					} else {
-						continue;
-					}
-				}
-			} else {
-				echo "<script>
-						try {
-							{$escaped_script}
-						} catch(e) {
-							console.error('Header script error:', e);
-						}
-						window.headerScriptsLoaded = true;
-					</script>";
-			}			
-		}		
+	public function gdprcookieconsent_output_header() {
+		echo $this->gdprcookieconsent_custom_script_tags( 'header' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built and escaped in the method.
 	}
 
 	/**
@@ -1924,156 +2060,134 @@ class Gdpr_Cookie_Consent_Public {
 	 *
 	 * @since 1.9.0
 	 */
-	public function gdprcookieconsent_output_body()
-	{
-		$the_options  = GDPR_Cookie_Consent::gdpr_get_settings();
-		$body_scripts = $the_options['body_scripts'];
-		$is_script_dependency_on = $the_options['is_script_dependency_on'];
-		$header_dependency = ( $is_script_dependency_on ) ? ( isset($the_options['header_dependency']) ? sanitize_text_field($the_options['header_dependency']) : '' ) : '';
-		$footer_dependency = ( $is_script_dependency_on ) ? ( isset($the_options['footer_dependency']) ? sanitize_text_field($the_options['footer_dependency']) : '' ) : '';
-
-		$dependee_script = [];
-		if( $header_dependency === "Body Scripts" ){
-			$dependee_script[] = "Header";
-		}
-
-		if( $footer_dependency === "Body Scripts" ){
-			$dependee_script[] = "Footer";
-		}
-
-
-		if ($body_scripts) {
-			$escaped_script = wp_kses_post(wp_unslash($body_scripts));
-
-			if (is_array($dependee_script) && count($dependee_script) > 0){
-				if ( in_array('Header', $dependee_script, true) && in_array('Footer', $dependee_script, true) ) {
-					// Body depends on BOTH Header and Footer
-						echo "<script>
-							(function waitForDependencies() {
-								if (window.headerScriptsLoaded && window.footerScriptsLoaded) {
-									try {
-										{$escaped_script}
-									} catch(e) {
-										console.error('Body script error:', e);
-									}
-									window.bodyScriptsLoaded = true;
-								} else {
-									setTimeout(waitForDependencies, 50);
-								}
-							})();
-						</script>";
-					} else if ( in_array('Header', $dependee_script, true) ) {
-						// Body depends only on Header
-						echo "<script>
-							(function waitForHeader() {
-								if (window.headerScriptsLoaded) {
-									try {
-										{$escaped_script}
-									} catch(e) {
-										console.error('Body script error:', e);
-									}
-									window.bodyScriptsLoaded = true;
-								} else {
-									setTimeout(waitForHeader, 50);
-								}
-							})();
-						</script>";
-					} else if ( in_array('Footer', $dependee_script, true) ) {
-						// Body depends only on Footer
-						echo "<script>
-							(function waitForFooter() {
-								if (window.footerScriptsLoaded) {
-									try {
-										{$escaped_script}
-									} catch(e) {
-										console.error('Body script error:', e);
-									}
-									window.bodyScriptsLoaded = true;
-								} else {
-									setTimeout(waitForFooter, 50);
-								}
-							})();
-						</script>";
-				}
-			} else {
-				echo "<script>
-						try {
-							{$escaped_script}
-						} catch(e) {
-							console.error('Body script error:', e);
-						}
-						window.bodyScriptsLoaded = true;
-					</script>";
-			}
-		}
+	public function gdprcookieconsent_output_body() {
+		echo $this->gdprcookieconsent_custom_script_tags( 'body' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built and escaped in the method.
 	}
 
 	/**
-	 * Output footer scripts.
+	 * Output footer scripts, and the body scripts when the theme has no
+	 * wp_body_open.
 	 *
 	 * @since 1.9.0
 	 */
-	public function gdprcookieconsent_output_footer()
-	{
-		$the_options    = GDPR_Cookie_Consent::gdpr_get_settings();
-		$footer_scripts = $the_options['footer_scripts'];
-		$is_script_dependency_on = $the_options['is_script_dependency_on'];
-		$header_dependency = ( $is_script_dependency_on ) ? ( isset($the_options['header_dependency']) ? sanitize_text_field($the_options['header_dependency']) : '' ) : '';
+	public function gdprcookieconsent_output_footer() {
+		if ( ! did_action( 'wp_body_open' ) ) {
+			echo $this->gdprcookieconsent_custom_script_tags( 'body' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built and escaped in the method.
+		}
+		echo $this->gdprcookieconsent_custom_script_tags( 'footer' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built and escaped in the method.
+	}
 
-		$dependee_script = [];
-		if( $header_dependency === "Footer Scripts" ){
-			$dependee_script[] = "Header";
+	/**
+	 * The <script> elements for one group of custom scripts.
+	 *
+	 * The admin can paste <script> tags (inline or with src) or bare
+	 * JavaScript. Each script keeps its attributes (src, async, defer, id,
+	 * type="module" ...) and is printed as a normal script, so the script
+	 * blocker treats it like any other script on the page: one matching a
+	 * blocking rule waits for that rule's category, the rest run on load.
+	 * Other markup in the field is not output.
+	 *
+	 * With Script Dependency on, data-wpl-after names the groups this group
+	 * waits for. The core honours it for scripts the blocker holds.
+	 *
+	 * @since 4.5.0
+	 * @param string $group header, body or footer.
+	 * @return string
+	 */
+	public function gdprcookieconsent_custom_script_tags( $group ) {
+		$the_options = GDPR_Cookie_Consent::gdpr_get_settings();
+		$code        = isset( $the_options[ $group . '_scripts' ] ) ? trim( wp_unslash( (string) $the_options[ $group . '_scripts' ] ) ) : '';
+		if ( '' === $code ) {
+			return '';
 		}
 
-		if ($footer_scripts) {
-			$escaped_script = wp_kses_post(wp_unslash($footer_scripts));
-
-			if (is_array($dependee_script) && count($dependee_script) > 0){
-				foreach( $dependee_script as $dependee ){
-					if( $dependee === "Header" ) { 
-						echo "<script>
-							(function waitForHeader() {
-								if (window.headerScriptsLoaded) {
-									try {
-										{$escaped_script}
-									} catch(e) {
-										console.error('Header script error:', e);
-									}
-									window.footerScriptsLoaded = true;
-									} else {
-									setTimeout(waitForHeader, 50);
-								}
-							})();
-							</script>";
-					} else if ( $dependee === "Body" ) {
-						echo "<script>
-							(function waitForBody() {
-								if (window.bodyScriptsLoaded) {
-									try {
-										{$escaped_script}
-									} catch(e) {
-										console.error('Footer script error:', e);
-									}
-									window.footerScriptsLoaded = true;
-									} else {
-									setTimeout(waitForBody, 50);
-								}
-							})();
-							</script>";
-					} else {
-						continue;
-					}
-				}
-			} else {
-				echo "<script>
-						try {
-							{$escaped_script}
-						} catch(e) {
-							console.error('Footer script error:', e);
-						}
-						window.footerScriptsLoaded = true;
-					</script>";
+		$after = array();
+		if ( ! empty( $the_options['is_script_dependency_on'] ) && 'false' !== $the_options['is_script_dependency_on'] ) {
+			$header_dependency = isset( $the_options['header_dependency'] ) ? (string) $the_options['header_dependency'] : '';
+			$footer_dependency = isset( $the_options['footer_dependency'] ) ? (string) $the_options['footer_dependency'] : '';
+			// "X waits for: Header Scripts" is stored as header_dependency = X.
+			if ( 'header' === $group && 'Header Scripts' === $footer_dependency ) {
+				$after[] = 'footer';
+			}
+			if ( 'body' === $group && 'Body Scripts' === $header_dependency ) {
+				$after[] = 'header';
+			}
+			if ( 'body' === $group && 'Body Scripts' === $footer_dependency ) {
+				$after[] = 'footer';
+			}
+			if ( 'footer' === $group && 'Footer Scripts' === $header_dependency ) {
+				$after[] = 'header';
 			}
 		}
+
+		$out = '';
+		foreach ( self::gdprcookieconsent_parse_custom_scripts( $code ) as $script ) {
+			$attributes = array( 'data-wpl-group' => $group );
+			if ( ! empty( $after ) ) {
+				$attributes['data-wpl-after'] = implode( ' ', $after );
+			}
+			foreach ( $script['attributes'] as $name => $value ) {
+				if ( ! isset( $attributes[ $name ] ) && 0 !== strpos( $name, 'data-wpl-' ) && preg_match( '/^[a-z][a-z0-9_:.-]*$/', $name ) ) {
+					$attributes[ $name ] = $value;
+				}
+			}
+			$html = '<script';
+			foreach ( $attributes as $name => $value ) {
+				$html .= ( true === $value ) ? ' ' . $name : ' ' . $name . '="' . esc_attr( $value ) . '"';
+			}
+			$html .= '>' . str_ireplace( '</script', '<\/script', $script['text'] ) . "</script>\n";
+			$out  .= $html;
+		}
+		return $out;
 	}
+
+	/**
+	 * Split the custom scripts field into scripts.
+	 *
+	 * @since 4.5.0
+	 * @param string $code Field value.
+	 * @return array List of array( 'attributes' => array, 'text' => string ).
+	 */
+	public static function gdprcookieconsent_parse_custom_scripts( $code ) {
+		if ( false === stripos( $code, '<script' ) ) {
+			return array(
+				array(
+					'attributes' => array(),
+					'text'       => $code,
+				),
+			);
+		}
+		$scripts = array();
+		if ( class_exists( 'WP_HTML_Tag_Processor' ) && method_exists( 'WP_HTML_Tag_Processor', 'get_modifiable_text' ) ) {
+			$processor = new WP_HTML_Tag_Processor( $code );
+			while ( $processor->next_tag( 'script' ) ) {
+				$attributes = array();
+				foreach ( (array) $processor->get_attribute_names_with_prefix( '' ) as $name ) {
+					$attributes[ strtolower( $name ) ] = $processor->get_attribute( $name );
+				}
+				$scripts[] = array(
+					'attributes' => $attributes,
+					'text'       => $processor->get_modifiable_text(),
+				);
+			}
+			return $scripts;
+		}
+		if ( preg_match_all( '#<script\b([^>]*)>(.*?)</script\s*>#is', $code, $matches, PREG_SET_ORDER ) ) {
+			foreach ( $matches as $match ) {
+				$attributes = array();
+				if ( preg_match_all( '#([a-zA-Z][a-zA-Z0-9_:.-]*)(?:\s*=\s*(?:"([^"]*)"|\'([^\']*)\'|([^\s>]+)))?#', $match[1], $pairs, PREG_SET_ORDER ) ) {
+					foreach ( $pairs as $pair ) {
+						$value = isset( $pair[2] ) && '' !== $pair[2] ? $pair[2] : ( isset( $pair[3] ) && '' !== $pair[3] ? $pair[3] : ( isset( $pair[4] ) ? $pair[4] : true ) );
+						$attributes[ strtolower( $pair[1] ) ] = ( '' === $value ) ? true : html_entity_decode( $value, ENT_QUOTES );
+					}
+				}
+				$scripts[] = array(
+					'attributes' => $attributes,
+					'text'       => $match[2],
+				);
+			}
+		}
+		return $scripts;
+	}
+
 }

@@ -118,15 +118,69 @@ GDPR_CCPA_COOKIE_EXPIRE =
         ";";
     },
   };
-  //for our gcm template in google tag manager
-  var consentListeners = [];
-    window.consentGiven = function (callback){
-    consentListeners.push(callback);
-  };
-  //integration with wp consent api plugin
-  window.wp_consent_type = 'optin';
-    var event = new CustomEvent('wp_consent_type_defined');
-  document.dispatchEvent( event );
+  // The consent core (printed at the top of <head>) owns the consent record.
+  // This script only renders the banner and hands decisions to it.
+  var Core = window.WPLConsent || null;
+
+  function hasGdprDecision() {
+    return Core ? Core.hasDecision("optin") : GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME);
+  }
+  function hasCcpaDecision() {
+    return Core ? Core.hasDecision("optout") : GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME);
+  }
+  function isCcpaOptedOut() {
+    if (Core) {
+      var record = Core.get();
+      return !!(record && record.optout === true) || Core.gpc();
+    }
+    return GDPR_Cookie.read(GDPR_CCPA_COOKIE_NAME) == "yes";
+  }
+  function readJsonCookie(name) {
+    try {
+      return JSON.parse(GDPR_Cookie.read(name));
+    } catch (e) {
+      return null;
+    }
+  }
+  function updateConsent(change) {
+    if (Core) {
+      Core.update(change);
+    }
+  }
+  // Category toggles in the banner and the settings modal.
+  function collectCategories() {
+    var categories = {};
+    jQuery(".gdpr_messagebar_detail input, .gdpr_messagebar_body_button").each(function () {
+      var key = jQuery(this).val();
+      if (key && jQuery(this).is(":checked")) {
+        categories[key] = true;
+      }
+    });
+    return categories;
+  }
+  function hasCategoryToggles() {
+    return jQuery(".gdpr_messagebar_detail input.category-switch-handler, .gdpr_messagebar_body_button").length > 0;
+  }
+  // Tick the toggles from the consent record. Before a decision they start
+  // unticked under the opt-in laws: pre-ticked boxes are not consent.
+  function syncCategoryToggles() {
+    var record = Core ? Core.get() : null;
+    var autoTick = GDPR.settings && (GDPR.settings.is_ticked === true || GDPR.settings.is_ticked === "true");
+    var optinLaw = !Core || Core.lawKind() !== "optout";
+    jQuery(".gdpr_messagebar_detail input, .gdpr_messagebar_body_button").each(function () {
+      var key = jQuery(this).val();
+      if (!key || key === "necessary" || jQuery(this).attr("type") === "hidden") {
+        return;
+      }
+      var checked;
+      if (record && record.categories) {
+        checked = record.categories[key] === true;
+      } else {
+        checked = autoTick && !optinLaw;
+      }
+      jQuery(this).prop("checked", checked);
+    });
+  }
 
   //debug mode for GCM
   function debugConsentState() {
@@ -229,8 +283,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
   var gdpr_cookiebar_settings = gdpr_cookies_obj.gdpr_cookiebar_settings;
   var gdpr_ab_options = gdpr_cookies_obj.gdpr_ab_options;
   var gdpr_cookies_list = gdpr_cookies_obj.gdpr_cookies_list;
-  var gdpr_consent_renew = gdpr_cookies_obj.gdpr_consent_renew;
-  var gdpr_user_ip = gdpr_cookies_obj.gdpr_user_ip;
   var gdpr_do_not_track = gdpr_cookies_obj.gdpr_do_not_track;
   var gdpr_select_pages = gdpr_cookies_obj.gdpr_select_pages;
   var gdpr_select_sites = gdpr_cookies_obj.gdpr_select_sites;
@@ -251,25 +303,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
   var next_vendors_loaded = false;
   // Set the value for the Multiple Legislation Banner Selection
   var multiple_legislation_current_banner = "gdpr";
-  var browser_dnt_value = "";
-  // Set the browser DNT value
-  if (navigator.doNotTrack === "1") {
-    // User has enabled Do Not Track
-    browser_dnt_value = true;
-  } else if (navigator.doNotTrack === "0") {
-    browser_dnt_value = false;
-  } else {
-    browser_dnt_value = false;
-  }
-  var browser_gpc_value = "";
-  if(navigator.globalPrivacyControl === true){
-    // User has enabled Global Privacy Control
-    browser_gpc_value = true;
-  } else if (navigator.globalPrivacyControl === false){
-    browser_gpc_value = false;
-  }else{
-    browser_gpc_value = false;
-  }
    // Run this check when the DOM is ready and when debug mode is on.
    if(is_gcm_debug_on == 'true' || is_gcm_debug_on == true){
       if (document.readyState === 'loading') {
@@ -281,7 +314,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
       }
    }
   var GDPR = {
-    allowed_categories: [],
     set: function (args) {
       if (typeof JSON.parse !== "function") {
         console.log(
@@ -315,7 +347,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
       this.check_ccpa_eu();
 
       this.attachEvents();
-      this.configButtons();
       // changing the color and background of cookie setting button.
       
 
@@ -326,7 +357,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
           e.stopPropagation();
           e.preventDefault();
           GDPR.bypassed_close();
-          GDPR.logConsent("bypassed");
         }
       }, true);
       if (is_iab_on) {
@@ -398,59 +428,8 @@ GDPR_CCPA_COOKIE_EXPIRE =
           }
         }
       // });
-      // if DNT request is true then hide the banner and auto decline the consent
-
-      if ((gdpr_do_not_track == "true" && browser_dnt_value ) || (gdpr_do_not_track == "true" && browser_gpc_value)) {
-        // hide the banner
-        this.bar_elm.hide();
-        // Decline the cookies
-        GDPR.reject_close();
-
-        var button_action = "reject";
-        var new_window = false;
-        new_window = GDPR.settings.button_decline_new_win ? true : false;
-        gdpr_user_preference = JSON.parse(
-          GDPR_Cookie.read("wpl_user_preference")
-        );
-        gdpr_viewed_cookie = GDPR_Cookie.read("wpl_viewed_cookie");
-        if (gdpr_follows_gdpr_branch(GDPR.settings.cookie_usage_for)) {
-          event = new CustomEvent("GdprCookieConsentOnReject", {
-            detail: {
-              wpl_user_preference: gdpr_user_preference,
-              wpl_viewed_cookie: gdpr_viewed_cookie,
-            },
-          });
-          window.dispatchEvent(event);
-        } else if (GDPR.settings.cookie_usage_for == "lgpd") {
-          event = new CustomEvent("GdprCookieConsentOnReject", {
-            detail: {
-              wpl_user_preference: gdpr_user_preference,
-              wpl_viewed_cookie: gdpr_viewed_cookie,
-            },
-          });
-          window.dispatchEvent(event);
-        } else if (GDPR.settings.cookie_usage_for == "eprivacy") {
-          event = new CustomEvent("GdprCookieConsentOnReject", {
-            detail: {
-              wpl_viewed_cookie: gdpr_viewed_cookie,
-            },
-          });
-          window.dispatchEvent(event);
-        } else if (GDPR.settings.cookie_usage_for == "both" || GDPR.settings.cookie_usage_for === "ccpa" || GDPR.settings.cookie_usage_for == "us_state_laws") {
-          GDPR.ccpa_cancel_close();
-          var gdpr_optout_cookie = "";
-          gdpr_optout_cookie = GDPR_Cookie.read("wpl_optout_cookie");
-          event = new CustomEvent("GdprCookieConsentOnCancelOptout", {
-            detail: {
-              wpl_optout_cookie: gdpr_optout_cookie,
-            },
-          });
-          window.dispatchEvent(event);
-          $("#gdpr-cookie-consent-bar").addClass("hide_show_again_dnt");
-        }
-        // log the consent of user
-        GDPR.logConsent(button_action);
-      }
+      // Do Not Track and Global Privacy Control are applied by the consent core
+      // before this script runs; the banner then sees the recorded decision.
 
       if (
         gdpr_follows_gdpr_branch(this.settings.cookie_usage_for) ||
@@ -458,38 +437,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
         this.settings.cookie_usage_for == "both" ||
         this.settings.cookie_usage_for == "lgpd"
       ) {
-        if (this.settings.auto_scroll) {
-          window.addEventListener("scroll", GDPR.acceptOnScroll, false);
-        }
-        if (this.settings.auto_click) {
-          if (!GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME)) {
-            var the_cookie_bar = document.querySelector(
-              "#gdpr-cookie-consent-bar"
-            );
-            var setting_modal = document.querySelector(".gdprmodal-content");
-            // Listen for click events on body
-            document.body.addEventListener("click", function (event) {
-              if (
-                !the_cookie_bar.contains(event.target) &&
-                (!setting_modal ||
-                  (setting_modal && !setting_modal.contains(event.target)))
-              ) {
-                if (GDPR.settings.button_accept_all_is_on) {
-                  GDPR.acceptAllCookies();
-                }
-                if (GDPR.settings.auto_scroll_reload == true) {
-                  window.location.reload();
-                }
-                GDPR.accept_close();
-                GDPR.logConsent("accept");
-              }
-            });
-          }
-        }
-
-        var gdpr_user_preference = JSON.parse(
-          GDPR_Cookie.read("wpl_user_preference")
-        );
+        var gdpr_user_preference = readJsonCookie("wpl_user_preference");
         var gdpr_viewed_cookie = GDPR_Cookie.read("wpl_viewed_cookie");
         var event = "";
         if (gdpr_follows_gdpr_branch(this.settings.cookie_usage_for)) {
@@ -1102,124 +1050,6 @@ GDPR_CCPA_COOKIE_EXPIRE =
           current_vendor_index += 10;
           $(document).trigger("wplp_vendors_rendered");
     },
-    consent_renew_method: function () {
-      const browser_consent_version = GDPR_Cookie.read("consent_version");
-      var settings = JSON.parse(gdpr_cookiebar_settings);
-      //check if version number doesnt exist or if current version number of visitor is less than the one stored in site database.
-      if (
-         (browser_consent_version == null &&
-        (GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) || GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)) //check this
-        ) ||
-        (browser_consent_version !== null &&
-          Number(browser_consent_version) < Number(settings["consent_version"]))
-      ) {
-        var self = this;
-        var hideBanner = false;
-
-          if (gdpr_select_pages.length > 0) {
-            for (var id = 0; id < gdpr_select_pages.length; id++) {
-              var pageToHideBanner = gdpr_select_pages[id];
-              if (
-                document.body.classList.contains("page-id-" + pageToHideBanner)
-              ) {
-                hideBanner = true; // Mark that the banner should be hidden on this page
-
-                if (
-                  gdpr_follows_gdpr_branch(GDPR.settings.cookie_usage_for) ||
-                  GDPR.settings.cookie_usage_for == "eprivacy" ||
-                  GDPR.settings.cookie_usage_for == "both" ||
-                  GDPR.settings.cookie_usage_for == "lgpd"
-                ) {
-                  var banner = document.getElementById(
-                    "gdpr-cookie-consent-show-again"
-                  );
-                  var insidebanner = document.getElementById(
-                    "gdpr-cookie-consent-bar"
-                  );
-                  if (GDPR.settings.cookie_bar_as == "popup") {
-                    $("#gdpr-popup").gdprmodal("hide");
-                  }
-                  if (banner || insidebanner) {
-                    banner.style.display = "none";
-                    insidebanner.style.display = "none";
-                  }
-                } else if (GDPR.settings.cookie_usage_for == "ccpa" || GDPR.settings.cookie_usage_for == "us_state_laws") {
-                  if (GDPR.settings.cookie_bar_as == "popup") {
-                    $("#gdpr-popup").gdprmodal("hide");
-                  }
-                  var insidebanner = document.getElementById(
-                    "gdpr-cookie-consent-bar"
-                  );
-                  if (insidebanner) {
-                    insidebanner.style.display = "none";
-                  }
-                  $("#ccpa-cookie-consent-show-again").hide();
-                }
-                break; // Exit the loop once we find a page that hides the banner
-              }
-            }
-          }
-          function userInteracted() {
-            // Make the AJAX call
-            jQuery.ajax({
-              url: log_obj.ajax_url,
-              type: "POST",
-              data: {
-                action: "gdpr_increase_ignore_rate",
-                security: log_obj.consent_logging_nonce,
-              },
-              success: function (response) {},
-            });
-
-            // Remove the listeners after interaction
-            document.removeEventListener("click", userInteracted);
-            document.removeEventListener("scroll", userInteracted);
-          }
-        //display consent banner again
-        if (this.settings.auto_banner_initialize && !hideBanner) {
-            setTimeout(function () {
-              self.bar_elm.show();
-              jQuery.ajax({
-                url: log_obj.ajax_url,
-                type: "POST",
-                data: {
-                  action: "gdpr_increase_page_view",
-                  security: log_obj.consent_logging_nonce,
-                },
-                success: function (response) { },
-              });
-              document.addEventListener("click", userInteracted);
-              document.addEventListener("scroll", userInteracted);
-            }, this.settings.auto_banner_initialize_delay);
-          }
-
-          if (!this.settings.auto_banner_initialize && !hideBanner) {
-            self.bar_elm.show();
-            jQuery.ajax({
-              url: log_obj.ajax_url,
-              type: "POST",
-              data: {
-                action: "gdpr_increase_page_view",
-                security: log_obj.consent_logging_nonce,
-              },
-              success: function (response) { },
-            });
-            document.addEventListener("click", userInteracted);
-            document.addEventListener("scroll", userInteracted);
-          }
-        
-        //devare cookies
-        GDPR_Cookie.erase(GDPR_ACCEPT_COOKIE_NAME);
-        GDPR_Cookie.erase(GDPR_CCPA_COOKIE_NAME);
-        GDPR_Cookie.erase(US_PRIVACY_COOKIE_NAME);
-        $("#ccpa-cookie-consent-show-again").hide();
-
-        var banner = document.getElementById(
-                "gdpr-cookie-consent-show-again"
-              );
-banner.style.display = "none";
-      }
-    },
     check_ccpa_eu: function (force_display_bar, force_display_show_again) {
       var data = {
         action: "show_cookie_consent_bar",
@@ -1233,10 +1063,6 @@ banner.style.display = "none";
           if (response.error) {
             // handle error here.
           } else {
-            var geo_flag = true;
-            var gdpr_flag = false;
-            var ccpa_flag = false;
-            var lgpd_flag = false;
             var cookieData = JSON.parse(gdpr_cookiebar_settings);
             var cookie_for = cookieData["cookie_usage_for"];
 
@@ -1252,30 +1078,27 @@ banner.style.display = "none";
               cookie_for = response.render_law;
               GDPR.settings.cookie_usage_for = response.render_law;
               GDPR.resolved_law = response.law;
-              
-            } 
-
-            
+              if (Core) {
+                Core.setLaw(response.render_law);
+              }
+            }
+            // Outside the targeted region there is no banner, and so no consent
+            // to wait for: the core releases everything.
+            if (Core) {
+              Core.setGeo(response.geo_status === "on");
+            }
 
             // For the GDPR & CCPA
             if ("both" == cookie_for) {
-              var ccpa_optout = GDPR_Cookie.read(GDPR_CCPA_COOKIE_NAME);
-              if(ccpa_optout == "yes") jQuery('#donot_sell_checkbox').prop('checked', true);
-              else jQuery('#donot_sell_checkbox').prop('checked', false);
-              if (
-                GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) &&
-                GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)
-              ) {
+              jQuery("#donot_sell_checkbox").prop("checked", isCcpaOptedOut());
+              if (hasGdprDecision() && hasCcpaDecision()) {
                 if (response.eu_status != "on") {
                   $("#gdpr-cookie-consent-show-again").addClass(
                     "hide_show_again_dnt"
                   );
                 }
                 GDPR.hideHeader();
-              } else if (
-                GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) &&
-                !GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)
-              ) {
+              } else if (hasGdprDecision() && !hasCcpaDecision()) {
                 if (response.eu_status != "on") {
                   $("#gdpr-cookie-consent-show-again").addClass(
                     "hide_show_again_dnt"
@@ -1292,22 +1115,10 @@ banner.style.display = "none";
                 } else {
                   GDPR.displayHeader(true, true, true, force_display_bar, true);
                 }
-                //ab-testing-data-collection
-
-                jQuery.ajax({
-                  url: log_obj.ajax_url,
-                  type: "POST",
-                  data: {
-                    action: "gdpr_collect_abtesting_data_action",
-                    security: log_obj.consent_logging_nonce,
-                    chosenBanner: Number(chosenBanner),
-                    user_preference: "no choice",
-                  },
-                  success: function (response) {},
-                });
+                GDPR.collectAbTestingData("no choice");
               } else if (
-                !GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) &&
-                GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME) &&
+                !hasGdprDecision() &&
+                hasCcpaDecision() &&
                 response.eu_status == "on"
               ) {
                 GDPR.displayHeader(
@@ -1317,46 +1128,10 @@ banner.style.display = "none";
                   force_display_bar,
                   force_display_show_again
                 );
-                if (GDPR.settings.auto_hide) {
-                  var banner_delay = GDPR.settings.auto_banner_initialize
-                    ? parseInt(GDPR.settings.auto_hide_delay) +
-                      parseInt(GDPR.settings.auto_banner_initialize_delay)
-                    : GDPR.settings.auto_hide_delay;
-                  setTimeout(function () {
-                    GDPR.accept_close();
-                  }, banner_delay);
-                }
-                //ab-testing-data-collection
-
-                jQuery.ajax({
-                  url: log_obj.ajax_url,
-                  type: "POST",
-                  data: {
-                    action: "gdpr_collect_abtesting_data_action",
-                    security: log_obj.consent_logging_nonce,
-                    chosenBanner: Number(chosenBanner),
-                    user_preference: "no choice",
-                  },
-                  success: function (response) {},
-                });
-              } else if (
-                !GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) &&
-                !GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)
-              ) {
+                GDPR.collectAbTestingData("no choice");
+              } else if (!hasGdprDecision() && !hasCcpaDecision()) {
                 GDPR.checkEuAndCCPAStatus(response);
-                //ab-testing-data-collection
-
-                jQuery.ajax({
-                  url: log_obj.ajax_url,
-                  type: "POST",
-                  data: {
-                    action: "gdpr_collect_abtesting_data_action",
-                    security: log_obj.consent_logging_nonce,
-                    chosenBanner: Number(chosenBanner),
-                    user_preference: "no choice",
-                  },
-                  success: function (response) {},
-                });
+                GDPR.collectAbTestingData("no choice");
               }
             } else if (
               "gdpr" == cookie_for ||
@@ -1367,36 +1142,13 @@ banner.style.display = "none";
               "au_app" == cookie_for ||
               "sa_pdpl" == cookie_for
             ) {
-              if (!GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME)) {
+              if (!hasGdprDecision()) {
                 if (response.geo_status === "on") {
                   GDPR.displayHeader();
                 } else {
                   $("#gdpr-cookie-consent-bar").addClass("hide_show_again_dnt");
                 }
-
-                //ab-testing-data-collection
-                jQuery.ajax({
-                  url: log_obj.ajax_url,
-                  type: "POST",
-                  data: {
-                    action: "gdpr_collect_abtesting_data_action",
-                    security: log_obj.consent_logging_nonce,
-                    chosenBanner: Number(chosenBanner),
-                    user_preference: "no choice",
-                  },
-                  success: function (response) {},
-                });
-
-                if (GDPR.settings.auto_hide) {
-                  var banner_delay = GDPR.settings.auto_banner_initialize
-                    ? parseInt(GDPR.settings.auto_hide_delay) +
-                      parseInt(GDPR.settings.auto_banner_initialize_delay)
-                    : GDPR.settings.auto_hide_delay;
-                  setTimeout(function () {
-                    GDPR.accept_close();
-                    GDPR.logConsent("accept");
-                  }, banner_delay);
-                }
+                GDPR.collectAbTestingData("no choice");
               } else {
                 if (response.geo_status != "on") {
                   $("#gdpr-cookie-consent-show-again").addClass(
@@ -1406,29 +1158,16 @@ banner.style.display = "none";
                 GDPR.hideHeader();
               }
             } else if ("ccpa" == cookie_for || "us_state_laws" == cookie_for) {
-              if (!GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)) {
+              if (!hasCcpaDecision()) {
                 if (response.geo_status === "on") {
                   GDPR.displayHeader();
                 } else {
                   $("#gdpr-cookie-consent-bar").addClass("hide_show_again_dnt");
                   $("#ccpa-cookie-consent-show-again").addClass("hide_show_again_dnt"); //check this
                 }
-
-                jQuery.ajax({
-                  url: log_obj.ajax_url,
-                  type: "POST",
-                  data: {
-                    action: "gdpr_collect_abtesting_data_action",
-                    security: log_obj.consent_logging_nonce,
-                    chosenBanner: Number(chosenBanner),
-                    user_preference: "no choice",
-                  },
-                  success: function (response) {},
-                });
+                GDPR.collectAbTestingData("no choice");
               } else {
-                var ccpa_optout = GDPR_Cookie.read(GDPR_CCPA_COOKIE_NAME);
-                if (ccpa_optout == "yes") jQuery('#donot_sell_checkbox').prop('checked', true);
-                else jQuery('#donot_sell_checkbox').prop('checked', false);
+                jQuery("#donot_sell_checkbox").prop("checked", isCcpaOptedOut());
                 if (response.geo_status != "on") {
                   $("#ccpa-cookie-consent-show-again").addClass(
                     "hide_show_again_dnt"
@@ -1437,14 +1176,10 @@ banner.style.display = "none";
                 GDPR.hideHeader();
               }
             }
-            GDPR.consent_renew_method();
           }
         },
         error: function () {
-          if (
-            !GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) &&
-            !GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)
-          ) {
+          if (!hasGdprDecision() && !hasCcpaDecision()) {
             GDPR.displayHeader();
           }
         },
@@ -1456,34 +1191,33 @@ banner.style.display = "none";
       }
       if (response.eu_status == "on" && response.ccpa_status == "off") {
         GDPR.displayHeader(false, true);
-        if (GDPR.settings.auto_hide) {
-          var banner_delay = GDPR.settings.auto_banner_initialize
-            ? parseInt(GDPR.settings.auto_hide_delay) +
-              parseInt(GDPR.settings.auto_banner_initialize_delay)
-            : GDPR.settings.auto_hide_delay;
-          setTimeout(function () {
-            GDPR.accept_close();
-          }, banner_delay);
-        }
       } else if (response.eu_status == "off" && response.ccpa_status == "on") {
         GDPR.displayHeader(true, false);
       }
       if (response.eu_status == "on" && response.ccpa_status == "on") {
         GDPR.displayHeader(false, false);
-        if (GDPR.settings.auto_hide) {
-          var banner_delay = GDPR.settings.auto_banner_initialize
-            ? parseInt(GDPR.settings.auto_hide_delay) +
-              parseInt(GDPR.settings.auto_banner_initialize_delay)
-            : GDPR.settings.auto_hide_delay;
-          setTimeout(function () {
-            GDPR.accept_close();
-          }, banner_delay);
-        }
       }
       if (response.eu_status == "off" && response.ccpa_status == "off") {
         GDPR.hideHeader(true);
         GDPR.displayHeader(false, false);
       }
+    },
+    /**
+     * A/B testing tally of what the visitor did with the banner. Only the
+     * first decision counts, so callers check hasGdprDecision() first.
+     */
+    collectAbTestingData: function (user_preference) {
+      jQuery.ajax({
+        url: log_obj.ajax_url,
+        type: "POST",
+        data: {
+          action: "gdpr_collect_abtesting_data_action",
+          security: log_obj.consent_logging_nonce,
+          chosenBanner: Number(chosenBanner),
+          user_preference: user_preference,
+        },
+        success: function (response) {},
+      });
     },
     attachEvents: function () {
       jQuery(".gdpr_action_button").click(function (e) {
@@ -1499,238 +1233,25 @@ banner.style.display = "none";
           elm[0].hasAttribute("href") && elm.attr("href") != "#" ? true : false;
         var new_window = false;
         if (button_action == "accept") {
-          var gdpr_user_preference_arr = {};
-          var gdpr_user_preference_val = "";
-
-          // Retrieve current user preferences from the cookie
-          if (GDPR_Cookie.read("wpl_user_preference")) {
-            gdpr_user_preference_arr = JSON.parse(
-              GDPR_Cookie.read("wpl_user_preference")
-            );
+          var firstDecision = !hasGdprDecision();
+          // Without category toggles (the ePrivacy notice) Accept grants all.
+          if (hasCategoryToggles()) {
+            updateConsent({ action: "accept", categories: collectCategories() });
+          } else {
+            updateConsent({ action: "accept", all: true });
           }
-
-          //variables to store consent for gcm
-          var analytics_consent = false, marketing_consent = false, preferences_consent = false;
-
-          // Loop through each input checkbox to update preferences
-          jQuery(".gdpr_messagebar_detail input").each(function () {
-            var key = jQuery(this).val();
-
-            if (
-              jQuery(this).is(":checked") &&
-              (key == "analytics" ||
-                key == "marketing" ||
-                key == "unclassified" ||
-                key == "preferences")
-            ) {
-              gdpr_user_preference_arr[key] = "yes";
-              if (!GDPR.allowed_categories.includes(key)) {
-                GDPR.allowed_categories.push(key);
-              }
-            } else if (
-              key == "analytics" ||
-              key == "marketing" ||
-              key == "unclassified" ||
-              key == "preferences"
-            ) {
-              gdpr_user_preference_arr[key] = "no";
-              GDPR.allowed_categories = GDPR.allowed_categories.filter(
-                function (category) {
-                  return category !== key;
-                }
-              );
-            }
-
-            //getting data for gcm
-            if(jQuery(this).is(":checked") && key == "analytics") analytics_consent = true;
-            if(jQuery(this).is(":checked") && key == "marketing") marketing_consent = true;
-            if(jQuery(this).is(":checked") && key == "preferences") preferences_consent = true;
-          });
-          if (typeof window.wp_set_consent === 'function') {
-              if(marketing_consent) wp_set_consent('marketing', 'allow' ) ;
-              else wp_set_consent('marketing', 'deny' ) ;
-              if(analytics_consent) wp_set_consent('statistics', 'allow' ) ;
-              else wp_set_consent('statistics', 'deny' ) ;
-              if(analytics_consent) wp_set_consent('statistics-anonymous', 'allow' ) ;
-              else wp_set_consent('statistics-anonymous', 'deny' ) ;
-              if(preferences_consent) wp_set_consent('preferences', 'allow' ) ;
-              else wp_set_consent('preferences', 'deny' ) ;
-              wp_set_consent('functional', 'allow' );
+          syncCategoryToggles();
+          var gdpr_user_preference_arr = readJsonCookie("wpl_user_preference") || {};
+          if (firstDecision) {
+            GDPR.collectAbTestingData(gdpr_user_preference_arr);
           }
-          
-          if(is_gcm_on == 'true' || is_gcm_on == true){
-            gtag('consent', 'update', {
-              'ad_user_data': marketing_consent ? 'granted' : 'denied',
-              'ad_personalization': marketing_consent ? 'granted' : 'denied',
-              'ad_storage': marketing_consent ? 'granted' : 'denied',
-              'analytics_storage': analytics_consent ? 'granted' : 'denied',
-              'functionality_storage': 'granted',
-              'personalization_storage': preferences_consent ? 'granted' : 'denied',
-              'security_storage': 'granted'
-            });
-          }
-          var consent = [];
-          consent.marketing = marketing_consent == true ? 'yes' : 'no';
-          consent.analytics = analytics_consent == true ? 'yes' : 'no';
-          consent.preferences = preferences_consent == true ? 'yes' : 'no';
-          consentListeners.forEach(function (callback) {
-            callback(consent);
-          });
-          
-          if(is_gcm_debug_on == 'true' || is_gcm_debug_on == true){debugUpdateConsentState();}
+          if (is_gcm_debug_on == 'true' || is_gcm_debug_on == true) { debugUpdateConsentState(); }
 
-          // Update the user preference cookie
-          gdpr_user_preference_val = JSON.stringify(gdpr_user_preference_arr);
-          GDPR_Cookie.set(
-            "wpl_user_preference",
-            gdpr_user_preference_val,
-            GDPR_ACCEPT_COOKIE_EXPIRE
-          );
+          GDPR.accept_close();
 
           var gdpr_viewed_cookie = GDPR_Cookie.read("wpl_viewed_cookie");
-
-          if (!GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME)) {
-            // Log A/B testing data
-            jQuery.ajax({
-              url: log_obj.ajax_url,
-              type: "POST",
-              data: {
-                action: "gdpr_collect_abtesting_data_action",
-                security: log_obj.consent_logging_nonce,
-                chosenBanner: Number(chosenBanner),
-                user_preference: gdpr_user_preference_arr,
-              },
-              success: function (response) {},
-            });
-          }
-
-          // Trigger accept-close logic
-          GDPR.accept_close();
-          jQuery.ajax({
-              url: log_obj.ajax_url,
-              type: "POST",
-              data: {
-                action: "gdpr_fire_scripts",
-                security: log_obj.consent_logging_nonce,
-              },
-               success: function (response) {
-                var data = response.data;
-
-                window.headerScriptsLoaded = false;
-                window.footerScriptsLoaded = false;
-                window.bodyScriptsLoaded = false;
-
-                function runScript(scriptContent, target) {
-                    if (!scriptContent) return;
-                    try {
-                        var script = document.createElement("script");
-                        script.textContent = scriptContent;
-                        target.appendChild(script);
-                    } catch (e) {
-                        console.error('Script error:', e);
-                    }
-                }
-
-                function extractScripts(htmlString) {
-                    if (!htmlString) return [];
-                    var tempDiv = document.createElement("div");
-                    tempDiv.innerHTML = htmlString;
-                    var scripts = [];
-                    tempDiv.querySelectorAll("script").forEach(function (s) {
-                        scripts.push(s.innerHTML);
-                    });
-                    return scripts;
-                }
-
-                function waitFor(condFn, cb) {
-                    setTimeout(function check() {
-                        if (condFn()) {
-                            cb();
-                        } else {
-                            setTimeout(check, 50);
-                        }
-                    }, 0);
-                }
-
-                var headerScripts = extractScripts(data.header_scripts);
-                var bodyScripts   = extractScripts(data.body_scripts);
-                var footerScripts = extractScripts(data.footer_scripts);
-
-                function runHeader() {
-                    headerScripts.forEach(function (s) { runScript(s, document.head); });
-                    window.headerScriptsLoaded = true;
-                }
-                function runFooter() {
-                    footerScripts.forEach(function (s) { runScript(s, document.body); });
-                    window.footerScriptsLoaded = true;
-                }
-                function runBody() {
-                    bodyScripts.forEach(function (s) { runScript(s, document.body); });
-                    window.bodyScriptsLoaded = true;
-                }
-
-                var bodyWaitsHeader = (data.header_dependency === "Body Scripts");
-                var bodyWaitsFooter = (data.footer_dependency === "Body Scripts");
-                var headerWaitsFooter = (data.footer_dependency === "Header Scripts");
-                var footerWaitsHeader = (data.header_dependency === "Footer Scripts");
-
-                // --- Header (wp_head position) ---
-                if (headerWaitsFooter) {
-                    // Header has dependency — defer it
-                    waitFor(function () { return window.footerScriptsLoaded; }, runHeader);
-                } else {
-                    // No dependency — run immediately in wp_head position
-                    runHeader();
-                }
-
-                // --- Body (wp_body_open position) ---
-               if (bodyWaitsHeader && bodyWaitsFooter) {
-                  if (window.headerScriptsLoaded && window.footerScriptsLoaded) {
-                      runBody();
-                  } else {
-                      waitFor(function () { return window.headerScriptsLoaded && window.footerScriptsLoaded; }, runBody);
-                  }
-              } else if (bodyWaitsHeader) {
-                  if (window.headerScriptsLoaded) {
-                      runBody(); // Header already ran synchronously above — run Body now
-                  } else {
-                      waitFor(function () { return window.headerScriptsLoaded; }, runBody);
-                  }
-              } else if (bodyWaitsFooter) {
-                  waitFor(function () { return window.footerScriptsLoaded; }, runBody);
-              } else {
-                  runBody();
-              }
-                
-                // --- Footer (wp_footer position) ---
-                if (footerWaitsHeader) {
-                    waitFor(function () { return window.headerScriptsLoaded; }, runFooter);
-                } else {
-                    // No dependency — run immediately in wp_footer position
-                    runFooter();
-              }
-              },
-          });
-          // Dispatch appropriate events based on settings
           var event;
-          if (gdpr_follows_gdpr_branch(GDPR.settings.cookie_usage_for)) {
-            GDPR_Cookie.set(
-              "wpl_user_preference",
-              gdpr_user_preference_val,
-              GDPR_ACCEPT_COOKIE_EXPIRE
-            );
-            event = new CustomEvent("GdprCookieConsentOnAccept", {
-              detail: {
-                wpl_user_preference: gdpr_user_preference_arr,
-                wpl_viewed_cookie: gdpr_viewed_cookie,
-              },
-            });
-          } else if (GDPR.settings.cookie_usage_for == "lgpd") {
-            GDPR_Cookie.set(
-              "wpl_user_preference",
-              gdpr_user_preference_val,
-              GDPR_ACCEPT_COOKIE_EXPIRE
-            );
+          if (gdpr_follows_gdpr_branch(GDPR.settings.cookie_usage_for) || GDPR.settings.cookie_usage_for == "lgpd") {
             event = new CustomEvent("GdprCookieConsentOnAccept", {
               detail: {
                 wpl_user_preference: gdpr_user_preference_arr,
@@ -1744,170 +1265,20 @@ banner.style.display = "none";
               },
             });
           }
-
-          if(event){
+          if (event) {
             window.dispatchEvent(event);
           }
-
-          // Log consent action
-          GDPR.logConsent(button_action);
         } else if (button_action == "accept_all") {
-          if (typeof window.wp_set_consent === 'function') {
-            wp_set_consent('marketing', 'allow' ) ;
-            wp_set_consent('statistics', 'allow' ) ;
-            wp_set_consent('statistics-anonymous', 'allow' ) ;
-            wp_set_consent('preferences', 'allow' ) ;
-            wp_set_consent('functional', 'allow' );
-          }
-
-          if(is_gcm_on == 'true' || is_gcm_on == true){
-            gtag('consent', 'update', {
-              'ad_user_data': 'granted',
-              'ad_personalization': 'granted',
-              'ad_storage': 'granted',
-              'analytics_storage': 'granted',
-              'functionality_storage': 'granted',
-              'personalization_storage': 'granted',
-              'security_storage': 'granted'
-            });
-          }
-          var consent = [];
-          consent.marketing = 'yes';
-          consent.analytics = 'yes';
-          consent.preferences = 'yes';
-          consentListeners.forEach(function (callback) {
-            callback(consent);
-          });
-
-          if(is_gcm_debug_on == 'true' || is_gcm_debug_on == true){debugUpdateConsentState();}
-
-          var cookie_data = {
-            necessary: "yes",
-            marketing: "yes",
-            analytics: "yes",
-            preferences: "yes",
-            unclassified: "yes",
-          };
-          if (!GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME)) {
-            //ab-testing-data-collection
-            jQuery.ajax({
-              url: log_obj.ajax_url,
-              type: "POST",
-              data: {
-                action: "gdpr_collect_abtesting_data_action",
-                security: log_obj.consent_logging_nonce,
-                chosenBanner: Number(chosenBanner),
-                user_preference: cookie_data,
-              },
-              success: function (response) {},
-            });
-          }
-          GDPR.accept_close();
+          var firstDecision = !hasGdprDecision();
+          updateConsent({ action: "accept_all", all: true });
           GDPR.acceptAllCookies();
-          jQuery.ajax({
-              url: log_obj.ajax_url,
-              type: "POST",
-              data: {
-                action: "gdpr_fire_scripts",
-                security: log_obj.consent_logging_nonce,
-              },
-              success: function (response) {
-                var data = response.data;
+          var gdpr_user_preference_arr = readJsonCookie("wpl_user_preference") || {};
+          if (firstDecision) {
+            GDPR.collectAbTestingData(gdpr_user_preference_arr);
+          }
+          if (is_gcm_debug_on == 'true' || is_gcm_debug_on == true) { debugUpdateConsentState(); }
 
-                window.headerScriptsLoaded = false;
-                window.footerScriptsLoaded = false;
-                window.bodyScriptsLoaded = false;
-                function runScript(scriptContent, target) {
-                    if (!scriptContent) return;
-                    try {
-                        var script = document.createElement("script");
-                        script.textContent = scriptContent;
-                        target.appendChild(script);
-                    } catch (e) {
-                        console.error('Script error:', e);
-                    }
-                }
-
-                function extractScripts(htmlString) {
-                    if (!htmlString) return [];
-                    var tempDiv = document.createElement("div");
-                    tempDiv.innerHTML = htmlString;
-                    var scripts = [];
-                    tempDiv.querySelectorAll("script").forEach(function (s) {
-                        scripts.push(s.innerHTML);
-                    });
-                    return scripts;
-                }
-
-                function waitFor(condFn, cb) {
-                    setTimeout(function check() {
-                        if (condFn()) {
-                            cb();
-                        } else {
-                            setTimeout(check, 50);
-                        }
-                    }, 0);
-                }
-
-                var headerScripts = extractScripts(data.header_scripts);
-                var bodyScripts   = extractScripts(data.body_scripts);
-                var footerScripts = extractScripts(data.footer_scripts);
-
-                function runHeader() {
-                    headerScripts.forEach(function (s) { runScript(s, document.head); });
-                    window.headerScriptsLoaded = true;
-                }
-                function runFooter() {
-                    footerScripts.forEach(function (s) { runScript(s, document.body); });
-                    window.footerScriptsLoaded = true;
-                }
-                function runBody() {
-                    bodyScripts.forEach(function (s) { runScript(s, document.body); });
-                    window.bodyScriptsLoaded = true;
-                }
-
-                var bodyWaitsHeader = (data.header_dependency === "Body Scripts");
-                var bodyWaitsFooter = (data.footer_dependency === "Body Scripts");
-                var headerWaitsFooter = (data.footer_dependency === "Header Scripts");
-                var footerWaitsHeader = (data.header_dependency === "Footer Scripts");
-
-                // --- Header (wp_head position) ---
-                if (headerWaitsFooter) {
-                    // Header has dependency 
-                    waitFor(function () { return window.footerScriptsLoaded; }, runHeader);
-                } else {
-                    // No dependency — run immediately in wp_head position
-                    runHeader();
-                }
-
-                // --- Body (wp_body_open position) ---
-                if (bodyWaitsHeader && bodyWaitsFooter) {
-                  if (window.headerScriptsLoaded && window.footerScriptsLoaded) {
-                      runBody();
-                  } else {
-                      waitFor(function () { return window.headerScriptsLoaded && window.footerScriptsLoaded; }, runBody);
-                  }
-                } else if (bodyWaitsHeader) {
-                    if (window.headerScriptsLoaded) {
-                        runBody(); // Header already ran synchronously above — run Body now
-                    } else {
-                        waitFor(function () { return window.headerScriptsLoaded; }, runBody);
-                    }
-                } else if (bodyWaitsFooter) {
-                    waitFor(function () { return window.footerScriptsLoaded; }, runBody);
-                } else {
-                    runBody();
-                }
-                
-                // --- Footer (wp_footer position) ---
-                if (footerWaitsHeader) {
-                    waitFor(function () { return window.headerScriptsLoaded; }, runFooter);
-                } else {
-                    // No dependency — run immediately in wp_footer position
-                    runFooter();
-                }
-              },
-          });
+          GDPR.accept_close();
           new_window = GDPR.settings.button_accept_all_new_win ? true : false;
           gdpr_viewed_cookie = GDPR_Cookie.read("wpl_viewed_cookie");
 
@@ -1927,56 +1298,16 @@ banner.style.display = "none";
             });
             window.dispatchEvent(event);
           }
-          GDPR.logConsent(button_action);
         } else if (button_action == "reject") {
-          if (!GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME)) {
-            //ab-testing-data-collection
-            jQuery.ajax({
-              url: log_obj.ajax_url,
-              type: "POST",
-              data: {
-                action: "gdpr_collect_abtesting_data_action",
-                security: log_obj.consent_logging_nonce,
-                chosenBanner: Number(chosenBanner),
-                user_preference: "reject",
-              },
-              success: function (response) {},
-            });
+          if (!hasGdprDecision()) {
+            GDPR.collectAbTestingData("reject");
           }
-          if (typeof window.wp_set_consent === 'function') {
-            wp_set_consent('functional', 'allow' );
-            wp_set_consent('marketing', 'deny' ) ;
-            wp_set_consent('statistics', 'deny' ) ;
-            wp_set_consent('statistics-anonymous', 'deny' ) ;
-            wp_set_consent('preferences', 'deny' ) ;
-          }
-          if(is_gcm_on == 'true' || is_gcm_on == true){
-              gtag('consent', 'update', {
-                'ad_user_data': 'denied',
-                'ad_personalization': 'denied',
-                'ad_storage': 'denied',
-                'analytics_storage': 'denied',
-                'functionality_storage': 'granted',
-                'personalization_storage': 'denied',
-                'security_storage': 'granted'
-              });
-            }
-            var consent = [];
-            consent.marketing = 'no';
-            consent.analytics = 'no';
-            consent.preferences = 'no';
-            consentListeners.forEach(function (callback) {
-              callback(consent);
-            });
-
-            if(is_gcm_debug_on == 'true' || is_gcm_debug_on == true){debugUpdateConsentState();}
-
+          updateConsent({ action: "reject" });
+          if (is_gcm_debug_on == 'true' || is_gcm_debug_on == true) { debugUpdateConsentState(); }
 
           GDPR.reject_close();
           new_window = GDPR.settings.button_decline_new_win ? true : false;
-          gdpr_user_preference = JSON.parse(
-            GDPR_Cookie.read("wpl_user_preference")
-          );
+          gdpr_user_preference = readJsonCookie("wpl_user_preference");
           gdpr_viewed_cookie = GDPR_Cookie.read("wpl_viewed_cookie");
 
           if (gdpr_follows_gdpr_branch(GDPR.settings.cookie_usage_for)) {
@@ -1995,8 +1326,6 @@ banner.style.display = "none";
             });
             window.dispatchEvent(event);
           }
-
-          GDPR.logConsent(button_action);
         } else if (button_action == "settings") {
           GDPR.bar_elm.slideUp(GDPR.settings.animate_speed_hide);
           if (GDPR.settings.cookie_bar_as == "popup") {
@@ -2014,9 +1343,8 @@ banner.style.display = "none";
         } else if (button_action == "close") {
             var law = GDPR.settings.cookie_usage_for;
 
-            var hasGDPR  = GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME);
-            var hasCCPA  = GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME) ||
-                          GDPR_Cookie.exists(US_PRIVACY_COOKIE_NAME);
+            var hasGDPR  = hasGdprDecision();
+            var hasCCPA  = hasCcpaDecision();
 
             if (gdpr_follows_gdpr_branch(law) || law === "lgpd" || law === "eprivacy") {
 
@@ -2099,28 +1427,18 @@ banner.style.display = "none";
         } else if (button_action == "ccpa_close") {
           GDPR.displayHeader();
         } else if (button_action == "cancel") {
-          var cookie_data = {
-            necessary: "yes",
-            marketing: "yes",
-            analytics: "yes",
-            preferences: "yes",
-            unclassified: "yes",
-          };
-          if (!GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)) {
-            //ab-testing-data-collection
-            jQuery.ajax({
-              url: log_obj.ajax_url,
-              type: "POST",
-              data: {
-                action: "gdpr_collect_abtesting_data_action",
-                security: log_obj.consent_logging_nonce,
-                chosenBanner: Number(chosenBanner),
-                user_preference: cookie_data,
-              },
-              success: function (response) {},
+          // "Cancel" in the Do Not Sell dialog: the visitor does not opt out.
+          if (!hasCcpaDecision()) {
+            GDPR.collectAbTestingData({
+              necessary: "yes",
+              marketing: "yes",
+              analytics: "yes",
+              preferences: "yes",
+              unclassified: "yes",
             });
           }
           jQuery('#donot_sell_checkbox').prop('checked', false);
+          updateConsent({ action: "optin", optout: false });
           GDPR.ccpa_cancel_close();
           gdpr_optout_cookie = GDPR_Cookie.read("wpl_optout_cookie");
 
@@ -2130,28 +1448,17 @@ banner.style.display = "none";
             },
           });
           window.dispatchEvent(event);
-          GDPR.logConsent(button_action);
         } else if (button_action == "confirm") {
-          if (!GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)) {
-            //ab-testing-data-collection
-            jQuery.ajax({
-              url: log_obj.ajax_url,
-              type: "POST",
-              data: {
-                action: "gdpr_collect_abtesting_data_action",
-                security: log_obj.consent_logging_nonce,
-                chosenBanner: Number(chosenBanner),
-                user_preference: "reject",
-              },
-              success: function (response) {},
-            });
+          if (!hasCcpaDecision()) {
+            GDPR.collectAbTestingData("reject");
           }
           if (jQuery('#donot_sell_checkbox').is(':checked')) {
-              GDPR.confirm_close();
+            updateConsent({ action: "optout", optout: true });
+            GDPR.confirm_close();
           } else {
-              GDPR.ccpa_cancel_close();
+            updateConsent({ action: "optin", optout: false });
+            GDPR.ccpa_cancel_close();
           }
-          
 
           gdpr_optout_cookie = GDPR_Cookie.read("wpl_optout_cookie");
 
@@ -2161,7 +1468,6 @@ banner.style.display = "none";
             },
           });
           window.dispatchEvent(event);
-          GDPR.logConsent(button_action);
         }
         if (open_link) {
           if (elm.attr("target") === "_blank" || new_window) {
@@ -2223,63 +1529,20 @@ banner.style.display = "none";
         //     break;
         // }
       });
-      jQuery(".gdpr_messagebar_detail input").each(function () {
-        var key = jQuery(this).val();
-        var gdpr_user_preference_arr = {};
-        var gdpr_user_preference_val = "";
-        if (GDPR_Cookie.read("wpl_user_preference")) {
-          gdpr_user_preference_arr = JSON.parse(
-            GDPR_Cookie.read("wpl_user_preference")
-          );
-        }
-        if (
-          key == "necessary" ||
-          (jQuery(this).is(":checked") &&
-            (key == "analytics" ||
-              key == "marketing" ||
-              key == "unclassified" ||
-              key == "preferences"))
-        ) {
-          gdpr_user_preference_arr[key] = "yes";
-          GDPR.allowed_categories.push(key);
-        } else if (
-          (key == "analytics" ||
-          key == "marketing" ||
-          key == "unclassified" ||
-          key == "preferences") && (gdpr_user_preference_arr[key] !== 'yes')
-        ) {
-          gdpr_user_preference_arr[key] = "no";
-          var length = GDPR.allowed_categories.length;
-          for (var i = 0; i < length; i++) {
-            if (GDPR.allowed_categories[i] == key) {
-              GDPR.allowed_categories.splice(i, 1);
-            }
-          }
-        } else if (
-          (key == "analytics" ||
-          key == "marketing" ||
-          key == "unclassified" ||
-          key == "preferences") && (gdpr_user_preference_arr[key] == 'yes')
-        ) {
-          GDPR.allowed_categories.push(key);
-          $(this).prop("checked", true);
-        }
-        gdpr_user_preference_val = JSON.stringify(gdpr_user_preference_arr);
-        GDPR_Cookie.set(
-          "wpl_user_preference",
-          gdpr_user_preference_val,
-          GDPR_ACCEPT_COOKIE_EXPIRE
-        );
+      // Nothing is written before the visitor decides; the toggles only show
+      // the recorded choice.
+      syncCategoryToggles();
+      // "Accept <category> cookies" links in blocked-content placeholders.
+      jQuery(document).on("click", ".wpl_manage_current_consent", function (e) {
+        e.preventDefault();
+        GDPR.displayHeader();
       });
       jQuery(document).on(
         "click",
         "#gdpr-cookie-consent-show-again",
         function (e) {
           e.preventDefault();
-          var hasConsent = GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) || 
-                          GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME) ||
-                          GDPR_Cookie.exists(US_PRIVACY_COOKIE_NAME) ||
-                          GDPR_Cookie.exists("wpl_user_preference");
+          var hasConsent = hasGdprDecision() || hasCcpaDecision();
           
           if (hasConsent) {
               if (GDPR.settings.cookie_usage_for === "eprivacy") {
@@ -2497,34 +1760,6 @@ banner.style.display = "none";
       );
     },
 
-    configButtons: function () {
-      var template = this.settings.template;
-      if (
-        gdpr_ab_options.ab_testing_enabled === "false" ||
-        gdpr_ab_options.ab_testing_enabled === false
-      ) {
-        if (
-          this.settings.cookie_usage_for == "both" &&
-          multiple_legislation_current_banner == "gdpr"
-        ) {
-          
-        } else if (
-          this.settings.cookie_usage_for == "both" &&
-          multiple_legislation_current_banner == "ccpa"
-        ) {
-                 
-        } else {
-         
-        }
-      } else {
-        if (Number(chosenBanner) === 1) {
-          
-          
-        } else {
-          
-        }
-      }
-    },
     convertToHex: function (hex, opacity) {
       hex = hex.replace("#", "");
       var r = parseInt(hex.substring(0, 2), 16);
@@ -2564,228 +1799,9 @@ banner.style.display = "none";
       return nodes;
     },
 
-    toggleBar: function (force_display_bar, force_display_show_again) {
-      if (gdpr_follows_gdpr_branch(this.settings.cookie_usage_for)) {
-        if (!GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME)) {
-          //ab-testing-data-collection
-
-          jQuery.ajax({
-            url: log_obj.ajax_url,
-            type: "POST",
-            data: {
-              action: "gdpr_collect_abtesting_data_action",
-              security: log_obj.consent_logging_nonce,
-              chosenBanner: Number(chosenBanner),
-              user_preference: "no choice",
-            },
-            success: function (response) {},
-          });
-          this.displayHeader();
-          if (this.settings.auto_hide) {
-            var banner_delay = this.settings.auto_banner_initialize
-              ? parseInt(this.settings.auto_hide_delay) +
-                parseInt(this.settings.auto_banner_initialize_delay)
-              : this.settings.auto_hide_delay;
-            setTimeout(function () {
-              GDPR.accept_close();
-              GDPR.logConsent("accept");
-            }, banner_delay);
-          }
-        } else {
-          this.hideHeader();
-        }
-      } else if (this.settings.cookie_usage_for == "eprivacy") {
-        if (!GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME)) {
-          //ab-testing-data-collection
-
-          jQuery.ajax({
-            url: log_obj.ajax_url,
-            type: "POST",
-            data: {
-              action: "gdpr_collect_abtesting_data_action",
-              security: log_obj.consent_logging_nonce,
-              chosenBanner: Number(chosenBanner),
-              user_preference: "no choice",
-            },
-            success: function (response) {},
-          });
-          this.displayHeader();
-          if (this.settings.auto_hide) {
-            var banner_delay = this.settings.auto_banner_initialize
-              ? parseInt(this.settings.auto_hide_delay) +
-                parseInt(this.settings.auto_banner_initialize_delay)
-              : this.settings.auto_hide_delay;
-            setTimeout(function () {
-              GDPR.accept_close();
-              GDPR.logConsent("accept");
-            }, banner_delay);
-          }
-        } else {
-          this.hideHeader();
-        }
-      } else if (this.settings.cookie_usage_for == "ccpa" || this.settings.cookie_usage_for == "us_state_laws") {
-        if (!GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)) {
-          //ab-testing-data-collection
-
-          jQuery.ajax({
-            url: log_obj.ajax_url,
-            type: "POST",
-            data: {
-              action: "gdpr_collect_abtesting_data_action",
-              security: log_obj.consent_logging_nonce,
-              chosenBanner: Number(chosenBanner),
-              user_preference: "no choice",
-            },
-            success: function (response) {},
-          });
-          this.displayHeader();
-        } else {
-          this.hideHeader();
-            if (GDPR.settings.ccpa_show_again === true || GDPR.settings.ccpa_show_again === "true") {
-              $("#ccpa-cookie-consent-show-again").show();
-          }
-        }
-      } else if (this.settings.cookie_usage_for == "both") {
-        if (
-          GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) &&
-          GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)
-        ) {
-          this.hideHeader();
-        } else if (
-          GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) &&
-          !GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)
-        ) {
-          //ab-testing-data-collection
-
-          jQuery.ajax({
-            url: log_obj.ajax_url,
-            type: "POST",
-            data: {
-              action: "gdpr_collect_abtesting_data_action",
-              security: log_obj.consent_logging_nonce,
-              chosenBanner: Number(chosenBanner),
-              user_preference: "no choice",
-            },
-            success: function (response) {},
-          });
-          this.displayHeader(true, false, force_display_bar, true);
-        } else if (
-          !GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) &&
-          GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)
-        ) {
-          //ab-testing-data-collection
-
-          jQuery.ajax({
-            url: log_obj.ajax_url,
-            type: "POST",
-            data: {
-              action: "gdpr_collect_abtesting_data_action",
-              security: log_obj.consent_logging_nonce,
-              chosenBanner: Number(chosenBanner),
-              user_preference: "no choice",
-            },
-            success: function (response) {},
-          });
-          this.displayHeader(
-            false,
-            true,
-            force_display_bar,
-            force_display_show_again
-          );
-          if (this.settings.auto_hide) {
-            var banner_delay = this.settings.auto_banner_initialize
-              ? parseInt(this.settings.auto_hide_delay) +
-                parseInt(this.settings.auto_banner_initialize_delay)
-              : this.settings.auto_hide_delay;
-            setTimeout(function () {
-              GDPR.accept_close();
-              GDPR.logConsent("accept");
-            }, banner_delay);
-          }
-        } else {
-          //ab-testing-data-collection
-
-          jQuery.ajax({
-            url: log_obj.ajax_url,
-            type: "POST",
-            data: {
-              action: "gdpr_collect_abtesting_data_action",
-              security: log_obj.consent_logging_nonce,
-              chosenBanner: Number(chosenBanner),
-              user_preference: "no choice",
-            },
-            success: function (response) {},
-          });
-          this.displayHeader(
-            false,
-            false,
-            force_display_bar,
-            force_display_show_again
-          );
-          if (this.settings.auto_hide) {
-            var banner_delay = this.settings.auto_banner_initialize
-              ? parseInt(this.settings.auto_hide_delay) +
-                parseInt(this.settings.auto_banner_initialize_delay)
-              : this.settings.auto_hide_delay;
-            setTimeout(function () {
-              GDPR.accept_close();
-              GDPR.logConsent("accept");
-            }, banner_delay);
-          }
-        }
-        if (
-          !GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) ||
-          !GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)
-        ) {
-        } else {
-          this.hideHeader();
-        }
-      } else if (this.settings.cookie_usage_for == "lgpd") {
-        if (!GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME)) {
-          //ab-testing-data-collection
-
-          jQuery.ajax({
-            url: log_obj.ajax_url,
-            type: "POST",
-            data: {
-              action: "gdpr_collect_abtesting_data_action",
-              security: log_obj.consent_logging_nonce,
-              chosenBanner: Number(chosenBanner),
-              user_preference: "no choice",
-            },
-            success: function (response) {},
-          });
-          this.displayHeader();
-          if (this.settings.auto_hide) {
-            var banner_delay = this.settings.auto_banner_initialize
-              ? parseInt(this.settings.auto_hide_delay) +
-                parseInt(this.settings.auto_banner_initialize_delay)
-              : this.settings.auto_hide_delay;
-            setTimeout(function () {
-              GDPR.accept_close();
-              GDPR.logConsent("accept");
-            }, banner_delay);
-          }
-        } else {
-          this.hideHeader();
-        }
-      }
-    },
-
+    // The *_close helpers only update the banner. The decision has already
+    // gone through WPLConsent.update(), which also handles reloads.
     ccpa_cancel_close: function () {
-      GDPR_Cookie.set(GDPR_CCPA_COOKIE_NAME, "no", GDPR_CCPA_COOKIE_EXPIRE);
-      GDPR_Cookie.set(
-        "consent_version",
-        this.settings.consent_version,
-        GDPR_ACCEPT_COOKIE_EXPIRE
-      );
-      if (this.settings.is_ccpa_iab_on) {
-        GDPR_Cookie.set(
-          US_PRIVACY_COOKIE_NAME,
-          "1YNY",
-          GDPR_CCPA_COOKIE_EXPIRE
-        );
-      }
       if (this.settings.notify_animate_hide) {
         this.bar_elm.slideUp(this.settings.animate_speed_hide);
       }
@@ -2795,76 +1811,22 @@ banner.style.display = "none";
       if ((GDPR.settings.cookie_usage_for === "ccpa" || GDPR.settings.cookie_usage_for === "us_state_laws") && 
           (GDPR.settings.ccpa_show_again === true || GDPR.settings.ccpa_show_again === "true")) {
           $("#ccpa-cookie-consent-show-again").show();
-          
       }
-      if (this.settings.accept_reload == true) {
-        window.location.reload(true);
-      } else {
-        if (this.settings.cookie_usage_for == "both") {
-          this.check_ccpa_eu();
-        }
+      if (this.settings.cookie_usage_for == "both") {
+        this.check_ccpa_eu();
       }
       return false;
     },
 
     confirm_close: function () {
-      GDPR_Cookie.set(GDPR_CCPA_COOKIE_NAME, "yes", GDPR_CCPA_COOKIE_EXPIRE);
-      GDPR_Cookie.set(
-        "consent_version",
-        this.settings.consent_version,
-        GDPR_ACCEPT_COOKIE_EXPIRE
-      );
-      if (this.settings.is_ccpa_iab_on) {
-        GDPR_Cookie.set(
-          US_PRIVACY_COOKIE_NAME,
-          "1YYY",
-          GDPR_CCPA_COOKIE_EXPIRE
-        );
-      }
-      if (this.settings.notify_animate_hide) {
-        this.bar_elm.slideUp(this.settings.animate_speed_hide);
-      }
-      if (this.settings.cookie_bar_as == "popup") {
-        $("#gdpr-popup").gdprmodal("hide");
-      }
-      if ((GDPR.settings.cookie_usage_for === "ccpa" || GDPR.settings.cookie_usage_for === "us_state_laws") && 
-          (GDPR.settings.ccpa_show_again === true || GDPR.settings.ccpa_show_again === "true")) {
-          $("#ccpa-cookie-consent-show-again").show();
-      }
-      if (this.settings.accept_reload == true) {
-        window.location.reload(true);
-      } else {
-        if (this.settings.cookie_usage_for == "both") {
-          this.check_ccpa_eu();
-        }
-      }
-      return false;
+      return this.ccpa_cancel_close();
     },
 
     accept_close: function () {
-      GDPR_Cookie.set(
-        GDPR_ACCEPT_COOKIE_NAME,
-        "yes",
-        GDPR_ACCEPT_COOKIE_EXPIRE
-      );
-      GDPR_Cookie.set(
-        "consent_version",
-        this.settings.consent_version,
-        GDPR_ACCEPT_COOKIE_EXPIRE
-      );
-
-      var cookie_pref =
-        '{"necessary":"yes","marketing":"yes","analytics":"yes","preferences":"yes","unclassified":"yes"}';
-      var gdpr_user_preference = JSON.parse(cookie_pref);
-      var gdpr_user_preference_val = JSON.stringify(gdpr_user_preference);
-
       if (this.settings.notify_animate_hide) {
-        this.bar_elm.slideUp(
-          this.settings.animate_speed_hide,
-          GDPR_Blocker.runScripts
-        );
+        this.bar_elm.slideUp(this.settings.animate_speed_hide);
       } else {
-        this.bar_elm.hide(GDPR_Blocker.runScripts);
+        this.bar_elm.hide();
       }
       if (this.settings.cookie_bar_as == "popup") {
         $("#gdpr-popup").gdprmodal("hide");
@@ -2872,34 +1834,37 @@ banner.style.display = "none";
       if (this.settings.show_again) {
         this.show_again_elm.slideDown(this.settings.animate_speed_hide);
       }
-      if (this.settings.accept_reload == true) {
-        // GDPR.logConsent("accept");
-        setTimeout(function () {
-          window.location.reload();
-        }, 1100);
-      } else {
-        if (this.settings.cookie_usage_for == "both") {
-          this.check_ccpa_eu(true, true);
-        }
+      if (this.settings.cookie_usage_for == "both") {
+        this.check_ccpa_eu(true, true);
       }
       return false;
     },
 
     reject_close: function () {
       GDPR.disableAllCookies();
-      GDPR_Cookie.set(GDPR_ACCEPT_COOKIE_NAME, "no", GDPR_ACCEPT_COOKIE_EXPIRE);
-      GDPR_Cookie.set(
-        "consent_version",
-        this.settings.consent_version,
-        GDPR_ACCEPT_COOKIE_EXPIRE
-      );
-      if (this.settings.notify_animate_hide) {
-        this.bar_elm.slideUp(
-          this.settings.animate_speed_hide,
-          GDPR_Blocker.runScripts
-        );
+      return this.accept_close();
+    },
+
+    // Close X: the visitor dismissed the banner without choosing. Nothing
+    // non-necessary is granted, and every signal hears about it.
+    bypassed_close: function () {
+      var firstDecision = !hasGdprDecision();
+      var law = GDPR.settings.cookie_usage_for;
+      if (law === "ccpa" || law === "us_state_laws") {
+        if (!hasCcpaDecision()) {
+          updateConsent({ action: "dismiss", optout: Core ? Core.isOptedOut() : false });
+        }
       } else {
-        this.bar_elm.hide(GDPR_Blocker.runScripts);
+        updateConsent({ action: "dismiss" });
+      }
+      GDPR.disableAllCookies();
+      if (firstDecision) {
+        GDPR.collectAbTestingData("bypass");
+      }
+      if (this.settings.notify_animate_hide) {
+        this.bar_elm.slideUp(this.settings.animate_speed_hide);
+      } else {
+        this.bar_elm.hide();
       }
       if (this.settings.cookie_bar_as == "popup") {
         $("#gdpr-popup").gdprmodal("hide");
@@ -2907,198 +1872,35 @@ banner.style.display = "none";
       if (this.settings.show_again) {
         this.show_again_elm.slideDown(this.settings.animate_speed_hide);
       }
-      if (
-        this.settings.decline_reload == true &&
-        !(gdpr_do_not_track == "true" && (browser_dnt_value || browser_gpc_value))
-    ) {
-        setTimeout(function () {
-          window.location.reload();
-        }, 1100);
-      } else {
-        if (this.settings.cookie_usage_for == "both") {
+      if (this.settings.cookie_usage_for == "both") {
+        var insidebanner = document.getElementById("gdpr-cookie-consent-bar");
+        if (insidebanner) {
+          insidebanner.style.display = "none";
+        }
+        if (hasGdprDecision() && !hasCcpaDecision()) {
           this.check_ccpa_eu(true, true);
         }
       }
       return false;
     },
 
-    bypassed_close: function () {
-      GDPR.disableAllCookies();
-      if (
-        GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) &&
-        !GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)
-      ) {
-        GDPR_Cookie.set(
-          GDPR_CCPA_COOKIE_NAME,
-          "unset",
-          GDPR_ACCEPT_COOKIE_EXPIRE
-        );
-
-        // this.check_ccpa_eu(true, true);
-      }
-      GDPR_Cookie.set(
-        GDPR_ACCEPT_COOKIE_NAME,
-        "unset",
-        GDPR_ACCEPT_COOKIE_EXPIRE
-      );
-      GDPR_Cookie.set(
-        "consent_version",
-        this.settings.consent_version,
-        GDPR_ACCEPT_COOKIE_EXPIRE
-      );
-      jQuery.ajax({
-        url: log_obj.ajax_url,
-        type: "POST",
-        data: {
-          action: "gdpr_collect_abtesting_data_action",
-          security: log_obj.consent_logging_nonce,
-          chosenBanner: Number(chosenBanner),
-          user_preference: "bypass",
-        },
-        success: function (response) {},
-      });
-      if (this.settings.notify_animate_hide) {
-        this.bar_elm.slideUp(
-          this.settings.animate_speed_hide,
-          GDPR_Blocker.runScripts
-        );
-      } else {
-        this.bar_elm.hide(GDPR_Blocker.runScripts);
-      }
-      if (this.settings.cookie_bar_as == "popup") {
-        $("#gdpr-popup").gdprmodal("hide");
-      }
-      if (this.settings.show_again) {
-        this.show_again_elm.slideDown(this.settings.animate_speed_hide);
-      }
-      if (
-        this.settings.decline_reload == true &&
-        !(gdpr_do_not_track == "true" && (browser_dnt_value || browser_gpc_value))
-    ) {
-        setTimeout(function () {
-          window.location.reload();
-        }, 1100);
-      } else {
-        if (this.settings.cookie_usage_for == "both") {
-          if (GDPR.settings.cookie_bar_as == "popup") {
-            $("#gdpr-popup").gdprmodal("hide");
-          }
-          var insidebanner = document.getElementById("gdpr-cookie-consent-bar");
-          if (insidebanner) {
-            insidebanner.style.display = "none";
-          }
-          if (
-            GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME) &&
-            !GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)
-          ) {
-            this.check_ccpa_eu(true, true);
-          }
-        }
-      }
-      return false;
-    },
-
-    logConsent: function (btn_action) {
-      var self = this;
-      setTimeout(function () {
-        if (!consent_forwarding && self.settings.logging_on) {
-          jQuery.ajax({
-            url: log_obj.ajax_url,
-            type: "POST",
-            data: {
-              action: "gdpr_log_consent_action",
-              security: log_obj.consent_logging_nonce,
-              gdpr_user_action: btn_action,
-              cookie_list: GDPR_Cookie.getallcookies(),
-              currentSite: window.location.href,
-              consent_forward: false,
-            },
-            success: function (response) {},
-          });
-        }
-        // consent forwarding.
-        else if (consent_forwarding && self.settings.logging_on) {
-          var subSites = gdpr_select_sites;
-          // Loop through sub-sites and trigger consent log
-          subSites.forEach(function (subSiteId) {
-            if (subSiteId != null || subSiteId !== " ") {
-              jQuery.ajax({
-                type: "POST",
-                url: log_obj.ajax_url,
-                data: {
-                  action: "gdpr_log_consent_action",
-                  security: log_obj.consent_logging_nonce,
-                  gdpr_user_action: btn_action,
-                  cookie_list: GDPR_Cookie.getallcookies(),
-                  subSiteId: subSiteId,
-                  currentSite: window.location.href,
-                  consent_forward: true,
-                },
-                success: function (response) {},
-              });
-            }
-          });
-        }
-      }, 1000);
-    },
-
+    // Untick the category toggles; the record itself is written by the core.
     disableAllCookies: function () {
-      var gdpr_user_preference_arr = {};
-      var gdpr_user_preference_val = "";
-      if (GDPR_Cookie.read("wpl_user_preference")) {
-        gdpr_user_preference_arr = JSON.parse(
-          GDPR_Cookie.read("wpl_user_preference")
-        );
-        jQuery.each(gdpr_user_preference_arr, function (key, value) {
-          if (key != "necessary") {
-            gdpr_user_preference_arr[key] = "no";
-            $('.gdpr_messagebar_detail input[value="' + key + '"]').prop(
-              "checked",
-              false
-            );
-            var length = GDPR.allowed_categories.length;
-            for (var i = 0; i < length; i++) {
-              if (GDPR.allowed_categories[i] == key) {
-                GDPR.allowed_categories.splice(i, 1);
-              }
-            }
-          }
-        });
-        gdpr_user_preference_val = JSON.stringify(gdpr_user_preference_arr);
-        GDPR_Cookie.set(
-          "wpl_user_preference",
-          gdpr_user_preference_val,
-          GDPR_ACCEPT_COOKIE_EXPIRE
-        );
-      }
+      jQuery(".gdpr_messagebar_detail input, .gdpr_messagebar_body_button").each(function () {
+        var key = jQuery(this).val();
+        if (key && key !== "necessary" && jQuery(this).attr("type") !== "hidden") {
+          jQuery(this).prop("checked", false);
+        }
+      });
     },
+    // Tick every category toggle; the record itself is written by the core.
     acceptAllCookies: function () {
-      var gdpr_user_preference_arr = {};
-      var gdpr_user_preference_val = "";
-      if (GDPR_Cookie.read("wpl_user_preference")) {
-        gdpr_user_preference_arr = JSON.parse(
-          GDPR_Cookie.read("wpl_user_preference")
-        );
-        jQuery.each(gdpr_user_preference_arr, function (key, value) {
-          if (key != "necessary") {
-            gdpr_user_preference_arr[key] = "yes";
-            $('.gdpr_messagebar_detail input[value="' + key + '"]').prop(
-              "checked",
-              true
-            );
-
-            if (!GDPR.allowed_categories.includes(key)) {
-              GDPR.allowed_categories.push(key);
-            }
-          }
-        });
-        gdpr_user_preference_val = JSON.stringify(gdpr_user_preference_arr);
-        GDPR_Cookie.set(
-          "wpl_user_preference",
-          gdpr_user_preference_val,
-          GDPR_ACCEPT_COOKIE_EXPIRE
-        );
-      }
+      jQuery(".gdpr_messagebar_detail input, .gdpr_messagebar_body_button").each(function () {
+        var key = jQuery(this).val();
+        if (key && key !== "necessary" && jQuery(this).attr("type") !== "hidden") {
+          jQuery(this).prop("checked", true);
+        }
+      });
     },
     show_details: function () {
       this.details_elm.show();
@@ -3320,7 +2122,7 @@ banner.style.display = "none";
           jQuery(GDPR.settings.notify_div_id).find("p.ccpa").show();
         }
       }
-      if (ccpa_flag || GDPR_Cookie.exists(GDPR_CCPA_COOKIE_NAME)) {
+      if (ccpa_flag || hasCcpaDecision()) {
         jQuery(GDPR.settings.notify_div_id).find("p.ccpa").hide();
       }
       if (this.settings.cookie_bar_as == "popup") {
@@ -3399,372 +2201,15 @@ banner.style.display = "none";
         }
       }
     },
-    acceptOnScroll: function () {
-      var scrollTop = $(window).scrollTop();
-      var docHeight = $(document).height();
-      var winHeight = $(window).height();
-      var scrollPercent = scrollTop / (docHeight - winHeight);
-      var scrollPercentRounded = Math.round(scrollPercent * 100);
-
-      if (
-        scrollPercentRounded > GDPR.settings.auto_scroll_offset &&
-        !GDPR_Cookie.exists(GDPR_ACCEPT_COOKIE_NAME)
-      ) {
-        if (GDPR.settings.button_accept_all_is_on) {
-          GDPR.acceptAllCookies();
-        }
-        if (GDPR.settings.auto_scroll_reload == true) {
-          GDPR.accept_close();
-          GDPR.logConsent("accept");
-          setTimeout(function () {
-            window.location.reload();
-          }, 1100);
-        } else {
-          GDPR.accept_close();
-          GDPR.logConsent("accept");
-        }
-        window.removeEventListener("scroll", GDPR.acceptOnScroll, false);
-      }
-    },
-    
   };
 
-  var GDPR_Blocker = {
-    blockingStatus: true,
-    scriptsLoaded: false,
-    set: function (args) {
-      if (typeof JSON.parse !== "function") {
-        console.log(
-          "GDPRCookieConsent requires JSON.parse but your browser doesn't support it"
-        );
-        return;
-      }
-      this.cookies = args.cookies;
-    },
-    removeCookieByCategory: function () {
-      if (GDPR_Blocker.blockingStatus == true) {
-        var gdpr_user_preference_arr = []
-        if (GDPR_Cookie.read("wpl_user_preference")) {
-            gdpr_user_preference_arr = JSON.parse(
-              GDPR_Cookie.read("wpl_user_preference")
-            );
-        }
-        var cookiesList = JSON.parse(GDPR_Blocker.cookies);
-        for (var i = 0; i < cookiesList.length; i++) {
-          var cookie = cookiesList[i];
-          var current_category = cookie["gdpr_cookie_category_slug"];
-          if(current_category == "necessary") continue;
-          if ( !gdpr_user_preference_arr.hasOwnProperty(current_category) || gdpr_user_preference_arr[current_category] === "no") {
-            var cookies = cookie["data"];
-            if (cookies && cookies.length != 0) {
-              for (var c_key in cookies) {
-                var c_cookie = cookies[c_key];
-                if (c_cookie["name"] === "consent_version") {
-                  continue; // Skip the consent_version cookie as it is Unclassified
-                }
-                GDPR_Cookie.erase(c_cookie["name"]);
-              }
-            }
-          }
-        }
-      }
-    },
-    runScripts: function () {
-      var srcReplaceableElms = [
-        "iframe",
-        "IFRAME",
-        "EMBED",
-        "embed",
-        "OBJECT",
-        "object",
-        "IMG",
-        "img",
-      ];
-      var genericFuncs = {
-        renderByElement: function (callback) {
-          scriptFuncs.renderScripts();
-          htmlElmFuncs.renderSrcElement();
-          callback();
-          GDPR_Blocker.scriptsLoaded = true;
-        },
-        reviewConsent: function () {
-          jQuery(document).on(
-            "click",
-            ".wpl_manage_current_consent",
-            function () {
-              GDPR.displayHeader();
-            }
-          );
-        },
-      };
-      var scriptFuncs = {
-        scriptsDone: function () {
-          var DOMContentLoadedEvent = document.createEvent("Event");
-          DOMContentLoadedEvent.initEvent("DOMContentLoaded", true, true);
-          window.document.dispatchEvent(DOMContentLoadedEvent);
-        },
-        seq: function (arr, callback, index) {
-          if (typeof index === "undefined") {
-            index = 0;
-          }
-
-          arr[index](function () {
-            index++;
-            if (index === arr.length) {
-              callback();
-            } else {
-              scriptFuncs.seq(arr, callback, index);
-            }
-          });
-        },
-
-        insertScript: function ($script, callback) {
-          var allowedAttributes = [
-            "data-wpl-class",
-            "data-wpl-label",
-            "data-wpl-placeholder",
-            "data-wpl-script-type",
-            "data-wpl-src",
-          ];
-          var scriptType = $script.getAttribute("data-wpl-script-type");
-          var elementPosition = $script.getAttribute(
-            "data-wpl-element-position"
-          );
-          var isBlock = $script.getAttribute("data-wpl-block");
-          var s = document.createElement("script");
-          s.type = "text/plain";
-          if ($script.async) {
-            s.async = $script.async;
-          }
-          if ($script.defer) {
-            s.defer = $script.defer;
-          }
-          if ($script.src) {
-            s.onload = callback;
-            s.onerror = callback;
-            s.src = $script.src;
-          } else {
-            s.textContent = $script.innerText;
-          }
-          var attrs = jQuery($script).prop("attributes");
-          var length = attrs.length;
-          for (var ii = 0; ii < length; ++ii) {
-            if (attrs[ii].nodeName !== "id") {
-              if (allowedAttributes.indexOf(attrs[ii].nodeName) !== -1) {
-                s.setAttribute(attrs[ii].nodeName, attrs[ii].value);
-              }
-            }
-          }
-          if (GDPR_Blocker.blockingStatus === true) {
-            if (
-              (GDPR_Cookie.read(GDPR_ACCEPT_COOKIE_NAME) == "yes" &&
-                GDPR.allowed_categories.indexOf(scriptType) !== -1) ||
-              (GDPR_Cookie.read(GDPR_ACCEPT_COOKIE_NAME) == null &&
-                isBlock === "false")
-            ) {
-              s.setAttribute("data-wpl-consent", "accepted");
-              s.type = "text/javascript";
-            }
-          } else {
-            s.type = "text/javascript";
-          }
-          if ($script.type != s.type) {
-            if (elementPosition === "head") {
-              document.head.appendChild(s);
-              if (!$script.src) {
-                callback();
-              }
-              $script.parentNode.removeChild($script);
-            } else {
-              document.body.appendChild(s);
-              if (!$script.src) {
-                callback();
-              }
-              $script.parentNode.removeChild($script);
-            }
-          }
-        },
-        renderScripts: function () {
-          var $scripts = document.querySelectorAll(
-            'script[data-wpl-class="wpl-blocker-script"]'
-          );
-          if ($scripts.length > 0) {
-            var runList = [];
-            var typeAttr;
-            Array.prototype.forEach.call($scripts, function ($script) {
-              typeAttr = $script.getAttribute("type");
-              var elmType = $script.tagName;
-              runList.push(function (callback) {
-                scriptFuncs.insertScript($script, callback);
-              });
-            });
-            scriptFuncs.seq(runList, scriptFuncs.scriptsDone);
-          }
-        },
-      };
-      var htmlElmFuncs = {
-        renderSrcElement: function () {
-          var blockingElms = document.querySelectorAll(
-            '[data-wpl-class="wpl-blocker-script"]'
-          );
-          var length = blockingElms.length;
-          for (var i = 0; i < length; i++) {
-            var currentElm = blockingElms[i];
-            var elmType = currentElm.tagName;
-            if (srcReplaceableElms.indexOf(elmType) !== -1) {
-              var elmCategory = currentElm.getAttribute("data-wpl-script-type");
-              var gdpr_user_preference_arr = []
-              if (GDPR_Cookie.read("wpl_user_preference")) {
-                  gdpr_user_preference_arr = JSON.parse(
-                    GDPR_Cookie.read("wpl_user_preference")
-                  );
-              }
-              var isBlock = currentElm.getAttribute("data-wpl-block");
-              if (GDPR_Blocker.blockingStatus === true) {
-                if (
-                  (GDPR_Cookie.read(GDPR_ACCEPT_COOKIE_NAME) == "yes" && (gdpr_user_preference_arr.hasOwnProperty(elmCategory) && gdpr_user_preference_arr[elmCategory] === "yes")) ||
-                  (GDPR_Cookie.read(GDPR_ACCEPT_COOKIE_NAME) != null &&
-                    isBlock === "false")
-                ) {
-                
-                  this.replaceSrc(currentElm);
-                } else {
-                  this.addPlaceholder(currentElm);
-                }
-              } else {
-                this.replaceSrc(currentElm);
-              }
-            }
-          }
-        },
-        addPlaceholder: function (htmlElm) {
-          if (jQuery(htmlElm).prev(".wpl-iframe-placeholder").length === 0) {
-            var htmlElemType = htmlElm.getAttribute("data-wpl-placeholder");
-            var htmlElemWidth = htmlElm.getAttribute("width");
-            var htmlElemHeight = htmlElm.getAttribute("height");
-            if (htmlElemWidth == null) {
-              htmlElemWidth = htmlElm.offsetWidth;
-            }
-            if (htmlElemHeight == null) {
-              htmlElemHeight = htmlElm.offsetHeight;
-            }
-            var pixelPattern = /px/;
-            htmlElemWidth = pixelPattern.test(htmlElemWidth)
-              ? htmlElemWidth
-              : htmlElemWidth + "px";
-            htmlElemHeight = pixelPattern.test(htmlElemHeight)
-              ? htmlElemHeight
-              : htmlElemHeight + "px";
-            // Build with DOM APIs: these attribute values come from page content.
-            var addPlaceholder = jQuery("<div>", {
-              "class": "wpl-iframe-placeholder",
-            })
-              .css({ width: htmlElemWidth, height: htmlElemHeight })
-              .append(
-                jQuery("<div>", { "class": "wpl-inner-text" }).append(
-                  GDPR.buildPlaceholderContent(htmlElemType)
-                )
-              );
-            if (htmlElm.tagName !== "IMG") {
-              jQuery(addPlaceholder).insertBefore(htmlElm);
-            }
-            htmlElm.removeAttribute("src");
-            htmlElm.style.display = "none";
-          }
-        },
-        replaceSrc: function (htmlElm) {
-          if (!htmlElm.hasAttribute("src")) {
-            var htmlElemSrc = htmlElm.getAttribute("data-wpl-src");
-            htmlElm.setAttribute("src", htmlElemSrc);
-            if (jQuery(htmlElm).prev(".wpl-iframe-placeholder").length > 0) {
-              jQuery(htmlElm).prev(".wpl-iframe-placeholder").remove();
-            }
-            htmlElm.style.display = "block";
-          }
-        },
-      };
-      GDPR.addPlaceholder = htmlElmFuncs.addPlaceholder;
-
-      genericFuncs.reviewConsent();
-      genericFuncs.renderByElement(GDPR_Blocker.removeCookieByCategory);
-    },
-    blockElementorYoutube: function () {
-      var ytData          = gdpr_cookies_obj.youtube_embed_category || {};
-      var youtubeCategory = ytData.slug || 'preferences';
-      var youtubeName     = ytData.name || 'Preferences';
-      var placeholderHtml = 'Accept <a class="wpl_manage_current_consent">'
-                            + jQuery( '<div>' ).text( youtubeName ).html() +
-                            '</a> cookies to view this video.';
-
-      var observer = new MutationObserver( function ( mutations ) {
-          mutations.forEach( function ( mutation ) {
-              mutation.addedNodes.forEach( function ( node ) {
-                  if ( node.nodeType !== 1 ) return;
-                  if (
-                      node.tagName === 'IFRAME' &&
-                      node.src &&
-                      node.src.indexOf( 'youtube.com/embed' ) !== -1 &&
-                      (
-                        node.closest( '[data-e-type="e-youtube"]' ) ||      // YouTube Embed widget
-                        node.closest( '.elementor-widget-video' )            // Video widget
-                      )
-                  ) {
-                      var gdpr_user_preference_arr = {};
-                      if ( GDPR_Cookie.read( 'wpl_user_preference' ) ) {
-                          gdpr_user_preference_arr = JSON.parse(
-                              GDPR_Cookie.read( 'wpl_user_preference' )
-                          );
-                      }
-                      var consentGiven =
-                          GDPR_Cookie.read( GDPR_ACCEPT_COOKIE_NAME ) === 'yes' &&
-                          gdpr_user_preference_arr[ youtubeCategory ] === 'yes';
-
-                      if ( ! consentGiven ) {
-                          node.setAttribute( 'data-wpl-src', node.src );
-                          node.setAttribute( 'data-wpl-class', 'wpl-blocker-script' );
-                          node.setAttribute( 'data-wpl-script-type', youtubeCategory );
-                          node.setAttribute( 'data-wpl-placeholder', placeholderHtml );
-                          node.removeAttribute( 'src' );
-                          node.style.display = 'none';
-                          jQuery( '<div style="width:560px;height:315px;" class="wpl-iframe-placeholder"><div class="wpl-inner-text"></div></div>' )
-                              .find( '.wpl-inner-text' )
-                              .append( GDPR.buildPlaceholderContent( placeholderHtml ) )
-                              .end()
-                              .insertBefore( node );
-                      }
-                  }
-              });
-          });
-      });
-
-      if ( document.body ) {
-          observer.observe( document.body, { childList: true, subtree: true } );
-      } else {
-          document.addEventListener( 'DOMContentLoaded', function () {
-              observer.observe( document.body, { childList: true, subtree: true } );
-          });
-      }
-    },
-  };
   $(document).ready(function () {
     var settings = JSON.parse(gdpr_cookiebar_settings);
     if (settings["notify_animate_show"]) {
       $("#gdpr-cookie-consent-bar").css("display", "none");
       $("#gdpr-cookie-consent-bar").slideDown(500);
     }
-    if (typeof gdpr_cookies_list != "undefined") {
-      GDPR_Blocker.set({
-        cookies: gdpr_cookies_list,
-      });
-      GDPR_Blocker.runScripts();
-      if (typeof gdpr_cookies_list != "undefined") {
-        GDPR_Blocker.set({
-          cookies: gdpr_cookies_list,
-        });
-        GDPR_Blocker.runScripts();
-        GDPR_Blocker.blockElementorYoutube(); // ADD THIS
-      }
-    }
+    // Blocking, releasing and cookie cleaning are done by the consent core.
     if (typeof gdpr_cookiebar_settings != "undefined") {
       GDPR.set({
         settings: gdpr_cookiebar_settings,
