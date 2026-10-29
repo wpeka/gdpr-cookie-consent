@@ -14383,7 +14383,7 @@ public function gdpr_support_request_handler() {
 	public function gdpr_translate_cookie_categories($target_language) {
 		// restore translation of public facing side text.
 		// Load and decode translations from JSON file.
-		$$translations_file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/translations/translations.json';
+		$translations_file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/translations/translations.json';
 
 		$translations = wp_json_file_decode(
 			$translations_file,
