@@ -690,7 +690,91 @@ class Gdpr_Cookie_Consent_Public {
 			return $text;
 		}
 	}
-	
+
+	/**
+	 * Translate the fixed banner labels and default cookie categories for a WPML translated view.
+	 *
+	 * Banner texts set by the admin are already translated by WPML through the option filter,
+	 * so only the texts WPML cannot reach are handled here. A value is replaced only while it
+	 * is still the stock text, so gettext/WPML translations and admin customisations are kept.
+	 *
+	 * @param array  $cookie_data   Cookie data passed to the banner templates.
+	 * @param string $wpml_language Current WPML language code.
+	 * @param string $lang_selected Banner language selected in the plugin settings.
+	 * @return array
+	 */
+	private function gdpr_translate_cookie_data_for_wpml( $cookie_data, $wpml_language, $lang_selected ) {
+		$translations = wp_json_file_decode(
+			GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/translations/public-translations.json',
+			array( 'associative' => true )
+		);
+		if ( ! is_array( $translations ) || empty( $translations['about'] ) ) {
+			return $cookie_data;
+		}
+
+		// WPML language codes that differ from the ones used in the translations file.
+		$language_map = array(
+			'zh-hans' => 'zh-cn',
+			'zh-hant' => 'zh-tw',
+			'pt-br'   => 'pt',
+			'pt-pt'   => 'pt',
+			'nb'      => 'no',
+		);
+		$language     = isset( $language_map[ $wpml_language ] ) ? $language_map[ $wpml_language ] : $wpml_language;
+		if ( ! isset( $translations['about'][ $language ] ) ) {
+			$language = strtok( $language, '-' );
+		}
+		if ( ! is_string( $language ) || ! isset( $translations['about'][ $language ] ) ) {
+			return $cookie_data;
+		}
+
+		// Stock texts a value may still hold: English (gettext fallback) and the selected banner language.
+		$stock_languages = array_unique( array( 'en', (string) $lang_selected ) );
+		$is_stock_text   = static function ( $value, $key ) use ( $translations, $stock_languages ) {
+			$value = trim( wp_unslash( (string) $value ) );
+			foreach ( $stock_languages as $stock_language ) {
+				if ( isset( $translations[ $key ][ $stock_language ] ) && trim( $translations[ $key ][ $stock_language ] ) === $value ) {
+					return true;
+				}
+			}
+			return false;
+		};
+
+		$label_keys = array( 'about', 'declaration', 'always', 'save_button', 'name', 'domain', 'purpose', 'expiry', 'type', 'cookies_not_found', 'consent_notice' );
+		foreach ( $label_keys as $label_key ) {
+			// Labels come from __(), so only an untranslated English value is replaced.
+			if ( isset( $cookie_data[ $label_key ], $translations[ $label_key ]['en'], $translations[ $label_key ][ $language ] ) && $translations[ $label_key ]['en'] === $cookie_data[ $label_key ] ) {
+				$cookie_data[ $label_key ] = $translations[ $label_key ][ $language ];
+			}
+		}
+
+		// Category slug => key suffix used in the translations file.
+		$category_keys = array(
+			'necessary'    => 'necessary',
+			'analytics'    => 'analytics',
+			'marketing'    => 'marketing',
+			'preferences'  => 'preference',
+			'unclassified' => 'unclassified',
+		);
+		if ( ! empty( $cookie_data['categories'] ) && is_array( $cookie_data['categories'] ) ) {
+			foreach ( $cookie_data['categories'] as $index => $category ) {
+				$slug = isset( $category['gdpr_cookie_category_slug'] ) ? $category['gdpr_cookie_category_slug'] : '';
+				if ( ! isset( $category_keys[ $slug ] ) ) {
+					continue;
+				}
+				foreach ( array( 'name', 'description' ) as $field ) {
+					$field_key       = 'gdpr_cookie_category_' . $field;
+					$translation_key = $field_key . '_' . $category_keys[ $slug ];
+					if ( isset( $category[ $field_key ], $translations[ $translation_key ][ $language ] ) && $is_stock_text( $category[ $field_key ], $translation_key ) ) {
+						$cookie_data['categories'][ $index ][ $field_key ] = $translations[ $translation_key ][ $language ];
+					}
+				}
+			}
+		}
+
+		return $cookie_data;
+	}
+
 
 	/**
 	 * Outputs the cookie control script in the footer.
@@ -1151,8 +1235,13 @@ class Gdpr_Cookie_Consent_Public {
 			}
 
 			
-			//check for translations if dynamic translation is off, becuase when it is on code for automatic translation will translate it.
-			if ( (!isset($the_options["is_dynamic_lang_on"]) || $this->convert_boolean($the_options["is_dynamic_lang_on"]) === false) && true === $the_options['button_settings_is_on'] || true === $the_options['button_accept_all_is_on'] || true === $the_options['button_accept_is_on'] ) {
+			// On a WPML translated view (e.g. /fr/) WPML provides the banner texts, so neither the
+			// selected banner language nor the dynamic (browser) language is applied there.
+			$wpml_language      = Gdpr_Cookie_Consent::gdpr_get_wpml_translated_language();
+			$is_dynamic_lang_on = isset( $the_options['is_dynamic_lang_on'] ) && true === $this->convert_boolean( $the_options['is_dynamic_lang_on'] );
+
+			// Check for translations if dynamic translation is off, because when it is on code for automatic translation will translate it.
+			if ( ( ! $is_dynamic_lang_on || '' !== $wpml_language ) && ( true === $the_options['button_settings_is_on'] || true === $the_options['button_accept_all_is_on'] || true === $the_options['button_accept_is_on'] ) ) {
 				$cookie_data                      = array();
 				$cookie_data['categories']        = $categories_data;
 				$cookie_data['dash_notify_message']               = $about_message;
@@ -1209,8 +1298,12 @@ class Gdpr_Cookie_Consent_Public {
 				$cookie_data['consent_notice']    = __( 'I consent to the use of following cookies:', 'gdpr-cookie-consent' );
 				$the_options['cookie_data']       = $cookie_data;
 
-				// language translation based on the selected language for the public facing.
-				if ( isset( $the_options['lang_selected'] )  && in_array( $the_options['lang_selected'], $this->supported_languages ) ) {
+				if ( '' !== $wpml_language ) {
+					// The templates read both $cookie_data and $the_options['cookie_data'], so keep them in sync.
+					$cookie_data                = $this->gdpr_translate_cookie_data_for_wpml( $cookie_data, $wpml_language, isset( $the_options['lang_selected'] ) ? $the_options['lang_selected'] : '' );
+					$the_options['cookie_data'] = $cookie_data;
+				} elseif ( isset( $the_options['lang_selected'] ) && in_array( $the_options['lang_selected'], $this->supported_languages, true ) ) {
+					// language translation based on the selected language for the public facing.
 
 					// Load and decode translations from JSON file.
 					$translations_file = GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/translations/public-translations.json';
@@ -1249,8 +1342,6 @@ class Gdpr_Cookie_Consent_Public {
 					}
 
 					$the_options['cookie_data'] = $cookie_data;
-					$the_options['gdpr_current_language'] = $the_options['lang_selected'];
-					update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
 				}
 			}
 
@@ -1269,7 +1360,7 @@ class Gdpr_Cookie_Consent_Public {
 			}
 			
 			//code to change the language according to user's preferences
-			if(isset($the_options["is_dynamic_lang_on"]) && ($this->convert_boolean($the_options["is_dynamic_lang_on"]) === true)){
+			if ( $is_dynamic_lang_on && '' === $wpml_language ) {
 				$accept_language = isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) : '';
 				$languages       = parseLanguageList( $accept_language ); // User's preferred languages.
 				$cookie_data                      = array();
