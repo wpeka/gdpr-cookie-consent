@@ -11436,11 +11436,12 @@ class Gdpr_Cookie_Consent_Admin {
 			array(
 				'methods'  => 'POST',
 				'callback' => array($this, 'update_gcm_status'), // Function to handle the request
-				'permission_callback' => function() use ($is_user_connected) {
-					if ($is_user_connected) {
-						return true; // Allow access
+				'permission_callback' => function( WP_REST_Request $request ) use ($is_user_connected) {
+					if ( ! $is_user_connected ) {
+						return new WP_Error('rest_forbidden', 'Unauthorized access', array('status' => 401));
 					}
-					return new WP_Error('rest_forbidden', 'Unauthorized access', array('status' => 401));
+					// Scan results are signed by the GCM checker with this site's shared secret.
+					return $this->appwplp_verify_hmac_signature( $request );
 				},
 			)
 		);
@@ -14034,7 +14035,7 @@ public function gdpr_support_request_handler() {
 		$wpl_api_url   = 'https://app.wplegalpages.com/wp-json/wplcookies/v2/';
 		$site_url      = site_url();
 		$response_url  = get_rest_url(null, 'gdpr/v2/update_gcm_status');
-		$response      = wp_remote_get( $wpl_api_url . 'get_gcm_status' . '?url=' . $site_url . '&response_url=' . $response_url );
+		$response      = wpl_signed_gcm_status_request( $wpl_api_url, $site_url, $response_url );
 		$response_code = wp_remote_retrieve_response_code( $response );
 
 		if ( 200 !== $response_code ) {

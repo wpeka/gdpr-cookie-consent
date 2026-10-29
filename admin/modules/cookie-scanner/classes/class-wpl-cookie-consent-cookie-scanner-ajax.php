@@ -64,7 +64,7 @@ class Gdpr_Cookie_Consent_Cookie_Scanner_Ajax extends Gdpr_Cookie_Consent_Cookie
 		$wpl_api_url = GDPR_APP_URL . '/wp-json/wplcookies/v2/';
 		$site_url      = site_url();
 		$response_url   = get_rest_url(null, 'gdpr/v2/update_gcm_status');
-		$response      = wp_remote_get( $wpl_api_url . 'get_gcm_status' . '?url=' . $site_url . '&response_url=' . $response_url );
+		$response      = wpl_signed_gcm_status_request( $wpl_api_url, $site_url, $response_url );
 		$response_code = wp_remote_retrieve_response_code( $response );
 		if ( 200 === $response_code ) {
 			$body = wp_remote_retrieve_body( $response );
