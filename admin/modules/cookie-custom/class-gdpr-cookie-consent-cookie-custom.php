@@ -379,7 +379,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	 *
 	 * @since 1.0
 	 * @param int $offset Offset.
-	 * @param int $limit Limit.
+	 * @param int $limit Limit; 0 for every row.
 	 *
 	 * @return array
 	 */
@@ -395,7 +395,11 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 			$out['total'] = $count_arr['ttnum'];
 		}
 
-		$data_arr = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM `' . $wpdb->prefix . 'gdpr_cookie_post_cookies` ORDER BY id_gdpr_cookie_post_cookies DESC LIMIT %d, %d', array( $offset, $limit ) ), ARRAY_A ); // db call ok; no-cache ok.
+		if ( $limit > 0 ) {
+			$data_arr = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM `' . $wpdb->prefix . 'gdpr_cookie_post_cookies` ORDER BY id_gdpr_cookie_post_cookies DESC LIMIT %d, %d', array( $offset, $limit ) ), ARRAY_A ); // db call ok; no-cache ok.
+		} else {
+			$data_arr = $wpdb->get_results( 'SELECT * FROM `' . $wpdb->prefix . 'gdpr_cookie_post_cookies` ORDER BY id_gdpr_cookie_post_cookies DESC', ARRAY_A ); // db call ok; no-cache ok.
+		}
 		if ( $data_arr ) {
 			$out['data'] = $data_arr;
 		}
@@ -406,11 +410,12 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 	 * Returns scanned and custom cookies removing duplicate entries.
 	 *
 	 * @since 1.0
+	 * @param int $limit Maximum manual cookies; 0 (default) for all of them.
 	 * @return array
 	 */
-	public function get_cookies() {
+	public function get_cookies( $limit = 0 ) {
 		$cookies_array = array();
-		$post_cookies  = $this->get_post_cookie_list();
+		$post_cookies  = $this->get_post_cookie_list( 0, $limit );
 		$post_cookies  = array_reverse( $post_cookies['data'] );
 		foreach ( $post_cookies as $key => $post_arr ) {
 			$num_days = $post_arr['duration'];
@@ -440,10 +445,15 @@ class Gdpr_Cookie_Consent_Cookie_Custom {
 				$post_cookies[ $key ] = $post_arr;
 			}
 		}
-		$cookies_array = array_merge( $post_cookies );
-		$temp_arr      = array_unique( array_column( $cookies_array, 'name' ) );
-		$cookies_array = array_intersect_key( $cookies_array, $temp_arr );
-		return $cookies_array;
+		// One row per name and domain: the same name can be set by two domains.
+		$cookies_array = array();
+		foreach ( $post_cookies as $cookie ) {
+			$key = strtolower( $cookie['name'] . '|' . ltrim( (string) $cookie['domain'], '.' ) );
+			if ( ! isset( $cookies_array[ $key ] ) ) {
+				$cookies_array[ $key ] = $cookie;
+			}
+		}
+		return array_values( $cookies_array );
 	}
 }
 new Gdpr_Cookie_Consent_Cookie_Custom();

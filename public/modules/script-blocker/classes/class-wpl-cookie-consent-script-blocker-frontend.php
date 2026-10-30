@@ -14,6 +14,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * The frontend-specific functionality for script blocker.
  *
+ * Every page is rewritten the same way for every visitor, whatever their
+ * consent or location, so full-page caches stay correct: each element that
+ * matches a blocking rule is marked with its category and made inert. The
+ * consent core in the browser then releases each element whose category the
+ * visitor has granted, on its own, and keeps the rest blocked.
+ *
+ * - <script>: type="text/plain", data-wpl-category, and data-wpl-type with the
+ *   original type (e.g. "module"). Every other attribute is kept.
+ * - <iframe>, <img>, <embed>, <object>, <link>: the URL attributes (src,
+ *   srcset, data, href and the common lazy-load ones) move to
+ *   data-wpl-attr-<name>.
+ *
  * @package    Wpl_Cookie_Consent
  * @subpackage Wpl_Cookie_Consent/public/modules
  * @author     wpeka <https://club.wpeka.com>
@@ -21,482 +33,374 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Gdpr_Cookie_Consent_Script_Blocker_Frontend extends Gdpr_Cookie_Consent_Script_Blocker {
 
 	/**
-	 * Buffer type for content rendering.
+	 * Script types the browser executes.
 	 *
-	 * @since 3.0.0
-	 * @var int $buffer_type Buffer type.
+	 * @var string[]
 	 */
-	public $buffer_type = '1';
+	const JS_TYPES = array( '', 'text/javascript', 'application/javascript', 'module', 'text/ecmascript', 'application/ecmascript', 'application/x-javascript', 'text/jsx' );
 
 	/**
-	 * Placeholder tokens used while script bodies are encoded.
-	 *
-	 * Generated per request so content echoed into the page (search terms,
-	 * comments, etc.) cannot contain a token that later decodes into markup.
+	 * URL attributes moved aside on blocked non-script elements, per tag.
 	 *
 	 * @var array
 	 */
-	private $automate_tokens = array();
+	const URL_ATTRIBUTES = array(
+		'IFRAME' => array( 'src', 'data-src', 'data-lazy-src' ),
+		'IMG'    => array( 'src', 'srcset', 'data-src', 'data-lazy-src', 'data-srcset', 'data-lazy-srcset' ),
+		'EMBED'  => array( 'src' ),
+		'OBJECT' => array( 'data' ),
+		'LINK'   => array( 'href' ),
+	);
+
+	/**
+	 * <link rel> values that fetch or connect to a third party.
+	 *
+	 * @var string[]
+	 */
+	const LINK_RELS = array( 'preload', 'prefetch', 'preconnect', 'dns-prefetch', 'modulepreload', 'prerender' );
+
+	/**
+	 * The instance hooked into the page, also used by the consent core config.
+	 *
+	 * @var Gdpr_Cookie_Consent_Script_Blocker_Frontend|null
+	 */
+	public static $instance = null;
+
+	/**
+	 * Rules for this request.
+	 *
+	 * @var array|null
+	 */
+	private $rules = null;
+
+	/**
+	 * Whitelisted URL fragments for this request.
+	 *
+	 * @var array|null
+	 */
+	private $whitelist = null;
 
 	/**
 	 * Gdpr_Cookie_Consent_Script_Blocker_Frontend constructor.
 	 */
 	public function __construct() {
-		$disable_blocker = get_option( 'wpl_bypass_script_blocker' );
-		if ( is_admin() || isset( $_GET['preview'] ) || $disable_blocker || ! class_exists( 'Gdpr_Cookie_Consent' ) ) { // phpcs:ignore input var ok, CSRF ok, sanitization ok.
+		self::$instance = $this;
+		if ( is_admin() || isset( $_GET['preview'] ) || ! class_exists( 'Gdpr_Cookie_Consent' ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
-
-		if ( true === $the_options['is_on'] && true === $the_options['is_script_blocker_on'] ) {
-			if ( true === $the_options['is_eu_on'] ) {
-				require GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/modules/geo-ip/class-wpl-cookie-consent-geo-ip.php';
-				$geoip = new Gdpr_Cookie_Consent_Geo_Ip();
-				if ( ! $geoip->wpl_is_eu_country() ) {
-					return;
-				}
-			}
-			// Block scripts.
-			add_action( 'template_redirect', array( $this, 'wpl_cookie_consent_template_redirect' ), 9999 );
-		} else {
+		if ( true !== $the_options['is_on'] || true !== $the_options['is_script_blocker_on'] ) {
 			return;
 		}
+		// No geo check here: the page is the same for every visitor and the
+		// browser decides whether blocking applies to them.
+		add_action( 'template_redirect', array( $this, 'wpl_cookie_consent_template_redirect' ), 9999 );
 	}
 
 	/**
-	 * Blocks scripts.
+	 * Start buffering the page.
 	 *
 	 * @since 3.0.0
 	 */
 	public function wpl_cookie_consent_template_redirect() {
-		ob_start();
-		if ( '1' === $this->buffer_type ) {
-			ob_start( array( $this, 'wpl_cookie_consent_custom_buffer' ) );
+		if ( self::wpl_is_scan_bypass_active() || is_feed() || is_embed() || wp_doing_ajax() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+			return;
 		}
+		ob_start( array( $this, 'wpl_cookie_consent_custom_buffer' ) );
 	}
 
 	/**
-	 * Match the whitelisted URL in scripts.
+	 * Returns the buffer with matching elements blocked.
 	 *
-	 * @param array  $whitelist_urls An array of whitelisted URLs to match against.
-	 * @param string $html_Data      The HTML data containing scripts to check for matches.
-	 */
-	public function wpl_check_for_script_match( $whitelist_urls, $html_Data ) {
-		// Convert $html_Data to lowercase for case-insensitive comparison.
-		$html_Data_lower = strtolower( $html_Data );
-
-		// Loop through each element in $whitelist_urls.
-		foreach ( $whitelist_urls as $key => $value ) {
-			// If the element is an array, skip it.
-			if ( is_array( $value ) ) {
-				continue;
-			}
-
-			// Check if the value exists in $html_Data (case-insensitive).
-			$value_lower = strtolower( $value );
-			if ( strpos( $html_Data_lower, $value_lower ) !== false ) {
-				return true; // Return true if a match is found.
-			}
-		}
-
-		return false; // Return false if no match is found.
-	}
-
-	/**
-	 * Returns custom buffer along with blocking changes.
+	 * Any failure returns the page unchanged rather than a blank one.
 	 *
 	 * @since 3.0.0
 	 * @param string $buffer String buffer.
-	 * @return mixed|string
+	 * @return string
 	 */
 	public function wpl_cookie_consent_custom_buffer( $buffer = '' ) {
-		$script_patterns = $this->wpl_get_script_patterns();
-		$script_lists    = $this->get_cookie_scripts();
-		$script_lists    = isset( $script_lists['data'] ) ? $script_lists['data'] : array();
-
-
-		if ( isset( $script_lists ) && ! empty( $script_lists ) ) {
-			foreach ( $script_lists as $key => $value ) {
-				$category = $this->get_category_by_id( $value['script_category'] );
-				foreach ( $category as $k => $v ) {
-					$category_slug = $v->gdpr_cookie_category_slug;
-					$category_name = $v->gdpr_cookie_category_name;
-				}
-				$script_key    = $value['script_key'];
-				$script_status = $value['script_status'];
-				if ( isset( $script_patterns[ $script_key ] ) && 'necessary' !== $category_slug ) {
-					if ( '1' === $script_status ) {
-						$script_patterns[ $script_key ]['block_scripts'] = true;
-						$script_patterns[ $script_key ]['category_slug'] = $category_slug;
-						$script_patterns[ $script_key ]['category_name'] = $category_name;
-						$script_patterns[ $script_key ]['placeholder']   = sprintf(
-							/* Translators: %s category name. */
-							__( 'Accept %s cookies to view the content.', 'gdpr-cookie-consent' ),
-							"<a class='wpl_manage_current_consent'>" . esc_html( $category_name ) . '</a>'
-						);
-					} else {
-						unset( $script_patterns[ $script_key ] );
-					}
-				} else {
-					unset( $script_patterns[ $script_key ] );
-				}
-			}
+		if ( ! is_string( $buffer ) || '' === $buffer || false === stripos( $buffer, '<html' ) || ! class_exists( 'WP_HTML_Tag_Processor' ) ) {
+			return $buffer;
 		}
-
-		foreach ( $script_patterns as $key => $value ) {
-			$script_patterns[ $key ]['check'] = true;
+		try {
+			$rewritten = $this->wpl_block_elements( $buffer );
+			return ( is_string( $rewritten ) && '' !== $rewritten ) ? $rewritten : $buffer;
+		} catch ( \Throwable $e ) {
+			return $buffer;
 		}
-
-		$buffer = $this->wpl_before_automate( $buffer );
-		$parts  = $this->wpl_get_parts( $buffer );
-		if ( $parts ) {
-			foreach ( $script_patterns as $key => $data ) {
-				if ( $data['check'] ) {
-					if ( $data['internal_cb'] ) {
-						$callback = array( $this, $data['callback'] );
-					}
-				} else {
-					continue;
-				}
-				$parts = call_user_func_array( $callback, array( $key, $data, $parts ) );
-			}
-			$buffer = $parts['head'] . $parts['split'] . $parts['body'];
-		}
-		$buffer = $this->wpl_after_automate( $buffer );
-		return $buffer;
 	}
 
 	/**
-	 * Fetch the scripts to be whitelisted.
-	 */
-	public function wpl_whitelisted_scripts() {
-
-		$whitelisted_script_tags = array();
-		$scripts                 = get_option( 'wpl_options_custom-scripts' );
-		if ( is_array( $scripts ) && isset( $scripts['whitelist_script'] ) && is_array( $scripts['whitelist_script'] ) ) {
-			$custom_whitelisted_script_tags = array_filter(
-				$scripts['whitelist_script'],
-				function ( $script ) {
-					return $script['enable'] == 1;
-				}
-			);
-
-			// flatten array.
-			$flat = array();
-			foreach ( $custom_whitelisted_script_tags as $data ) {
-				$flat = array_merge( $flat, $data['urls'] );
-			}
-
-			$whitelisted_script_tags = array_merge( $flat, $whitelisted_script_tags );
-		}
-		return $whitelisted_script_tags;
-	}
-
-	/**
-	 * Returns parts of the buffer string.
+	 * Walk the document once and block every element a rule matches.
 	 *
-	 * @since 3.0.0
-	 * @param String $buffer Buffer.
-	 * @return array|bool
-	 * @throws \RuntimeException Run time exception.
+	 * @since 4.5.0
+	 * @param string $html Page HTML.
+	 * @return string
 	 */
-	public function wpl_get_parts( $buffer ) {
-		$parts   = array(
-			'head'  => '',
-			'body'  => '',
-			'split' => '',
-		);
-		$pattern = '#</head\s*>[\s\S]*?<body[^>]*>#i';
-		if ( preg_match( $pattern, $buffer, $m ) ) {
-			$splitted = preg_split( $pattern, $buffer );
-			if ( 2 !== count( $splitted ) ) {
-				return false; // fail gracefully
+	public function wpl_block_elements( $html ) {
+		$rules = $this->wpl_get_rules();
+		if ( empty( $rules ) ) {
+			return $html;
+		}
+		$processor     = new WP_HTML_Tag_Processor( $html );
+		$can_read_text = method_exists( $processor, 'get_modifiable_text' );
+
+		while ( $processor->next_tag() ) {
+			if ( $processor->is_tag_closer() ) {
+				continue;
 			}
-			$parts['head']  = $splitted[0];
-			$parts['body']  = $splitted[1];
-			$parts['split'] = $m[0];
-			unset( $splitted );
-			return $parts;
+			$tag = $processor->get_tag();
+			if ( 'SCRIPT' !== $tag && ! isset( self::URL_ATTRIBUTES[ $tag ] ) ) {
+				continue;
+			}
+			if ( null !== $processor->get_attribute( 'data-wpl-skip' ) || null !== $processor->get_attribute( 'data-wpl-category' ) ) {
+				continue;
+			}
+
+			if ( 'SCRIPT' === $tag ) {
+				$this->wpl_block_script( $processor, $rules, $can_read_text );
+			} else {
+				$this->wpl_block_url_element( $processor, $tag, $rules );
+			}
+		}
+		return $processor->get_updated_html();
+	}
+
+	/**
+	 * Block a <script> if its src or (inline) text matches a rule.
+	 *
+	 * @param WP_HTML_Tag_Processor $processor     Processor positioned on the tag.
+	 * @param array                 $rules         Rules.
+	 * @param bool                  $can_read_text Whether inline text can be read (WP 6.5+).
+	 */
+	private function wpl_block_script( $processor, $rules, $can_read_text ) {
+		$id = $processor->get_attribute( 'id' );
+		// The plugin's own scripts and their localized data.
+		if ( is_string( $id ) && ( 0 === strpos( $id, 'gdpr-cookie-consent' ) || 0 === strpos( $id, 'wpl-' ) ) ) {
+			return;
+		}
+		$type = $processor->get_attribute( 'type' );
+		$type = is_string( $type ) ? strtolower( trim( $type ) ) : '';
+		if ( ! in_array( $type, self::JS_TYPES, true ) ) {
+			return;
+		}
+
+		$rule = null;
+		$src  = $processor->get_attribute( 'src' );
+		if ( is_string( $src ) && '' !== $src ) {
+			if ( $this->wpl_is_whitelisted( $src ) ) {
+				return;
+			}
+			$rule = $this->wpl_match_url( $src, $rules );
+		} elseif ( $can_read_text ) {
+			$text = $processor->get_modifiable_text();
+			if ( '' !== trim( $text ) && ! $this->wpl_is_whitelisted( $text ) ) {
+				$rule = $this->wpl_match_inline( $text, $rules );
+			}
+		}
+		if ( null === $rule ) {
+			return;
+		}
+
+		$original_type = $processor->get_attribute( 'type' );
+		$processor->set_attribute( 'type', 'text/plain' );
+		if ( is_string( $original_type ) && '' !== $original_type ) {
+			$processor->set_attribute( 'data-wpl-type', $original_type );
+		}
+		$this->wpl_mark( $processor, $rule );
+	}
+
+	/**
+	 * Block an <iframe>, <img>, <embed>, <object> or <link> pointing at a rule's URL.
+	 *
+	 * @param WP_HTML_Tag_Processor $processor Processor positioned on the tag.
+	 * @param string                $tag       Tag name.
+	 * @param array                 $rules     Rules.
+	 */
+	private function wpl_block_url_element( $processor, $tag, $rules ) {
+		if ( 'LINK' === $tag ) {
+			$rel = $processor->get_attribute( 'rel' );
+			$rel = is_string( $rel ) ? preg_split( '/\s+/', strtolower( trim( $rel ) ) ) : array();
+			if ( ! array_intersect( $rel, self::LINK_RELS ) ) {
+				return;
+			}
+		}
+
+		$rule  = null;
+		$found = array();
+		foreach ( self::URL_ATTRIBUTES[ $tag ] as $attribute ) {
+			$value = $processor->get_attribute( $attribute );
+			if ( ! is_string( $value ) || '' === $value ) {
+				continue;
+			}
+			$found[ $attribute ] = $value;
+			if ( null === $rule && ! $this->wpl_is_whitelisted( $value ) ) {
+				// srcset holds several URLs; matching the whole string is enough.
+				$rule = $this->wpl_match_url( $value, $rules );
+			}
+		}
+		if ( null === $rule ) {
+			return;
+		}
+
+		foreach ( $found as $attribute => $value ) {
+			$processor->set_attribute( 'data-wpl-attr-' . $attribute, $value );
+			$processor->remove_attribute( $attribute );
+		}
+		$processor->set_attribute( 'data-wpl-placeholder', $rule['category_name'] );
+		$this->wpl_mark( $processor, $rule );
+	}
+
+	/**
+	 * Add the attributes the consent core releases by.
+	 *
+	 * @param WP_HTML_Tag_Processor $processor Processor positioned on the tag.
+	 * @param array                 $rule      Matched rule.
+	 */
+	private function wpl_mark( $processor, $rule ) {
+		$processor->set_attribute( 'data-wpl-category', $rule['category'] );
+		$processor->set_attribute( 'data-wpl-key', $rule['key'] );
+		$processor->set_attribute( 'data-wpl-label', $rule['label'] );
+	}
+
+	/**
+	 * The rule whose URL fragment occurs in the URL, if any.
+	 *
+	 * The longest matching fragment wins, so gtag/js?id=AW- (ads) beats the
+	 * generic gtag/js (Tag Manager). The consent core matches the same way.
+	 *
+	 * @param string $url   URL.
+	 * @param array  $rules Rules.
+	 * @return array|null
+	 */
+	public function wpl_match_url( $url, $rules ) {
+		$haystack = self::wpl_normalize_url( $url );
+		if ( '' === $haystack ) {
+			return null;
+		}
+		$best   = null;
+		$length = 0;
+		foreach ( $rules as $rule ) {
+			foreach ( $rule['urls'] as $needle ) {
+				if ( strlen( $needle ) > $length && false !== strpos( $haystack, $needle ) ) {
+					$best   = $rule;
+					$length = strlen( $needle );
+				}
+			}
+		}
+		if ( null !== $best ) {
+			return $best;
+		}
+		foreach ( $rules as $rule ) {
+			foreach ( $rule['regex'] as $regex ) {
+				if ( 1 === @preg_match( $regex, $url ) ) { // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- admin-supplied pattern, already validated.
+					return $rule;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * The rule one of whose code fragments occurs in an inline script, if any.
+	 *
+	 * @param string $text  Script text.
+	 * @param array  $rules Rules.
+	 * @return array|null
+	 */
+	public function wpl_match_inline( $text, $rules ) {
+		$normalized = strtolower( $text );
+		foreach ( $rules as $rule ) {
+			foreach ( $rule['needles'] as $needle ) {
+				if ( false !== strpos( $text, $needle ) ) {
+					return $rule;
+				}
+			}
+			// A tracker URL inside an inline loader (e.g. the Meta Pixel snippet).
+			foreach ( $rule['urls'] as $needle ) {
+				if ( false !== strpos( $normalized, $needle ) ) {
+					return $rule;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Lowercase, without scheme, protocol-relative slashes or a leading "www.".
+	 *
+	 * The consent core normalizes the same way.
+	 *
+	 * @param string $url URL or URL fragment.
+	 * @return string
+	 */
+	public static function wpl_normalize_url( $url ) {
+		$url = strtolower( trim( html_entity_decode( (string) $url, ENT_QUOTES ) ) );
+		$url = preg_replace( '#^[a-z][a-z0-9+.-]*:#', '', $url );
+		$url = ltrim( (string) $url, '/' );
+		if ( 0 === strpos( $url, 'www.' ) ) {
+			$url = substr( $url, 4 );
+		}
+		return (string) $url;
+	}
+
+	/**
+	 * Whether the URL or script text contains a whitelisted fragment.
+	 *
+	 * @param string $haystack URL or script text.
+	 * @return bool
+	 */
+	private function wpl_is_whitelisted( $haystack ) {
+		if ( null === $this->whitelist ) {
+			$this->whitelist = array();
+			foreach ( $this->wpl_whitelisted_scripts() as $url ) {
+				if ( is_string( $url ) && '' !== trim( $url ) ) {
+					$this->whitelist[] = strtolower( trim( $url ) );
+				}
+			}
+		}
+		if ( empty( $this->whitelist ) ) {
+			return false;
+		}
+		$haystack = strtolower( $haystack );
+		foreach ( $this->whitelist as $url ) {
+			if ( false !== strpos( $haystack, $url ) ) {
+				return true;
+			}
 		}
 		return false;
 	}
 
 	/**
-	 * Before automate block scripts.
+	 * Fetch the scripts to be whitelisted.
 	 *
-	 * @since 3.0.0
-	 * @param String $buffer Buffer.
-	 * @return string
+	 * @return string[]
 	 */
-	public function wpl_before_automate( $buffer ) {
-		$text_arr                       = wp_html_split( $buffer );
-		$regex_patterns                 = $this->wpl_get_regex_patterns();
-		$_regex_pattern_script_tag_open = $regex_patterns['_regexScriptTagOpen'];
-		$changed                        = false;
-		$replace_pairs                  = $this->wpl_get_automate_tokens();
-
-		foreach ( $replace_pairs as $needle => $replace ) {
-			foreach ( $text_arr as $i => $html ) {
-				if ( preg_match( "#^$_regex_pattern_script_tag_open#", $text_arr[ $i ], $m ) ) {
-					if ( false !== strpos( $text_arr[ $i + 1 ], $needle ) ) {
-						$textarr[ $i + 1 ] = str_replace( $needle, $replace, $text_arr[ $i + 1 ] );
-						$changed           = true;
-					}
-					if ( '<' === $needle && $needle === $text_arr[ $i + 2 ][0] && '</script>' !== $text_arr[ $i + 2 ] ) {
-						$text_arr[ $i + 2 ] = preg_replace( '#\<(?!/script\>)#', $replace, $text_arr[ $i + 2 ] );
-					}
+	public function wpl_whitelisted_scripts() {
+		$whitelisted = array();
+		$scripts     = get_option( 'wpl_options_custom-scripts' );
+		if ( is_array( $scripts ) && isset( $scripts['whitelist_script'] ) && is_array( $scripts['whitelist_script'] ) ) {
+			foreach ( $scripts['whitelist_script'] as $entry ) {
+				// An entry saved without URLs must not break the page.
+				if ( ! is_array( $entry ) || empty( $entry['enable'] ) || empty( $entry['urls'] ) || ! is_array( $entry['urls'] ) ) {
+					continue;
 				}
+				$whitelisted = array_merge( $whitelisted, $entry['urls'] );
 			}
 		}
-		if ( $changed ) {
-			$buffer = implode( $text_arr );
-		}
-		unset( $text_arr );
-		return $buffer;
+		return $whitelisted;
 	}
 
 	/**
-	 * After automate block scripts.
-	 *
-	 * @since 3.0.0
-	 * @param String $buffer Buffer.
-	 * @return mixed
-	 */
-	public function wpl_after_automate( $buffer ) {
-		$tokens = $this->wpl_get_automate_tokens();
-		return str_replace( array_values( $tokens ), array_keys( $tokens ), $buffer );
-	}
-
-	/**
-	 * Get the per-request placeholder tokens, keyed by the string they replace.
+	 * The blocking rules for this request (cached per request).
 	 *
 	 * @return array
 	 */
-	private function wpl_get_automate_tokens() {
-		if ( empty( $this->automate_tokens ) ) {
-			$nonce                 = bin2hex( random_bytes( 8 ) );
-			$this->automate_tokens = array(
-				"\r\n" => '_RNL' . $nonce . '_',
-				"\n"   => '_NL' . $nonce . '_',
-				'<'    => '_LT' . $nonce . '_',
-			);
+	public function wpl_get_rules() {
+		if ( null === $this->rules ) {
+			$this->rules = $this->wpl_build_rules();
 		}
-		return $this->automate_tokens;
-	}
-
-	/**
-	 * Automate block scripts.
-	 *
-	 * @since 3.0.0
-	 * @param null  $type Type.
-	 * @param array $data Data.
-	 * @param array $parts Parts.
-	 * @return array
-	 */
-	public function wpl_automate_default( $type = null, $data = array(), $parts = array() ) {
-
-		$patterns      = array();
-		$has_src       = $data['has_src'];
-		$has_js        = $data['has_js'];
-		$has_js_needle = $data['has_js_needle'];
-		$has_url       = $data['has_url'];
-		$has_html_elem = $data['has_html_elem'];
-
-		$regex_patterns = $this->wpl_get_regex_patterns();
-
-		if ( $has_url ) {
-			$url              = $data['url'];
-			$url_tmpl_pattern = $regex_patterns['_regexParts']['-lookbehindLinkImg'] . 'https?://(?:[www\.]{4})?%s';
-			foreach ( (array) $url as $u ) {
-				$url         = $this->wpl_get_url_without_schema_subdomain( $u );
-				$url         = str_replace( '*', $regex_patterns['_regexParts']['randomChars'], $url );
-				$escaped_url = $this->wpl_escape_regex_chars( $url );
-				$pattern     = sprintf( $url_tmpl_pattern, $escaped_url );
-				$patterns[]  = $pattern;
-			}
-		}
-
-		if ( $has_src ) {
-			$s = $data['src'];
-			foreach ( (array) $s as $src ) {
-				$clean_url   = $this->wpl_get_clean_url( $src, true );
-				$subdomain   = ( '' !== $clean_url && '.' === $clean_url[0] ) ? '[^.]+?' : '';
-				$escaped_url = $this->wpl_escape_regex_chars( $clean_url );
-				$pattern     = sprintf( $regex_patterns['_regexIframe'], $subdomain, $escaped_url );
-				$patterns[]  = $pattern;
-			}
-		}
-
-		if ( $has_js ) {
-			$js = $data['js'];
-			foreach ( (array) $js as $script ) {
-				$has_plugin_url    = false;
-				$clean_url         = $this->wpl_get_clean_url( $script, true );
-				$allowed_locations = array(
-					'plugin' => 'wp-content/plugins',
-					'theme'  => 'wp-content/themes',
-				);
-				if ( '' !== $clean_url && ! empty( $allowed_locations ) && preg_match( '#^' . join( '|', $allowed_locations ) . '#', $clean_url ) ) {
-					$has_plugin_url = true;
-					$url_begin      = trailingslashit( $this->wpl_get_clean_url( home_url( add_query_arg( null, null ) ) ) );
-
-				} elseif ( '' !== $clean_url && '.' === $clean_url[0] ) {
-					$url_begin = '[^.]+?';
-				} else {
-					$url_begin = '';
-				}
-				$escaped_url = $this->wpl_escape_regex_chars( $clean_url );
-				if ( $has_plugin_url ) {
-					$url_begin = $this->wpl_escape_regex_chars( $url_begin );
-				}
-				$pattern    = sprintf( $regex_patterns['_regexScriptSrc'], $url_begin, $escaped_url );
-				$patterns[] = $pattern;
-			}
-		}
-
-		if ( $has_js_needle ) {
-			$js_needle = $data['js_needle'];
-			foreach ( (array) $js_needle as $needle ) {
-				$escaped    = $this->wpl_escape_regex_chars( $needle );
-				$pattern    = sprintf( $regex_patterns['_regexScriptHasNeedle'], $escaped );
-				$patterns[] = $pattern;
-			}
-		}
-
-		if ( $has_html_elem ) {
-			$data_count = count( $data['html_elem'] );
-			for ( $j = 0; $j < $data_count; $j++ ) {
-				$html_elem_attr       = explode( ':', $data['html_elem'][ $j ]['attr'] );
-				$html_elem_name       = $this->wpl_escape_regex_chars( $data['html_elem'][ $j ]['name'] );
-				$html_elem_attr_name  = $this->wpl_escape_regex_chars( $html_elem_attr[0] );
-				$html_elem_attr_value = $this->wpl_escape_regex_chars( $html_elem_attr[1] );
-				$prefix               = '';
-				if ( ( 'src' === $html_elem_attr_name ) || ( 'data' === $html_elem_attr_name && 'object' === $html_elem_name ) ) {
-					$prefix = $regex_patterns['_regexParts']['srcSchemeWww'];
-				}
-				if ( ( 'img' === $html_elem_name ) || ( 'embed' === $html_elem_name ) ) {
-					$patterns[] = sprintf( $regex_patterns['_regexHtmlElemWithAttrTypeA'], $html_elem_name, $html_elem_attr_name, $prefix, $html_elem_attr_value );
-				} else {
-					$patterns[] = sprintf( $regex_patterns['_regexHtmlElemWithAttr'], $html_elem_name, $html_elem_attr_name, $prefix, $html_elem_attr_value, $html_elem_name, $html_elem_name );
-				}
-			}
-		}
-
-		return $this->wpl_prepare_script( $patterns, '', $type, $parts, $data );
-	}
-
-	/**
-	 * Prepare blocking script.
-	 *
-	 * @since 3.0.0
-	 * @param string $patterns Patterns.
-	 * @param string $modifiers Modifiers.
-	 * @param null   $type Type.
-	 * @param array  $parts Parts.
-	 * @param array  $data Data.
-	 * @return array
-	 * @throws \InvalidArgumentException Invalid argument exception.
-	 * @throws \RuntimeException Run time exception.
-	 */
-	public function wpl_prepare_script( $patterns = '', $modifiers = '', $type = null, $parts = array(), $data = array() ) {
-		$wrap_pattern = '#%s#' . $modifiers;
-		$pattern      = array();
-		foreach ( $patterns as $ptrn ) {
-			$pattern[] = sprintf( $wrap_pattern, $ptrn );
-		}
-		if ( ! isset( $parts['head'] ) || ! isset( $parts['body'] ) ) {
-			// the data in the $type is not the user generated code.
-			return false; // fail gracefully
-		}
-		$parts['head'] = $this->wpl_script_replace_callback( $parts['head'], $pattern, $data, 'head' );
-		if ( null === $parts['head'] ) {
-			return false; // fail gracefully
-		}
-		$wrap_pattern = '#%s#' . $modifiers;
-		$pattern      = array();
-		foreach ( $patterns as $ptrn ) {
-			$pattern[] = sprintf( $wrap_pattern, $ptrn );
-		}
-		$parts['body'] = $this->wpl_script_replace_callback( $parts['body'], $pattern, $data, 'body' );
-
-		if ( null === $parts['body'] ) {
-			return false; // fail gracefully
-		}
-
-		return $parts;
-	}
-
-
-	/**
-	 * Replace callback for blocking scripts.
-	 *
-	 * @since 3.0.0
-	 * @param string $html HTML.
-	 * @param Array  $pattern Pattern.
-	 * @param Array  $data Data.
-	 * @param string $elm_position Element position head or body.
-	 * @return null|string|string[]
-	 */
-	public function wpl_script_replace_callback( $html, $pattern, $data, $elm_position = 'head' ) {
-		return preg_replace_callback(
-			$pattern,
-			function ( $matches ) use ( $data, $elm_position ) {
-				$placeholder          = '';
-				$script_category_slug = $data['category_slug'];
-				$script_label         = $data['label'];
-				$script_load_on_start = $data['block_scripts'];
-				$script_type          = 'text/plain';
-				$match                = $matches[0];
-
-				$whitelist_urls = $this->wpl_whitelisted_scripts();
-
-				$result = $this->wpl_check_for_script_match( $whitelist_urls, $match );
-				if ( $result ) {
-					// if whitelist script matches then bypass.
-					return $match;
-				} else {
-					if ( isset( $data['placeholder'] ) ) {
-						$placeholder = $data['placeholder'];
-					}
-					$wpl_replace = 'data-wpl-class="wpl-blocker-script" data-wpl-label="' . $script_label . '"  data-wpl-script-type="' . $script_category_slug . '" data-wpl-block="' . $script_load_on_start . '" data-wpl-element-position="' . $elm_position . '"';
-				
-					if (
-						preg_match( '/<iframe\b[^>]*?\bsrc=["\']([^"\']+)["\'][^>]*?>.*?<\/iframe>/is', $match, $element_match ) ||
-						preg_match( '/<object\b[^>]*?\bdata=["\']([^"\']+)["\'][^>]*?>.*?<\/object>/is', $match, $element_match ) ||
-						preg_match( '/<embed\b[^>]*?\bsrc=["\']([^"\']+)["\'][^>]*?>/i', $match, $element_match ) ||
-						preg_match( '/<img\b[^>]*?\bsrc=["\']([^"\']+)["\'][^>]*?>/i', $match, $element_match )
-
-					){
-
-						$element_src        = $element_match[1];
-						$original_src_attr  = 'src="' . $element_src . '"';
-						$replacement_attr   = $wpl_replace . ' data-wpl-placeholder="' . esc_attr( $placeholder ) . '" data-wpl-src="' . esc_url( $element_src ) . '"';
-
-						
-						if ( strpos( $match, $original_src_attr ) !== false ) {
-							$match = str_replace( $original_src_attr, $replacement_attr, $match );
-						} else {
-							$original_src_attr = "src='" . $element_src . "'";
-							$match = str_replace( $original_src_attr, $replacement_attr, $match );
-						}
-					} 
-
-					elseif ( preg_match( '/type=/', $match ) ) {
-						preg_match( '/(type=["\']text\/javascript["\'])/i', $match, $output_array );
-						if ( ! empty( $output_array ) ) {
-							$match = str_replace( $output_array[1], 'type="' . $script_type . '" ' . $wpl_replace, $match );
-						}
-						if ( 'Matomo Analytics' === $script_label ) {
-							$match = str_replace( '<script', '<script type="' . $script_type . '" ' . $wpl_replace, $match );
-						}
-					} else {
-						$match = str_replace( '<script', '<script type="' . $script_type . '" ' . $wpl_replace, $match );
-					}
-					return $match;
-				}
-			},
-			$html
-		);
+		return $this->rules;
 	}
 }
 new Gdpr_Cookie_Consent_Script_Blocker_Frontend();

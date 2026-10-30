@@ -158,6 +158,8 @@ class Gdpr_Cookie_Consent {
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/modules/script-blocker/class-wpl-cookie-consent-script-blocker.php';
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-cookie-consent-consent-logs.php';
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/cookie-scanner/class-wpl-cookie-consent-cookie-scanner.php';
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/class-gdpr-cookie-consent-cookie-inventory.php';
+		add_action( 'admin_init', array( 'Gdpr_Cookie_Consent_Cookie_Inventory', 'maybe_migrate' ) );
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/geo-ip/class-wpl-cookie-consent-geo-ip.php';
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/admin/modules/ab-testing/class-wpl-cookie-consent-ab-testing.php';
 		/**
@@ -1288,6 +1290,7 @@ class Gdpr_Cookie_Consent {
 			'header_scripts'                         => '',
 			'body_scripts'                           => '',
 			'footer_scripts'                         => '',
+			// Consent category each custom scripts group is released by.
 			'restrict_posts'                         => array(),
 			'select_pages'                           => array(),
 			'header_dependency'					 	 => '',
@@ -1508,6 +1511,28 @@ class Gdpr_Cookie_Consent {
 	}
 
 	/**
+	 * Get the WPML language of the current request when it is a translated view.
+	 *
+	 * WPML filters the plugin's admin texts per language, so on a non-default
+	 * language page the stored banner texts are already translated and must
+	 * neither be overridden by the plugin's own translations nor saved back.
+	 *
+	 * @return string WPML language code, or an empty string when WPML is inactive
+	 *                or the current language is the default language.
+	 */
+	public static function gdpr_get_wpml_translated_language() {
+		if ( ! defined( 'ICL_SITEPRESS_VERSION' ) ) {
+			return '';
+		}
+		$current_language = apply_filters( 'wpml_current_language', null );
+		$default_language = apply_filters( 'wpml_default_language', null );
+		if ( ! is_string( $current_language ) || '' === $current_language || 'all' === $current_language || $current_language === $default_language ) {
+			return '';
+		}
+		return sanitize_key( $current_language );
+	}
+
+	/**
 	 * Get current settings.
 	 *
 	 * @return array|mixed
@@ -1522,7 +1547,8 @@ class Gdpr_Cookie_Consent {
 		}
 		// Persist newly added defaults only when the option is missing or the plugin version changed,
 		// not on every call: this getter runs many times per request, including on the frontend.
-		if ( empty( self::$stored_options ) || get_option( 'gdpr_settings_db_version' ) !== GDPR_COOKIE_CONSENT_VERSION ) {
+		// On a WPML translated view get_option() returns translated texts, so never save them back.
+		if ( empty( self::$stored_options ) || ( get_option( 'gdpr_settings_db_version' ) !== GDPR_COOKIE_CONSENT_VERSION && '' === self::gdpr_get_wpml_translated_language() ) ) {
 			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings );
 			update_option( 'gdpr_settings_db_version', GDPR_COOKIE_CONSENT_VERSION );
 		}

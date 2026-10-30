@@ -282,6 +282,47 @@ if ( ! function_exists( 'appwplp_maybe_generate_secret_key' ) ) {
 	}
 }
 
+/**
+ * Builds a signed get_gcm_status request to the app.
+ *
+ * The request is a GET with no body, so the signature covers the two query
+ * values instead: 'wplc-gcm-v1|<timestamp>|<url>|<response_url>'. That binds
+ * the callback address to the site's key, so a captured request cannot be
+ * replayed with a different response_url.
+ *
+ * Headers are left off when the key has not been confirmed yet - the app has
+ * nothing to verify them against.
+ *
+ * @param string $api_url      Base URL of the wplcookies/v2 namespace, with trailing slash.
+ * @param string $site_url     This site's URL.
+ * @param string $response_url Route the scanner posts the result back to.
+ *
+ * @return array|WP_Error Response from wp_remote_get().
+ */
+if ( ! function_exists( 'wpl_signed_gcm_status_request' ) ) {
+	function wpl_signed_gcm_status_request( $api_url, $site_url, $response_url ) {
+		$request_url = add_query_arg(
+			array(
+				'url'          => rawurlencode( $site_url ),
+				'response_url' => rawurlencode( $response_url ),
+			),
+			$api_url . 'get_gcm_status'
+		);
+
+		$headers    = array();
+		$secret_key = get_option( APPWPLP_SECRET_KEY_OPTION );
+		if ( ! empty( $secret_key ) && 'confirmed' === get_option( APPWPLP_SECRET_KEY_STATUS_OPTION ) ) {
+			$timestamp = (string) time();
+			$headers   = array(
+				'X-WPLP-Timestamp' => $timestamp,
+				'X-WPLP-Signature' => hash_hmac( 'sha256', 'wplc-gcm-v1|' . $timestamp . '|' . $site_url . '|' . $response_url, $secret_key ),
+			);
+		}
+
+		return wp_remote_get( $request_url, array( 'headers' => $headers ) );
+	}
+}
+
 add_filter( 'cron_schedules', function ( $schedules ) {
 	$schedules['appwplp_fifteen_minutes'] = array(
 		'interval' => 15 * MINUTE_IN_SECONDS,
