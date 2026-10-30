@@ -1,0 +1,248 @@
+# GitLab CI for gdpr-cookie-consent.
+#
+#   phpcs_wpvip     - every MR: PHPCS (WordPress VIP + security WPCS sniffs) on
+#                     the lines the MR changes. Errors fail the job.
+#   claude_review   - MRs into develop: manual button, Claude posts a review.
+#   sync_to_github  - every push to master: pushes master to the GitHub repo
+#                     and opens/updates a PR into GitHub's develop branch.
+#
+# Settings -> CI/CD -> Variables (all masked; "protected" is fine for
+# GITHUB_TOKEN since master is a protected branch):
+#   - GITLAB_TOKEN             Project/Group Access Token, "api" scope. Used to
+#                              post PHPCS and Claude comments on the MR.
+#   - CLAUDE_CODE_OAUTH_TOKEN  From `claude setup-token` on a machine logged in
+#                              to a Claude Team seat (valid one year). Do NOT
+#                              also set ANTHROPIC_API_KEY - it would take
+#                              precedence over the subscription token.
+#   - GITHUB_TOKEN             GitHub fine-grained PAT (or bot account token)
+#                              with access to wpeka/gdpr-cookie-consent:
+#                              Contents: read & write, Pull requests: read & write.
+#
+# Note: Claude usage draws from the seat that generated the token (shared with
+# that person's Claude chat/Cowork/Code usage), not separate org API billing.
+
+stages:
+  - lint
+  - ai-review
+  - sync
+
+# PHPCS (WordPress + WordPress-VIP-Go) - runs automatically on every MR.
+#
+# Errors on lines added/changed by the MR fail this job, which blocks the
+# merge when "Settings -> Merge requests -> Pipelines must succeed" is on.
+# Errors and warnings are posted as inline MR threads plus one summary note
+# (updated in place on each run). Pre-existing issues on untouched lines are
+# ignored.
+#
+# Runner needs: git, jq, curl, sha256sum. If the host has no suitable PHP
+# (shell executor, nothing installed), a static PHP CLI build and a pinned
+# composer.phar are downloaded, checksum-verified and kept in
+# ~/.cache/phpcs-ci, so no root access or system packages are required.
+# Run locally: composer install --working-dir=.gitlab/ci/phpcs
+#              .gitlab/ci/phpcs/vendor/bin/phpcs --standard=.gitlab/ci/phpcs/ruleset.xml <files>
+phpcs_wpvip:
+  stage: lint
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  variables:
+    GIT_DEPTH: 0   # full history so the MR base commit is available to diff against
+    PHPCS_BIN: "$CI_PROJECT_DIR/.gitlab/ci/phpcs/vendor/bin/phpcs"
+    PHPCS_STANDARD: "$CI_PROJECT_DIR/.gitlab/ci/phpcs/ruleset.xml"
+    STATIC_PHP_VERSION: "8.3.32"
+    STATIC_PHP_SHA256_X86_64: "d7ff2bc40846f4efed2757e5929f7469c96f672fbf33eb4bb80cd695534750fe"
+    STATIC_PHP_SHA256_AARCH64: "e7644c646a62c44627d00e3deff498eeb943814adcc948b3de42a8ebfe07aaf2"
+    COMPOSER_VERSION: "2.10.3"
+    COMPOSER_SHA256: "7a2d379d5b8ffdaa028580ef26494c36d2feef4b178d3dd1473a4dbc5e17c8d6"
+  cache:
+    key:
+      files:
+        - .gitlab/ci/phpcs/composer.lock
+    paths:
+      - .gitlab/ci/phpcs/vendor/
+  before_script:
+    - command -v jq >/dev/null || { echo "jq is required on the runner"; exit 1; }
+    - TOOLS_DIR="$HOME/.cache/phpcs-ci" && mkdir -p "$TOOLS_DIR"
+    - |
+      # Use the host PHP only if it has every extension phpcs needs.
+      if ! php -r 'exit(extension_loaded("tokenizer") && extension_loaded("xmlwriter") && extension_loaded("simplexml") ? 0 : 1);' 2>/dev/null; then
+        case "$(uname -m)" in
+          x86_64)        PHP_ARCH=x86_64;  PHP_SHA256="$STATIC_PHP_SHA256_X86_64" ;;
+          aarch64|arm64) PHP_ARCH=aarch64; PHP_SHA256="$STATIC_PHP_SHA256_AARCH64" ;;
+          *) echo "Unsupported runner architecture: $(uname -m)"; exit 1 ;;
+        esac
+        PHP_DIR="$TOOLS_DIR/php-$STATIC_PHP_VERSION-$PHP_ARCH"
+        if [ ! -x "$PHP_DIR/php" ]; then
+          echo "Downloading static PHP $STATIC_PHP_VERSION ($PHP_ARCH)"
+          mkdir -p "$PHP_DIR"
+          curl -fsSL -o "$PHP_DIR/php.tar.gz" "https://dl.static-php.dev/static-php-cli/common/php-$STATIC_PHP_VERSION-cli-linux-$PHP_ARCH.tar.gz"
+          echo "$PHP_SHA256  $PHP_DIR/php.tar.gz" | sha256sum -c -
+          tar -xzf "$PHP_DIR/php.tar.gz" -C "$PHP_DIR"
+          rm -f "$PHP_DIR/php.tar.gz"
+        fi
+        # On PATH (not just invoked directly) because vendor/bin/phpcs uses "#!/usr/bin/env php".
+        export PATH="$PHP_DIR:$PATH"
+      fi
+      php -v
+    - |
+      # Pinned composer.phar - a distro "composer" package may not work with the PHP above.
+      COMPOSER_PHAR="$TOOLS_DIR/composer-$COMPOSER_VERSION.phar"
+      if [ ! -s "$COMPOSER_PHAR" ]; then
+        curl -fsSL -o "$COMPOSER_PHAR.tmp" "https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar"
+        echo "$COMPOSER_SHA256  $COMPOSER_PHAR.tmp" | sha256sum -c -
+        mv "$COMPOSER_PHAR.tmp" "$COMPOSER_PHAR"
+      fi
+      php "$COMPOSER_PHAR" install --no-interaction --no-progress --working-dir=.gitlab/ci/phpcs
+    - php "$PHPCS_BIN" -i
+  script:
+    - bash .gitlab/ci/phpcs-mr-check.sh
+
+# Claude MR review - manual button on MRs targeting develop, triggered when
+# the dev is satisfied.
+claude_review:
+  stage: ai-review
+  needs: []   # independent of phpcs_wpvip, so the review can run even when lint fails
+  # No "image:" - with a shell executor it is silently ignored. Installing
+  # Node via nvm works on both Docker and plain shell executors.
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+      when: manual
+  allow_failure: true   # a not-yet-run manual job should never block merge
+  variables:
+    GIT_DEPTH: 0   # so the MR diff base commit is available
+  before_script:
+    - unset ANTHROPIC_API_KEY   # safety: make sure the subscription token is what gets used
+    - export NVM_DIR="$HOME/.nvm"
+    - if [ ! -s "$NVM_DIR/nvm.sh" ]; then curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash; fi
+    - . "$NVM_DIR/nvm.sh"
+    - nvm install 20
+    - nvm use 20
+    - node -v && npm -v
+    - npm install -g @anthropic-ai/claude-code
+  script:
+    - git cat-file -e "$CI_MERGE_REQUEST_DIFF_BASE_SHA^{commit}" 2>/dev/null || git fetch origin "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
+    # Only what the MR changes; skip webpack bundles, minified/vendored files
+    # and lockfiles, which are huge and not worth reviewing.
+    - |
+      git diff "$CI_MERGE_REQUEST_DIFF_BASE_SHA" HEAD -- . \
+        ':(exclude)admin/js/vue/gdpr-cookie-consent-admin-*.js' \
+        ':(exclude)admin/js/vue/vue*.js' \
+        ':(exclude)admin/js/vue/*.png' ':(exclude)admin/js/vue/*.svg' \
+        ':(exclude)**/*.min.js' ':(exclude)**/*.min.css' ':(exclude)**/*.map' \
+        ':(exclude)vendor/**' ':(exclude)release/**' ':(exclude)languages/**' \
+        ':(exclude)composer.lock' ':(exclude)package-lock.json' > diff.txt
+    - |
+      if [ ! -s diff.txt ]; then
+        echo "No reviewable changes in this MR." > review-output.txt
+      else
+        # Diff goes in on stdin: as a CLI argument a large diff would exceed
+        # the kernel's per-argument size limit.
+        claude -p --model claude-haiku-5-5 "$(cat <<'PROMPT'
+      You are a senior WordPress engineer reviewing a merge request for the
+      GDPR Cookie Consent WordPress plugin (text domain: gdpr-cookie-consent).
+      The unified diff of the merge request is provided on stdin. Focus on
+      bugs, security issues, and regressions, with particular attention to
+      WordPress-specific practices:
+      - Output escaping: esc_html(), esc_attr(), esc_url(), esc_js() used
+        wherever dynamic data is echoed into HTML/attributes/JS.
+      - Input sanitization: sanitize_text_field(), sanitize_email(), absint(),
+        etc. applied to $_GET/$_POST/$_REQUEST/$_COOKIE before use.
+      - SQL safety: $wpdb queries use $wpdb->prepare() with placeholders
+        instead of directly interpolated variables.
+      - Nonce verification (wp_verify_nonce / check_admin_referer /
+        check_ajax_referer) on any form submission, AJAX handler, or
+        state-changing request; REST routes have a real permission_callback.
+      - Capability checks (current_user_can()) before privileged actions,
+        especially in admin-facing, AJAX and REST code.
+      - Proper enqueuing of scripts/styles via wp_enqueue_script() /
+        wp_enqueue_style() rather than hardcoded <script>/<link> tags.
+      - Consent correctness: scripts/cookies must not fire before consent;
+        Google Consent Mode and IAB TCF signals must match the user's choice.
+      - Correct, translator-friendly i18n: strings wrapped in __()/_e()/
+        esc_html__() etc. with the gdpr-cookie-consent text domain.
+      - Direct file access guarded (ABSPATH check) in included PHP files.
+      - No deprecated WordPress functions or raw eval()/extract()/
+        unserialize() on user-influenced data.
+      - Hooks (add_action/add_filter) used correctly, without unnecessary
+        work on every page load.
+      Report findings by severity (critical/security first), citing file and
+      line. Be concise.
+      PROMPT
+        )" < diff.txt > review-output.txt 2>&1 || true
+      fi
+    - |
+      if [ -s review-output.txt ]; then
+        PAYLOAD=$(jq -n --rawfile body review-output.txt '{"body": ("### Claude Code Review\n\n" + $body)}')
+        curl --silent --show-error --fail --request POST \
+          --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
+          --header "Content-Type: application/json" \
+          --data "$PAYLOAD" \
+          "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID/notes" >/dev/null
+      fi
+
+# GitHub sync - on every push to master (i.e. after an MR is merged), push
+# master to a dedicated branch on GitHub and open a PR from it into develop.
+# If the PR is already open it is simply updated by the push, and a comment
+# notes the new commit. The branch is pushed without --force, so anything
+# added on GitHub (e.g. a conflict fix) is never overwritten - the job fails
+# instead and says so.
+sync_to_github:
+  stage: sync
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "master"'
+  resource_group: github-sync   # never run two syncs at once
+  variables:
+    GIT_DEPTH: 0   # GitHub rejects pushes from shallow clones
+    GITHUB_REPO: "wpeka/gdpr-cookie-consent"
+    GITHUB_BASE_BRANCH: "develop"
+    GITHUB_SYNC_BRANCH: "gitlab-sync/master"
+  script:
+    - command -v jq >/dev/null || { echo "jq is required on the runner"; exit 1; }
+    - test -n "${GITHUB_TOKEN:-}" || { echo "GITHUB_TOKEN CI/CD variable is not set"; exit 1; }
+    - |
+      gh_api() {
+        curl --silent --show-error --fail \
+          --header "Authorization: Bearer $GITHUB_TOKEN" \
+          --header "Accept: application/vnd.github+json" \
+          --header "X-GitHub-Api-Version: 2022-11-28" \
+          "$@"
+      }
+      API="https://api.github.com/repos/$GITHUB_REPO"
+      OWNER="${GITHUB_REPO%%/*}"
+      SHORT_SHA="${CI_COMMIT_SHA:0:8}"
+      SUBJECT="$(git log -1 --format=%s "$CI_COMMIT_SHA")"
+      COMMIT_URL="$CI_PROJECT_URL/-/commit/$CI_COMMIT_SHA"
+
+      # Token goes in a header, not the URL, so it never shows up in git output.
+      AUTH_HEADER="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GITHUB_TOKEN" | base64 -w0)"
+      if ! git -c http.https://github.com/.extraheader="$AUTH_HEADER" push \
+          "https://github.com/$GITHUB_REPO.git" "$CI_COMMIT_SHA:refs/heads/$GITHUB_SYNC_BRANCH"; then
+        echo "Push to $GITHUB_REPO:$GITHUB_SYNC_BRANCH was rejected."
+        echo "If someone committed to that branch on GitHub, merge or delete it there, then retry this job."
+        exit 1
+      fi
+
+      AHEAD=$(gh_api "$API/compare/$GITHUB_BASE_BRANCH...$OWNER:$GITHUB_SYNC_BRANCH" | jq -r '.ahead_by')
+      if [ "$AHEAD" = "0" ]; then
+        echo "GitHub $GITHUB_BASE_BRANCH already contains master ($SHORT_SHA) - no PR needed."
+        exit 0
+      fi
+
+      PR_JSON=$(gh_api "$API/pulls?state=open&head=$OWNER:$GITHUB_SYNC_BRANCH&base=$GITHUB_BASE_BRANCH")
+      PR_NUMBER=$(jq -r '.[0].number // empty' <<<"$PR_JSON")
+
+      if [ -n "$PR_NUMBER" ]; then
+        gh_api --request POST "$API/issues/$PR_NUMBER/comments" \
+          --data "$(jq -n --arg b "GitLab master updated to [\`$SHORT_SHA\`]($COMMIT_URL): $SUBJECT" '{body: $b}')" >/dev/null
+        echo "Updated existing PR: $(jq -r '.[0].html_url' <<<"$PR_JSON")"
+      else
+        BODY="Automated sync of GitLab \`master\` into \`$GITHUB_BASE_BRANCH\`.
+
+      Latest commit: [\`$SHORT_SHA\`]($COMMIT_URL) - $SUBJECT
+
+      This PR is opened by the \`sync_to_github\` job in GitLab ($CI_PIPELINE_URL). New merges into GitLab master are pushed to this branch automatically."
+        NEW_PR=$(gh_api --request POST "$API/pulls" --data "$(jq -n \
+          --arg title "Sync GitLab master into $GITHUB_BASE_BRANCH" \
+          --arg head "$GITHUB_SYNC_BRANCH" --arg base "$GITHUB_BASE_BRANCH" --arg body "$BODY" \
+          '{title: $title, head: $head, base: $base, body: $body}')")
+        echo "Opened PR: $(jq -r '.html_url' <<<"$NEW_PR")"
+      fi
