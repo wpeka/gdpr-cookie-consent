@@ -1,200 +1,472 @@
-=== Cookie Banner for GDPR / CCPA - WPLP Cookie Consent  ===
+=== WPLP Cookie Consent – Cookie Banner & Consent Management for GDPR, CCPA & Google Consent Mode ===
 Contributors: wplegalpages
-Donate link: https://wplegalpages.com/
-Tags: cookie banner, cookie consent, cookie notice, eu cookie law, gdpr
-Requires at least: 3.3.1
-Tested up to: 6.9
-Stable tag: 4.2.3
-Requires PHP: 7.0
+Tags: cookie consent, cookie banner, gdpr, ccpa, cookie notice
+Requires at least: 6.2
+Tested up to: 7.1.3
+Stable tag: 4.4.8
+Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
+GDPR & CCPA cookie consent banner for WordPress. Cookie scanner, script blocking, consent logs, Google Consent Mode v2. One login, many sites.
+
 == Description ==
-[WPLP Cookie Consent](https://wplegalpages.com/?utm_source=wordpress.org&utm_medium=wpcookieconsentplugin&utm_campaign=readme) helps WordPress website owners display cookie consent banners, manage user preferences, and control third-party scripts in line with major privacy regulations such as GDPR, CCPA/CPRA, ePrivacy, LGPD, POPIA, PIPEDA, and similar frameworks.
 
-The plugin is designed to be easy to configure while offering the controls needed to understand and manage cookies used on your website.
+**GDPR and CCPA cookie consent banner for WordPress. Block tracking scripts until visitors say yes.**
 
-[youtube https://www.youtube.com/watch?v=93LIh4ARMN8]
+WPLP Cookie Consent is a cookie consent plugin and consent management platform (CMP). It adds a cookie banner (also called a cookie notice) to your site, scans for cookies, blocks tracking scripts until consent, and logs every consent decision in your own WordPress database.
 
-== Customizable Cookie Consent Banner ==
+* ✅ **Free:** cookie banner, cookie scanner, script blocking, and consent logs
+* ✅ **Google Certified CMP**, with Google Consent Mode v2 on every plan
+* ✅ **IAB TCF v2.4 certified**, on paid plans
+* ✅ **One login** for every client site, with the WPLP web app
 
-You can configure the cookie banner to match your website’s design and consent requirements.
-Available options include:
+[youtube https://www.youtube.com/watch?v=gnmrJmZcS8w]
 
-- Multiple banner layouts and positions
+Try it first in the [Live Preview](https://wordpress.org/plugins/gdpr-cookie-consent/?preview=1).
 
-- Customizable text, colors, and button labels
+= 🛑 The problem with most cookie banners =
 
-- Category-based consent for analytics, marketing, and functional cookies
+A lot of cookie banners show a message and stop there. Google Analytics, Meta Pixel, and ad tags still load before the visitor clicks anything, and there is no record of what the visitor chose.
 
-- Optional explicit accept or reject actions
+**WPLP Cookie Consent holds those scripts back until the visitor gives consent.** Then it saves the decision with a date and time, so you have a record if a visitor or a regulator asks.
 
-- Display banners based on visitor location where applicable
+= ⚡ How it works =
 
+1. **Install and activate.** The cookie banner goes live.
+2. **Run a cookie scan.** The cookie scanner finds cookies and third-party scripts and sorts them into categories: necessary, analytics, marketing, and so on.
+3. **Choose what to block.** Check the results and pick which scripts wait for consent.
+4. **Publish.** Blocked scripts load only after the visitor accepts that category. Every choice is logged.
 
-[🔗Learn More About WPLP Cookie Consent](https://wplegalpages.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=link)
+A step-by-step setup wizard walks you through each step, on every plan.
 
-== Cookie Scanning and Detection ==
+= 🏢 Built for agencies and multiple client sites =
 
-WPLP Cookie Consent includes a built-in cookie scanner that detects cookies and third-party services used on your website.
-The scanner helps you:
+Logging in to each client site to check a cookie banner works for 3 sites. It stops working at 30.
 
-- Identify cookies and scripts added by common service
+**Manage cookie consent for every client site from one login.** The WPLP web app (app.wplegalpages.com) comes with every plan, Free included. It has every feature of this plugin, plus multi-site management.
 
-- Group cookies by category for clearer disclosure
+* **One login for every client site:** add each site and manage cookie consent from one place, up to your plan's site limit.
+* **No WordPress Multisite needed:** each client site keeps its own WordPress install. If you do run a Multisite network, the plugin works there too.
+* **Every site's status in one list:** scan status, consent logs, and legal page coverage for the whole roster.
+* **Copy a banner setup to the next client:** export cookie settings from one site and import them into another (paid plans).
+* **Your brand on client sites:** remove WPLP branding and add your own logo (paid plans).
+* **One setup for visitors from different regions:** auto-detect law reads each visitor's location and shows the matching banner, GDPR to an EU visitor and CCPA to a California visitor (paid plans).
 
-- Keep cookie information updated as your site changes
+#### Same features on every paid plan
 
-Detected cookie details can be used to inform your cookie policy and consent configuration.
+Professional, Business, and Agency have every feature, with no traffic or usage limits. **The price changes only with the number of sites**, so a client's traffic spike doesn't change your bill.
 
-== Automatic Script and Content Blocking ==
+* **Free:** 1 site
+* **Professional:** up to 3 sites
+* **Business:** up to 10 sites
+* **Agency:** 25, 50, or 100 sites
 
-The plugin can prevent certain third-party scripts from loading until user consent is provided.
-This includes commonly used services such as:
+See the [pricing page](https://wplegalpages.com/pricing/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=agency-pricing).
 
-- Analytics tools
+= 🧰 Free features =
 
-- Advertising and marketing scripts
+#### Cookie banner
 
-- Embedded media and social content
+* Bar, box, and popup layouts, plus ready-made banner templates
+* Your own text, colors, and custom CSS
+* Accept and Reject buttons on the first layer
+* Preference center with consent by category and by service
+* "Do Not Sell or Share My Personal Information" link for CCPA/CPRA
+* Banner language that matches the visitor's browser language (50+ languages)
+* Hide the banner on pages you choose
+* A/B testing for banner designs
+* Banner design that follows WCAG and ADA accessibility guidelines
 
-Script blocking works with scripts added directly, through plugins, or via tag managers. Support for Google Consent Mode v2 is included, allowing Google services to adjust behavior based on consent signals.
+#### Cookie scanner
 
-== Smart Embed Control ==
+* 5 automated cookie scans a month, up to 100 pages per scan
+* Finds cookies from common services and plugins and sorts them into categories
+* Sends results to your cookie policy through the WPLP Cookie Policy Details and WPLP Autoupdate Cookies List blocks
+* Add or edit cookies by hand at any time
 
-Third-party content such as videos, maps, or social embeds can be blocked until consent is given.
-When content is blocked:
+#### Script and embed blocking
 
-- Placeholders are displayed instead of loading external resources
+* Blocks Google Analytics, Google Ads, Meta Pixel, Microsoft Clarity, TikTok Pixel, LinkedIn Insight Tag, and more until consent
+* Blocks embedded YouTube, Vimeo, Google Maps, and social media content until consent
+* Works for scripts added in theme code, by plugins, or through Google Tag Manager
+* Whitelist scripts that must always load
 
-- Visitors can choose to enable content by providing consent
+#### Consent logs and signals
 
-- Placeholder behavior can be configured from the admin area
+* Every consent decision is saved in your WordPress database: status, category, date, and time
+* Visitors can change or withdraw consent at any time
+* Ask visitors for consent again on a schedule you set
+* Google Consent Mode v2
+* Global Privacy Control and Do Not Track signals
+* WP Consent API support
 
-== Consent Records ==
+#### Data requests (DSAR)
 
-The plugin can store consent-related information such as:
+* A request form for visitors who want to access or delete their data, added with a shortcode
+* Email alerts and a request queue in your dashboard
 
-- Consent status by category
+**Free plan limit:** 1 site and up to 20,000 banner pageviews a month. After 20,000 pageviews, the banner stops showing until the next month, or until you move to a paid plan.
 
-- Date and time of interaction
+= 💎 Every paid plan (Professional, Business, and Agency) =
 
-These records are stored on your website and can be used for reference or internal review purposes.
+Buy a paid plan and every pro feature turns on in this same plugin. You don't reinstall anything or move data. [Compare plans and prices](https://wplegalpages.com/pricing/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=paid-pricing).
 
-== Supported Privacy Regulations ==
+* IAB TCF v2.4 for sites that run programmatic ads
+* Auto-detect law, with more laws: ePrivacy, UK GDPR, PIPEDA (Canada), PDPL (Saudi Arabia), APP (Australia), and 19 US state privacy laws
+* Geo-targeting: show or hide the banner by visitor region
+* Automated DSAR processing: find a requester's data in WordPress, WooCommerce, and consent logs, then export or delete it after you confirm
+* Export and import cookie settings between sites
+* Custom logo and WPLP branding removal
+* Unlimited cookie scans and pageviews
+* A weekly cookie scan, turned on by default
+* Priority support
 
-WPLP Cookie Consent is built to support a wide range of privacy and data protection regulations, including:
+= ⚖️ Privacy laws covered =
 
-- GDPR and ePrivacy Directive (European Union)
+#### Free plan
 
-- CCPA and CPRA (United States)
+* [GDPR](https://wplegalpages.com/general-data-protection-regulation-gdpr-compliance/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=laws-gdpr) (EU)
+* [CCPA/CPRA](https://wplegalpages.com/ccpa-compliance/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=laws-ccpa) (California)
+* [LGPD](https://wplegalpages.com/lgpd-compliance/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=laws-lgpd) (Brazil)
+* COPPA (US)
 
-- LGPD (Brazil)
+#### Paid plans add
 
-- POPIA (South Africa)
+* [ePrivacy Directive](https://wplegalpages.com/eprivacy-directive-compliance/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=laws-eprivacy) (EU)
+* [UK GDPR](https://wplegalpages.com/uk-gdpr-compliance/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=laws-uk-gdpr)
+* PIPEDA (Canada), PDPL (Saudi Arabia), and APP (Australia)
+* 19 US state privacy laws, including [VCDPA](https://wplegalpages.com/vcdpa-compliance/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=laws-vcdpa) (Virginia)
 
-- PIPEDA (Canada)
+**Note:** privacy laws change, and each one asks for different things. WPLP Cookie Consent gives you the tools to collect and record consent. It doesn't give legal advice. Talk to a lawyer about your own situation.
 
-- UK GDPR and related frameworks
+= 👥 Who uses WPLP Cookie Consent =
 
-== Setup and Compatibility ==
+* **Agencies and freelancers:** one banner setup copied across client sites, managed from one login
+* **Blogs and content sites:** analytics and ad scripts held until consent, with [Google Consent Mode v2](https://wplegalpages.com/cookie-consent/wplp-compliance-platform-supports-google-consent-mode/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=who-consent-mode) for Google tags
+* **WooCommerce stores:** marketing pixels blocked until consent, and data requests handled from the dashboard
+* **Sites with visitors from many countries:** auto-detect law shows each visitor the banner for their region (paid plans)
+* **Sites that run programmatic ads:** IAB TCF v2.4 (paid plans)
 
-- Guided setup to help configure basic consent settings
+= 🔌 Compatibility =
 
-- Compatible with popular themes and page builders
+* **Page builders and editors:** Elementor, Divi, Gutenberg
+* **Ecommerce:** WooCommerce, Easy Digital Downloads
+* **Tags and forms:** Google Tag Manager, WPForms, Gravity Forms, Contact Form 7
+* **Translation:** WPML, Polylang
+* **WordPress Multisite:** works on Multisite networks
 
-- Works with WooCommerce, Google Tag Manager, and commonly used plugins
+= 📄 Add your legal pages too =
 
-- Translation-ready and compatible with multilingual plugins
+Your cookie banner should link to a cookie policy and a privacy policy. [WPLP Legal Pages](https://wordpress.org/plugins/wplegalpages/) is our free plugin that creates them, from the same team. Both plugins are part of the [WPLP Compliance Platform](https://wplegalpages.com/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=legal-pages-homepage).
 
-== Support & Documentation ==
+= 🌐 External services =
 
-[Documentation](https://wplegalpages.com/docs/?utm_source=wordpress.org&utm_medium=wpcookieconsentplugin&utm_campaign=readme) and setup guides are available to help configure the plugin.
-For questions related to features or compatibility, you can [contact the WPLP Legal Pages support team](https://wplegalpages.com/contact-us/?utm_source=wordpress.org&utm_medium=wpcookieconsentplugin&utm_campaign=readme).
+Consent records and settings are stored in your WordPress database. Some features connect to services run by WPLP:
 
+* **Cookie scanning service.** When you run a cookie scan, the plugin sends the URLs of the pages to scan to WPLP's scanning service. The service finds the cookies and scripts on those pages, sorts them into categories, and sends the results back to your site.
+* **WPLP web app (app.wplegalpages.com).** This connection starts only if you connect your site to the web app. Your consent records then sync to your WPLP account, so you can manage the site with your other sites.
+* **License checks.** On paid plans, the plugin checks your license key with WPLP.
 
-== Part of the WPLP Compliance Platform ==
+WPLP doesn't sell visitor data or share it with advertisers.
 
-WPLP Cookie Consent integrates with the WPLP Compliance Platform to support broader privacy management workflows, including cookie policy generation and legal page management.
+* [WPLP Terms of Use](https://wplegalpages.com/product-terms-of-use/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=ext-terms)
+* [WPLP Privacy Policy](https://wplegalpages.com/privacy-policy/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=ext-privacy)
 
-Additional features are available in premium plans. Details about available plans and features can be found on the [pricing page](https://wplegalpages.com/pricing/?utm_source=wordpress.org&utm_medium=wpcookieconsentplugin&utm_campaign=readme).
+= 📚 Documentation and support =
 
-== Disclaimer ==
+* [WPLP website](https://wplegalpages.com/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=docs-homepage)
+* [Pricing](https://wplegalpages.com/pricing/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=docs-pricing)
+* [Overview](https://wplegalpages.com/docs/wplp-docs/overview/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=docs-overview)
+* [Compliance Setup Wizard](https://wplegalpages.com/docs/wplp-docs/features-walkthrough/compliance-setup-wizard/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=docs-setup-wizard)
+* [Guides](https://wplegalpages.com/docs/wplp-docs/guides/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=docs-guides)
+* [FAQs](https://wplegalpages.com/docs/wplp-docs/troubleshooting-and-support/faqs/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=docs-faqs)
+* [Support forum](https://wordpress.org/support/plugin/gdpr-cookie-consent/)
+* [Contact the WPLP team](https://wplegalpages.com/contact-us/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=docs-contact)
 
-This plugin provides tools to help manage cookie consent and related settings. It does not guarantee compliance with any specific law or regulation. Website owners are responsible for ensuring their sites meet applicable legal requirements.
+== Installation ==
+
+1. In your WordPress admin, go to **Plugins > Add New**.
+2. Search for "WPLP Cookie Consent".
+3. Click **Install Now**, then **Activate**.
+4. Follow the setup wizard to run your first cookie scan and publish the banner.
+
+To manage more than one site, sign in at app.wplegalpages.com and add each site.
 
 == Frequently Asked Questions ==
 
-= Where can I find documentation for WPLP Cookie Consent? =
-You can find the official documentation for WPLP Cookie Consent here: [WPLP Cookie Consent Documentation](https://wplegalpages.com/docs/wp-cookie-consent/).
+= How do I add a cookie banner to my WordPress site? =
 
-This comprehensive guide covers everything from installation and setup to advanced features, ensuring you can easily configure the plugin to meet your compliance needs. 🚀
+Install and activate WPLP Cookie Consent. The banner goes live right away. Run the setup wizard to scan for cookies, choose what to block, and match the banner to your site.
 
-= What features are included in the free version of WPLP Cookie Consent? =
-The free version allows you to scan your website for cookies, generate a basic cookie consent banner, and display it with unlimited pageviews. 
+= Do I need a cookie banner on my WordPress site? =
 
-It’s an excellent choice for websites with minimal cookie usage and straightforward compliance needs.
+If your site sets cookies that are not strictly necessary, such as analytics, ads, or social media embeds, laws like GDPR and the ePrivacy Directive ask you to get consent from EU visitors first. US state laws such as CCPA/CPRA ask you to let California visitors opt out of the sale or sharing of their data. A cookie consent banner handles both.
 
-= How does WPLP Cookie Consent ensure GDPR and CCPA compliance? =
-The plugin simplifies cookie consent management by helping you obtain and record user consent, ensuring compliance with GDPR, CCPA, and other privacy regulations. This helps you avoid potential legal risks and fines.
+= What is a consent management platform (CMP)? =
 
-= What happens after a cookie scan is completed? =
-Once the scan is finished, the plugin categorizes detected cookies by type and purpose (e.g., essential, analytics, marketing). This classification allows you to provide transparent information to users in your cookie consent banner.
+A CMP asks visitors for consent, blocks scripts until they answer, and keeps a record of each choice. WPLP Cookie Consent is a Google Certified CMP.
 
-= What details are stored in the consent log? =
-The consent log records important user consent data, including the date and time of consent, the user’s IP address, and the specific cookie categories they agreed to. This helps you maintain compliance records for legal audits.
+= What is Google Consent Mode v2? =
 
-= What is geo-targeting, and how does it apply to cookie consent? =
-Geo-targeting enables you to tailor your cookie consent banner based on a visitor’s location. For example, users in the EU can see a more detailed banner to comply with GDPR, while visitors from other regions may see a simplified version.
+Google Consent Mode v2 sends each visitor's consent choice to Google tags, such as Google Analytics and Google Ads. Google asks sites that show ads to visitors in the EEA and UK to use it. WPLP Cookie Consent supports it on every plan, free included.
 
-= How does the setup wizard generate a cookie consent banner? =
-The plugin includes a step-by-step setup wizard that guides you through configuring your cookie consent banner. By answering simple questions about your website’s cookie usage, the wizard automatically creates a compliant and customized banner.
+= Is WPLP Cookie Consent free? =
 
-= Can I modify the banner after using the wizard? =
-Yes! The wizard provides an initial setup, but you can customize the banner’s design, text, and functionality anytime from the plugin settings.
+Yes. The free plan includes the cookie banner, the cookie scanner (5 scans a month), script blocking, consent logs, Google Consent Mode v2, A/B testing, and the WPLP web app for 1 site. It covers up to 20,000 banner pageviews a month. Every paid plan adds more sites, IAB TCF v2.4, more laws, geo-targeting, automated DSAR processing, and unlimited scans and pageviews.
 
-= Can I change the look and feel of the cookie consent banner? =
-Absolutely! The plugin offers multiple pre-designed templates and customization options. You can modify the banner’s colors, fonts, button styles, and layout to align with your website’s branding.
+= What happens after 20,000 pageviews on the free plan? =
 
-= How does the automatic cookie scan work? =
-The plugin scans your website to detect all cookies, including those set by third-party scripts. It then provides a detailed breakdown, allowing you to categorize and manage them for compliance.
+The banner stops showing until the next month starts. To keep it showing, move to a paid plan. Paid plans have no pageview limit. See the [pricing page](https://wplegalpages.com/pricing/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=faq-pageviews).
 
-= Can I control when and how the cookie consent banner appears? =
-Yes! You can set a delay for the banner’s appearance or configure it to auto-hide after a certain period, ensuring it doesn’t disrupt the user experience.
+= What is the difference between the paid plans? =
 
-= Do visitors now have to accept/reject cookies in order to use websites?
-No. Only the ‘necessary’ cookies will be loaded until the user gives consent.
+Only the number of sites. Professional, Business, and Agency all have every feature, with no traffic or usage limits. Professional covers up to 3 sites, Business up to 10, and Agency 25, 50, or 100. See the [pricing page](https://wplegalpages.com/pricing/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=wpcookieconsent&utm_content=faq-plan-difference).
 
-= Which all privacy regulations does this plugin help with?
-The plugin has been designed to help with the following cookie law, privacy regulations and data protection acts:
-- GDPR (EU): The General Data Protection Regulation
-- CCPA (California, United States): The California Consumer Privacy Act
-- PIPEDA (Canada): The Personal Information Protection and Electronic Documents Act
-- AAP (Australia): Australia’s Privacy Principles
-- LGPD (Brazil): The Brazilian General Data Protection Law
-- DSGVO, DPA, PECR, CNIL and other data, privacy regulations and cookie laws
+= Can I manage cookie consent for multiple client sites from one place? =
 
-= Does it block 3rd party resources loaded via iFrames (such as YouTube)?
-Yes, It has an iFrame Blocker – The user data is not tracked via iFrames unless they give the consent. Users can choose which category of cookies they want to allow.
+Yes. Add your sites to the WPLP web app at app.wplegalpages.com. You can see and manage every site from one login, up to your plan's site limit: 1 site on Free, 3 on Professional, 10 on Business, and 25, 50, or 100 on Agency.
 
-= Is WPLP Cookie Consent compatible with multilingual websites? =
-Yes, the plugin supports multiple languages, ensuring that your cookie consent banner is displayed in the visitor’s preferred language for better accessibility and compliance across different regions.
+= Do I need WordPress Multisite to manage several sites? =
+
+No. The WPLP web app manages separate WordPress installs. Each client site keeps its own install, and you don't have to move sites into one network.
+
+= Does the plugin work on a WordPress Multisite network? =
+
+Yes. WPLP Cookie Consent works on WordPress Multisite networks.
+
+= How does the cookie scanner work? =
+
+The cookie scanner visits the pages on your site and lists the cookies and third-party scripts it finds. It puts each one in a category. You check the list, change anything you want, and the banner uses it. The free plan includes 5 scans a month, up to 100 pages per scan. Paid plans have unlimited scans.
+
+= Will this plugin block Google Analytics and Meta Pixel until consent? =
+
+Yes. Google Analytics, Meta Pixel, Google Ads, and other tracking scripts stay blocked until the visitor accepts the matching category. This works for scripts added in your theme, by plugins, or through Google Tag Manager.
+
+= Does it support Google Consent Mode v2 and IAB TCF? =
+
+Google Consent Mode v2 is on every plan, free included. IAB TCF v2.4 is on every paid plan.
+
+= Does it support the WP Consent API? =
+
+Yes. Plugins that use the WP Consent API can read each visitor's consent choice from WPLP Cookie Consent.
+
+= Can it create a cookie policy? =
+
+The cookie scanner sends its results to your cookie policy through the WPLP Cookie Policy Details and WPLP Autoupdate Cookies List blocks. For a full cookie policy page, use [WPLP Legal Pages](https://wordpress.org/plugins/wplegalpages/). The GDPR Cookie Policy template is on paid plans.
+
+= Does it block YouTube, Google Maps, and other embeds until consent? =
+
+Yes. Embedded videos, maps, and social media posts stay blocked until the visitor gives consent.
+
+= Where are consent records stored? =
+
+In your own WordPress database. Each record has the consent status, category, date, and time. If you connect the site to the WPLP web app, the records also sync to your WPLP account.
+
+= The cookie banner is not showing. What should I check? =
+
+Clear the cache in your caching plugin, your host, and your CDN, then reload the page in a private window. If you already accepted or rejected cookies in that browser, the banner won't show again until consent expires. Also check that the banner isn't hidden on that page, and that the free plan hasn't reached 20,000 pageviews this month.
+
+= Is it compatible with WooCommerce? =
+
+Yes. It works with WooCommerce and Easy Digital Downloads. On paid plans, automated DSAR processing also finds a requester's data in WooCommerce.
+
+= Is it compatible with multilingual sites? =
+
+Yes. It works with WPML and Polylang. The banner can also match the visitor's browser language, in 50+ languages.
+
+= What happens to my data if I deactivate or delete the plugin? =
+
+If you deactivate the plugin, your settings and consent records stay in your database. If you delete the plugin, its settings and consent records are removed.
+
+= What support do I get? =
+
+Free plan support is on the [wordpress.org support forum](https://wordpress.org/support/plugin/gdpr-cookie-consent/). Paid plans include priority support.
+
+= Does this plugin make my site compliant? =
+
+No plugin can promise that. WPLP Cookie Consent gives you the tools to collect, block, and record consent. Whether your site complies depends on how you set it up and what your site does. Talk to a lawyer about your own situation.
 
 == Screenshots ==
 
 1. Dashboard
-2. Wizard Section1
-3. Wizard Section2
+2. All sites
+3. Cookie Insights
 4. Cookie Setting
-5. Banner buttons Customization
-6. Create Custom Cookie 
+5. Google Consent Mode
+6. Script Blocker
 7. Cookie Scanning and Discovered Cookies
-8. Scan History
-9. Script Blocker
-10.A-B testing
-11.Consent Log table
+8. Cookie Banner Settings
+9. Banner Configurator
+10. Banner Builder Tool
+11. Consent Log table
 
 == Change Log ==
+
+= 4.4.8 =
+* **Security Fix:** Hardened license activation and app authentication handlers by sanitizing and validating all incoming request data before it is stored.
+* **Security Fix:** Strengthened input sanitization and nonce verification for the Data Request form and consent logging.
+* **Security Fix:** Secured database queries in the Data Request, cookie scanner, consent logs and uninstall routines using prepared statements.
+* **Security Fix:** Improved output escaping across admin settings, the cookie banner, the preference center and policy data screens to prevent cross-site scripting (XSS).
+* **Security Fix:** Added stricter validation to policy data deletion and settings import requests.
+* **Performance Improvement:** Banner page views are now stored in a dedicated table instead of being rewritten to options on every page load, which reduces database writes and improves accuracy on busy sites.
+* **Performance Improvement:** IAB TCF scripts and vendor data now load only when IAB TCF is enabled.
+* **Code Quality:** Resolved WordPress VIP and PHPCS coding standard issues across the plugin.
+* **Bug Fixes:** Fixed the "Read More" button size setting, translation issues in the Compliance Records and cookie settings, and broken links on the dashboard.
+
+= 4.4.7 =
+* **IAB TCF 2.4 Support:** Added support for IAB TCF 2.4 to improve compatibility with the latest framework requirements.
+* **Import/Export Fix:** Fixed an issue affecting the import and export of cookie settings.
+* **Security Improvements:** Fixed a minor vulnerability to improve plugin security.
+* **All Pro Features on Every Paid Plan:** All Pro features are now available across Professional, Business, and Agency plans, with no feature restrictions between plans.
+
+= 4.4.6 =
+* **Reorganized Compliance Settings:** Manage DSAR records, Consent Logs, and A/B testing from a more organized settings structure.
+* **Weekly Cookie Scans for Pro:** Pro users now get a weekly cookie scan enabled by default to help keep their cookie records up to date.
+
+= 4.4.5 =
+* **Improved Cookie Manager:** Reorganized settings for a cleaner, more intuitive, and user-friendly experience.
+* **Bug Fix:** Fixed an issue related to geo-targeting.
+
+= 4.4.4 =
+** UI Improvements:** Reorganized and refined Banner Settings and Advanced Cookie Settings for a cleaner, easier experience.
+** Better Usability:** Improved the layout and grouping of settings for easier configuration.
+** Security Fixes:** Addressed vulnerabilities and made security improvements for a safer plugin.
+
+= 4.4.3 =
+**Improvements**
+    * General stability and compatibility improvements.
+
+**Bug Fixes**
+    * Minor bug fixes and improvements.
+
+= 4.4.2 =
+**Improvements**
+    * Strengthened the codebase with improved security and validation across the plugin.
+    * Improved data handling and export reliability.
+    * General performance, stability and compatibility improvements.
+
+**Bug Fixes**
+    * Minor bug fixes and improvements.
+
+= 4.4.1 =
+* **New**
+    * Added support for UK GDPR compliance requirements.
+    * Added support for 19 U.S. State Privacy Laws, including CPRA, VCDPA, CPA, CTDPA, UCPA, and other applicable state regulations.
+    * Added support for PIPEDA (Canada) compliance requirements.
+    * Added support for Australian Privacy Principles (APPs) compliance requirements.
+    * Added support for PDPL compliance requirements for supported regions.
+    * Introduced a new Auto Detect Privacy Law option that automatically displays the appropriate cookie banner based on a visitor's location.
+
+* **Improvements**
+    * Enhanced geo-targeting capabilities to detect visitors' countries and U.S. states more accurately.
+    * Improved privacy law management settings for easier configuration and customization.
+    * Updated banner behavior to dynamically apply the correct consent model based on applicable privacy regulations.
+
+= 4.4.0 =
+* Revamped Default Cookie Banner
+    * We’ve redesigned the default cookie banner with a more minimal, modern look. The updated design offers a cleaner layout, better spacing, and a more streamlined consent experience while keeping the essential controls easy to access.
+
+= 4.3.9 =
+* **New**
+    * Improved the dashboard UI to provide a smoother and more intuitive onboarding experience.
+
+* **Improvements**
+    * Updated the GDPR cookie banner to better align with the latest GDPR compliance guidelines.
+    * Enhanced the CCPA opt-out banner for improved usability and compliance.
+
+= 4.3.8 =
+* **Improvements**
+    * Improved cookie scanning reliability for better detection and scan completion.
+* **Bug Fixes**
+    * Strengthened the codebase
+    * Fixed an issue where the cookie banner remained visible while editing pages with Beaver Builder.
+    * Fixed the script execution order after Accept All consent to ensure scripts load correctly.
+    * Fixed an issue where the Cookie Banner logo was not displayed correctly.
+
+= 4.3.7 =
+* **New**
+    * New: Added built-in Google Tag Manager (GTM) integration for Google Consent Mode, simply enter your GTM Container ID to automatically install GTM on your website without requiring manual code insertion or a third-party GTM plugin.
+
+
+= 4.3.6 =
+* **New**
+    * Improved compatibility with **The Plus Addons for Elementor** Popup Builder / Offcanvas Widget to prevent conflicts with the cookie settings popup.
+
+* **Fixed**
+    * Fixed a security vulnerability reported by **Wordfence**.
+    * Fixed an incorrect dependency execution order in the **Script Blocker**, ensuring scripts are executed only after their required dependencies are loaded.
+    * Fixed an issue where **footer scripts** were not executed after a user provided cookie consent on the initial page load.
+
+* **Improved**
+    * Improved script loading reliability for consent-based script execution.
+    * Enhanced overall plugin stability, compatibility, and performance.
+
+= 4.3.5 =
+* Introduced an AI-Powered Compliance Setup Wizard that helps users configure legal pages and cookie compliance settings based on their business type, website purpose, visitor locations, and applicable privacy laws.
+* AI now provides personalized compliance recommendations and automatically assists with setting up legal policies and cookie consent requirements for regulations such as GDPR and CCPA.
+
+= 4.3.4 =
+* Minor bugfixes and improvements
+
+= 4.3.3 =
+* **New:** Added an option in the WPLP SaaS dashboard to directly connect and manage your WordPress website with WP Cookie Consent.
+* Fixed an issue where Cookie Banner text translations were not applied when Google Consent Mode (GCM) was enabled.
+* Minor improvement to banner preview visibility on SaaS settings.
+
+= 4.3.2 =
+* What's New
+    * **Drag & Drop Cookie Banner Builder:** Introduced an intuitive drag-and-drop builder, offering ultimate design flexibility. You can now easily customize layouts, rearrange elements, and match the banner perfectly with your brand identity without needing any code.
+* Improvements
+    * **CCPA Revisit Consent Option:** Added a dedicated revisit consent feature for the CCPA banner. Users can now easily recall, change, or update their preferences at any time to remain fully compliant with regulatory standards.
+* Bug Fixes
+    * General Maintenance: Minor bug fixes and performance improvements under the hood to ensure smoother operation and better compatibility
+
+= 4.3.1 =
+* Improvements*
+    * Improved auto-generate banner logic for better compatibility and more consistent banner setup experience.
+    * Added option to anonymize IP addresses after consent is provided for improved GDPR compliance.
+* Bug Fixes
+    * Fixed inconsistent credit settings behavior between the plugin and SaaS dashboard.
+    * Fixed Save Changes button being clickable inside Script Blocker even when Safe Mode was enabled.
+    * Other minor bugfixes and improvements.
+
+= 4.3.0 =
+* Fixed minor bugs.
+* Fixed minor issue related to custom CSS section.
+* Fixed minor issue with banner close icon (was not compatible with some themes).
+* Enhanced Cookie Settings, Script Blocker persistence, and SaaS configuration behavior.
+* Minor UI changes.
+
+= 4.2.9 =
+* New Features
+    * Added a Gutenberg block to automatically display the scanned cookies table on the Cookie Policy page, making updates seamless and dynamic.
+    * Introduced an option to show “Revoke Consent” as an icon, improving visibility and user accessibility.
+    * Added Reject and Accept All buttons in the Cookie Settings popup to align with GDPR requirements.
+* Improvements
+    * Refactored the Cookie Scanner script for better performance and reliability.
+
+= 4.2.8 =
+* Fixed script blocker conflicts affecting Elementor youtube embeds.
+* Fixed import/export settings sync issues between plugin and SaaS.
+* General bug fixes and performance improvements.
+
+= 4.2.7 =
+* Bug Fixes
+    * Fixed an issue where invalid JSON uploads (including unsupported formats like CSV or malformed JSON files) did not trigger an appropriate error message during import.
+    * Fixed a translation issue where cookie settings popup content was not correctly translated in Preview mode.
+
+= 4.2.6 =
+* Added WP Cookie Consent features to SaaS: **Schedule Scan** and **Restore to Default**.
+* Implemented support for **IAB TCF v2.3** compliance.
+
+= 4.2.5 =
+* Improved performance with IAB TCF enabled: Resolved an issue where enabling IAB TCF caused slow loading and impacted overall website performance.
+* Fixed Cookie Settings Export/Import (SaaS Dashboard): Addressed a bug where exporting and importing cookie settings was not functioning correctly within the SaaS dashboard.
+* Resolved Sidebar Widget Saving Issue: Fixed a conflict where sidebar widgets failed to save when WP Legal Pages was used alongside popular WordPress themes.
+
+= 4.2.4 =
+* Bug fixes and Improvements.
 
 = 4.2.3 =
 * Fixed minor issues with IAB TCF
@@ -352,55 +624,55 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 * Improvement: Revamped the menu structure for a more intuitive and seamless user experience.
 * Fix: Bug fixes and improvements.
 
-= 3.7.5 = 
+= 3.7.5 =
 * Improvement - Optimized code for revamped banners to improve performance and maintainability.
 
-= 3.7.4 = 
+= 3.7.4 =
 * Fix - Minor bug fixes and improvements
 
-= 3.7.3 = 
+= 3.7.3 =
 * Enhanced Performance – Optimized the plugin for better speed and efficiency, ensuring a smoother user experience.
 * Google Additional Consent Mode Support – Added support for Google's Additional Consent Mode, helping users manage consent for ad partners not covered by TCF.
 
-= 3.7.2 = 
+= 3.7.2 =
 * Enhanced - A/B Testing Algorithm – Improved the accuracy and performance of cookie banner A/B testing to deliver more reliable insights.
 * Fix      - Minor bug fixes within the plugin.
 
-= 3.7.1.1 = 
+= 3.7.1.1 =
 * Improvement - Minor bug fixes and improvements.
 
-= 3.7.1 = 
+= 3.7.1 =
 * Improvement - Redesigned and improved few existing templates for a modern and user-friendly look.
 * Improvement - Optimized codebase for faster loading times and smoother operation.
 
-= 3.7.0 = 
+= 3.7.0 =
 * Feature  - Introduced a Unified Dashboard for managing WPLP Cookie Consent and WP Legal Pages, providing a seamless interface, improved navigation and enhanced user experience.
 
-= 3.6.8 = 
+= 3.6.8 =
 * New Feature: Added an option to auto-generate cookie banner colors based on your website's color scheme, ensuring a seamless look and feel.
 * Enhancements: Minor bug fixes and performance improvements for a smoother user experience.
 
-= 3.6.7 = 
+= 3.6.7 =
 * Feature  - Introduced a step-by-step plugin tour for improved onboarding and ease of use.
 * Feature  - Added feature to automatically start scanning for cookies upon plugin activation. The scan progress is now visible in both the Menu and Scanner tabs.
 * Fix      - Minor bug fixes to improve overall plugin performance and stability.
 
-= 3.6.6 = 
+= 3.6.6 =
 * Feature  - Added Cookie Banner Pageviews feature to track cookie banner performance by monitoring pageviews.
 * Feature  - Added feature to clear cookies before a new scan to ensure more accurate scan results.
 * Fix      - Minor bug fixes to improve overall plugin performance and stability.
 
-= 3.6.5 = 
+= 3.6.5 =
 * Feature  - Support multiple legislation on same website.
 * Feature  - Added feature to set the language based on user prefered browser language.
 * Fix      - Fixed issue with  Do Not Track.
 * Fix      - Improved performance of the plugin.
 * Fix      - Minor bug fixes within the plugin.
 
-= 3.6.4 = 
+= 3.6.4 =
 * Fix: UI improvements and bugs fixes within the plugin.
 
-= 3.6.3 = 
+= 3.6.3 =
 * Fix: Further enhanced the admin interface.
 
 = 3.6.2 =
@@ -418,13 +690,13 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 * Feature: Changes in maxmind integration so that now users do not need to put their maxmind API key. This product now includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com.
 * New Feature: Added translation support for 15 more languages.
 
-= 3.5.1 = 
+= 3.5.1 =
 * Fix: Minor bug fixes and improvements.
 
-= 3.5.0 = 
+= 3.5.0 =
 * Feature: IAB TCF Support: The plugin now supports the Interactive Advertising Bureau Transparency & Consent Framework (IAB TCF), allowing website owners to comply with strict data privacy regulations.
 
-= 3.4.4 = 
+= 3.4.4 =
 * Feature: Unified Dashboard: The "WP Legal Pages" menu item now serves as a central hub for managing both WP Legal Pages and WPLP Cookie Consent, streamlining the user experience.
 
 = 3.4.3 =
@@ -772,6 +1044,164 @@ Yes, the plugin supports multiple languages, ensuring that your cookie consent b
 
 == Upgrade Notice ==
 
+= 4.4.8 =
+* This release includes important security fixes. Updating immediately is strongly recommended.
+
+= 4.4.7 =
+* **IAB TCF 2.4 Support:** Added support for IAB TCF 2.4 to improve compatibility with the latest framework requirements.
+* **Import/Export Fix:** Fixed an issue affecting the import and export of cookie settings.
+* **Security Improvements:** Fixed a minor vulnerability to improve plugin security.
+* **All Pro Features on Every Paid Plan:** All Pro features are now available across Professional, Business, and Agency plans, with no feature restrictions between plans.
+
+= 4.4.6 =
+* **Reorganized Compliance Settings:** Manage DSAR records, Consent Logs, and A/B testing from a more organized settings structure.
+* **Weekly Cookie Scans for Pro:** Pro users now get a weekly cookie scan enabled by default to help keep their cookie records up to date.
+
+= 4.4.5 =
+* **Improved Cookie Manager:** Reorganized settings for a cleaner, more intuitive, and user-friendly experience.
+* **Bug Fix:** Fixed an issue related to geo-targeting.
+
+= 4.4.4 =
+** UI Improvements:** Reorganized and refined Banner Settings and Advanced Cookie Settings for a cleaner, easier experience.
+** Better Usability:** Improved the layout and grouping of settings for easier configuration.
+** Security Fixes:** Addressed vulnerabilities and made security improvements for a safer plugin.
+
+= 4.4.3 =
+**Improvements**
+    * General stability and compatibility improvements.
+
+**Bug Fixes**
+    * Minor bug fixes and improvements.
+
+= 4.4.2 =
+**Improvements**
+    * Strengthened the codebase with improved security and validation across the plugin.
+    * Improved data handling and export reliability.
+    * General performance, stability and compatibility improvements.
+
+**Bug Fixes**
+    * Minor bug fixes and improvements.
+
+= 4.4.1 =
+* **New**
+    * Added support for UK GDPR compliance requirements.
+    * Added support for 19 U.S. State Privacy Laws, including CPRA, VCDPA, CPA, CTDPA, UCPA, and other applicable state regulations.
+    * Added support for PIPEDA (Canada) compliance requirements.
+    * Added support for Australian Privacy Principles (APPs) compliance requirements.
+    * Added support for PDPL compliance requirements for supported regions.
+    * Introduced a new Auto Detect Privacy Law option that automatically displays the appropriate cookie banner based on a visitor's location.
+
+* **Improvements**
+    * Enhanced geo-targeting capabilities to detect visitors' countries and U.S. states more accurately.
+    * Improved privacy law management settings for easier configuration and customization.
+    * Updated banner behavior to dynamically apply the correct consent model based on applicable privacy regulations.
+
+= 4.4.0 =
+* Revamped Default Cookie Banner
+    * We’ve redesigned the default cookie banner with a more minimal, modern look. The updated design offers a cleaner layout, better spacing, and a more streamlined consent experience while keeping the essential controls easy to access.
+
+= 4.3.9 =
+* **New**
+    * Improved the dashboard UI to provide a smoother and more intuitive onboarding experience.
+
+* **Improvements**
+    * Updated the GDPR cookie banner to better align with the latest GDPR compliance guidelines.
+    * Enhanced the CCPA opt-out banner for improved usability and compliance.
+
+= 4.3.8 =
+* **Improvements**
+    * Improved cookie scanning reliability for better detection and scan completion.
+* **Bug Fixes**
+    * Strengthened the codebase
+    * Fixed an issue where the cookie banner remained visible while editing pages with Beaver Builder.
+    * Fixed the script execution order after Accept All consent to ensure scripts load correctly.
+    * Fixed an issue where the Cookie Banner logo was not displayed correctly.
+
+
+= 4.3.7 =
+* **New**
+    * New: Added built-in Google Tag Manager (GTM) integration for Google Consent Mode, simply enter your GTM Container ID to automatically install GTM on your website without requiring manual code insertion or a third-party GTM plugin.
+
+
+= 4.3.6 =
+* **New**
+    * Improved compatibility with **The Plus Addons for Elementor** Popup Builder / Offcanvas Widget to prevent conflicts with the cookie settings popup.
+
+* **Fixed**
+    * Fixed a security vulnerability reported by **Wordfence**.
+    * Fixed an incorrect dependency execution order in the **Script Blocker**, ensuring scripts are executed only after their required dependencies are loaded.
+    * Fixed an issue where **footer scripts** were not executed after a user provided cookie consent on the initial page load.
+
+* **Improved**
+    * Improved script loading reliability for consent-based script execution.
+    * Enhanced overall plugin stability, compatibility, and performance.
+
+= 4.3.5 =
+* Introduced an AI-Powered Compliance Setup Wizard that helps users configure legal pages and cookie compliance settings based on their business type, website purpose, visitor locations, and applicable privacy laws.
+* AI now provides personalized compliance recommendations and automatically assists with setting up legal policies and cookie consent requirements for regulations such as GDPR and CCPA.
+
+= 4.3.4 =
+* Minor bugfixes and improvements
+
+= 4.3.3 =
+* **New:** Added an option in the WPLP SaaS dashboard to directly connect and manage your WordPress website with WP Cookie Consent.
+* Fixed an issue where Cookie Banner text translations were not applied when Google Consent Mode (GCM) was enabled.
+* Minor improvement to banner preview visibility on SaaS settings.
+
+= 4.3.2 =
+* What's New
+    * **Drag & Drop Cookie Banner Builder:** Introduced an intuitive drag-and-drop builder, offering ultimate design flexibility. You can now easily customize layouts, rearrange elements, and match the banner perfectly with your brand identity without needing any code.
+* Improvements
+    * **CCPA Revisit Consent Option:** Added a dedicated revisit consent feature for the CCPA banner. Users can now easily recall, change, or update their preferences at any time to remain fully compliant with regulatory standards.
+* Bug Fixes
+    * General Maintenance: Minor bug fixes and performance improvements under the hood to ensure smoother operation and better compatibility
+
+= 4.3.1 =
+* Improvements*
+    * Improved auto-generate banner logic for better compatibility and more consistent banner setup experience.
+    * Added option to anonymize IP addresses after consent is provided for improved GDPR compliance.
+* Bug Fixes
+    * Fixed inconsistent credit settings behavior between the plugin and SaaS dashboard.
+    * Fixed Save Changes button being clickable inside Script Blocker even when Safe Mode was enabled.
+    * Other minor bugfixes and improvements.
+
+= 4.3.0 =
+* Fixed minor bugs.
+* Fixed minor issue related to custom CSS section.
+* Fixed minor issue with banner close icon (was not compatible with some themes).
+* Enhanced Cookie Settings, Script Blocker persistence, and SaaS configuration behavior.
+* Minor UI changes.
+
+= 4.2.9 =
+* New Features
+    * Added a Gutenberg block to automatically display the scanned cookies table on the Cookie Policy page, making updates seamless and dynamic.
+    * Introduced an option to show “Revoke Consent” as an icon, improving visibility and user accessibility.
+    * Added Reject and Accept All buttons in the Cookie Settings popup to align with GDPR requirements.
+* Improvements
+    * Refactored the Cookie Scanner script for better performance and reliability.
+
+= 4.2.8 =
+* Fixed script blocker conflicts affecting Elementor youtube embeds.
+* Fixed import/export settings sync issues between plugin and SaaS.
+* General bug fixes and performance improvements.
+
+= 4.2.7 =
+* Bug Fixes
+    * Fixed an issue where invalid JSON uploads (including unsupported formats like CSV or malformed JSON files) did not trigger an appropriate error message during import.
+    * Fixed a translation issue where cookie settings popup content was not correctly translated in Preview mode.
+
+= 4.2.6 =
+* Added WP Cookie Consent features to SaaS: **Schedule Scan** and **Restore to Default**.
+* Implemented support for **IAB TCF v2.3** compliance.
+
+= 4.2.5 =
+* Improved performance with IAB TCF enabled: Resolved an issue where enabling IAB TCF caused slow loading and impacted overall website performance.
+* Fixed Cookie Settings Export/Import (SaaS Dashboard): Addressed a bug where exporting and importing cookie settings was not functioning correctly within the SaaS dashboard.
+* Resolved Sidebar Widget Saving Issue: Fixed a conflict where sidebar widgets failed to save when WP Legal Pages was used alongside popular WordPress themes.
+
+= 4.2.4 =
+* Bug fixes and Improvements.
+
 = 4.2.3 =
 * Fixed minor issues with IAB TCF
 
@@ -929,55 +1359,55 @@ Added support for Google Consent Mode (v2): Easily integrate Google Consent Mode
 * Improvement: Revamped the menu structure for a more intuitive and seamless user experience.
 * Fix: Bug fixes and improvements.
 
-= 3.7.5 = 
+= 3.7.5 =
 * Improvement - Optimized code for revamped banners to improve performance and maintainability.
 
-= 3.7.4 = 
+= 3.7.4 =
 *Fix       - Minor bug fixes and improvements
 
-= 3.7.3 = 
+= 3.7.3 =
 * Enhanced Performance – Optimized the plugin for better speed and efficiency, ensuring a smoother user experience.
 * Google Additional Consent Mode Support – Added support for Google's Additional Consent Mode, helping users manage consent for ad partners not covered by TCF.
 
-= 3.7.2 = 
+= 3.7.2 =
 * Enhanced - A/B Testing Algorithm – Improved the accuracy and performance of cookie banner A/B testing to deliver more reliable insights.
 * Fix      - Minor bug fixes within the plugin.
 
-= 3.7.1.1 = 
+= 3.7.1.1 =
 * Improvement - Minor bug fixes and improvements.
 
-= 3.7.1 = 
+= 3.7.1 =
 * Improvement - Redesigned and improved few existing templates for a modern and user-friendly look.
 * Improvement - Optimized codebase for faster loading times and smoother operation.
 
-= 3.7.0 = 
+= 3.7.0 =
 * Feature  - Introduced a Unified Dashboard for managing WPLP Cookie Consent and WP Legal Pages, providing a seamless interface, improved navigation and enhanced user experience.
 
-= 3.6.8 = 
+= 3.6.8 =
 * New Feature: Added an option to auto-generate cookie banner colors based on your website's color scheme, ensuring a seamless look and feel.
 * Enhancements: Minor bug fixes and performance improvements for a smoother user experience.
 
-= 3.6.7 = 
+= 3.6.7 =
 * Feature  - Introduced a step-by-step plugin tour for improved onboarding and ease of use.
 * Feature  - Added feature to automatically start scanning for cookies upon plugin activation. The scan progress is now visible in both the Menu and Scanner tabs.
 * Fix      - Minor bug fixes to improve overall plugin performance and stability.
 
-= 3.6.6 = 
+= 3.6.6 =
 * Feature  - Added Cookie Banner Pageviews feature to track cookie banner performance by monitoring pageviews.
 * Feature  - Added feature to clear cookies before a new scan to ensure more accurate scan results.
 * Fix      - Minor bug fixes to improve overall plugin performance and stability.
 
-= 3.6.5 = 
+= 3.6.5 =
 * Feature  - Support multiple legislation on same website.
 * Feature  - Added feature to set the language based on user prefered browser language.
 * Fix      - Fixed issue with  Do Not Track.
 * Fix      - Improved performance of the plugin.
 * Fix      - Minor bug fixes within the plugin.
 
-= 3.6.4 = 
+= 3.6.4 =
 * Fix: UI improvements and bugs fixes within the plugin.
 
-= 3.6.3 = 
+= 3.6.3 =
 * Fix: Further enhanced the admin interface.
 
 = 3.6.2 =
@@ -995,13 +1425,13 @@ Added support for Google Consent Mode (v2): Easily integrate Google Consent Mode
 * Feature: Changes in maxmind integration so that now users do not need to put their maxmind API key. This product now includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com.
 * New Feature: Added translation support for 15 more languages.
 
-= 3.5.1 = 
+= 3.5.1 =
 * Fix: Minor bug fixes and improvements.
 
-= 3.5.0 = 
+= 3.5.0 =
 * Feature: IAB TCF Support: The plugin now supports the Interactive Advertising Bureau Transparency & Consent Framework (IAB TCF), allowing website owners to comply with strict data privacy regulations.
 
-= 3.4.4 = 
+= 3.4.4 =
 * Feature: Unified Dashboard: The "WP Legal Pages" menu item now serves as a central hub for managing both WP Legal Pages and WPLP Cookie Consent, streamlining the user experience.
 
 = 3.4.3 =

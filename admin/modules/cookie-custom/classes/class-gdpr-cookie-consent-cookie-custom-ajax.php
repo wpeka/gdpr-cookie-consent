@@ -71,7 +71,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 			$cduration = isset( $_POST['cookie_arr']['cduration'] ) ? sanitize_text_field( wp_unslash( $_POST['cookie_arr']['cduration'] ) ) : '';
 			$cdesc     = isset( $_POST['cookie_arr']['cdesc'] ) ? sanitize_text_field( wp_unslash( $_POST['cookie_arr']['cdesc'] ) ) : '';
 			global $wpdb;
-			$cat_data_arr = $wpdb->get_row( $wpdb->prepare( 'SELECT gdpr_cookie_category_name FROM ' . $wpdb->prefix . 'gdpr_cookie_scan_categories WHERE id_gdpr_cookie_category=%d', array( $ccategory ) ), ARRAY_A ); // db call ok; no-cache ok.
+			$cat_data_arr = $wpdb->get_row( $wpdb->prepare( 'SELECT gdpr_cookie_category_name FROM `' . $wpdb->prefix . 'gdpr_cookie_scan_categories` WHERE id_gdpr_cookie_category=%d', array( $ccategory ) ), ARRAY_A ); // db call ok; no-cache ok.
 			if ( $cat_data_arr ) {
 				$ccategoryname = $cat_data_arr['gdpr_cookie_category_name'];
 			}
@@ -108,9 +108,9 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 		if ( isset( $_POST['cookie_arr'] ) ) {
 			check_admin_referer( 'gdpr_cookie_custom', 'security' );
 			// Store sanitised values only.
-			$cookie_arr = gdprcc_clean((wp_unslash( $_POST['cookie_arr'] ) ) ); // phpcs:ignore input var ok, CSRF ok, sanitization ok.
-			if( is_string( $cookie_arr )){
-				return sanitize_text_field($cookie_arr);
+			$cookie_arr = gdprcc_clean( wp_unslash( $_POST['cookie_arr'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized using gdprcc_clean().
+			if ( ! is_array( $cookie_arr ) ) {
+				return $out;
 			}
 			$flag       = 0;
 			
@@ -123,7 +123,7 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 				$cduration = isset( $cookie['cduration'] ) ? sanitize_text_field( $cookie['cduration'] ) : '';
 				$cdesc     = isset( $cookie['cdesc'] ) ? sanitize_text_field( $cookie['cdesc'] ) : '';
 				global $wpdb;
-				$cat_data_arr = $wpdb->get_row( $wpdb->prepare( 'SELECT gdpr_cookie_category_name FROM ' . $wpdb->prefix . 'gdpr_cookie_scan_categories WHERE id_gdpr_cookie_category=%d', array( $ccategory ) ), ARRAY_A ); // db call ok; no-cache ok.
+				$cat_data_arr = $wpdb->get_row( $wpdb->prepare( 'SELECT gdpr_cookie_category_name FROM `' . $wpdb->prefix . 'gdpr_cookie_scan_categories` WHERE id_gdpr_cookie_category=%d', array( $ccategory ) ), ARRAY_A ); // db call ok; no-cache ok.
 				if ( $cat_data_arr ) {
 					$ccategoryname = $cat_data_arr['gdpr_cookie_category_name'];
 				}
@@ -227,11 +227,11 @@ class Gdpr_Cookie_Consent_Cookie_Custom_Ajax extends Gdpr_Cookie_Consent_Cookie_
 		);
 		check_admin_referer( 'gdpr_cookie_custom', 'security' );
 		global $wpdb;
-		$count_arr = $wpdb->get_row( 'SELECT COUNT(id_gdpr_cookie_post_cookies) AS ttnum FROM ' . $wpdb->prefix . 'gdpr_cookie_post_cookies', ARRAY_A ); // db call ok; no-cache ok.
+		$count_arr = $wpdb->get_row( 'SELECT COUNT(id_gdpr_cookie_post_cookies) AS ttnum FROM `' . $wpdb->prefix . 'gdpr_cookie_post_cookies`', ARRAY_A ); // db call ok; no-cache ok.
 		if ( $count_arr ) {
 			$out['total'] = $count_arr['ttnum'];
 		}
-		$data_arr = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'gdpr_cookie_post_cookies ORDER BY id_gdpr_cookie_post_cookies DESC LIMIT %d, %d', array( 0, 100 ) ), ARRAY_A ); // db call ok; no-cache ok.
+		$data_arr = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM `' . $wpdb->prefix . 'gdpr_cookie_post_cookies` ORDER BY id_gdpr_cookie_post_cookies DESC LIMIT %d, %d', array( 0, 100 ) ), ARRAY_A ); // db call ok; no-cache ok.
 		if ( empty( $data_arr ) || $data_arr ) {
 			$out['post_list'] = $data_arr;
 			$out['response']  = true;

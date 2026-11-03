@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<ruleset name="gdpr-cookie-consent-ci">
+	<description>CI ruleset for merge requests: security- and platform-focused checks (WordPress VIP + selected WPCS sniffs). Code style/formatting is intentionally not enforced. The repo-root phpcs.xml is left for local full-WPCS runs.</description>
+
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/.gitlab/*</exclude-pattern>
+	<exclude-pattern>*/release/*</exclude-pattern>
+	<exclude-pattern>*/tests/*</exclude-pattern>
+	<exclude-pattern>*/analytics/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg value="sp"/>
+	<!-- Some admin files are very large; the 128M default runs out. -->
+	<ini name="memory_limit" value="2G"/>
+
+	<!--
+	WordPress VIP platform checks: escaping, sanitization, nonces, SQL safety,
+	restricted functions, performance. Mostly free of formatting rules.
+	-->
+	<rule ref="WordPress-VIP-Go">
+		<!-- Remaining style-only sniffs pulled in by VIP-Go. -->
+		<exclude name="Squiz.PHP.CommentedOutCode"/>
+		<exclude name="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+		<exclude name="PSR2.Files.ClosingTag"/>
+		<exclude name="Generic.WhiteSpace"/>
+	</rule>
+
+	<!--
+	Security-relevant WPCS sniffs not already covered by VIP-Go. The full
+	"WordPress" standard is NOT included because it brings in hundreds of
+	whitespace, indentation, alignment and docblock rules.
+	-->
+	<rule ref="WordPress.Security"/>
+	<rule ref="WordPress.DB.PreparedSQL"/>
+	<rule ref="WordPress.DB.PreparedSQLPlaceholders"/>
+	<rule ref="WordPress.DB.RestrictedFunctions"/>
+	<rule ref="WordPress.DB.RestrictedClasses"/>
+	<rule ref="WordPress.PHP.RestrictedPHPFunctions"/>
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions"/>
+	<rule ref="WordPress.PHP.DevelopmentFunctions"/>
+	<rule ref="WordPress.PHP.DontExtract"/>
+	<rule ref="WordPress.PHP.IniSet"/>
+	<rule ref="WordPress.WP.DeprecatedFunctions"/>
+	<rule ref="WordPress.WP.DeprecatedClasses"/>
+	<rule ref="WordPress.WP.DeprecatedParameters"/>
+	<rule ref="WordPress.WP.GlobalVariablesOverride"/>
+	<rule ref="WordPress.WP.Capabilities"/>
+</ruleset>

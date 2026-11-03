@@ -108,7 +108,8 @@ table.gdpr_script_items tr:nth-child(odd) td {
 #gdpr-cookie-consent-save-settings-alert-abt,
 #gdpr-cookie-consent-save-settings-alert-lang,
 #gdpr-cookie-consent-save-settings-alert-ckm,
-#gdpr-cookie-consent-save-settings-alert-adv {
+#gdpr-cookie-consent-save-settings-alert-adv,
+#gdpr-cookie-consent-save-settings-alert-crd {
   background-color: #72b85c;
 }
 #gdpr-cookie-consent-updating-settings-alert,
@@ -116,7 +117,8 @@ table.gdpr_script_items tr:nth-child(odd) td {
 #gdpr-cookie-consent-updating-settings-alert-abt,
 #gdpr-cookie-consent-updating-settings-alert-ckm,
 #gdpr-cookie-consent-updating-settings-alert-lang,
-#gdpr-cookie-consent-updating-settings-alert-adv {
+#gdpr-cookie-consent-updating-settings-alert-adv,
+#gdpr-cookie-consent-updating-settings-alert-crd {
   background-color: #3399ff;
 }
 #gdpr-cookie-consent-settings-app
@@ -237,7 +239,8 @@ table.gdpr_script_items tr:nth-child(odd) td {
 .scan-frequency-type .vs__dropdown-toggle {
   border-color: #e3e6e9;
 }
-.scan-frequency-day .vs__dropdown-toggle {
+.scan-frequency-day .vs__dropdown-toggle,
+.scan-frequency-weekday .vs__dropdown-toggle {
   border-color: #e3e6e9;
 }
 a .export-btn {
@@ -247,7 +250,7 @@ a .export-btn:hover {
   background-color: #7195d0;
 }
 .gdpr-renew-now-btn.pro {
-  border: 1px solid #14873e;
+  border: 1px solid #2a4a8a;
   background-color: #14873e;
 }
 .gdpr-renew-now-btn.pro:hover {
@@ -360,6 +363,12 @@ a .export-btn:hover {
 }
 .gdpr-overlay {
   background-color: rgba(20, 23, 34, 0.85);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.8) 80%,
+    rgba(255, 255, 255, 0.95) 95%
+  );
   border-radius: 10px;
 }
 #gdpr-disconnect-wpcc-notice .api-connect-to-account-btn {
@@ -548,7 +557,7 @@ a .export-btn:hover {
   border: 1px solid #d4d4d8;
 }
 .gdpr-dashboard-promotional-card-header {
-  border-bottom: 1px solid #f2f2f2;
+  border-bottom: none !important;
 }
 
 .gdpr-cookie-summary-last-scan {
@@ -768,16 +777,25 @@ a .export-btn:hover {
   position: relative;
   left: -7px;
 }
-.scan-frequency-day {
+.scan-frequency-day,
+.scan-frequency-weekday {
   position: relative;
   left: 7px;
 }
 
 #gdprmodal-ccpa-popup {
-  height: 200px;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+#gdprmodal-ccpa-popup .gdprmodal-body .gdprmodal_optout_check{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 #gdprmodal-ccpa-popup .gdprmodal-header {
@@ -786,7 +804,7 @@ a .export-btn:hover {
 }
 
 #gdprmodal-ccpa-popup .gdprmodal-body {
-  padding-top: 2.5rem;
+  padding-top: 0.5rem;
   width: 100%;
   overflow-y: hidden;
 }
@@ -795,9 +813,10 @@ a .export-btn:hover {
   margin: 0;
   padding: 0;
   text-align: center;
-  font-size: 22px;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 25px;
+  line-height: 21px;
+  text-align: justify;
 }
 
 #gdprmodal-ccpa-popup .gdprmodal-footer {

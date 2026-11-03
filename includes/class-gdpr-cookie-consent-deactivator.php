@@ -38,7 +38,7 @@ class Gdpr_Cookie_Consent_Deactivator {
 			);
 			foreach ( $tables_arr as $table ) {
 				$tablename = $wpdb->prefix . $table;
-				$wpdb->query( 'DROP TABLE IF EXISTS ' . $tablename ); // phpcs:ignore
+				$wpdb->query( 'DROP TABLE IF EXISTS `' . $tablename . '`' ); // phpcs:ignore
 			}
 			delete_option( 'gdpr_admin_modules' );
 			delete_option( 'gdpr_public_modules' );
@@ -47,16 +47,40 @@ class Gdpr_Cookie_Consent_Deactivator {
 			delete_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD1 );
 			delete_option( GDPR_COOKIE_CONSENT_SETTINGS_LOGO_IMAGE_FIELD2 );
 			
+			delete_option( GDPR_COOKIE_CONSENT_SETTINGS_REVOKE_ICON );
+			delete_option( GDPR_COOKIE_CONSENT_SETTINGS_REVOKE_ICON1 );
+			delete_option( GDPR_COOKIE_CONSENT_SETTINGS_REVOKE_ICON2 );
 		}
 		delete_option( 'wpl_ab_options');
 		delete_option( GDPR_COOKIE_CONSENT_SETTINGS_VENDOR);
 		delete_option( 'gdpr_review_pending');
-		
+		delete_option( 'wplp_compliance_wizard_completed' );
+		delete_option( APPWPLP_SECRET_KEY_ATTEMPTS_OPTION );
+		// Registration never completed - let the version check run again on the next admin load after reactivation.
+		if ( 'confirmed' !== get_option( APPWPLP_SECRET_KEY_STATUS_OPTION ) ) {
+			delete_option( APPWPLP_SECRET_KEY_VERSION_OPTION );
+		}
+
 		$the_options['is_worldwide_on'] = 'true';
 		$the_options['is_selectedCountry_on'] = 'false';
 		$the_options['is_eu_on'] = 'false';
 		$the_options['is_ccpa_on'] = 'false';
+		// The scan schedule is dropped below, so reset what the settings card seeds from.
+		$the_options['schedule_scan_type'] = 'never';
+		$the_options['schedule_scan_when'] = 'Not Scheduled';
 		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options );
+		$wplp_plugin_name = 'wplegalpages/wplegalpages.php';
+		if ( ! is_plugin_active( $wplp_plugin_name ) ) {
+			$timestamp = wp_next_scheduled( 'appwplp_secret_key_retry_event' );
+			if ( $timestamp ) {
+				wp_clear_scheduled_hook('appwplp_secret_key_retry_event' );
+			}
+		}
+
+		// Stop scheduled cookie scans from firing while the plugin is inactive, and
+		// drop the saved schedule so the card doesn't show a scan that won't run.
+		wp_clear_scheduled_hook( 'gdpr_run_scheduled_cookie_scan' );
+		delete_option( 'gdpr_scan_schedule_data' );
 
 		update_option( 'gdpr_no_of_page_scan', 0 );
 	}

@@ -41,9 +41,66 @@ Vue.component("aceeditor", AceEditor);
 Vue.component("ab-testing-chart", AB_Testing_Chart);
 Vue.component("datepicker", vuejsDatepicker);
 const j = jQuery.noConflict();
+const toBool = (value) => {
+    return value === true || value === "true" || value === "1" || value === 1 || value === "yes" || value === "on";
+};
+
+const isButtonVisible = (item, options = {}, suffix = '') => {
+    switch (item) {
+        case "acceptAll":
+        case "accept_all":
+            return toBool(options["button_accept_all_is_on" + suffix]);
+
+        case "accept":
+            return toBool(options["button_accept_is_on" + suffix]);
+
+        case "decline":
+            return toBool(options["button_decline_is_on" + suffix]);
+
+        case "settings":
+            return options["cookie_usage_for"] !== "eprivacy"
+                && toBool(options["button_settings_is_on" + suffix]);
+
+        default:
+            return false;
+    }
+};
 var gen = new Vue({
-  el: "#gdpr-cookie-consent-settings-app",
+  el: "#wplp-cookie-consent-admin-app",
   data() {
+    let bannerStructure = settings_obj.the_options.hasOwnProperty("banner_structure")
+        ? settings_obj.the_options.banner_structure
+        : {};
+
+    if (typeof bannerStructure === "string") {
+        try {
+            bannerStructure = JSON.parse(bannerStructure);
+        } catch (e) {
+            bannerStructure = {};
+        }
+    }
+
+    const c5Buttons = Array.isArray(bannerStructure?.c5)
+        ? bannerStructure.c5
+        : ["accept_all", "accept", "settings"];
+
+    const c6Buttons = Array.isArray(bannerStructure?.c6)
+        ? bannerStructure.c6
+        : ["decline"];
+
+    const visibleC5Items = c5Buttons.filter((item) => isButtonVisible(item, settings_obj.the_options, ''));
+    const visibleC6Items = c6Buttons.filter((item) => isButtonVisible(item, settings_obj.the_options, ''));
+    const visibleC5Items1 = c5Buttons.filter((item) => isButtonVisible(item, settings_obj.the_options, '1'));
+    const visibleC6Items1 = c6Buttons.filter((item) => isButtonVisible(item, settings_obj.the_options, '1'));
+    const visibleC5Items2 = c5Buttons.filter((item) => isButtonVisible(item, settings_obj.the_options, '2'));
+    const visibleC6Items2 = c6Buttons.filter((item) => isButtonVisible(item, settings_obj.the_options, '2'));
+
+    const lawCode = settings_obj.the_options.hasOwnProperty("cookie_usage_for")
+      ? settings_obj.the_options["cookie_usage_for"]
+      : "gdpr";
+    // 'ccpa' and 'both' are legacy codes kept readable indefinitely.
+    const isUsStateLaws = lawCode === "us_state_laws" || lawCode === "ccpa" || lawCode === "both";
+
     return {
       labelIcon: {},
       labelIconNew: {
@@ -52,6 +109,8 @@ var gen = new Vue({
       },
 
       isGdprProActive: "1" === settings_obj.is_pro_active,
+      // Keep in sync with gdpr_pro_only_law_codes() in class-gdpr-cookie-consent-admin.php.
+      pro_only_law_codes: ['uk_gdpr', 'sa_pdpl', 'pipeda', 'au_app'],
       disableSwitch: false,
       is_template_changed: false,
       is_auto_template_generated: false,
@@ -79,6 +138,9 @@ var gen = new Vue({
       edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
       close_round_img: require("../admin/images/Close_round.svg"),
       account_connection: require("../admin/images/account_connection.svg"),
+      account_connection_new: require("../admin/images/account_connection_new.svg"),
+      lightening: require("../admin/images/lightening.svg"),
+      warning: require("../admin/images/warning.svg"),
       pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
       closeOnBackdrop: true,
       centered: true,
@@ -172,6 +234,7 @@ var gen = new Vue({
           "1" === settings_obj.the_options["is_gcm_on"])
           ? true
           : false,
+      ad_tech_expanded: this.iabtcf_is_on || this.gcm_is_on,
       gcm_wait_for_update_duration: settings_obj.the_options.hasOwnProperty(
         "gcm_wait_for_update_duration"
       )
@@ -236,21 +299,26 @@ var gen = new Vue({
           ? true
           : false,
       banner_preview_is_on:
-        false,
+        "true" == settings_obj.the_options["banner_preview_enable"] ||
+        1 === settings_obj.the_options["banner_preview_enable"]
+          ? true
+          : false,
       policy_options: settings_obj.policies,
-      gdpr_policy: settings_obj.the_options.hasOwnProperty("cookie_usage_for")
-        ? settings_obj.the_options["cookie_usage_for"]
-        : "gdpr",
-      is_gdpr:
-        this.gdpr_policy === "gdpr" || this.gdpr_policy === "both"
-          ? true
-          : false,
-      is_ccpa:
-        this.gdpr_policy === "ccpa" || this.gdpr_policy === "both"
-          ? true
-          : false,
-      is_lgpd: this.gdpr_policy === "lgpd" ? true : false,
-      is_eprivacy: this.gdpr_policy === "eprivacy" ? true : false,
+      law_selection_mode: settings_obj.law_selection_mode || 'manual',
+      us_policy_options: settings_obj.us_policies,
+      disabled_for_free: Boolean(Number(settings_obj.disabled_for_free)),
+      gdpr_policy: lawCode,
+      is_gdpr: lawCode === "gdpr" || lawCode === "both",
+      is_us_state_laws: isUsStateLaws,
+      is_lgpd: lawCode === "lgpd",
+      is_eprivacy: lawCode === "eprivacy",
+
+      banner_edit_law: "gdpr",
+      us_state_laws_edit_law: "ccpa",
+      is_uk_gdpr: lawCode === "uk_gdpr",
+      is_pipeda: lawCode === "pipeda",
+      is_au_app: lawCode === "au_app",
+      is_sa_pdpl: lawCode === "sa_pdpl",
       eprivacy_message: settings_obj.the_options.hasOwnProperty(
         "notify_message_eprivacy"
       )
@@ -268,17 +336,40 @@ var gen = new Vue({
         : "",
       gdpr_message: settings_obj.the_options.hasOwnProperty("notify_message")
         ? this.stripSlashes(settings_obj.the_options["notify_message"])
-        : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
+        : "We use cookies to optimize your experience, analyze traffic, and personalize ads. Please choose whether you accept our use of non-essential cookies.",
+      uk_gdpr_message: settings_obj.the_options.hasOwnProperty("notify_message_uk_gdpr")
+        ? this.stripSlashes(settings_obj.the_options["notify_message_uk_gdpr"])
+        : "We use cookies to improve our site, analyze performance, and serve personalized marketing. Please select your cookie preferences.",
+      pdpl_message: settings_obj.the_options.hasOwnProperty("notify_message_pdpl")
+        ? this.stripSlashes(settings_obj.the_options["notify_message_pdpl"])
+        : "We utilize cookies to analyze traffic and customize your experience in compliance with KSA PDPL. Please provide your consent for non-essential tracking.",
+      pipeda_message: settings_obj.the_options.hasOwnProperty("notify_message_pipeda")
+        ? this.stripSlashes(settings_obj.the_options["notify_message_pipeda"])
+        : "We use cookies to analyze performance and power our site. For details on how we protect your privacy or to adjust your choices, view our Cookie Policy.",
+      app_message: settings_obj.the_options.hasOwnProperty("notify_message_app")
+        ? this.stripSlashes(settings_obj.the_options["notify_message_app"])
+        : "We collect data via tracking technologies to optimize our site and deliver marketing. To review your options or opt-out of sharing, view our Privacy Policy.",
       lgpd_message: settings_obj.the_options.hasOwnProperty(
         "notify_message_lgpd"
       )
         ? this.stripSlashes(settings_obj.the_options["notify_message_lgpd"])
-        : "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.",
+        : "This website uses cookies to provide a better browsing experience. You can select your cookie preferences or accept all tracking categories below.",
       gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty(
         "about_message"
       )
         ? this.stripSlashes(settings_obj.the_options["about_message"])
         : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
+      gdpr_gcm_about_message: settings_obj.the_options.hasOwnProperty(
+        "gcm_about_message"
+      )
+      ? this.stripSlashes(settings_obj.the_options["gcm_about_message"])
+      : "For more information on how Google's third party cookies operate and handle your data, see: ",
+
+      gdpr_gcm_privacy_policy_text: settings_obj.the_options.hasOwnProperty(
+        "gcm_privacy_policy_text"
+      )
+      ? this.stripSlashes(settings_obj.the_options["gcm_privacy_policy_text"])
+      : "Google's Privacy Policy",
       lgpd_about_cookie_message: settings_obj.the_options.hasOwnProperty(
         "about_message_lgpd"
       )
@@ -288,14 +379,24 @@ var gen = new Vue({
         "notify_message_ccpa"
       )
         ? this.stripSlashes(settings_obj.the_options["notify_message_ccpa"])
-        : "In case of sale of your personal information, you may opt out by using the link",
+        : "We use tracking tools to provide targeted advertising. Under state law, you have the right to opt-out of the sharing or sale of your personal information.",
+      default_opt_out_message: settings_obj.the_options.hasOwnProperty(
+        "notify_message_default_opt_out"
+      )
+        ? this.stripSlashes(settings_obj.the_options["notify_message_default_opt_out"])
+        : "We use cookies and similar technologies for targeted advertising. You have the right to opt-out of the sale or processing of your personal data.",
+      pure_opt_out_message: settings_obj.the_options.hasOwnProperty(
+        "notify_message_pure_opt_out"
+      )
+        ? this.stripSlashes(settings_obj.the_options["notify_message_pure_opt_out"])
+        : "We collect personal data via tracking technologies for analytics and marketing. To exercise your right to opt-out of this processing, choose below.",
       ccpa_optout_message: settings_obj.the_options.hasOwnProperty(
         "optout_text"
       )
         ? this.stripSlashes(settings_obj.the_options["optout_text"])
-        : "Do you really wish to opt-out?",
+        : 'We use third-party cookies that help us analyse how you use this website, store your preferences, and provide the content and advertisements that are relevant to you. However, you can opt out of these cookies by checking "Do Not Sell or Share My Personal Information" and clicking the "Save My Preferences" button. Once you opt out, you can opt in again at any time by unchecking "Do Not Sell or Share My Personal Information" and clicking the "Save My Preferences" button.',
       show_visitor_conditions:
-        this.is_ccpa || (this.is_gdpr && "1" === settings_obj.is_pro_active)
+        this.is_us_state_laws || (this.is_gdpr && "1" === settings_obj.is_pro_active)
           ? true
           : false,
       selectedRadioIab:
@@ -329,17 +430,65 @@ var gen = new Vue({
           ? true
           : false,
       is_revoke_consent_on1:
-      settings_obj.the_options.hasOwnProperty("show_again1") &&
-      (true === settings_obj.the_options["show_again1"] ||
-        1 === settings_obj.the_options["show_again1"])
-        ? true
-        : false,
+        settings_obj.the_options.hasOwnProperty("show_again1") &&
+        (true === settings_obj.the_options["show_again1"] ||
+          1 === settings_obj.the_options["show_again1"])
+          ? true
+          : false,
       is_revoke_consent_on2:
-      settings_obj.the_options.hasOwnProperty("show_again2") &&
-      (true === settings_obj.the_options["show_again2"] ||
-        1 === settings_obj.the_options["show_again2"])
-        ? true
-        : false,
+        settings_obj.the_options.hasOwnProperty("show_again2") &&
+        (true === settings_obj.the_options["show_again2"] ||
+          1 === settings_obj.the_options["show_again2"])
+          ? true
+          : false,
+      // CCPA Revoke Consent
+      is_ccpa_revoke_consent_on: settings_obj.the_options.hasOwnProperty("ccpa_show_again") &&
+        (true === settings_obj.the_options["ccpa_show_again"] ||
+          1 === settings_obj.the_options["ccpa_show_again"])
+          ? true
+          : false,
+      is_ccpa_revoke_consent_on1:  settings_obj.the_options.hasOwnProperty("ccpa_show_again1") &&
+        (true === settings_obj.the_options["ccpa_show_again1"] ||
+          1 === settings_obj.the_options["ccpa_show_again1"])
+          ? true
+          : false,
+        
+      is_ccpa_revoke_consent_on2:  settings_obj.the_options.hasOwnProperty("ccpa_show_again2") &&
+        (true === settings_obj.the_options["ccpa_show_again2"] ||
+          1 === settings_obj.the_options["ccpa_show_again2"])
+          ? true
+          : false,
+
+      ccpa_revoke_consent_popup: false,
+      ccpa_revoke_consent_popup1: false,
+      ccpa_revoke_consent_popup2: false,
+      ccpa_tab_text: settings_obj.the_options.hasOwnProperty("ccpa_show_again_text")
+        ? settings_obj.the_options["ccpa_show_again_text"]
+        : "Opt Out",
+      ccpa_tab_text1: settings_obj.the_options.hasOwnProperty("ccpa_show_again_text1")
+        ? settings_obj.the_options["ccpa_show_again_text1"]
+        : "Opt Out",
+      ccpa_tab_text2: settings_obj.the_options.hasOwnProperty("ccpa_show_again_text2")
+        ? settings_obj.the_options["ccpa_show_again_text2"]
+        : "Opt Out",
+      ccpa_tab_position: settings_obj.the_options.hasOwnProperty("ccpa_show_again_position")
+        ? settings_obj.the_options["ccpa_show_again_position"]
+        : "right",
+      ccpa_tab_position1: settings_obj.the_options.hasOwnProperty("ccpa_show_again_position1")
+        ? settings_obj.the_options["ccpa_show_again_position1"]
+        : "right",
+      ccpa_tab_position2: settings_obj.the_options.hasOwnProperty("ccpa_show_again_position2")
+        ? settings_obj.the_options["ccpa_show_again_position2"]
+        : "right",
+      ccpa_tab_margin: settings_obj.the_options.hasOwnProperty("ccpa_show_again_margin")
+        ? settings_obj.the_options["ccpa_show_again_margin"]
+        : "5",
+      ccpa_tab_margin1: settings_obj.the_options.hasOwnProperty("ccpa_show_again_margin1")
+        ? settings_obj.the_options["ccpa_show_again_margin1"]
+        : "5",
+      ccpa_tab_margin2: settings_obj.the_options.hasOwnProperty("ccpa_show_again_margin2")
+        ? settings_obj.the_options["ccpa_show_again_margin2"]
+        : "5",
       tab_position_options: settings_obj.tab_position_options,
       tab_position: settings_obj.the_options.hasOwnProperty(
         "show_again_position"
@@ -375,23 +524,6 @@ var gen = new Vue({
         ? settings_obj.the_options["show_again_text2"]
         : "Cookie Settings",
       show_revoke_card: this.is_gdpr || this.is_eprivacy,
-      autotick:
-        settings_obj.the_options.hasOwnProperty("is_ticked") &&
-        (true === settings_obj.the_options["is_ticked"] ||
-          1 === settings_obj.the_options["is_ticked"])
-          ? true
-          : false,
-      auto_hide:
-        settings_obj.the_options.hasOwnProperty("auto_hide") &&
-        (true === settings_obj.the_options["auto_hide"] ||
-          1 === settings_obj.the_options["auto_hide"])
-          ? true
-          : false,
-      auto_hide_delay: settings_obj.the_options.hasOwnProperty(
-        "auto_hide_delay"
-      )
-        ? settings_obj.the_options["auto_hide_delay"]
-        : "10000",
       auto_banner_initialize:
         settings_obj.the_options.hasOwnProperty("auto_banner_initialize") &&
         (true === settings_obj.the_options["auto_banner_initialize"] ||
@@ -409,29 +541,6 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["auto_banner_initialize_delay"]
         : "10000",
-      auto_scroll:
-        settings_obj.the_options.hasOwnProperty("auto_scroll") &&
-        (true === settings_obj.the_options["auto_scroll"] ||
-          1 === settings_obj.the_options["auto_scroll"])
-          ? true
-          : false,
-      auto_click:
-        settings_obj.the_options.hasOwnProperty("auto_click") &&
-        (true === settings_obj.the_options["auto_click"] ||
-          1 === settings_obj.the_options["auto_click"])
-          ? true
-          : false,
-      auto_scroll_offset: settings_obj.the_options.hasOwnProperty(
-        "auto_scroll_offset"
-      )
-        ? settings_obj.the_options["auto_scroll_offset"]
-        : "10",
-      auto_scroll_reload:
-        settings_obj.the_options.hasOwnProperty("auto_scroll_reload") &&
-        (true === settings_obj.the_options["auto_scroll_reload"] ||
-          1 === settings_obj.the_options["auto_scroll_reload"])
-          ? true
-          : false,
       accept_reload:
         settings_obj.the_options.hasOwnProperty("accept_reload") &&
         (true === settings_obj.the_options["accept_reload"] ||
@@ -592,6 +701,12 @@ var gen = new Vue({
       schedule_scan_day: settings_obj.the_options.hasOwnProperty("scan_day")
         ? settings_obj.the_options["scan_day"]
         : "Day 1", //scan day
+      schedule_scan_weekday_options: settings_obj.schedule_scan_weekday_options,
+      schedule_scan_weekday: settings_obj.the_options.hasOwnProperty(
+        "scan_weekday"
+      )
+        ? settings_obj.the_options["scan_weekday"]
+        : "Monday", //scan weekday, used when the frequency is weekly
       schedule_scan_time_value: settings_obj.the_options.hasOwnProperty(
         "scan_time"
       )
@@ -634,6 +749,12 @@ var gen = new Vue({
       cookie_bar_color: settings_obj.the_options.hasOwnProperty("background")
         ? settings_obj.the_options["background"]
         : "#ffffff",
+      cookie_settings_border_color: settings_obj.the_options.hasOwnProperty("cookie_settings_border_color")
+        ? settings_obj.the_options["cookie_settings_border_color"]
+        : "#ffffff",
+      cookie_settings_overlay_color: settings_obj.the_options.hasOwnProperty("cookie_settings_overlay_color")
+        ? settings_obj.the_options["cookie_settings_overlay_color"]
+        : "#ffffff",
       on_hide:
         settings_obj.the_options.hasOwnProperty("notify_animate_hide") &&
         (true === settings_obj.the_options["notify_animate_hide"] ||
@@ -646,8 +767,8 @@ var gen = new Vue({
           1 === settings_obj.the_options["notify_animate_show"])
           ? true
           : false,
-      cookie_text_color: settings_obj.the_options.hasOwnProperty("text")
-        ? settings_obj.the_options["text"]
+      cookie_text_color: settings_obj.the_options.hasOwnProperty("cookie_text_color")
+        ? settings_obj.the_options["cookie_text_color"]
         : "#000000",
       cookie_bar_opacity: settings_obj.the_options.hasOwnProperty("opacity")
         ? settings_obj.the_options["opacity"]
@@ -677,6 +798,231 @@ var gen = new Vue({
       cookie_font: settings_obj.the_options.hasOwnProperty("font_family")
         ? settings_obj.the_options["font_family"]
         : "inherit",
+      cookie_bar_padding: settings_obj.the_options.hasOwnProperty("cookie_bar_padding")
+        ? settings_obj.the_options["cookie_bar_padding"]
+        : "14",
+      cookie_bar_horizontal_padding: settings_obj.the_options.hasOwnProperty("cookie_bar_horizontal_padding")
+        ? settings_obj.the_options["cookie_bar_horizontal_padding"]
+        : "30",
+      cookie_bar_vertical_padding: settings_obj.the_options.hasOwnProperty("cookie_bar_vertical_padding")
+        ? settings_obj.the_options["cookie_bar_vertical_padding"]
+        : "14",
+      cookie_bar_spacing: settings_obj.the_options.hasOwnProperty("cookie_bar_spacing")
+        ? settings_obj.the_options["cookie_bar_spacing"]
+        : "5",
+      cookie_bar_blur: settings_obj.the_options.hasOwnProperty("cookie_bar_blur")
+        ? settings_obj.the_options["cookie_bar_blur"]
+        : "0",
+      cookie_bar_shadow_color: settings_obj.the_options.hasOwnProperty("cookie_bar_shadow_color")
+        ? settings_obj.the_options["cookie_bar_shadow_color"]
+        : "#000000",
+      cookie_bar_shadow_size: settings_obj.the_options.hasOwnProperty("cookie_bar_shadow_size")
+        ? settings_obj.the_options["cookie_bar_shadow_size"]
+        : "5",
+      bypass_button_is_on: settings_obj.the_options.hasOwnProperty("bypass_button_is_on") &&
+        (true == settings_obj.the_options["bypass_button_is_on"] || 1 == settings_obj.the_options["bypass_button_is_on"] )
+        ? true
+        : false,
+      bypass_button_size: settings_obj.the_options.hasOwnProperty("bypass_button_size")
+        ? settings_obj.the_options["bypass_button_size"]
+        : "md",
+      bypass_button_text_color: settings_obj.the_options.hasOwnProperty("bypass_button_text_color")
+        ? settings_obj.the_options["bypass_button_text_color"]
+        : "#176CAE",
+      banner_text_alignment: settings_obj.the_options.hasOwnProperty("banner_text_alignment")
+        ? settings_obj.the_options["banner_text_alignment"]
+        : "left",
+      cookie_font_size: settings_obj.the_options.hasOwnProperty("cookie_font_size")
+        ? settings_obj.the_options["cookie_font_size"]
+        : "12",
+      cookie_text_weight: settings_obj.the_options.hasOwnProperty("cookie_text_weight")
+        ? settings_obj.the_options["cookie_text_weight"]
+        : '400',
+      button_font_size: settings_obj.the_options.hasOwnProperty("button_font_size")
+        ? settings_obj.the_options["button_font_size"]
+        : "14",
+      button_text_weight: settings_obj.the_options.hasOwnProperty("button_text_weight")
+        ? settings_obj.the_options["button_text_weight"]
+        : '500',
+      logo_is_on: settings_obj.the_options.hasOwnProperty("logo_is_on") &&
+        (true == settings_obj.the_options["logo_is_on"] || 1 == settings_obj.the_options["logo_is_on"])
+        ? true
+        : false,
+      default_logo: settings_obj.the_options.hasOwnProperty("default_logo") 
+        ? settings_obj.the_options["default_logo"] 
+        : "icon1",
+      use_uploaded_logo: settings_obj.the_options.hasOwnProperty("use_uploaded_logo") &&
+        (true == settings_obj.the_options["use_uploaded_logo"] || 1 == settings_obj.the_options["use_uploaded_logo"])
+        ? true
+        : false,
+      heading_is_on: settings_obj.the_options.hasOwnProperty("heading_is_on") &&
+        (true == settings_obj.the_options["heading_is_on"] || 1 == settings_obj.the_options["heading_is_on"])
+        ? true
+        : false,
+      cookie_heading_color: settings_obj.the_options.hasOwnProperty("cookie_heading_color")
+        ? settings_obj.the_options["cookie_heading_color"]
+        : "#000000",
+      heading_text_size: settings_obj.the_options.hasOwnProperty("heading_text_size")
+        ? settings_obj.the_options["heading_text_size"]
+        : "18",
+      heading_text_weight: settings_obj.the_options.hasOwnProperty("heading_text_weight")
+        ? settings_obj.the_options["heading_text_weight"]
+        : '700',
+      c5_buttons: c5Buttons,
+
+      c6_buttons: c6Buttons,
+
+      visible_c5_items: visibleC5Items,
+
+      visible_c6_items: visibleC6Items,
+      cookie_bar_padding1: settings_obj.the_options.hasOwnProperty("cookie_bar_padding1")
+        ? settings_obj.the_options["cookie_bar_padding1"]
+        : "14",
+      cookie_bar_horizontal_padding1: settings_obj.the_options.hasOwnProperty("cookie_bar_horizontal_padding1")
+        ? settings_obj.the_options["cookie_bar_horizontal_padding1"]
+        : "30",
+      cookie_bar_vertical_padding1: settings_obj.the_options.hasOwnProperty("cookie_bar_vertical_padding1")
+        ? settings_obj.the_options["cookie_bar_vertical_padding1"]
+        : "14",
+      cookie_bar_spacing1: settings_obj.the_options.hasOwnProperty("cookie_bar_spacing1")
+        ? settings_obj.the_options["cookie_bar_spacing1"]
+        : "5",
+      cookie_bar_blur1: settings_obj.the_options.hasOwnProperty("cookie_bar_blur1")
+        ? settings_obj.the_options["cookie_bar_blur1"]
+        : "0",
+      cookie_bar_shadow_color1: settings_obj.the_options.hasOwnProperty("cookie_bar_shadow_color1")
+        ? settings_obj.the_options["cookie_bar_shadow_color1"]
+        : "#000000",
+      cookie_bar_shadow_size1: settings_obj.the_options.hasOwnProperty("cookie_bar_shadow_size1")
+        ? settings_obj.the_options["cookie_bar_shadow_size1"]
+        : "5",
+      bypass_button_is_on1: settings_obj.the_options.hasOwnProperty("bypass_button_is_on1") &&
+        (true == settings_obj.the_options["bypass_button_is_on1"] || 1 == settings_obj.the_options["bypass_button_is_on1"] )
+        ? true
+        : false,
+      bypass_button_size1: settings_obj.the_options.hasOwnProperty("bypass_button_size1")
+        ? settings_obj.the_options["bypass_button_size1"]
+        : "md",
+      bypass_button_text_color1: settings_obj.the_options.hasOwnProperty("bypass_button_text_color1")
+        ? settings_obj.the_options["bypass_button_text_color1"]
+        : "#176CAE",
+      banner_text_alignment1: settings_obj.the_options.hasOwnProperty("banner_text_alignment1")
+        ? settings_obj.the_options["banner_text_alignment1"]
+        : "left",
+      cookie_font_size1: settings_obj.the_options.hasOwnProperty("cookie_font_size1")
+        ? settings_obj.the_options["cookie_font_size1"]
+        : "12",
+      cookie_text_weight1: settings_obj.the_options.hasOwnProperty("cookie_text_weight1")
+        ? settings_obj.the_options["cookie_text_weight1"]
+        : '400',
+      button_font_size1: settings_obj.the_options.hasOwnProperty("button_font_size1")
+        ? settings_obj.the_options["button_font_size1"]
+        : "14",
+      button_text_weight1: settings_obj.the_options.hasOwnProperty("button_text_weight1")
+        ? settings_obj.the_options["button_text_weight1"]
+        : '500',
+      logo_is_on1: settings_obj.the_options.hasOwnProperty("logo_is_on1") &&
+        (true == settings_obj.the_options["logo_is_on1"] || 1 == settings_obj.the_options["logo_is_on1"])
+        ? true
+        : false,
+      default_logo1: settings_obj.the_options.hasOwnProperty("default_logo1") 
+        ? settings_obj.the_options["default_logo1"] 
+        : "icon1",
+      use_uploaded_logo1: settings_obj.the_options.hasOwnProperty("use_uploaded_logo1") &&
+        (true == settings_obj.the_options["use_uploaded_logo1"] || 1 == settings_obj.the_options["use_uploaded_logo1"])
+        ? true
+        : false,
+      heading_is_on1: settings_obj.the_options.hasOwnProperty("heading_is_on1") &&
+        (true == settings_obj.the_options["heading_is_on1"] || 1 == settings_obj.the_options["heading_is_on1"])
+        ? true
+        : false,
+      cookie_heading_color1: settings_obj.the_options.hasOwnProperty("cookie_heading_color1")
+        ? settings_obj.the_options["cookie_heading_color1"]
+        : "#000000",
+      heading_text_size1: settings_obj.the_options.hasOwnProperty("heading_text_size1")
+        ? settings_obj.the_options["heading_text_size1"]
+        : "18",
+      heading_text_weight1: settings_obj.the_options.hasOwnProperty("heading_text_weight1")
+        ? settings_obj.the_options["heading_text_weight1"]
+        : '700',
+
+      visible_c5_items1: visibleC5Items1,
+
+      visible_c6_items1: visibleC6Items1,
+      cookie_bar_padding2: settings_obj.the_options.hasOwnProperty("cookie_bar_padding2")
+        ? settings_obj.the_options["cookie_bar_padding2"]
+        : "14",
+      cookie_bar_horizontal_padding2: settings_obj.the_options.hasOwnProperty("cookie_bar_horizontal_padding2")
+        ? settings_obj.the_options["cookie_bar_horizontal_padding2"]
+        : "30",
+      cookie_bar_vertical_padding2: settings_obj.the_options.hasOwnProperty("cookie_bar_vertical_padding2")
+        ? settings_obj.the_options["cookie_bar_vertical_padding2"]
+        : "14",
+      cookie_bar_spacing2: settings_obj.the_options.hasOwnProperty("cookie_bar_spacing2")
+        ? settings_obj.the_options["cookie_bar_spacing2"]
+        : "5",
+      cookie_bar_blur2: settings_obj.the_options.hasOwnProperty("cookie_bar_blur2")
+        ? settings_obj.the_options["cookie_bar_blur2"]
+        : "0",
+      cookie_bar_shadow_color2: settings_obj.the_options.hasOwnProperty("cookie_bar_shadow_color2")
+        ? settings_obj.the_options["cookie_bar_shadow_color2"]
+        : "#000000",
+      cookie_bar_shadow_size2: settings_obj.the_options.hasOwnProperty("cookie_bar_shadow_size2")
+        ? settings_obj.the_options["cookie_bar_shadow_size2"]
+        : "5",
+      bypass_button_is_on2: settings_obj.the_options.hasOwnProperty("bypass_button_is_on2") &&
+        (true == settings_obj.the_options["bypass_button_is_on2"] || 1 == settings_obj.the_options["bypass_button_is_on2"] )
+        ? true
+        : false,
+      bypass_button_size2: settings_obj.the_options.hasOwnProperty("bypass_button_size2")
+        ? settings_obj.the_options["bypass_button_size2"]
+        : "md",
+      bypass_button_text_color2: settings_obj.the_options.hasOwnProperty("bypass_button_text_color2")
+        ? settings_obj.the_options["bypass_button_text_color2"]
+        : "#176CAE",
+      banner_text_alignment2: settings_obj.the_options.hasOwnProperty("banner_text_alignment2")
+        ? settings_obj.the_options["banner_text_alignment2"]
+        : "left",
+      cookie_font_size2: settings_obj.the_options.hasOwnProperty("cookie_font_size2")
+        ? settings_obj.the_options["cookie_font_size2"]
+        : "12",
+      cookie_text_weight2: settings_obj.the_options.hasOwnProperty("cookie_text_weight2")
+        ? settings_obj.the_options["cookie_text_weight2"]
+        : '400',
+      button_font_size2: settings_obj.the_options.hasOwnProperty("button_font_size2")
+        ? settings_obj.the_options["button_font_size2"]
+        : "14",
+      button_text_weight2: settings_obj.the_options.hasOwnProperty("button_text_weight2")
+        ? settings_obj.the_options["button_text_weight2"]
+        : '500',
+      logo_is_on2: settings_obj.the_options.hasOwnProperty("logo_is_on2") &&
+        (true == settings_obj.the_options["logo_is_on2"] || 1 == settings_obj.the_options["logo_is_on2"])
+        ? true
+        : false,
+      default_logo2: settings_obj.the_options.hasOwnProperty("default_logo2") 
+        ? settings_obj.the_options["default_logo2"] 
+        : "icon1",
+      use_uploaded_logo2: settings_obj.the_options.hasOwnProperty("use_uploaded_logo2") &&
+        (true == settings_obj.the_options["use_uploaded_logo2"] || 1 == settings_obj.the_options["use_uploaded_logo2"])
+        ? true
+        : false,
+      heading_is_on2: settings_obj.the_options.hasOwnProperty("heading_is_on2") &&
+        (true == settings_obj.the_options["heading_is_on2"] || 1 == settings_obj.the_options["heading_is_on2"])
+        ? true
+        : false,
+      cookie_heading_color2: settings_obj.the_options.hasOwnProperty("cookie_heading_color2")
+        ? settings_obj.the_options["cookie_heading_color2"]
+        : "#000000",
+      heading_text_size2: settings_obj.the_options.hasOwnProperty("heading_text_size2")
+        ? settings_obj.the_options["heading_text_size2"]
+        : "18",
+      heading_text_weight2: settings_obj.the_options.hasOwnProperty("heading_text_weight2")
+        ? settings_obj.the_options["heading_text_weight2"]
+        : '700',
+
+      visible_c5_items2: visibleC5Items2,
+
+      visible_c6_items2: visibleC6Items2,
       cookie_accept_on:
         settings_obj.the_options.hasOwnProperty("button_accept_is_on") &&
         (true === settings_obj.the_options["button_accept_is_on"] ||
@@ -747,6 +1093,36 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_accept_button_border_radius"]
         : "0",
+      accept_button_width: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_width"
+      )
+        ? settings_obj.the_options["button_accept_button_width"]
+        : "fit",
+      accept_button_min_width: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_min_width"
+      )        
+        ? settings_obj.the_options["button_accept_button_min_width"]
+        : "0",
+      accept_button_width1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_width1"
+      )
+        ? settings_obj.the_options["button_accept_button_width1"]
+        : "fit",
+      accept_button_min_width1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_min_width1"
+      )        
+        ? settings_obj.the_options["button_accept_button_min_width1"]
+        : "0",
+      accept_button_width2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_width2"
+      )
+        ? settings_obj.the_options["button_accept_button_width2"]
+        : "fit",
+      accept_button_min_width2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_button_min_width2"
+      )        
+        ? settings_obj.the_options["button_accept_button_min_width2"]
+        : "0",
       cookie_decline_on:
         settings_obj.the_options.hasOwnProperty("button_decline_is_on") &&
         (true === settings_obj.the_options["button_decline_is_on"] ||
@@ -757,7 +1133,7 @@ var gen = new Vue({
         "button_decline_text"
       )
         ? settings_obj.the_options["button_decline_text"]
-        : "Decline",
+        : "Reject All",
       decline_text_color: settings_obj.the_options.hasOwnProperty(
         "button_decline_link_color"
       )
@@ -799,6 +1175,36 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_decline_button_border_radius"]
         : "0",
+      decline_button_width: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_width"
+      )
+        ? settings_obj.the_options["button_decline_button_width"]
+        : "fit",
+      decline_button_min_width: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_min_width"
+      )
+        ? settings_obj.the_options["button_decline_button_min_width"]
+        : "0",
+      decline_button_width1: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_width1"
+      )
+        ? settings_obj.the_options["button_decline_button_width1"]
+        : "fit",
+      decline_button_min_width1: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_min_width1"
+      )
+        ? settings_obj.the_options["button_decline_button_min_width1"]
+        : "0",
+      decline_button_width2: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_width2"
+      )
+        ? settings_obj.the_options["button_decline_button_width2"]
+        : "fit",
+      decline_button_min_width2: settings_obj.the_options.hasOwnProperty(
+        "button_decline_button_min_width2"
+      )
+        ? settings_obj.the_options["button_decline_button_min_width2"]
+        : "0",
       decline_action: settings_obj.the_options.hasOwnProperty(
         "button_decline_action"
       )
@@ -830,7 +1236,7 @@ var gen = new Vue({
         "button_settings_text"
       )
         ? settings_obj.the_options["button_settings_text"]
-        : "Cookie Settings",
+        : "Preferences",
       settings_text_color: settings_obj.the_options.hasOwnProperty(
         "button_settings_link_color"
       )
@@ -872,6 +1278,36 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_settings_button_border_radius"]
         : "0",
+      settings_button_width: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_width"
+      )
+        ? settings_obj.the_options["button_settings_button_width"]
+        : "fit",
+      settings_button_min_width: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_min_width"
+      )
+        ? settings_obj.the_options["button_settings_button_min_width"]
+        : "0", 
+      settings_button_width1: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_width1"
+      )
+        ? settings_obj.the_options["button_settings_button_width1"]
+        : "fit",
+      settings_button_min_width1: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_min_width1"
+      )
+        ? settings_obj.the_options["button_settings_button_min_width1"]
+        : "0", 
+      settings_button_width2: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_width2"
+      )
+        ? settings_obj.the_options["button_settings_button_width2"]
+        : "fit",
+      settings_button_min_width2: settings_obj.the_options.hasOwnProperty(
+        "button_settings_button_min_width2"
+      )
+        ? settings_obj.the_options["button_settings_button_min_width2"]
+        : "0",
       cookie_on_frontend:
         settings_obj.the_options.hasOwnProperty(
           "button_settings_display_cookies"
@@ -884,7 +1320,7 @@ var gen = new Vue({
         "button_confirm_text"
       )
         ? settings_obj.the_options["button_confirm_text"]
-        : "Confirm",
+        : "Save My Preferences",
       confirm_text_color: settings_obj.the_options.hasOwnProperty(
         "button_confirm_link_color"
       )
@@ -1297,7 +1733,7 @@ var gen = new Vue({
         "button_decline_text1"
       )
         ? settings_obj.the_options["button_decline_text1"]
-        : "Decline",
+        : "Reject All",
       decline_text_color1: settings_obj.the_options.hasOwnProperty(
         "button_decline_link_color1"
       )
@@ -1371,7 +1807,7 @@ var gen = new Vue({
         "button_settings_text1"
       )
         ? settings_obj.the_options["button_settings_text1"]
-        : "Cookie Settings",
+        : "Preferences",
       settings_text_color1: settings_obj.the_options.hasOwnProperty(
         "button_settings_link_color1"
       )
@@ -1429,7 +1865,7 @@ var gen = new Vue({
         "button_confirm_text1"
       )
         ? settings_obj.the_options["button_confirm_text1"]
-        : "Confirm",
+        : "Save My Preferences",
       confirm_text_color1: settings_obj.the_options.hasOwnProperty(
         "button_confirm_link_color1"
       )
@@ -1794,7 +2230,7 @@ var gen = new Vue({
         "button_decline_text2"
       )
         ? settings_obj.the_options["button_decline_text2"]
-        : "Decline",
+        : "Reject All",
       decline_text_color2: settings_obj.the_options.hasOwnProperty(
         "button_decline_link_color2"
       )
@@ -1869,7 +2305,7 @@ var gen = new Vue({
         "button_settings_text2"
       )
         ? settings_obj.the_options["button_settings_text2"]
-        : "Cookie Settings",
+        : "Preferences",
       settings_text_color2: settings_obj.the_options.hasOwnProperty(
         "button_settings_link_color2"
       )
@@ -1927,7 +2363,7 @@ var gen = new Vue({
         "button_confirm_text2"
       )
         ? settings_obj.the_options["button_confirm_text2"]
-        : "Confirm",
+        : "Save My Preferences",
       confirm_text_color2: settings_obj.the_options.hasOwnProperty(
         "button_confirm_link_color2"
       )
@@ -2171,7 +2607,7 @@ var gen = new Vue({
         : [],
       template: settings_obj.the_options.hasOwnProperty("template")
         ? settings_obj.the_options["template"]
-        : "default",
+        : "new_default",
       cookie_accept_all_on:
         settings_obj.the_options.hasOwnProperty("button_accept_all_is_on") &&
         (true === settings_obj.the_options["button_accept_all_is_on"] ||
@@ -2245,6 +2681,36 @@ var gen = new Vue({
       )
         ? settings_obj.the_options["button_accept_all_btn_border_radius"]
         : "0",
+      accept_all_btn_width: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_btn_width"
+      )
+        ? settings_obj.the_options["button_accept_all_btn_width"]
+        : "fit",
+      accept_all_btn_min_width: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_btn_min_width"
+      )
+        ? settings_obj.the_options["button_accept_all_btn_min_width"]
+        : "0",
+      accept_all_btn_width1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_btn_width1"
+      )
+        ? settings_obj.the_options["button_accept_all_btn_width1"]
+        : "fit",
+      accept_all_btn_min_width1: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_btn_min_width1"
+      )
+        ? settings_obj.the_options["button_accept_all_btn_min_width1"]
+        : "0",
+      accept_all_btn_width2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_btn_width2"
+      )
+        ? settings_obj.the_options["button_accept_all_btn_width2"]
+        : "fit",
+      accept_all_btn_min_width2: settings_obj.the_options.hasOwnProperty(
+        "button_accept_all_btn_min_width2"
+      )
+        ? settings_obj.the_options["button_accept_all_btn_min_width2"]
+        : "0",
       //custom css
       gdpr_css_text: settings_obj.the_options.hasOwnProperty("gdpr_css_text")
         ? this.decodeCSS(settings_obj.the_options["gdpr_css_text"])
@@ -2258,6 +2724,23 @@ var gen = new Vue({
         1 === settings_obj.the_options["do_not_track_on"]
           ? true
           : false,
+      // Anonymize IP address
+      ip_anonymization_on:
+        "true" == settings_obj.the_options["ip_anonymization_on"] ||
+        true == settings_obj.the_options["ip_anonymization_on"] ||
+        1 === settings_obj.the_options["ip_anonymization_on"]
+        ? true
+        : false,
+      ip_masking_level :
+        settings_obj.the_options.hasOwnProperty("ip_masking_level")
+        ? settings_obj.the_options["ip_masking_level"] 
+        : "2",
+      ip_masking_options: [
+        { label: '1 byte - e.g. 192.168.100.xxx', code: '1' },
+        { label: '2 byte - e.g. 192.168.xxx.xxx (Recommended)', code: '2' },
+        { label: '3 byte - e.g. 192.xxx.xxx.xxx', code: '3' },
+        { label: 'Fully mask IP address', code: 'full' },
+      ],
       //import file selected
       selectedFile: "",
       //Consent Log
@@ -2297,8 +2780,8 @@ var gen = new Vue({
           ? true
           : false,
       usage_data: settings_obj.hasOwnProperty("is_usage_tracking_allowed")
-      ? ("true" === settings_obj["is_usage_tracking_allowed"] )
-      : "false",
+        ? ("true" === settings_obj["is_usage_tracking_allowed"] )
+        : "false",
       reload_onSelect_law: false,
       reload_onSafeMode: false,
       // hide banner.
@@ -2310,11 +2793,11 @@ var gen = new Vue({
       
       //script dependency
       is_script_dependency_on:
-      settings_obj.the_options.hasOwnProperty("is_script_dependency_on") &&
-      (true === settings_obj.the_options["is_script_dependency_on"] ||
-        1 === settings_obj.the_options["is_script_dependency_on"])
-        ? true
-        : false,
+        settings_obj.the_options.hasOwnProperty("is_script_dependency_on") &&
+        (true === settings_obj.the_options["is_script_dependency_on"] ||
+          1 === settings_obj.the_options["is_script_dependency_on"])
+          ? true
+          : false,
       header_dependency: settings_obj.the_options.hasOwnProperty("header_dependency")
         ? settings_obj.the_options["header_dependency"]
         : '',
@@ -2417,16 +2900,40 @@ var gen = new Vue({
         )
           ? settings_obj.the_options["button_revoke_consent_background_color2"]
           : "",
+      ccpa_button_revoke_consent_text_color: settings_obj.the_options.hasOwnProperty(
+        "ccpa_button_revoke_consent_text_color"
+      )
+        ? settings_obj.the_options["ccpa_button_revoke_consent_text_color"]
+        : "",
+      ccpa_button_revoke_consent_text_color1:  settings_obj.the_options.hasOwnProperty(
+        "ccpa_button_revoke_consent_text_color1"
+      )
+        ? settings_obj.the_options["ccpa_button_revoke_consent_text_color1"]
+        : "",
+      ccpa_button_revoke_consent_text_color2: settings_obj.the_options.hasOwnProperty(
+        "ccpa_button_revoke_consent_text_color2"
+      )
+        ? settings_obj.the_options["ccpa_button_revoke_consent_text_color2"]
+        : "",
+      ccpa_button_revoke_consent_background_color: settings_obj.the_options.hasOwnProperty(
+          "ccpa_button_revoke_consent_background_color"
+        )
+          ? settings_obj.the_options["ccpa_button_revoke_consent_background_color"]
+          : "",
+      ccpa_button_revoke_consent_background_color1: settings_obj.the_options.hasOwnProperty(
+          "ccpa_button_revoke_consent_background_color1"
+        )
+          ? settings_obj.the_options["ccpa_button_revoke_consent_background_color1"]
+          : "",
+      ccpa_button_revoke_consent_background_color2: settings_obj.the_options.hasOwnProperty(
+          "ccpa_button_revoke_consent_background_color2"
+        )
+          ? settings_obj.the_options["ccpa_button_revoke_consent_background_color2"]
+          : "",
       is_selectedCountry_on:
         settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
         (true === settings_obj.the_options["is_selectedCountry_on"] ||
           1 === settings_obj.the_options["is_selectedCountry_on"])
-          ? true
-          : false,
-      is_selectedCountry_on_ccpa:
-        settings_obj.the_options.hasOwnProperty("is_selectedCountry_on_ccpa") &&
-        (true === settings_obj.the_options["is_selectedCountry_on_ccpa"] ||
-          1 === settings_obj.the_options["is_selectedCountry_on_ccpa"])
           ? true
           : false,
       is_worldwide_on:
@@ -2435,37 +2942,25 @@ var gen = new Vue({
           1 === settings_obj.the_options["is_worldwide_on"])
           ? true
           : false,
-      is_worldwide_on_ccpa:
-        settings_obj.the_options.hasOwnProperty("is_worldwide_on_ccpa") &&
-        (true === settings_obj.the_options["is_worldwide_on_ccpa"] ||
-          1 === settings_obj.the_options["is_worldwide_on_ccpa"])
-          ? true
-          : false,
       selectedRadioWorldWide:
         settings_obj.the_options.hasOwnProperty("is_worldwide_on") &&
         (true === settings_obj.the_options["is_worldwide_on"] ||
           1 === settings_obj.the_options["is_worldwide_on"])
           ? true
           : false,
-      selectedRadioWorldWideCcpa:
-        settings_obj.the_options.hasOwnProperty("is_worldwide_on_ccpa") &&
-        (true === settings_obj.the_options["is_worldwide_on_ccpa"] ||
-          1 === settings_obj.the_options["is_worldwide_on_ccpa"])
+      is_law_region_on:
+        settings_obj.the_options.hasOwnProperty("is_law_region_on") &&
+        (true === settings_obj.the_options["is_law_region_on"] ||
+          1 === settings_obj.the_options["is_law_region_on"])
           ? true
-          : false,
+          : false, 
       list_of_countries: settings_obj.list_of_countries,
       select_countries: settings_obj.the_options.hasOwnProperty(
         "select_countries"
       )
         ? settings_obj.the_options["select_countries"]
         : [],
-      select_countries_ccpa: settings_obj.the_options.hasOwnProperty(
-        "select_countries_ccpa"
-      )
-        ? settings_obj.the_options["select_countries_ccpa"]
-        : [],
       select_countries_array: [],
-      select_countries_array_ccpa: [],
       show_Select_Country: false,
       selectedRadioCountry:
         settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
@@ -2473,16 +2968,10 @@ var gen = new Vue({
           1 === settings_obj.the_options["is_selectedCountry_on"])
           ? true
           : false,
-      selectedRadioCountryCcpa:
-        settings_obj.the_options.hasOwnProperty("is_selectedCountry_on_ccpa") &&
-        (true === settings_obj.the_options["is_selectedCountry_on_ccpa"] ||
-          1 === settings_obj.the_options["is_selectedCountry_on_ccpa"])
-          ? true
-          : false,
       cookie_list_tab: true,
       cookie_scan_dropdown: false,
-      discovered_cookies_list_tab: false,
-      scan_history_list_tab: false,
+      discovered_cookies_list_tab: true,
+      scan_history_list_tab: true,
       preview_cookie_declaration: true,
       preview_about_cookie: false,
       preview_necessary: true,
@@ -2494,30 +2983,24 @@ var gen = new Vue({
       isCategoryActive: true,
       isFeaturesActive: false,
       isVendorsActive: false,
-      cookieSettingsPopupAccentColor: ''
+      cookieSettingsPopupAccentColor: '',
+      cookie_bar_settings_open: true,
+      cookie_bar_settings_open1: true,
     };
   },
   computed: {
     computedBackgroundColor() {
       const color = this.ab_testing_enabled
         ? this[`cookie_bar_color${this.active_test_banner_tab}`]
-        : this.gdpr_policy === 'both'
-          ? this.active_default_multiple_legislation === 'gdpr'
-            ? this.multiple_legislation_cookie_bar_color1 
-            : this.multiple_legislation_cookie_bar_color2
-          : this.cookie_bar_color
+        : this.cookie_bar_color
 
       const opacity = this.ab_testing_enabled
         ? this[`cookie_bar_opacity${this.active_test_banner_tab}`]
-        : this.gdpr_policy === 'both'
-          ? this.active_default_multiple_legislation === 'gdpr'
-            ? this.multiple_legislation_cookie_bar_opacity1
-            : this.multiple_legislation_cookie_bar_opacity2
-          : this.cookie_bar_opacity;
+        : this.cookie_bar_opacity;
 
       const finalColor = color + Math.floor(opacity * 255).toString(16).toUpperCase();
       const acceptAllBGColor = this.ab_testing_enabled ? ( this.active_test_banner_tab === 1 ? this.accept_all_background_color1 : this.accept_all_background_color2 ) : this.accept_all_background_color;
-      if(this.is_ccpa == true && this.is_gdpr == false){
+      if(this.is_us_state_laws == true && this.is_gdpr == false){
         if( this.ab_testing_enabled ){
           this.cookieSettingsPopupAccentColor = this.active_test_banner_tab === 1 ? this.opt_out_text_color1 : this.opt_out_text_color2;
         } else {
@@ -2527,19 +3010,47 @@ var gen = new Vue({
       else if( finalColor.toUpperCase().slice(0, -2) === acceptAllBGColor.toUpperCase() ) {
         if( this.ab_testing_enabled ){
           this.cookieSettingsPopupAccentColor = this.active_test_banner_tab === 1 ? this.accept_all_text_color1 : this.accept_all_text_color2;
-        } else if(this.is_gdpr == true && this.is_ccpa == true){
-          this.cookieSettingsPopupAccentColor = this.accept_all_text_color1;
         } else {
           this.cookieSettingsPopupAccentColor = this.accept_all_text_color;
         }
       } else {
-        this.cookieSettingsPopupAccentColor =  (this.is_gdpr == true && this.is_ccpa == true) ? this.accept_all_background_color1 : acceptAllBGColor;
+        this.cookieSettingsPopupAccentColor =  acceptAllBGColor;
       }
 
       return finalColor;
-    }
+    },
+    is_auto_mode() {
+      return this.law_selection_mode === 'auto';
+    },
+    region_label() {
+      const map = {
+        gdpr: 'EU Countries & UK', 
+        eprivacy: 'EU Countries & UK',
+        uk_gdpr: 'United Kingdom', 
+        lgpd: 'Brazil', 
+        pipeda: 'Canada',
+        au_app: 'Australia', 
+        sa_pdpl: 'Saudi Arabia',
+        us_state_laws: 'United States',
+      };
+      return map[this.gdpr_policy] || '';
+    },
   },
-  methods: {  
+  methods: { 
+    submitDataRequestSearch(event) {
+      const container = event.target.closest('.search-and-export-container');
+      const submitButton = container && container.querySelector('#search-submit-data-request');
+      if (submitButton) {
+        submitButton.click();
+      }
+    },
+    submitConsentLogSearch(event) {
+      const container = event.target.closest('.search-and-export-container');
+      const submitButton = container && container.querySelector('#search-submit-consent-log');
+      if (submitButton) {
+        submitButton.click();
+      }
+    },
     refreshGCMAdvertiserModeData(html) {
       this.gcm_adver_mode_data = html;
       const container = document.querySelector('#gcm-advertiser-mode-container');
@@ -2552,6 +3063,314 @@ var gen = new Vue({
                     icons: this.$options.icons, // Optionally reuse created lifecycle hook
                 });
             });
+    },
+    refreshABTestingData(html) {
+      this.ab_testing_data = html;
+      const container = document.querySelector('#ab-testing-container-crd');
+      this.$nextTick(() => {
+                new Vue({
+                    el: container,
+                    template: html,
+                    data: this.$data, // Reuse the existing Vue instance data
+                    methods: this.$options.methods, // Reuse the existing methods
+                    mounted: this.$options.mounted, // Reuse the original mounted logic
+                });
+            });
+    },
+    onSwitchABTestingEnable() {
+      j("#gdpr-cookie-consent-updating-settings-alert-crd")
+        .fadeIn(200)
+        .fadeOut(2000);
+      this.ab_testing_enabled = !this.ab_testing_enabled;
+      this.cookie_on_frontend1 = true;
+      this.cookie_on_frontend2 = true;
+      if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
+
+      var dataV = jQuery("#gcc-save-settings-form").serialize();
+      // Make the AJAX request to save the new state
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: {
+            action: "ab_testing_enable",
+            _wpnonce: settings_obj.nonce,
+            "gcc-ab-testing-enable": this.ab_testing_enabled, // Add the key with the updated value
+          },
+        })
+        .done(function (data) {
+          window.location.reload();
+          // Show success message
+          this.success_error_message = "Settings Saved";
+          j("#gdpr-cookie-consent-save-settings-alert-crd")
+            .css("background-color", "#72b85c")
+            .fadeIn(400)
+            .fadeOut(2500, function () {
+              // Optionally reload the page or perform other actions
+            });
+        })
+        .fail(function (error) {
+          console.error("AJAX call failed:", error);
+          alert(
+            "An error occurred while saving the settings. Please try again."
+          );
+        });
+    },
+    refreshABTestingData(html) {
+      this.ab_testing_data = html;
+      const container = document.querySelector('#ab-testing-container-crd');
+      this.$nextTick(() => {
+                new Vue({
+                    el: container,
+                    template: html,
+                    data: this.$data, // Reuse the existing Vue instance data
+                    methods: this.$options.methods, // Reuse the existing methods
+                    mounted: this.$options.mounted, // Reuse the original mounted logic
+                });
+            });
+    },
+    onSwitchABTestingEnable() {
+      j("#gdpr-cookie-consent-updating-settings-alert-crd")
+        .fadeIn(200)
+        .fadeOut(2000);
+      this.ab_testing_enabled = !this.ab_testing_enabled;
+      this.cookie_on_frontend1 = true;
+      this.cookie_on_frontend2 = true;
+      if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
+
+      var dataV = jQuery("#gcc-save-settings-form").serialize();
+      // Make the AJAX request to save the new state
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: {
+            action: "ab_testing_enable",
+            _wpnonce: settings_obj.nonce,
+            "gcc-ab-testing-enable": this.ab_testing_enabled, // Add the key with the updated value
+          },
+        })
+        .done(function (data) {
+          window.location.reload();
+          // Show success message
+          this.success_error_message = "Settings Saved";
+          j("#gdpr-cookie-consent-save-settings-alert-crd")
+            .css("background-color", "#72b85c")
+            .fadeIn(400)
+            .fadeOut(2500, function () {
+              // Optionally reload the page or perform other actions
+            });
+        })
+        .fail(function (error) {
+          console.error("AJAX call failed:", error);
+          alert(
+            "An error occurred while saving the settings. Please try again."
+          );
+        });
+    },
+    openConfigurationPanel(panelName) {
+      const panels = [
+        'cookie_bar_settings_open',
+        'cookie_bar_settings_open1',
+        'button_readmore_popup',
+        'revoke_consent_popup',
+        'accept_button_popup',
+        'accept_all_button_popup',
+        'decline_button_popup',
+        'settings_button_popup',
+        'confirm_button_popup',
+        'cancel_button_popup',
+        'opt_out_link_popup',
+        'ccpa_revoke_consent_popup',
+
+        'button_readmore_popup1',
+        'revoke_consent_popup1',
+        'accept_button_popup1',
+        'accept_all_button_popup1',
+        'decline_button_popup1',
+        'settings_button_popup1',
+        'confirm_button_popup1',
+        'cancel_button_popup1',
+        'opt_out_link_popup1',
+        'ccpa_revoke_consent_popup1',
+
+        'button_readmore_popup2',
+        'revoke_consent_popup2',
+        'accept_button_popup2',
+        'accept_all_button_popup2',
+        'decline_button_popup2',
+        'settings_button_popup2',
+        'confirm_button_popup2',
+        'cancel_button_popup2',
+        'opt_out_link_popup2',
+        'ccpa_revoke_consent_popup2'
+      ];
+
+      panels.forEach(panel => {
+        this[panel] = false;
+      });
+
+      this[panelName] = true;
+    },
+    generatePopupColors(backgroundColor, acceptAllButtonColor) {
+      const parseHex = (color, fallback) => {
+        let hex = String(color || '')
+          .trim()
+          .replace(/^#/, '');
+
+        // Support #RGB and #RGBA.
+        if (hex.length === 3 || hex.length === 4) {
+          hex =
+            hex[0] + hex[0] +
+            hex[1] + hex[1] +
+            hex[2] + hex[2];
+        } else {
+          // Ignore alpha from #RRGGBBAA.
+          hex = hex.substring(0, 6);
+        }
+
+        if (!/^[0-9a-fA-F]{6}$/.test(hex)) {
+          return fallback;
+        }
+
+        return {
+          r: parseInt(hex.substring(0, 2), 16),
+          g: parseInt(hex.substring(2, 4), 16),
+          b: parseInt(hex.substring(4, 6), 16),
+        };
+      };
+
+      const clamp = (value) => {
+        return Math.max(0, Math.min(255, Math.round(value)));
+      };
+
+      const mixColors = (base, tint, strength) => {
+        return {
+          r: clamp(base.r + (tint.r - base.r) * strength),
+          g: clamp(base.g + (tint.g - base.g) * strength),
+          b: clamp(base.b + (tint.b - base.b) * strength),
+        };
+      };
+
+      const toHex = (color) => {
+        const valueToHex = (value) => {
+          return clamp(value)
+            .toString(16)
+            .padStart(2, '0');
+        };
+
+        return (
+          '#' +
+          valueToHex(color.r) +
+          valueToHex(color.g) +
+          valueToHex(color.b)
+        );
+      };
+
+      const getLuminance = (color) => {
+        const convertChannel = (channel) => {
+          const value = channel / 255;
+
+          return value <= 0.04045
+            ? value / 12.92
+            : Math.pow((value + 0.055) / 1.055, 2.4);
+        };
+
+        return (
+          0.2126 * convertChannel(color.r) +
+          0.7152 * convertChannel(color.g) +
+          0.0722 * convertChannel(color.b)
+        );
+      };
+
+      const getColorDifference = (first, second) => {
+        return (
+          Math.abs(first.r - second.r) +
+          Math.abs(first.g - second.g) +
+          Math.abs(first.b - second.b)
+        ) / 3;
+      };
+
+      const black = { r: 0, g: 0, b: 0 };
+      const white = { r: 255, g: 255, b: 255 };
+
+      const background = parseHex(
+        backgroundColor,
+        white
+      );
+
+      const buttonColor = parseHex(
+        acceptAllButtonColor,
+        background
+      );
+
+      const backgroundLuminance =
+        getLuminance(background);
+
+      /*
+      * Overlay:
+      * 92% background + 8% Accept All button color.
+      */
+      const overlayTintStrength = 0.08;
+
+      let overlay = mixColors(
+        background,
+        buttonColor,
+        overlayTintStrength
+      );
+
+      /*
+      * If the button and background are almost identical,
+      * apply a small light/dark adjustment so the card remains
+      * distinguishable.
+      */
+      if (getColorDifference(background, overlay) < 4) {
+        const overlayFallbackTarget =
+          backgroundLuminance < 0.45
+            ? white
+            : black;
+
+        overlay = mixColors(
+          background,
+          overlayFallbackTarget,
+          0.05
+        );
+      }
+
+      /*
+      * Border:
+      * Lighten dark overlays by 16%.
+      * Darken light overlays by 12%.
+      */
+      const overlayLuminance = getLuminance(overlay);
+      const isDark = overlayLuminance < 0.45;
+
+      const borderTarget = isDark ? white : black;
+      const borderStrength = isDark ? 0.16 : 0.12;
+
+      const border = mixColors(
+        overlay,
+        borderTarget,
+        borderStrength
+      );
+
+      return {
+        overlay: toHex(overlay),
+        border: toHex(border),
+      };
+    },
+
+    updatePopupColors() {
+      const colors = this.generatePopupColors(
+        this.cookie_bar_color,
+        this.button_accept_all_button_color
+      );
+
+      this.cookie_settings_overlay_color =
+        colors.overlay;
+
+      this.cookie_settings_border_color =
+        colors.border;
     },
     isPluginVersionLessOrEqual(version) {
       return this.pluginVersion && this.pluginVersion <= version;
@@ -2599,42 +3418,123 @@ var gen = new Vue({
 
       return decodedCSS;
     },
+    applyLawFlags(code) {
+      // 'ccpa' and 'both' are legacy codes kept readable indefinitely.
+      const isUsStateLaws =
+        code === "us_state_laws" || code === "ccpa" || code === "both";
+      const known = [
+        "gdpr",
+        "both",
+        "us_state_laws",
+        "ccpa",
+        "lgpd",
+        "eprivacy",
+        "uk_gdpr",
+        "pipeda",
+        "au_app",
+        "sa_pdpl",
+      ].includes(code);
+
+      this.is_us_state_laws = isUsStateLaws;
+      this.is_gdpr = code === "gdpr" || code === "both" || !known;
+      this.is_lgpd = code === "lgpd";
+      this.is_eprivacy = code === "eprivacy";
+      this.is_uk_gdpr = code === "uk_gdpr";
+      this.is_pipeda = code === "pipeda";
+      this.is_au_app = code === "au_app";
+      this.is_sa_pdpl = code === "sa_pdpl";
+    },
     setValues() {
-      if (this.gdpr_policy === "both") {
-        this.is_ccpa = true;
+      this.applyLawFlags(this.gdpr_policy);
+
+      if (this.gdpr_policy === "gdpr") {
         this.is_gdpr = true;
+        this.is_us_state_laws = false;
         this.is_eprivacy = false;
         this.is_lgpd = false;
-        this.show_visitor_conditions = true;
+        this.is_uk_gdpr = false;
+        this.is_pipeda = false;
+        this.is_au_app = false;
+        this.is_sa_pdpl = false;
         this.show_revoke_card = true;
-      } else if (this.gdpr_policy === "ccpa") {
-        this.is_ccpa = true;
-        this.is_eprivacy = false;
+        this.show_visitor_conditions = true;
+      } else if (this.gdpr_policy === "us_state_laws") {
+        this.is_us_state_laws = true;
         this.is_gdpr = false;
+        this.is_eprivacy = false;
         this.is_lgpd = false;
+        this.is_uk_gdpr = false;
+        this.is_pipeda = false;
+        this.is_au_app = false;
+        this.is_sa_pdpl = false;
         this.show_visitor_conditions = true;
         this.show_revoke_card = false;
-      } else if (this.gdpr_policy === "gdpr") {
-        this.is_gdpr = true;
-        this.is_ccpa = false;
-        this.is_eprivacy = false;
-        this.is_lgpd = false;
-        this.show_revoke_card = true;
-        this.show_visitor_conditions = true;
       } else if (this.gdpr_policy === "lgpd") {
         this.is_gdpr = false;
-        this.is_ccpa = false;
+        this.is_us_state_laws = false;
         this.is_lgpd = true;
         this.is_eprivacy = false;
+        this.is_uk_gdpr = false;
+        this.is_pipeda = false;
+        this.is_au_app = false;
+        this.is_sa_pdpl = false;
         this.show_revoke_card = true;
         this.show_visitor_conditions = false;
-      } else {
+      } else if (this.gdpr_policy === "eprivacy") {
         this.is_eprivacy = true;
         this.is_gdpr = false;
-        this.is_ccpa = false;
+        this.is_us_state_laws = false;
         this.is_lgpd = false;
+        this.is_uk_gdpr = false;
+        this.is_pipeda = false;
+        this.is_au_app = false;
+        this.is_sa_pdpl = false;
         this.show_visitor_conditions = false;
         this.show_revoke_card = true;
+      } else if (this.gdpr_policy === "uk_gdpr") {
+        this.is_uk_gdpr = true;
+        this.is_gdpr = false;
+        this.is_us_state_laws = false;
+        this.is_lgpd = false;
+        this.is_eprivacy = false;
+        this.is_pipeda = false;
+        this.is_au_app = false;
+        this.is_sa_pdpl = false;
+        this.show_revoke_card = true;
+        this.show_visitor_conditions = true;
+      } else if (this.gdpr_policy === "pipeda") {
+        this.is_pipeda = true;
+        this.is_gdpr = false;
+        this.is_us_state_laws = false;
+        this.is_lgpd = false;
+        this.is_eprivacy = false;
+        this.is_uk_gdpr = false;
+        this.is_au_app = false;
+        this.is_sa_pdpl = false;
+        this.show_revoke_card = true;
+        this.show_visitor_conditions = true;
+      } else if (this.gdpr_policy === "au_app") {
+        this.is_au_app = true;
+        this.is_gdpr = false;
+        this.is_us_state_laws = false;
+        this.is_lgpd = false;
+        this.is_eprivacy = false;
+        this.is_uk_gdpr = false;
+        this.is_pipeda = false;
+        this.is_sa_pdpl = false;
+        this.show_revoke_card = true;
+        this.show_visitor_conditions = true;
+      } else if (this.gdpr_policy === "sa_pdpl") {
+        this.is_sa_pdpl = true;
+        this.is_gdpr = false;
+        this.is_us_state_laws = false;
+        this.is_lgpd = false;
+        this.is_eprivacy = false;
+        this.is_uk_gdpr = false;
+        this.is_pipeda = false;
+        this.is_au_app = false;
+        this.show_revoke_card = true;
+        this.show_visitor_conditions = true;
       }
       for (let i = 0; i < this.list_of_contents.length; i++) {
         if (
@@ -2673,7 +3573,7 @@ var gen = new Vue({
           }
         }
       }
-      let navLinks = j(".nav-link").map(function () {
+      let navLinks = j("#gcc-save-settings-form .nav-link").map(function () {
         return this.getAttribute("href");
       });
       if(this.$refs.active_tab === undefined) this.$refs.active_tab = {};
@@ -2684,6 +3584,61 @@ var gen = new Vue({
           break;
         }
       }
+
+      let advNavLinks = j("#gcc-save-advanced-settings-form .nav-link").map(function () {
+        return this.getAttribute("href");
+      });
+
+      if (this.$refs.active_tab_adv === undefined) this.$refs.active_tab_adv = {};
+
+      for (let i = 0; i < advNavLinks.length; i++) {
+        let link = advNavLinks[i]; // e.g. "#advanced_settings#consent"
+
+        // Split the link and URL by '#'
+        let linkParts = link.split('#').filter(Boolean);
+        let urlParts = window.location.hash.split('#').filter(Boolean);
+
+        // Check if the last part matches
+        if (linkParts[linkParts.length - 1] === urlParts[urlParts.length - 1]) {
+          // Remove only the last fragment from the URL
+          urlParts.pop();
+          let newHash = urlParts.length ? '#' + urlParts.join('#') : '';
+          window.history.replaceState(null, '', window.location.pathname + window.location.search + newHash);
+
+          // Set the active tab
+          this.$refs.active_tab_adv.activeTabIndex = i;
+          break;
+        }
+      }
+
+      let crdNavLinks = j("#gdpr-cookie-consent-compliance-record-settings .nav-link").map(
+        function () {
+          return this.getAttribute("href");
+        }
+      );
+
+      if (this.$refs.active_tab_crd === undefined) this.$refs.active_tab_crd = {};
+
+      for (let i = 0; i < crdNavLinks.length; i++) {
+        let link = crdNavLinks[i]; // e.g. "#compliance_records#consent_logs"
+
+        // Split the link and URL by '#'
+        let linkParts = link.split('#').filter(Boolean);
+        let urlParts = window.location.hash.split('#').filter(Boolean);
+
+        // Check if the last part matches
+        if (linkParts[linkParts.length - 1] === urlParts[urlParts.length - 1]) {
+          // Remove only the last fragment from the URL
+          urlParts.pop();
+          let newHash = urlParts.length ? '#' + urlParts.join('#') : '';
+          window.history.replaceState(null, '', window.location.pathname + window.location.search + newHash);
+
+          // Set the active tab
+          this.$refs.active_tab_crd.activeTabIndex = i;
+          break;
+        }
+      }
+
       if (this.accept_action === "#cookie_action_close_header") {
         this.is_open_url = false;
       } else {
@@ -2720,11 +3675,6 @@ var gen = new Vue({
       for (let i = 0; i < this.list_of_countries.length; i++) {
         if (this.select_countries.includes(this.list_of_countries[i].code)) {
           this.select_countries_array.push(this.list_of_countries[i]);
-        }
-      }
-      for (let i = 0; i < this.list_of_countries.length; i++) {
-        if (this.select_countries_ccpa.includes(this.list_of_countries[i].code)) {
-          this.select_countries_array_ccpa.push(this.list_of_countries[i]);
         }
       }
 
@@ -2824,6 +3774,7 @@ var gen = new Vue({
           data: {
             action: "gcc_switch_preview_banner",
             banner_preview_state: this.banner_preview_is_on,
+            _wpnonce: settings_obj.nonce,
           },
           success: function (response) {
           },
@@ -2845,7 +3796,7 @@ var gen = new Vue({
           "Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest. The choices you make regarding the purposes and entities listed in this notice are saved in a cookie named wpl_tc_string for a maximum duration of 12 months.";
       } else {
         this.gdpr_message =
-          "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
+          "We use cookies to optimize your experience, analyze traffic, and personalize ads. Please choose whether you accept our use of non-essential cookies.";
         this.gdpr_about_cookie_message =
           "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
       }
@@ -2853,6 +3804,9 @@ var gen = new Vue({
     },
     onSwitchGCMEnable(){
       this.gcm_is_on = !this.gcm_is_on;
+    },
+    onSwitchAdTechExpanded(){
+      this.ad_tech_expanded = !this.ad_tech_expanded;
     },
     onSwitchGCMUrlPass(){
       this.gcm_url_passthrough = !this.gcm_url_passthrough;
@@ -2889,7 +3843,8 @@ var gen = new Vue({
         url: settings_obj.cookie_scan_settings.ajax_url,
         type: "POST",
         data: {
-          action: "wpl_get_gcm_status"
+          action: "wpl_get_gcm_status",
+          security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
         },
         success: (response) => {
           if (response.success) {
@@ -2904,12 +3859,12 @@ var gen = new Vue({
           console.error(e);
           that.gcm_scan_flag = false;
           that.success_error_message = "Some error occured";
-          j("#gdpr-cookie-consent-save-settings-alert").css({
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").css({
             "background-color": "#72b85c",
             "z-index": "10000",
           });
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeOut(2500);
         }
       });
     },
@@ -2954,66 +3909,28 @@ var gen = new Vue({
       this.selectedRadioWorldWide = "yes";
       this.selectedRadioCountry = false;
       this.is_worldwide_on = true;
-      this.is_eu_on = false;
+      this.is_law_region_on = false;
       this.is_selectedCountry_on = false;
     },
-    onSwitchWorldWideEnableCcpa() {
-      this.selectedRadioWorldWideCcpa = "yes";
-      this.selectedRadioCountryCcpa = false;
-      this.is_worldwide_on_ccpa = true;
-      this.is_selectedCountry_on_ccpa = false;
-      this.is_ccpa_on = false;
-    },
-    onSwitchEUEnable(isChecked) {
+    onSwitchRegionEnable(isChecked) {
+      this.is_law_region_on = isChecked;
       if (isChecked) {
         this.selectedRadioWorldWide = false;
-        this.is_eu_on = true;
         this.is_worldwide_on = false;
-      } else {
-        this.is_eu_on = false;
-        if (this.is_selectedCountry_on != true) {
-          this.selectedRadioWorldWide = "yes";
-        }
+      } else if (this.is_selectedCountry_on !== true) {
+        this.selectedRadioWorldWide = "yes";
+        this.is_worldwide_on = true;
       }
     },
     onSwitchSelectedCountryEnable(isChecked) {
+      this.is_selectedCountry_on = isChecked;
+      this.selectedRadioCountry = isChecked;
       if (isChecked) {
-        this.is_selectedCountry_on = true;
-        this.selectedRadioCountry = true;
         this.selectedRadioWorldWide = false;
         this.is_worldwide_on = false;
-      } else {
-        this.is_selectedCountry_on = false;
-        this.selectedRadioCountry = false;
-        if (this.is_eu_on != true) {
-          this.selectedRadioWorldWide = "yes";
-        }
-      }
-    },
-    onSwitchSelectedCountryEnableCcpa(isChecked) {
-      if (isChecked) {
-        this.is_selectedCountry_on_ccpa = true;
-        this.selectedRadioCountryCcpa = true;
-        this.selectedRadioWorldWideCcpa = false;
-        this.is_worldwide_on_ccpa = false;
-      } else {
-        this.is_selectedCountry_on_ccpa = false;
-        this.selectedRadioCountryCcpa = false;
-        if (this.is_ccpa_on != true) {
-          this.selectedRadioWorldWideCcpa = "yes";
-        }
-      }
-    },
-    onSwitchCCPAEnable(isChecked) {
-      if (isChecked) {
-        this.selectedRadioWorldWideCcpa = false;
-        this.is_ccpa_on = true;
-        this.is_worldwide_on_ccpa = false;
-      } else {
-        this.is_ccpa_on = false;
-        if (this.is_selectedCountry_on_ccpa != true) {
-          this.selectedRadioWorldWideCcpa = "yes";
-        }
+      } else if (this.is_law_region_on !== true) {
+        this.selectedRadioWorldWide = "yes";
+        this.is_worldwide_on = true;
       }
     },
     onCountrySelect(value) {
@@ -3038,153 +3955,268 @@ var gen = new Vue({
     onSwitchRevokeConsentEnable2() {
       this.is_revoke_consent_on2 = !this.is_revoke_consent_on2;
     },
+    onSwitchCcpaRevokeConsentEnable(){
+      this.is_ccpa_revoke_consent_on = !this.is_ccpa_revoke_consent_on;
+    },
+    onSwitchCcpaRevokeConsentEnable1(){
+      this.is_ccpa_revoke_consent_on1 = !this.is_ccpa_revoke_consent_on1;
+    },
+    onSwitchCcpaRevokeConsentEnable2(){
+      this.is_ccpa_revoke_consent_on2 = !this.is_ccpa_revoke_consent_on2;
+    },
     onSwitchAutoBannerInitialize() {
       this.auto_banner_initialize = !this.auto_banner_initialize;
     },
-    onSwitchAutoGeneratedBanner() {
-      this.processof_auto_template_generated = true;
-      this.is_auto_template_generated = true;
-      // var data = !this.auto_generated_banner;
-      // this.auto_generated_banner = !this.auto_generated_banner;
+    onSwitchLoggingOn() {
+      this.logging_on = !this.logging_on;
+      this.consent_log_switch_clicked = true;
+    },
+    onSwitchAutotick() {
+      this.autotick = !this.autotick;
+    },
+    onSwitchAutoHide() {
+      this.auto_hide = !this.auto_hide;
+    },
+    onSwitchAutoScroll() {
+      this.auto_scroll = !this.auto_scroll;
+    },
+    onSwitchAutoClick() {
+      this.auto_click = !this.auto_click;
+    },
+    onSwitchAutoScrollReload() {
+      this.auto_scroll_reload = !this.auto_scroll_reload;
+    },
+    onSwitchAcceptReload() {
+      this.accept_reload = !this.accept_reload;
+    },
+    onSwitchDeclineReload() {
+      this.decline_reload = !this.decline_reload;
+    },
+    onSwitchIpAnonymization(){
+      this.ip_anonymization_on = !this.ip_anonymization_on
+    },
+    onSiteSelect(value) {
+      let tmp_array = [];
+      for (let i = 0; i < value.length; i++) {
+        tmp_array[i] = value[i];
+      }
+      this.select_sites = tmp_array;
+    },
+    onSwitchDeleteOnDeactivation() {
+      this.delete_on_deactivation = !this.delete_on_deactivation;
+    },
+    onSwitchShowCredits() {
+      this.show_credits = !this.show_credits;
+    },
+    onSwitchEnableSafe() {
+      this.enable_safe = !this.enable_safe;
+      this.reload_onSafeMode = true;
+    },
+    onSwitchEnableUsageData() {
+      this.usage_data = !this.usage_data;
+    },
+    onClickRestoreButton() {
+      let answer = confirm(
+        "Are you sure you want to reset to default settings?"
+      );
+      if (answer) {
+        this.restoreDefaultSettings();
+      }
+    },
+    removeFile() {
+      this.selectedFile = null;
+      document.getElementById("fileInput").value = "";
+      var btn = document.getElementById("importButton");
+      btn.disabled = true;
+      btn.classList.add("disable-import-button");
+    },
+    updateFileName(event) {
+      this.selectedFile = event.target.files[0];
 
-      // // Check if the auto_generated_banner is being switched on
-      // if (data) {
-      this.is_template_changed = false;
-      // Open a new tab
-      let newTab = window.open(window.location.origin, "_blank");
-      var that = this;
-      // Wait for the new tab to load and fetch the required data
-      newTab.onload = function () {
-        // Array to store elements with a background color
-        const elementsWithButton = [];
+      var btn = document.getElementById("importButton");
+      btn.disabled = false;
+      btn.classList.remove("disabled");
+      btn.classList.remove("disable-import-button");
 
-        // Get all elements in the new tab
-        const allElements = newTab.document.querySelectorAll("*");
+      this.success_error_message = "Click on the Import button to import the settings.";
+      j("#gdpr-cookie-consent-save-settings-alert-adv")
+        .stop(true, true)
+        .css("background-color", "#72b85c")
+        .fadeIn(400)
+        .fadeOut(4000);
+    },
+    exportsettings() {
+      const siteAddress = window.location.origin;
 
-        // Loop through each element
-        allElements.forEach((element) => {
-          // Check if the element is a button, an anchor tag, or has a class containing "button"
-          if (
-            element.tagName.toLowerCase() === "button" ||
-            element.tagName.toLowerCase() === "a" ||
-            Array.from(element.classList).some((className) =>
-              className.toLowerCase().includes("button")
-            )
-          ) {
-            // Ignore elements where any class name starts with "gdpr_"
-            const hasGdprClass = Array.from(element.classList).some(
-              (className) => className.startsWith("gdpr_")
-            );
-            if (hasGdprClass) return; // Skip this element if it has a "gdpr_" class
-
-            // Get computed styles for the element
-            const computedStyles = getComputedStyle(element);
-
-            // Check if a background color is applied
-            const backgroundColor = computedStyles.backgroundColor;
-
-            if (
-              backgroundColor &&
-              backgroundColor !== "rgba(0, 0, 0, 0)" &&
-              backgroundColor !== "rgb(255, 255, 255)" &&
-              backgroundColor !== "rgba(255, 255, 255, 1)" &&
-              backgroundColor !== "transparent"
-            ) {
-              elementsWithButton.push({
-                tag: element.tagName.toLowerCase(), // The tag name (button, a, etc.)
-                classes: Array.from(element.classList), // The classes applied to the element
-                backgroundColor: backgroundColor, // The computed background color
-              });
+      // Make an AJAX request to fetch data from the custom endpoint
+      fetch(siteAddress + "/wp-json/custom/v1/gdpr-data/",{
+            headers: {
+              "X-WP-Nonce": settings_obj.rest_nonce
             }
+        })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
           }
-        });
+          return response.json();
+        })
+        .then(async (data) => { // Make async
+          // Process the fetched data
+          const settingsCopy = { ...data };
 
-        // Function to convert RGB(A) to Hex
-        const rgbToHex = (rgb) => {
-          const rgba = rgb.match(/\d+/g); // Extract the numeric values
-          const r = parseInt(rgba[0], 10).toString(16).padStart(2, "0");
-          const g = parseInt(rgba[1], 10).toString(16).padStart(2, "0");
-          const b = parseInt(rgba[2], 10).toString(16).padStart(2, "0");
-          return `#${r}${g}${b}`.toUpperCase(); // Return as hex code in uppercase
-        };
-
-        // Function to find the most used background color
-        const getMostUsedBackgroundColor = (elements) => {
-          const colorCounts = {};
-
-          // Count occurrences of each background color
-          elements.forEach((item) => {
-            const color = item.backgroundColor;
-            if (color) {
-              colorCounts[color] = (colorCounts[color] || 0) + 1;
-            }
-          });
-
-          // Find the color with the highest count
-          let mostUsedColor = null;
-          let maxCount = 0;
-          let isTie = false;
-
-          for (const [color, count] of Object.entries(colorCounts)) {
-            if (count > maxCount) {
-              mostUsedColor = color;
-              maxCount = count;
-              isTie = false; // Reset tie flag when a higher count is found
-            } else if (count === maxCount) {
-              isTie = true; // A tie exists if another color has the same count
-            }
+          // Check if gdpr_text_css is not empty
+          if (settingsCopy.gdpr_text_css !== "") {
+            const text_css = settingsCopy.gdpr_css_text;
+            const final_css = text_css.replace(/\\r\\n/g, "\n");
+            settingsCopy.gdpr_css_text = final_css;
           }
 
-          // Handle ties: If all counts are the same or a tie exists, pick any one color
-          if (isTie) {
-            mostUsedColor = Object.keys(colorCounts)[0]; // Pick the first color
-          }
+            // Prepare logo URLs to fetch and convert to base64
+            const logoUrls = [
+                { key: 'gdpr_cookie_bar_logo', url: data.gdpr_cookie_bar_logo },
+                { key: 'gdpr_cookie_bar_logo1', url: data.gdpr_cookie_bar_logo1 },
+                { key: 'gdpr_cookie_bar_logo2', url: data.gdpr_cookie_bar_logo2 },
+                { key: 'gdpr_cookie_bar_logo_ml', url: data.gdpr_cookie_bar_logo_ml }
+            ];
 
-          return mostUsedColor;
-        };
+            // Create an object to store base64 image data
+            const logoImages = {};
 
-        // Find the most used background color
-        let mostUsedColor = getMostUsedBackgroundColor(elementsWithButton);
-
-        // Convert the most used color to hex
-        const hexColor = rgbToHex(mostUsedColor);
-
-        // Close the new tab after getting the data
-        newTab.close();
-        // Send the hex color via AJAX
-        jQuery.ajax({
-          url: settings_obj.ajaxurl,
-          type: "POST",
-          dataType: "json",
-          data: {
-            action: "gcc_auto_generated_banner",
-            background_color: hexColor,
-            is_auto_generated_banner_done: true, // Send the hex color
-          },
-          success: function (response) {
-            that.auto_generated_banner = true;
-             jQuery.ajax({
-                url: settings_obj.ajaxurl,
-                type: "POST",
-                dataType: "json",
-                data: {
-                  action: "gcc_switch_preview_banner",
-                  banner_preview_state: true
-                },
-                success: function(previewResponse) {
-                  location.reload();
-                },
-                error: function(error) {
-                  console.error("Error enabling banner preview:", error);
-                  location.reload();
+            // Fetch and convert each logo to base64
+            for (const logo of logoUrls) {
+                if (logo.url && logo.url.trim() !== '') {
+                    try {
+                        const response = await fetch(logo.url);
+                        const blob = await response.blob();
+                        const base64 = await new Promise((resolve) => {
+                            const reader = new FileReader();
+                            reader.onloadend = () => resolve(reader.result);
+                            reader.readAsDataURL(blob);
+                        });
+                        
+                        // Extract filename from URL
+                        const filename = logo.url.split('/').pop();
+                        
+                        logoImages[logo.key] = {
+                            image: base64,
+                            name: filename
+                        };
+                    } catch (error) {
+                        console.error(`Error fetching logo ${logo.url}:`, error);
+                    }
                 }
-              });
-          },
-          error: function (error) {
-            console.error("Error:", error);
-          },
+            }
+
+            // Create the export data structure
+            const exportData = {
+                settings: settingsCopy,  // Main settings
+                logo_images: logoImages   // Base64 logo images
+            };
+
+          // Convert the data object to JSON with indentation
+          const settingsJSON = JSON.stringify(exportData, null, 2);
+          // Create a Blob containing the JSON data
+          const blob = new Blob([settingsJSON], { type: "application/json" });
+          // Create a download link for the Blob
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "wpeka-banner-settings.json";
+
+          // Trigger a click on the link to initiate the download
+          a.click();
+
+          // Release the object URL to free up resources
+          URL.revokeObjectURL(url);
+        })
+        .catch((error) => {
+          console.error("There was a problem with the fetch operation:", error);
         });
-      };
+    },
+    importsettings() {
+      var that = this;
+      var fileInput = document.getElementById("fileInput");
+      var file = fileInput.files[0];
+
+      if (file) {
+        var reader = new FileReader();
+        document.getElementById("importButton").disabled = true;
+        document
+          .getElementById("importButton")
+          .classList.add("disable-import-button");
+        reader.onload = function (event) {
+          var jsonData = event.target.result;
+          try {
+            const parsedData = JSON.parse(jsonData);
+            // Extract data from the imported file
+            const settings = parsedData.settings;
+            const logoImages = parsedData.logo_images || {};
+            
+            // Prepare the data object with base64 images
+            var data = {
+              action: "gcc_update_imported_settings",
+              security: settings_obj.import_settings_nonce,
+              settings: JSON.stringify(settings),
+              banner_image: logoImages.gdpr_cookie_bar_logo ? JSON.stringify(logoImages.gdpr_cookie_bar_logo) : '',
+              banner_image1: logoImages.gdpr_cookie_bar_logo1 ? JSON.stringify(logoImages.gdpr_cookie_bar_logo1) : '',
+              banner_image2: logoImages.gdpr_cookie_bar_logo2 ? JSON.stringify(logoImages.gdpr_cookie_bar_logo2) : '',
+              banner_image_ml: logoImages.gdpr_cookie_bar_logo_ml ? JSON.stringify(logoImages.gdpr_cookie_bar_logo_ml) : ''
+            };
+            jQuery.ajax({
+              url: settings_obj.ajaxurl,
+              data: data,
+              dataType: "json",
+              type: "POST",
+              success: function (data) {
+                if (data.success === true) {
+                  setTimeout(function addsettings() {
+                    window.location.reload();
+                  }, 2000);
+
+                  that.success_error_message =
+                    "Your file has been imported successfully.";
+                  j("#gdpr-cookie-consent-save-settings-alert-adv").css(
+                    "background-color",
+                    "#72b85c"
+                  );
+                  j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
+                  j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(7000);
+                } else {
+                  that.success_error_message = "Please try again.";
+                  j("#gdpr-cookie-consent-save-settings-alert-adv").css(
+                    "background-color",
+                    "#72b85c"
+                  );
+                  j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
+                  j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
+                }
+              },
+              error: function () {
+                that.success_error_message = "Please try again.";
+                j("#gdpr-cookie-consent-save-settings-alert-adv").css(
+                  "background-color",
+                  "#72b85c"
+                );
+                j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
+                j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
+              },
+            });
+          } catch (e) {
+              console.error("Error parsing JSON data:", e);
+              that.success_error_message = "Invalid JSON file. Please select a valid settings file.";
+              j("#gdpr-cookie-consent-save-settings-alert-adv")
+                  .stop(true, true)
+                  .css("background-color", "#d9534f")
+                  .fadeIn(400)
+                  .delay(2500)
+                  .fadeOut(700);
+          }
+        };
+
+        reader.readAsText(file);
+      } else {
+        console.error("No file selected");
+      }
     },
     //consent forward.
     onSwitchConsentForward() {
@@ -3291,15 +4323,15 @@ var gen = new Vue({
         dataType: "json",
         data: {
             action: "gcc_switch_preview_banner",
+            _wpnonce: settings_obj.nonce,
             banner_preview_state: false
         }
     });
     },
     onTemplateChange(value) {
       this.template = value;
-      console.log("Selected template:", value);
       let selectedTemplate
-      if(value == "default"){
+      if(value == "new_default"){
         selectedTemplate = this.default_template_json;
       }
       else{
@@ -3311,6 +4343,7 @@ var gen = new Vue({
       this.cookie_bar_color =                       selectedTemplate['styles']['background-color'];
       this.cookie_bar_opacity =                     selectedTemplate['styles']['opacity'];
       this.cookie_text_color =                      selectedTemplate['styles']['color'];
+      this.cookie_heading_color =                   selectedTemplate['styles']['color'];
       this.border_style =                           selectedTemplate['styles']['border-style'];
       this.cookie_bar_border_width =                selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
       this.cookie_border_color =                    selectedTemplate['styles']['border-color'];
@@ -3362,11 +4395,14 @@ var gen = new Vue({
       this.opt_out_text_color =                     selectedTemplate['opt_out_button']['color'];
       this.button_revoke_consent_text_color =       selectedTemplate['revoke_consent_button']['color'];
       this.button_revoke_consent_background_color = selectedTemplate['revoke_consent_button']['background-color'];
+      this.ccpa_button_revoke_consent_text_color =       selectedTemplate['revoke_consent_button']['color']; //change this in the pro templates
+      this.ccpa_button_revoke_consent_background_color = selectedTemplate['revoke_consent_button']['background-color'];
       //ab testing banners settings
       
       this.cookie_bar_color1 =                       selectedTemplate['styles']['background-color'];
       this.cookie_bar_opacity1 =                     selectedTemplate['styles']['opacity'];
       this.cookie_text_color1 =                      selectedTemplate['styles']['color'];
+      this.cookie_heading_color1 =                   selectedTemplate['styles']['color'];
       this.border_style1 =                           selectedTemplate['styles']['border-style'];
       this.cookie_bar_border_width1 =                selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
       this.cookie_border_color1 =                    selectedTemplate['styles']['border-color'];
@@ -3418,10 +4454,12 @@ var gen = new Vue({
       this.button_readmore_button_border_width1 =    selectedTemplate['readmore_button']['border-width'].substring(0, selectedTemplate['readmore_button']['border-width'].length - 2);
       this.button_revoke_consent_text_color1 =       selectedTemplate['revoke_consent_button']['color'];
       this.button_revoke_consent_background_color1 = selectedTemplate['revoke_consent_button']['background-color'];
-
+      this.ccpa_button_revoke_consent_text_color1 =       selectedTemplate['revoke_consent_button']['color'];
+      this.ccpa_button_revoke_consent_background_color1 = selectedTemplate['revoke_consent_button']['background-color'];
       this.cookie_bar_color2 =                       selectedTemplate['styles']['background-color'];
       this.cookie_bar_opacity2 =                     selectedTemplate['styles']['opacity'];
       this.cookie_text_color2 =                      selectedTemplate['styles']['color'];
+      this.cookie_heading_color2 =                   selectedTemplate['styles']['color'];
       this.border_style2 =                           selectedTemplate['styles']['border-style'];
       this.cookie_bar_border_width2 =                selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
       this.cookie_border_color2 =                    selectedTemplate['styles']['border-color'];
@@ -3473,7 +4511,8 @@ var gen = new Vue({
       this.button_readmore_button_border_width2 =    selectedTemplate['readmore_button']['border-width'].substring(0, selectedTemplate['readmore_button']['border-width'].length - 2);
       this.button_revoke_consent_text_color2 =       selectedTemplate['revoke_consent_button']['color'];
       this.button_revoke_consent_background_color2 = selectedTemplate['revoke_consent_button']['background-color'];
-
+      this.ccpa_button_revoke_consent_text_color2 =       selectedTemplate['revoke_consent_button']['color'];
+      this.ccpa_button_revoke_consent_background_color2 = selectedTemplate['revoke_consent_button']['background-color'];
       // Multiple Legislation
       this.multiple_legislation_cookie_bar_color1 =         selectedTemplate["styles"]["background-color"];
       this.multiple_legislation_cookie_bar_border_radius1 = selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
@@ -3588,6 +4627,19 @@ var gen = new Vue({
       }
       this.select_pages = dummy_array;
     },
+    onHeadingInput(value){
+      if(value.length > 0)  {
+        this.heading_is_on = true;
+        this.heading_is_on1 = true;
+        this.heading_is_on2 = true;
+      }
+      else{
+        this.heading_is_on = false;
+        this.heading_is_on1 = false;
+        this.heading_is_on2 = false;
+      }
+
+    },
     onSelectPrivacyPage(value) {
       this.button_readmore_page = value;
     },
@@ -3674,85 +4726,141 @@ var gen = new Vue({
 
 
     },
+    isProOnlyLaw(code) {
+      return this.pro_only_law_codes.includes(code);
+    },
+    isOptionSelectable(option) {
+      if (this.isProOnlyLaw(option.code) && this.disabled_for_free) {
+        return false;
+      }
+      return true;
+    },
+    onLawModeChange() {
+      // is_auto_mode is a computed derived from law_selection_mode — assigning to
+      // it here would be a write to a setter-less computed.
+      this.reload_onSelect_law = true;
+      this.success_error_message = "Law selection mode updated. Save changes please before progressing further.";
+      j("#gdpr-cookie-consent-save-settings-alert").css("background-color", "#72b85c");
+      j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+      j("#gdpr-cookie-consent-save-settings-alert").fadeOut(5000);
+
+      if (this.law_selection_mode === "auto" && this.is_law_region_on) {
+        this.onSwitchRegionEnable(false);
+      }
+    },
     cookiePolicyChange(value) {
       this.onSwitchReloadLaw();
       if (this.gdpr_policy) {
         value = this.gdpr_policy;
       }
-      if (value === "both") {
-        this.is_ccpa = true;
-        this.is_gdpr = true;
-        this.is_eprivacy = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = true;
-        this.show_revoke_card = true;
-        //visitors condition.
-        this.selectedRadioWorldWide = "yes";
-        this.selectedRadioWorldWideCcpa = "yes";
-        this.is_worldwide_on = true;
-        this.is_worldwide_on_ccpa = true;
-        this.is_eu_on = false;
-        this.is_ccpa_on = false;
-        this.selectedRadioCountry = false;
-        this.selectedRadioCountryCcpa = false;
-        this.is_selectedCountry_on = false;
-        this.is_selectedCountry_on_ccpa = false;
-      } else if (value === "ccpa") {
-        this.is_ccpa = true;
+
+      this.applyLawFlags(value);
+      if (value === "us_state_laws") {
+        this.is_us_state_laws = true;
         this.is_eprivacy = false;
         this.is_gdpr = false;
         this.is_lgpd = false;
+        this.is_uk_gdpr = false;
+        this.is_pipeda = false;
+        this.is_au_app = false;
+        this.is_sa_pdpl = false;
         this.show_visitor_conditions = true;
         this.show_revoke_card = false;
         this.iabtcf_is_on = false;
         this.gcm_is_on = false;
         //visitors condition.
-        this.selectedRadioWorldWide = "yes";
-        this.selectedRadioWorldWideCcpa = "yes";
-        this.is_worldwide_on = true;
-        this.is_worldwide_on_ccpa = true;
-        this.is_eu_on = false;
-        this.is_ccpa_on = false;
-        this.selectedRadioCountry = false;
-        this.selectedRadioCountryCcpa = false;
-        this.is_selectedCountry_on = false;
-        this.is_selectedCountry_on_ccpa = false;
         this.gacm_is_on = false;
+        this.do_not_track_on = true;
       } else if (value === "gdpr") {
         this.is_gdpr = true;
-        this.is_ccpa = false;
+        this.button_accept_all_is_on = true;
+        this.button_decline_is_on = true;
+        this.button_settings_is_on = true;
+        this.button_accept_is_on = false;
+        this.button_accept_all_is_on1 = true;
+        this.button_decline_is_on1 = true;
+        this.button_settings_is_on1 = true;
+        this.button_accept_is_on1 = false;
+        this.button_accept_all_is_on2 = true;
+        this.button_decline_is_on2 = true;
+        this.button_settings_is_on2 = true;
+        this.button_accept_is_on2 = false;
+        this.is_us_state_laws = false;
         this.is_eprivacy = false;
         this.is_lgpd = false;
+        this.is_uk_gdpr = false;
+        this.is_pipeda = false;
+        this.is_au_app = false;
+        this.is_sa_pdpl = false;
         this.show_revoke_card = true;
         this.show_visitor_conditions = true;
-        this.selectedRadioWorldWide = "yes";
-        this.selectedRadioWorldWideCcpa = "yes";
-        this.is_worldwide_on = true;
-        this.is_worldwide_on_ccpa = true;
-        this.is_eu_on = false;
-        this.is_ccpa_on = false;
-        this.selectedRadioCountry = false;
-        this.selectedRadioCountryCcpa = false;
-        this.is_selectedCountry_on = false;
-        this.is_selectedCountry_on_ccpa = false;
       } else if (value === "lgpd") {
-        this.is_ccpa = false;
+        this.is_us_state_laws = false;
         this.is_eprivacy = false;
         this.is_gdpr = false;
         this.is_lgpd = true;
+        this.is_uk_gdpr = false;
+        this.is_pipeda = false;
+        this.is_au_app = false;
+        this.is_sa_pdpl = false;
         this.show_revoke_card = true;
         this.show_visitor_conditions = true;
         this.iabtcf_is_on = false;
         this.gacm_is_on = false;
-      } else {
-        this.is_eprivacy = true;
+      } else if (value === "uk_gdpr" ) {
+        this.is_uk_gdpr = true;
+        this.is_us_state_laws = false;
+        this.is_eprivacy = false;
         this.is_gdpr = false;
-        this.is_ccpa = false;
         this.is_lgpd = false;
+        this.show_revoke_card = true;
+        this.show_visitor_conditions = true;
+        this.is_pipeda = false;
+        this.is_au_app = false;
+        this.is_sa_pdpl = false;
+      } else if (value === "pipeda" ) {
+        this.is_uk_gdpr = false;
+        this.is_us_state_laws = false;
+        this.is_eprivacy = false;
+        this.is_gdpr = false;
+        this.is_lgpd = false;
+        this.show_revoke_card = true;
+        this.show_visitor_conditions = true;
+        this.is_pipeda = true
+        this.is_au_app = false;
+        this.is_sa_pdpl = false;
+      } else if (value === "au_app" ) {
+        this.is_uk_gdpr = false;
+        this.is_us_state_laws = false;
+        this.is_eprivacy = false;
+        this.is_gdpr = false;
+        this.is_lgpd = false;
+        this.show_revoke_card = true;
+        this.show_visitor_conditions = true;
+        this.is_pipeda = false;
+        this.is_au_app = true;
+        this.is_sa_pdpl = false;
+      } else if (value === "sa_pdpl" ) {
+        this.is_uk_gdpr = false;
+        this.is_us_state_laws = false;
+        this.is_eprivacy = false;
+        this.is_gdpr = false;
+        this.is_lgpd = false;
+        this.show_revoke_card = true;
+        this.show_visitor_conditions = true;
+        this.is_pipeda = false;
+        this.is_au_app = false;
+        this.is_sa_pdpl = true;
+      } else if (value === "eprivacy") {
+        // Matched by name, not used as a catch-all: an unrecognised code must not
+        // silently become ePrivacy. applyLawFlags() above already defaulted it.
         this.show_visitor_conditions = false;
         this.show_revoke_card = true;
         this.iabtcf_is_on = false;
         this.gacm_is_on = false;
+      } else {
+        this.show_revoke_card = true;
+        this.show_visitor_conditions = true;
       }
       if (this.iabtcf_is_on) {
         this.gdpr_message = `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Cookie Settings” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`;
@@ -3760,7 +4868,7 @@ var gen = new Vue({
           "Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest. The choices you make regarding the purposes and entities listed in this notice are saved in a cookie named wpl_tc_string for a maximum duration of 12 months.";
       } else {
         this.gdpr_message =
-          "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
+          "We use cookies to optimize your experience, analyze traffic, and personalize ads. Please choose whether you accept our use of non-essential cookies.";
         this.gdpr_about_cookie_message =
           "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
       }
@@ -3772,6 +4880,10 @@ var gen = new Vue({
       );
       j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
       j("#gdpr-cookie-consent-save-settings-alert").fadeOut(5000);
+
+      if (!this.region_label && this.is_law_region_on) {
+        this.onSwitchRegionEnable(false);
+      }
     },
 
     onSwitchDefaultCookieBar() {
@@ -3798,6 +4910,16 @@ var gen = new Vue({
       if (!val) {
         this.cookie_on_frontend = false;
       }
+    },
+    onLanguageChange() {
+      this.is_lang_changed = true;
+      this.success_error_message = "Language updated. Please Save Changes to view the updated banner.";
+      j("#gdpr-cookie-consent-save-settings-alert").css(
+            "background-color",
+            "#72b85c"
+      );
+      j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+      j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
     },
     onSwitchCookieSettingsEnable1(val) {
       this.cookie_settings_on1 = val;
@@ -3834,12 +4956,15 @@ var gen = new Vue({
       this.show_custom_form = true;
       this.show_add_custom_button = !this.show_add_custom_button;
     },
+    onSwitchDntEnable() {
+      this.do_not_track_on = !this.do_not_track_on;
+    },
     restoreDefaultSettings() {
       this.ab_testing_enabled = false;
       this.ab_testing_auto = false;
       this.ab_testing_period = "30";
       this.gacm_key = "";
-      this.template = "default";
+      this.template = "new_default";
       this.accept_text = "Accept";
       this.accept_url = "#";
       this.accept_action = "#cookie_action_close_header";
@@ -3888,16 +5013,16 @@ var gen = new Vue({
       this.button_readmore_wp_page2 = false;
       this.button_readmore_page2 = "0";
 
-      this.decline_text = "Decline";
+      this.decline_text = "Reject All";
       this.decline_url = "#";
       this.decline_action = "#cookie_action_settings";
       this.open_decline_url = false;
       this.decline_as_button = true;
-      this.settings_text = "Cookie Settings";
+      this.settings_text = "Preferences";
       this.settings_as_button = true;
       this.cookie_on_frontend = true;
       this.opt_out_text = "Do Not Sell My Personal Information";
-      this.confirm_text = "Confirm";
+      this.confirm_text = "Save My Preferences";
       this.cancel_text = "Cancel";
       this.accept_text1 = "Accept";
       this.accept_url1 = "#";
@@ -3910,16 +5035,16 @@ var gen = new Vue({
       this.accept_all_action1 = "#cookie_action_close_header";
       this.accept_all_new_win1 = false;
       this.accept_all_as_button1 = true;
-      this.decline_text1 = "Decline";
+      this.decline_text1 = "Reject All";
       this.decline_url1 = "#";
       this.decline_action1 = "#cookie_action_settings";
       this.open_decline_url1 = false;
       this.decline_as_button1 = true;
-      this.settings_text1 = "Cookie Settings";
+      this.settings_text1 = "Preferences";
       this.settings_as_button1 = true;
       this.cookie_on_frontend1 = true;
       this.opt_out_text1 = "Do Not Sell My Personal Information";
-      this.confirm_text1 = "Confirm";
+      this.confirm_text1 = "Save My Preferences";
       this.cancel_text1 = "Cancel";
       this.accept_text2 = "Accept";
       this.accept_url2 = "#";
@@ -3932,20 +5057,19 @@ var gen = new Vue({
       this.accept_all_action2 = "#cookie_action_close_header";
       this.accept_all_new_win2 = false;
       this.accept_all_as_button2 = true;
-      this.decline_text2 = "Decline";
+      this.decline_text2 = "Reject All";
       this.decline_url2 = "#";
       this.decline_action2 = "#cookie_action_settings";
       this.open_decline_url2 = false;
       this.decline_as_button2 = true;
-      this.settings_text2 = "Cookie Settings";
+      this.settings_text2 = "Preferences";
       this.settings_as_button2 = true;
       this.cookie_on_frontend2 = true;
       this.opt_out_text2 = "Do Not Sell My Personal Information";
-      this.confirm_text2 = "Confirm";
+      this.confirm_text2 = "Save My Preferences";
       this.cancel_text2 = "Cancel";
       this.cookie_is_on = true;
       this.is_eu_on = false;
-      this.is_ccpa_on = false;
       this.is_iab_on = false;
       this.selectedRadioIab = "no";
       this.logging_on = true;
@@ -3954,6 +5078,9 @@ var gen = new Vue({
       this.is_revoke_consent_on = true;
       this.is_revoke_consent_on1 = true;
       this.is_revoke_consent_on2 = true;
+      this.is_ccpa_revoke_consent_on = false;
+      this.is_ccpa_revoke_consent_on1 = false;
+      this.is_ccpa_revoke_consent_on2 = false;
       this.is_script_blocker_on = false;
       this.auto_hide = false;
       this.auto_banner_initialize = false;
@@ -3979,14 +5106,20 @@ var gen = new Vue({
       this.on_hide = true;
       this.on_load = false;
       this.gdpr_message =
-        "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
+        "We use cookies to optimize your experience, analyze traffic, and personalize ads. Please choose whether you accept our use of non-essential cookies.";
+      this.uk_gdpr_message = "We use cookies to improve our site, analyze performance, and serve personalized marketing. Please select your cookie preferences.",
+      this.pdpl_message = "We utilize cookies to analyze traffic and customize your experience in compliance with KSA PDPL. Please provide your consent for non-essential tracking.",
+      this.pipeda_message = "We use cookies to analyze performance and power our site. For details on how we protect your privacy or to adjust your choices, view our Cookie Policy.",
+      this.app_message = "We collect data via tracking technologies to optimize our site and deliver marketing. To review your options or opt-out of sharing, view our Privacy Policy.",
       this.lgpd_message =
-        "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.";
+        "This website uses cookies to provide a better browsing experience. You can select your cookie preferences or accept all tracking categories below.";
       this.eprivacy_message =
         "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
       this.ccpa_message =
-        "In case of sale of your personal information, you may opt out by using the link";
-      this.ccpa_optout_message = "Do you really wish to opt-out?";
+        "We use tracking tools to provide targeted advertising. Under state law, you have the right to opt-out of the sharing or sale of your personal information.";
+      this.default_opt_out_message = "We use cookies and similar technologies for targeted advertising. You have the right to opt-out of the sale or processing of your personal data.";
+      this.pure_opt_out_message = "We collect personal data via tracking technologies for analytics and marketing. To exercise your right to opt-out of this processing, choose below.";
+      this.ccpa_optout_message = 'We use third-party cookies that help us analyse how you use this website, store your preferences, and provide the content and advertisements that are relevant to you. However, you can opt out of these cookies by checking "Do Not Sell or Share My Personal Information" and clicking the "Save My Preferences" button. Once you opt out, you can opt in again at any time by unchecking "Do Not Sell or Share My Personal Information" and clicking the "Save My Preferences" button.';
       this.cookie_position = "bottom";
       this.cookie_widget_position = "left";
       this.cookie_text_color = "#000000";
@@ -4010,6 +5143,9 @@ var gen = new Vue({
       this.gdpr_css_text = "";
       this.gdpr_css_text_free = "/*Your CSS here*/";
       this.do_not_track_on = false;
+      // Anonymize IP address
+      this.ip_anonymization_on = false;
+      this.ip_masking_level = "2";
       this.data_reqs_on = true;
       this.data_req_email_address = "";
       this.data_req_subject = "We have received your request";
@@ -4017,11 +5153,8 @@ var gen = new Vue({
       this.consent_forward = false;
       this.select_sites = [];
       this.selectedRadioCountry = false;
-      this.selectedRadioCountryCcpa = false;
       this.is_selectedCountry_on = false;
-      this.is_selectedCountry_on_ccpa = false;
       this.selectedRadioWorldWide = true;
-      this.selectedRadioWorldWideCcpa = true;
       this.is_worldwide_on = true;
       this.is_worldwide_on_ccpa = true;
       this.list_of_countries = [];
@@ -4103,6 +5236,8 @@ var gen = new Vue({
       this.opt_out_text_color =                     selectedTemplate['opt_out_button']['color'];
       this.button_revoke_consent_text_color =       selectedTemplate['revoke_consent_button']['color'];
       this.button_revoke_consent_background_color = selectedTemplate['revoke_consent_button']['background-color'];
+      this.ccpa_button_revoke_consent_text_color =       selectedTemplate['revoke_consent_button']['color']; //change this may be as per the pro templates
+      this.ccpa_button_revoke_consent_background_color = selectedTemplate['revoke_consent_button']['background-color'];
       //ab testing banners settings
       
       this.cookie_bar_color1 =                       selectedTemplate['styles']['background-color'];
@@ -4231,31 +5366,31 @@ var gen = new Vue({
         success: function (data) {
           if (data.success === true) {
             that.success_error_message = "Settings reset to default";
-            j("#gdpr-cookie-consent-save-settings-alert").css(
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").css(
               "background-color",
               "#72b85c"
             );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeOut(2500);
             location.reload();
           } else {
             that.success_error_message = "Please try again.";
-            j("#gdpr-cookie-consent-save-settings-alert").css(
+            j("#gdpr-cookie, #gdpr-cookie-consent-save-settings-alert-adv-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv").css(
               "background-color",
               "#72b85c"
             );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeOut(2500);
           }
         },
         error: function () {
           that.success_error_message = "Please try again.";
-          j("#gdpr-cookie-consent-save-settings-alert").css(
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").css(
             "background-color",
             "#72b85c"
           );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd").fadeOut(2500);
         },
       });
     },
@@ -4306,7 +5441,7 @@ var gen = new Vue({
           }
         }
         var that = this;
-        var dataV = jQuery("#gcc-save-settings-form").serialize();
+        var dataV = jQuery("#gcc-save-settings-form, #gcc-save-advanced-settings-form, #gcc-save-compliance-record-settings-form, #gcc-save-abtesting-settings-form, #gcc-save-script-blocker-settings-form").serialize();
         const shouldResetAutoGenerated = (that.is_template_changed && that.auto_generated_banner);
         jQuery
           .ajax({
@@ -4323,16 +5458,19 @@ var gen = new Vue({
               that.gdpr_css_text+
               "&auto_generated_banner=" + (that.auto_generated_banner ? '1' : '0') +
               "&is_template_changed=" + (that.is_template_changed ? '1' : '0') +
-              "&reset_auto_generated=" + (shouldResetAutoGenerated ? '1' : '0'),
+              "&reset_auto_generated=" + (shouldResetAutoGenerated ? '1' : '0') +
+              "&cookie_settings_overlay_color=" + that.cookie_settings_overlay_color + 
+              "&cookie_settings_border_color=" + that.cookie_settings_border_color +
+              "&heading_is_on=" + that.heading_is_on,
           })
           .done(function (data) {
             that.success_error_message = "Settings Saved";
-            j("#gdpr-cookie-consent-save-settings-alert").css({
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd, #gdpr-cookie-consent-save-settings-alert-scb").css({
               "background-color": "#72b85c",
               "z-index": "10000",
             });
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd, #gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert, #gdpr-cookie-consent-save-settings-alert-adv, #gdpr-cookie-consent-save-settings-alert-crd, #gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
             if (that.is_template_changed) {
               that.is_template_changed = false;
                if (that.auto_generated_banner) {
@@ -4393,13 +5531,18 @@ var gen = new Vue({
     async fetchIABData(){
       var that = this;
       GVL.baseUrl = "https://appwplegalpages.b-cdn.net/";
-      const gvl = new GVL();
-      return gvl.readyPromise.then(() => {
+      // GVL.populate() drops keys it doesn't know (e.g. standardTexts),
+      // so fetch the raw JSON ourselves and build the GVL from it.
+      const rawGvl = await fetch(GVL.baseUrl + GVL.latestFilename).then((res) => res.json());
       
+      const gvl = new GVL(rawGvl);
+      return gvl.readyPromise.then(() => {
+
         let data = {};
         let vendorMap = gvl.vendors;
         let purposeMap = gvl.purposes;
         let featureMap = gvl.features;
+        let featureStandardText = rawGvl.standardTexts?.features ?? "";
         let dataCategoriesMap = gvl.dataCategories;
         let specialPurposeMap = gvl.specialPurposes;
         let specialFeatureMap = gvl.specialFeatures;
@@ -4430,6 +5573,7 @@ var gen = new Vue({
           if (vendorMap[key].legIntPurposes.length)
             vendor_legint_id_array.push(vendorMap[key].id);
         });
+        data.featureStandardText = featureStandardText;
         data.vendors = vendor_array;
         data.allvendors = vendor_id_array;
         data.allLegintVendors = vendor_legint_id_array;
@@ -4505,7 +5649,8 @@ var gen = new Vue({
               url: settings_obj.ajaxurl,
               data: {
                 data: JSON.stringify(data), 
-                action: "gcc_enable_iab" 
+                action: "gcc_enable_iab",
+                security: settings_obj.gcc_enable_iab_nonce
               },
               dataType: "json",
             })
@@ -4534,17 +5679,16 @@ var gen = new Vue({
       // Handle the selection
       image_frame.on("select", function () {
         var selection1 = image_frame.state().get("selection").first().toJSON();
-
         // Update Image 1 holder and hidden input
-        jQuery("#gdpr-cookie-bar-logo-holder").attr("src", selection1.url);
-        jQuery("#gdpr-cookie-bar-logo-url-holder").val(selection1.url);
+        jQuery("[name='gdpr-cookie-bar-logo-holder']").attr("src", selection1.url);
+        jQuery("[name='gdpr-cookie-bar-logo-url-holder']").val(selection1.url);
         alert("Please click on save changes to update the image on the banner");
       });
       this.is_logo_added = true;
     },
     deleteSelectedimage() {
-      jQuery("#gdpr-cookie-bar-logo-holder").removeAttr("src");
-      jQuery("#gdpr-cookie-bar-logo-url-holder").attr("value", "");
+      jQuery("[name='gdpr-cookie-bar-logo-holder']").removeAttr("src");
+      jQuery("[name='gdpr-cookie-bar-logo-url-holder']").attr("value", "");
       this.is_logo_removed = true;
     },
     openMediaModal1() {
@@ -4653,7 +5797,11 @@ var gen = new Vue({
         .ajax({
           type: "POST",
           url: settings_obj.ajaxurl,
-          data: "regionArray=" + JSON.stringify(that.regions) + "&action=gcc_save_gcm_region_settings",
+          data: {
+              action: "gcc_save_gcm_region_settings",
+              regionArray: JSON.stringify(that.regions),
+              _wpnonce: settings_obj.nonce
+          },
         })
         .done(function (data) {
           if(that.edit_region == false){
@@ -4706,7 +5854,11 @@ var gen = new Vue({
         .ajax({
           type: "POST",
           url: settings_obj.ajaxurl,
-          data: "regionArray=" + JSON.stringify(that.regions) + "&action=gcc_save_gcm_region_settings",
+          data: {
+            action: "gcc_save_gcm_region_settings",
+            regionArray: JSON.stringify(that.regions),
+            _wpnonce: settings_obj.nonce
+          },
         })
         .done(function (data) {
           that.success_error_message = "Region removed";
@@ -4784,6 +5936,1590 @@ var gen = new Vue({
           location.reload();
         });
     },
+    refreshCookieScannerData(html) {
+      this.cookie_scanner_data = html;
+      const container = document.querySelector('#cookie-scanner-container');
+      this.$nextTick(() => {
+                new Vue({
+                    el: container,
+                    data: this.$data, // Reuse the existing Vue instance data
+                    methods: this.$options.methods, // Reuse the existing methods
+                    mounted: this.$options.mounted, // Reuse the original mounted logic
+                    icons: this.$options.icons, // Optionally reuse created lifecycle hook
+                });
+            });
+    },
+    openCustomCookieTab() {
+      this.cookie_list_tab = true;
+      this.scan_history_list_tab = false;
+      this.showCreateCookiePopup();
+    },
+    openDiscoveredScanTab() {
+      this.discovered_cookies_list_tab = true;
+      this.scan_history_list_tab = false;
+      this.onClickStartScan();
+    },
+    showCreateCookiePopup() {
+      this.show_custom_cookie_popup = !this.show_custom_cookie_popup;
+    },
+    hideCookieForm() {
+      this.custom_cookie_name = "";
+      this.custom_cookie_domain = "";
+      this.custom_cookie_description = "";
+      this.custom_cookie_category = 1;
+      this.custom_cookie_type = "HTTP";
+      this.show_custom_form = false;
+      this.show_add_custom_button = true;
+      this.is_custom_cookie_duration_disabled = false;
+      this.custom_cookie_duration = "";
+      this.show_custom_cookie_popup = false;
+    },
+    onSelectCustomCookieType(value) {
+      if (value !== "HTTP") {
+        this.is_custom_cookie_duration_disabled = true;
+        this.custom_cookie_duration = "Persistent";
+      } else {
+        this.is_custom_cookie_duration_disabled = false;
+        this.custom_cookie_duration = "";
+      }
+    },
+    onSaveCustomCookie() {
+      var parent = j(".gdpr-custom-save-cookie").parents(
+        "div.gdpr-add-custom-cookie-form"
+      );
+      var gdpr_addcookie = parent.find('input[name="gdpr_addcookie"]').val();
+      if (gdpr_addcookie == 1) {
+        var pattern =
+          /^((http|https):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9]{1,10})$/gm;
+        var cname = this.custom_cookie_name;
+        var cdomain = this.custom_cookie_domain;
+        var cduration = this.custom_cookie_duration;
+        var ccategory = this.custom_cookie_category;
+        var ctype = this.custom_cookie_type;
+        var cdesc = this.custom_cookie_description;
+        if (!cname) {
+          this.success_error_message =
+            "Please fill in these mandatory fields : Cookie Name";
+          parent
+            .find('input[name="gdpr-cookie-consent-custom-cookie-name"]')
+            .focus();
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+          return false;
+        }
+        if (!cdomain) {
+          this.success_error_message =
+            "Please fill in these mandatory fields : Cookie Domain";
+          parent
+            .find('input[name="gdpr-cookie-consent-custom-cookie-domain"]')
+            .focus();
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+          return false;
+        } else {
+          if (!pattern.test(cdomain)) {
+            this.success_error_message = "Cookie domain is not valid.";
+            parent
+              .find('input[name="gdpr-cookie-consent-custom-cookie-domain"]')
+              .focus();
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+              "background-color",
+              "#e55353"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+            return false;
+          }
+        }
+        if (!cduration) {
+          this.success_error_message =
+            "Please fill in these mandatory fields : Cookie Duration";
+          parent
+            .find('input[name="gdpr-cookie-consent-custom-cookie-duration"]')
+            .focus();
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+          return false;
+        }
+        if (!ctype) {
+          this.success_error_message = "Please select a Cookie Type";
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+          return false;
+        }
+        if (!ccategory) {
+          this.success_error_message = "Please select a Cookie Category";
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+          return false;
+        }
+        var cookie_arr = {
+          cname: cname,
+          cdomain: cdomain,
+          cduration: cduration,
+          ccategory: ccategory,
+          ctype: ctype,
+          cdesc: cdesc,
+        };
+        this.saveCustomPostCookies(cookie_arr);
+      }
+    },
+    saveCookieUpdateSettings() {
+      var cookie_post_arr = [];
+      var error = false;
+      for (let i = 0; i < this.post_cookie_list_length; i++) {
+        var pattern =
+          /^((http|https):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9]{1,10})$/gm;
+        var cid = this.post_cookie_list[i]["id_gdpr_cookie_post_cookies"];
+        var cname = this.post_cookie_list[i]["name"];
+        var cdomain = this.post_cookie_list[i]["domain"];
+        var cduration = this.post_cookie_list[i]["duration"];
+        var ccategory = this.post_cookie_list[i]["category_id"];
+        var ctype = this.post_cookie_list[i]["type"];
+        var cdesc = this.post_cookie_list[i]["description"];
+        if (!cname) {
+          this.success_error_message =
+            "Please fill in these mandatory fields : Cookie Name";
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+          error = true;
+        }
+        if (!cdomain) {
+          this.success_error_message =
+            "Please fill in these mandatory fields : Cookie Domain";
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+          error = true;
+        } else {
+          if (!pattern.test(cdomain)) {
+            this.success_error_message = "Cookie Domain is not valid.";
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+              "background-color",
+              "#e55353"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+            error = true;
+          }
+        }
+        if (!cduration) {
+          this.success_error_message =
+            "Please fill in these mandatory fields : Cookie Duration";
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+          error = true;
+        }
+        var cookie_arr = {
+          cid: cid,
+          cname: cname,
+          cdomain: cdomain,
+          cduration: cduration,
+          ccategory: ccategory,
+          ctype: ctype,
+          cdesc: cdesc,
+        };
+        cookie_post_arr.push(cookie_arr);
+      }
+      if (error) {
+        return false;
+      }
+      this.updatePostCookie(cookie_post_arr);
+    },
+    onUpdateScannedCookieCategory(value) {
+      const id = value.split(",")[1];
+      const cat = value.split(",")[0];
+      this.edit_discovered_cookie.category_id = parseInt(cat);
+      for (let i = 0; i < this.scan_cookie_list_length; i++) {
+        if (this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"] == id) {
+          for (let j = 0; j < this.custom_cookie_categories.length; j++) {
+            if (
+              parseInt(this.custom_cookie_categories[j]["code"]) ==
+              parseInt(cat)
+            ) {
+              this.scan_cookie_list[i]["category_id"] =
+                this.custom_cookie_categories[j].code;
+              this.scan_cookie_list[i]["category"] =
+                this.custom_cookie_categories[j].label;
+              break;
+            }
+          }
+          break;
+        }
+      }
+    },
+    onSelectUpdateCookieCategory(value) {
+      const id = value.split(",")[1];
+      const cat = value.split(",")[0];
+      for (let i = 0; i < this.post_cookie_list_length; i++) {
+        if (this.post_cookie_list[i]["id_gdpr_cookie_post_cookies"] === id) {
+          for (let j = 0; i < this.custom_cookie_categories.length; j++) {
+            if (this.custom_cookie_categories[j]["code"] === parseInt(cat)) {
+              this.post_cookie_list[i]["category_id"] =
+                this.custom_cookie_categories[j].code;
+              this.post_cookie_list[i]["category"] =
+                this.custom_cookie_categories[j].label;
+              break;
+            }
+          }
+          break;
+        }
+      }
+    },
+    onSelectUpdateCookieType(value) {
+      const id = value.split(",")[1];
+      const type_id = value.split(",")[0];
+      for (let i = 0; i < this.post_cookie_list_length; i++) {
+        if (this.post_cookie_list[i]["id_gdpr_cookie_post_cookies"] === id) {
+          if (type_id !== "HTTP") {
+            this.post_cookie_list[i]["enable_duration"] = true;
+            this.post_cookie_list[i]["duration"] = "Persistent";
+          } else {
+            this.post_cookie_list[i]["enable_duration"] = false;
+            this.post_cookie_list[i]["duration"] = "";
+          }
+          for (let j = 0; i < this.custom_cookie_types.length; j++) {
+            if (this.custom_cookie_types[j]["code"] === type_id) {
+              this.post_cookie_list[i]["type"] =
+                this.custom_cookie_types[j].code;
+              this.post_cookie_list[i]["type_name"] =
+                this.custom_cookie_types[j].label;
+              break;
+            }
+          }
+          break;
+        }
+      }
+    },
+    setPostListValues() {
+      for (let i = 0; i < this.post_cookie_list_length; i++) {
+        if (this.post_cookie_list[i]["type"] === "HTTP") {
+          this.post_cookie_list[i]["enable_duration"] = false;
+        } else {
+          this.post_cookie_list[i]["enable_duration"] = true;
+        }
+        for (let j = 0; j < this.custom_cookie_types.length; j++) {
+          if (
+            this.custom_cookie_types[j]["code"] ===
+            this.post_cookie_list[i]["type"]
+          ) {
+            this.post_cookie_list[i]["type_name"] =
+              this.custom_cookie_types[j].label;
+          }
+        }
+      }
+      this.show_custom_form = this.post_cookie_list_length > 0 ? false : true;
+      this.show_add_custom_button =
+        this.post_cookie_list_length > 0 ? true : false;
+    },
+    setScanListValues() {
+      for (let i = 0; i < this.scan_cookie_list_length; i++) {
+        for (let j = 0; j < this.custom_cookie_types.length; j++) {
+          if (
+            this.custom_cookie_types[j]["code"] ===
+            this.scan_cookie_list[i]["type"]
+          ) {
+            this.scan_cookie_list[i]["type_name"] =
+              this.custom_cookie_types[j].label;
+          }
+        }
+      }
+    },
+    onChangeCookieListTab() {
+      this.cookie_list_tab = true;
+      this.discovered_cookies_list_tab = false;
+      this.scan_history_list_tab = false;
+      this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
+      const dropdownarrow = document.querySelector('.cookie_arrow')
+      dropdownarrow.classList.remove('up');
+      dropdownarrow.classList.add('down');
+      const tabLink = document.querySelector("a[href='#cookie_manager#cookie_list']");
+        if (tabLink) {
+            tabLink.click();
+        }
+      window.location.hash = "#cookie_manager#cookie_list#custom_cookie";
+    },
+    onChangeDiscoveredListTab() {
+      this.cookie_list_tab = false;
+      this.discovered_cookies_list_tab = true;
+      this.scan_history_list_tab = false;
+      this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
+      const dropdownarrow = document.querySelector('.cookie_arrow')
+      dropdownarrow.classList.remove('up');
+      dropdownarrow.classList.add('down');
+      const tabLink = document.querySelector("a[href='#cookie_manager#cookie_list']");
+        if (tabLink) {
+            tabLink.click();
+        }
+      window.location.hash = "#cookie_manager#cookie_list#discovered_cookies";
+    },
+    onChangeScanHistoryTab() {
+      this.cookie_list_tab = false;
+      this.discovered_cookies_list_tab = false;
+      this.scan_history_list_tab = true;
+      this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
+      const dropdownarrow = document.querySelector('.cookie_arrow')
+      dropdownarrow.classList.remove('up');
+      dropdownarrow.classList.add('down');
+      const tabLink = document.querySelector("a[href='#cookie_manager#cookie_list']");
+        if (tabLink) {
+            tabLink.click();
+        }
+      window.location.hash = "#cookie_manager#cookie_list#scan_history";
+    },
+    activateTabFromHash() {
+      const hash = window.location.hash;
+      if (hash === "#cookie_manager#cookie_list#custom_cookie") {
+        this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
+        this.onChangeCookieListTab();
+      } else if (hash === "#cookie_manager#cookie_list#discovered_cookies") {
+        this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
+        this.onChangeDiscoveredListTab();
+      } else if (hash === "#cookie_manager#cookie_list#scan_history") {
+        this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
+        this.onChangeScanHistoryTab();
+      }
+    },
+    onStartScheduleScan() {
+      this.schedule_scan_show = false; //make it false to close the popup
+
+      //optimistic value for the Next Scan Details; the server returns the
+      //authoritative one once the cron event is armed
+      if (this.schedule_scan_as == "once") {
+        const targetDate = this.getOnceScanDate();
+
+        if (!targetDate || targetDate.getTime() <= Date.now()) {
+          alert("Selected date is in the past. Please select a vaild date.");
+          this.schedule_scan_show = true;
+          return;
+        }
+
+        this.next_scan_is_when = this.formatScanDate(targetDate);
+      } else if (this.schedule_scan_as == "weekly") {
+        const nextWeeklyScanDate = this.getNextWeeklyScanDate();
+
+        if (!nextWeeklyScanDate) {
+          alert("Invalid day of the week: " + this.schedule_scan_weekday);
+          this.schedule_scan_show = true;
+          return;
+        }
+
+        this.next_scan_is_when = this.formatScanDate(nextWeeklyScanDate);
+      } else if (this.schedule_scan_as == "monthly") {
+        const nextMonthlyScanDate = this.getNextMonthlyScanDate();
+
+        if (!nextMonthlyScanDate) {
+          alert("Invalid day of the month: " + this.schedule_scan_day);
+          this.schedule_scan_show = true;
+          return;
+        }
+
+        this.next_scan_is_when = this.formatScanDate(nextMonthlyScanDate);
+      } else if (this.schedule_scan_as == "never") {
+        this.next_scan_is_when = "Not Scheduled";
+      }
+
+      var that = this;
+      jQuery.ajax({
+        url: settings_obj.ajaxurl,
+        type: "POST",
+        data: {
+          action: "gcc_save_schedule_scan",
+          _wpnonce: settings_obj.nonce,
+          schedule_scan_as: this.schedule_scan_as,
+          schedule_scan_date: this.schedule_scan_date,
+          schedule_scan_time_value: this.schedule_scan_time_value,
+          schedule_scan_day: this.schedule_scan_day,
+          schedule_scan_weekday: this.schedule_scan_weekday,
+          next_scan_is_when: this.next_scan_is_when,
+        },
+        success: function (response) {
+          // WP-Cron owns the schedule now, so show what actually got armed.
+          if (response && response.data && response.data.next_scan_is_when) {
+            that.next_scan_is_when = response.data.next_scan_is_when;
+          }
+        },
+        error: function (jqXHR) {
+          const message =
+            jqXHR.responseJSON &&
+            jqXHR.responseJSON.data &&
+            jqXHR.responseJSON.data.message;
+
+          alert(message || "Could not schedule the scan. Please try again.");
+          that.schedule_scan_show = true;
+        },
+      });
+    },
+    formatScanDate(date) {
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    },
+    // Parse the time picker value, handling both 12-hour and 24-hour formats.
+    parseScanTime() {
+      const timeParts = String(this.schedule_scan_time_value).split(":");
+      let hours = parseInt(timeParts[0], 10);
+      const minutes = parseInt(timeParts[1], 10);
+
+      if (isNaN(hours) || isNaN(minutes)) {
+        return null;
+      }
+
+      if (
+        this.schedule_scan_time_value.toUpperCase().includes("PM") &&
+        hours < 12
+      ) {
+        hours += 12;
+      } else if (
+        this.schedule_scan_time_value.toUpperCase().includes("AM") &&
+        hours === 12
+      ) {
+        hours = 0;
+      }
+
+      return { hours: hours, minutes: minutes };
+    },
+    // Date and time picked for a one-off scan.
+    getOnceScanDate() {
+      const targetDate = new Date(this.schedule_scan_date);
+
+      if (isNaN(targetDate.getTime())) {
+        return null;
+      }
+
+      const time = this.parseScanTime();
+      if (time) {
+        targetDate.setHours(time.hours, time.minutes, 0, 0);
+      }
+
+      return targetDate;
+    },
+    // Next occurrence of the selected weekday at the selected time.
+    getNextWeeklyScanDate() {
+      const weekdays = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
+      const selected = String(this.schedule_scan_weekday || "")
+        .trim()
+        .toLowerCase();
+      const targetDayOfWeek = weekdays.findIndex(
+        (weekday) => weekday.toLowerCase() === selected
+      );
+      const time = this.parseScanTime();
+
+      if (targetDayOfWeek === -1 || !time) {
+        return null;
+      }
+
+      const nextScanDate = new Date();
+      nextScanDate.setHours(time.hours, time.minutes, 0, 0);
+
+      let daysAhead = (targetDayOfWeek - nextScanDate.getDay() + 7) % 7;
+      if (daysAhead === 0 && nextScanDate.getTime() <= Date.now()) {
+        daysAhead = 7;
+      }
+      nextScanDate.setDate(nextScanDate.getDate() + daysAhead);
+
+      return nextScanDate;
+    },
+    // Next occurrence of the selected day of the month at the selected time.
+    getNextMonthlyScanDate() {
+      const dayOfMonth = parseInt(
+        String(this.schedule_scan_day).replace("Day ", ""),
+        10
+      );
+      const time = this.parseScanTime();
+
+      if (isNaN(dayOfMonth) || dayOfMonth < 1 || dayOfMonth > 31 || !time) {
+        return null;
+      }
+
+      // Clamp to the length of the month so 'Day 31' does not spill into the next one.
+      const setDayOfMonth = (date) => {
+        const daysInMonth = new Date(
+          date.getFullYear(),
+          date.getMonth() + 1,
+          0
+        ).getDate();
+        date.setDate(Math.min(dayOfMonth, daysInMonth));
+        return date;
+      };
+
+      const nextScanDate = setDayOfMonth(new Date());
+      nextScanDate.setHours(time.hours, time.minutes, 0, 0);
+
+      if (nextScanDate.getTime() <= Date.now()) {
+        nextScanDate.setDate(1);
+        nextScanDate.setMonth(nextScanDate.getMonth() + 1);
+        setDayOfMonth(nextScanDate);
+      }
+
+      return nextScanDate;
+    },
+    onClickStartScan(singlePageScan = false) {
+      var that = this;
+      var hash = Math.random().toString( 36 ).replace( '0.', '' );
+      var data = {
+        action: "wpl_cookie_start_scanning",
+        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+        hash: hash,
+      };
+      j.ajax({
+        url: settings_obj.cookie_scan_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (!data.success) {
+            // This is actually an "error"
+            if (data.data?.message === 'Scanning already in progress'){
+              that.success_error_message = "A scanning is already in progress. Please wait for it to complete.";
+            }
+            else if (data.data?.message === 'Failed to contact scanner server'){
+              that.success_error_message = "Failed to contact the scanning server, please refresh and try. If the problem persists, please raise a support ticket."
+            }
+            else if (data.data.server_response?.status === 'Pages limit reached') {
+              that.success_error_message = "You have exhausted your pages limit. Please upgrade your plan to continue scanning.";
+            } else if (data.data.server_response?.status === 'Monthly scan limit reached') {
+              that.success_error_message = "You have exhausted your monthly scan limit. Either wait for a month or upgrade your plan to continue scanning.";
+            } else {
+              that.success_error_message = data.data.message;
+            }
+
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css("background-color", "#e55353");
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(4500);
+          } else {
+            
+            that.success_error_message = "Scanning has started. You will be notified via mail once scan is completed.";
+            that.scan_in_progress = true;
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css("background-color", "#72b85c");
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(4500);
+          }
+        },
+        error: function (e) {
+          console.log("Error: ", e);
+        },
+      });
+    },
+    doScan(singlePageScan = false) {
+      var that = this;
+      var data = {
+        action: "wpl_cookie_scanner",
+        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+        wpl_scanner_action: "check_api",
+      };
+      var scanbar = j(".wpl_scanbar");
+      scanbar.html(
+        '<span style="float:left; height:40px; line-height:40px;">' +
+          settings_obj.cookie_scan_settings.labels.checking_api +
+          '</span> <img src="' +
+          settings_obj.cookie_scan_settings.loading_gif +
+          '" style="display:inline-block;" />'
+      );
+      j.ajax({
+        url: settings_obj.cookie_scan_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          scanbar.html("");
+          if (data.response === true) {
+            that.scanNow(singlePageScan);
+          } else {
+            that.serverUnavailable(scanbar, data.message);
+          }
+        },
+        error: function () {
+          scanbar.html("");
+          that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
+        },
+      });
+    },
+    scanNow(singlePageScan = false) {
+      var html = this.makeHtml();
+      var scanbar = j(".gdpr_scanbar");
+      scanbar.html(html);
+      j(".gdpr_scanbar_staypage").css({ display: "flex" }).show();
+      this.attachScanStop();
+      j(".gdpr_scanlog").css({ display: "block", opacity: 0 }).animate(
+        {
+          opacity: 1,
+          height: "auto",
+        },
+        1000
+      );
+      this.takePages(0, 0, 0, 0, singlePageScan);
+    },
+    animateProgressBar(offset, total, msg) {
+      var prgElm = j(".gdpr_progress_bar");
+      var w = prgElm.width();
+      var sp = 100 / total;
+      var sw = w / total;
+      var cw = sw * offset;
+      var cp = sp * offset;
+
+      cp = cp > 100 ? 100 : cp;
+      cp = Math.floor(cp < 1 ? 1 : cp);
+
+      cw = cw > w ? w : cw;
+      cw = Math.floor(cw < 1 ? 1 : cw);
+      j(".gdpr_progress_bar_inner")
+        .stop(true, true)
+        .animate({ width: cw + "px" }, 300, function () {
+          j(".gdpr_progress_action_main").html(msg);
+        })
+        .html(cp + "%");
+    },
+    appendLogAnimate(data, offset) {
+      var that = this;
+      if (data.length > offset) {
+        offset++;
+        var speed = 300 / data.length;
+        setTimeout(function () {
+          that.appendLogAnimate(data, offset);
+        }, speed);
+      }
+    },
+    takePages(offset, limit, total, scan_id, singlePageScan = false) {
+      var that = this;
+      var data = {
+        action: "wpl_cookie_scanner",
+        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+        wpl_scanner_action: "get_pages",
+        offset: offset,
+      };
+      if (limit) {
+        data["limit"] = limit;
+      }
+      if (total) {
+        data["total"] = total;
+      }
+      if (scan_id) {
+        data["scan_id"] = scan_id;
+      }
+      // Fake progress.
+      this.animateProgressBar(
+        1,
+        100,
+        settings_obj.cookie_scan_settings.labels.finding
+      );
+      jQuery.ajax({
+        url: settings_obj.cookie_scan_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (that.isGdprProActive) {
+            that.scan_id =
+              typeof data.scan_id != "undefined" ? data.scan_id : 0;
+            if (that.continue_scan == 0) {
+              return false;
+            }
+            if (typeof data.response != "undefined" && data.response === true) {
+              that.appendLogAnimate(data.log, 0);
+              var new_offset = parseInt(data.offset) + parseInt(data.limit);
+              if (data.total - 1 > new_offset) {
+                // substract 1 from total because of home page.
+                that.takePages(
+                  new_offset,
+                  data.limit,
+                  data.total,
+                  data.scan_id
+                );
+              } else {
+                j(".wpl_progress_action_main").html(
+                  settings_obj.cookie_scan_settings.labels.scanning
+                );
+                that.scanPages(data.scan_id, 0, data.total);
+              }
+            } else {
+              that.showErrorScreen(
+                settings_obj.cookie_scan_settings.labels.error
+              );
+            }
+          } else {
+            const urlParams = new URLSearchParams(window.location.search);
+            const scanUrlParam = urlParams.get("scan_url");
+            var ndata = {
+              action: "wpl_cookie_scanner_view_capabilities",
+              security:
+                settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+              no_of_scan: singlePageScan == true ? 1 : data.log.length,
+              offset: offset,
+              scan_id: scan_id ? scan_id : 0,
+              total_pages: data.total,
+            };
+            jQuery
+              .ajax({
+                url: settings_obj.cookie_scan_settings.ajax_url,
+                data: ndata,
+                dataType: "json",
+                type: "POST",
+              })
+              .done(function (response) {
+                if (
+                  response.success &&
+                  response.data.connection_status === "active"
+                ) {
+                  that.scan_id = data.scan_id !== undefined ? data.scan_id : 0;
+                  if (that.continue_scan == 0) {
+                    return false;
+                  }
+                  if (data.response === true) {
+                    that.appendLogAnimate(data.log, 0);
+                    var new_offset =
+                      parseInt(data.offset) + parseInt(data.limit);
+                    if (data.total - 1 > new_offset) {
+                      // subtract 1 from total because of home page.
+                      that.takePages(
+                        new_offset,
+                        data.limit,
+                        data.total,
+                        data.scan_id
+                      );
+                    } else {
+                      jQuery(".wpl_progress_action_main").html(
+                        settings_obj.cookie_scan_settings.labels.scanning
+                      );
+                      that.scanPages(data.scan_id, 0, data.total);
+                    }
+                  } else {
+                    that.showErrorScreen(
+                      settings_obj.cookie_scan_settings.labels.error
+                    );
+                  }
+                } else {
+                  that.showScanNowPopup();
+                }
+              })
+              .fail(function () {
+                if (that.continue_scan == 0) {
+                  return false;
+                }
+                that.showErrorScreen(
+                  settings_obj.cookie_scan_settings.labels.error
+                );
+              });
+          }
+        },
+        error: function () {
+          if (that.continue_scan == 0) {
+            return false;
+          }
+          that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
+        },
+      });
+    },
+    showScanNowPopup() {
+      this.$nextTick(() => {
+        const scanBtn = jQuery(".scan-now-btn");
+        const popup = jQuery("#popup-site-excausted");
+        const cancelButton = jQuery(".popup-image");
+        popup.fadeIn();
+        cancelButton.off("click").on("click", function (e) {
+          popup.fadeOut();
+          localStorage.setItem("auto_scan_process_started", "false");
+          window.location.reload();
+        });
+      });
+    },
+    scanPages(scan_id, offset, total) {
+      var that = this;
+      var scanbar = j(".gdpr_scanbar");
+      this.pollCount = 0;
+      var hash = Math.random().toString(36).replace("0.", "");
+      var data = {
+        action: "wpl_cookie_scanner",
+        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+        wpl_scanner_action: "scan_pages",
+        offset: offset,
+        scan_id: scan_id,
+        total: total,
+        hash: hash,
+      };
+      j.ajax({
+        url: settings_obj.cookie_scan_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          that.scan_id = typeof data.scan_id != "undefined" ? data.scan_id : 0;
+          if (that.continue_scan == 0) {
+            return false;
+          }
+          if (data.response == true) {
+            this.scan_in_progress = false;
+            const currentUrl = new URL(window.location);
+            currentUrl.searchParams.delete("auto_scan");
+            that.getScanCookies(scan_id, offset, total, hash);
+          } else {
+            scanbar.html("");
+            j(".wpl_scanbar_staypage").hide();
+            that.serverUnavailable(scanbar, data.message);
+          }
+        },
+        error: function () {
+          var current = that;
+          if (that.continue_scan == 0) {
+            return false;
+          }
+          // error and retry function.
+
+          that.animateProgressBar(
+            offset,
+            total,
+            settings_obj.cookie_scan_settings.labels.retrying
+          );
+          setTimeout(function () {
+            current.scanPages(scan_id, offset, total);
+          }, 2000);
+        },
+      });
+    },
+    getScanCookies(scan_id, offset, total, hash) {
+      var that = this;
+      var data = {
+        action: "wpl_cookie_scanner",
+        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+        wpl_scanner_action: "get_post_scan_cookies",
+        offset: offset,
+        scan_id: scan_id,
+        total: total,
+        hash: hash,
+      };
+      j.ajax({
+        url: settings_obj.cookie_scan_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (data.response == true) {
+            var prg_offset = parseInt(offset) + parseInt(data.total_scanned);
+            var prg_msg =
+              settings_obj.cookie_scan_settings.labels.scanning + " ";
+            that.appendLogAnimate(data.log, 0);
+            if (data.continue === true) {
+              that.scanPages(data.scan_id, data.offset, data.total);
+            } else {
+              prg_msg = settings_obj.cookie_scan_settings.labels.finished;
+              prg_msg +=
+                " (" +
+                settings_obj.cookie_scan_settings.labels.total_cookies_found +
+                ": " +
+                data.total_cookies +
+                ")";
+              that.showSuccessScreen(prg_msg, scan_id, 1);
+            }
+            that.animateProgressBar(prg_offset, total, prg_msg);
+          } else {
+            var current = that;
+            if (that.pollCount < 10) {
+              that.pollCount++;
+              setTimeout(function () {
+                current.getScanCookies(
+                  data.scan_id,
+                  data.offset,
+                  data.total,
+                  data.hash
+                );
+              }, 10000);
+            } else {
+              that.showErrorScreen("Something went wrong, please scan again");
+            }
+          }
+        },
+        error: function () {
+          var current = that;
+          if (that.continue_scan == 0) {
+            return false;
+          }
+          if (that.pollCount < 10) {
+            setTimeout(function () {
+              that.getScanCookies(offset, scan_id, total, hash);
+            }, 5000);
+          } else {
+            that.showErrorScreen("Something went wrong, please scan again");
+          }
+        },
+      });
+    },
+    makeHtml() {
+      return (
+        '<div class="gdpr_scanlog">' +
+        '<div class="gdpr_progress_bar">' +
+        '<span class="gdpr_progress_bar_inner gdpr_progress_bar_inner_restructured">' +
+        "</span>" +
+        "</div>" +
+        '<div class="gdpr_progress_action_main">' +
+        settings_obj.cookie_scan_settings.labels.finding +
+        "</div>" +
+        '<div class="gdpr_scanlog_bar"><button type="button" class="pull-right gdpr_stop_scan">' +
+        settings_obj.cookie_scan_settings.labels.stop +
+        "</button></div>" +
+        "</div>"
+      );
+    },
+    attachScanStop() {
+      var that = this;
+      j(".gdpr_stop_scan").click(function () {
+        that.stopScan();
+      });
+    },
+    stopScan() {
+      if (this.continue_scan == 0) {
+        return false;
+      }
+      if (confirm(settings_obj.cookie_scan_settings.labels.ru_sure)) {
+        this.continue_scan = 0;
+        this.stoppingScan(this.scan_id);
+      }
+    },
+    stoppingScan(scan_id) {
+      var that = this;
+      var data = {
+        action: "wpl_cookie_scanner",
+        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+        wpl_scanner_action: "stop_scan",
+        scan_id: scan_id,
+      };
+      j(".gdpr_stop_scan")
+        .html(settings_obj.cookie_scan_settings.labels.stoping)
+        .css({ opacity: ".5" });
+      j.ajax({
+        url: settings_obj.cookie_scan_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          that.showSuccessScreen(
+            settings_obj.cookie_scan_settings.labels.scanning_stopped,
+            scan_id,
+            data.total
+          );
+        },
+        error: function () {
+          // error function.
+          that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
+        },
+      });
+    },
+    serverUnavailable: function (elm, msg) {
+      elm.html(
+        '<div style="background:#ffffff; border:solid 1px #cccccc; color:#333333; padding:5px;">' +
+          msg +
+          "</div>"
+      );
+    },
+    showErrorScreen: function (error_msg) {
+      var html =
+        '<button type="button" class="pull-right gdpr_scan_again" style="margin-left:5px;">' +
+        settings_obj.cookie_scan_settings.labels.scan_again +
+        "</button>";
+      j(".gdpr_scanlog_bar").html(html);
+      j(".gdpr_progress_action_main").html(error_msg);
+      this.success_error_message = error_msg;
+      j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+        "background-color",
+        "#e55353"
+      );
+      j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+      j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+      j(".gdpr_scanbar_staypage").hide();
+      this.scanAgain();
+    },
+    showSuccessScreen(success_msg, scan_id, total) {
+      var html =
+        '<button type="button" class="pull-right gdpr_scan_again" style="margin-left:5px;">' +
+        settings_obj.cookie_scan_settings.labels.scan_again +
+        "</button>";
+      html += '<span class="spinner" style="margin-top:5px"></span>';
+      j(".gdpr_scanlog_bar").html(html);
+      j(".gdpr_progress_action_main").html(success_msg);
+      this.success_error_message = success_msg;
+      j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+        "background-color",
+        "#72b85c"
+      );
+      j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+      j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+      j(".gdpr_scanbar_staypage").hide();
+      this.showScanCookieList();
+      this.scanAgain();
+      setTimeout(() => {
+        localStorage.setItem("auto_scan_process_started", "false");
+        window.location.reload();
+      }, 3000);
+    },
+    showScanCookieList() {
+      var that = this;
+      var data = {
+        action: "wpl_cookie_scanner",
+        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+        wpl_scanner_action: "get_scanned_cookies_list",
+      };
+      j.ajax({
+        url: settings_obj.cookie_scan_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (data.response) {
+            that.scan_cookie_list_length = data.total;
+            that.scan_cookie_list = data.data;
+            that.setScanListValues();
+          } else {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+              "background-color",
+              "#e55353"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+          }
+        },
+        error: function () {
+          that.success_error_message = data.message;
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+        },
+      });
+    },
+    scanAgain() {
+      var that = this;
+      j(".gdpr_scan_again")
+        .unbind("click")
+        .click(function () {
+          that.continue_scan = 1;
+          that.scanNow();
+        });
+    },
+    onClickDeleteCookie() {
+      var that = this;
+      var data = {
+        
+      };
+      j.ajax({
+        url: settings_obj.cookie_scan_settings.ajax_url,
+        type: "POST",
+        data: {
+          action: "wpl_cookies_deletion",
+          security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,  
+        },
+        success: function (response) {
+          that.showSuccessScreen("Cookies Cleared Successfully!");
+          window.location.reload();
+        },
+        error: function () {
+          // error function.
+          that.showErrorScreen("Some error occurred");
+        },
+      });
+    },
+    saveCustomPostCookies(cookie_data) {
+      var that = this;
+      var data = {
+        action: "gdpr_cookie_custom",
+        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
+        gdpr_custom_action: "save_post_cookie",
+        cookie_arr: cookie_data,
+      };
+      j.ajax({
+        url: settings_obj.cookie_list_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (data.response === true) {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+              "background-color",
+              "#72b85c"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+            that.hideCookieForm();
+            that.getPostCookieList();
+          } else {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+              "background-color",
+              "#e55353"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+          }
+        },
+        error: function () {
+          that.success_error_message = data.message;
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+        },
+      });
+    },
+    onDeleteCustomCookie(cookie_id) {
+      this.deletePostCookie(cookie_id);
+    },
+    updatePostCookie: function (cookie_arr) {
+      var that = this;
+      var data = {
+        action: "gdpr_cookie_custom",
+        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
+        gdpr_custom_action: "update_post_cookie",
+        cookie_arr: cookie_arr,
+      };
+      j.ajax({
+        url: settings_obj.cookie_list_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (data.response === true) {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+              "background-color",
+              "#72b85c"
+            ).fadeIn(400).delay(2500).fadeOut(400, function () {
+            that.getPostCookieList();
+          });
+          } else {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+              "background-color",
+              "#e55353"
+            ).fadeIn(400)
+            .fadeOut(2500);
+          }
+        },
+        error: function () {
+          that.success_error_message = data.message;
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+            "background-color",
+            "#e55353"
+          ).fadeIn(400)
+          .fadeOut(2500);
+        },
+      });
+    },
+    deletePostCookie(cookie_id) {
+      var that = this;
+      var data = {
+        action: "gdpr_cookie_custom",
+        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
+        gdpr_custom_action: "delete_post_cookie",
+        cookie_id: cookie_id,
+      };
+      j.ajax({
+        url: settings_obj.cookie_list_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (data.response === true) {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+              "background-color",
+              "#72b85c"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+            that.getPostCookieList();
+          } else {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+              "background-color",
+              "#e55353"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+          }
+        },
+        error: function () {
+          that.success_error_message = data.message;
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+        },
+      });
+    },
+    updateScannedCookies() {
+      // Update the specific cookie in scan_cookie_list with the edited values
+      for (let i = 0; i < this.scan_cookie_list.length; i++) {
+        if (this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"] === this.edit_discovered_cookie["id_wpl_cookie_scan_cookies"]) {
+          // Update the cookie in the list with the edited values
+          this.scan_cookie_list[i]["description"] = this.edit_discovered_cookie["description"];
+          this.scan_cookie_list[i]["category_id"] = this.edit_discovered_cookie["category_id"];
+          this.scan_cookie_list[i]["category"] = this.edit_discovered_cookie["category"];
+          break;
+        }
+      }
+      var cookie_scan_arr = [];
+      for (let i = 0; i < this.scan_cookie_list_length; i++) {
+        var cid = this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"];
+        var ccategory = this.scan_cookie_list[i]["category_id"];
+        var cdesc = this.scan_cookie_list[i]["description"];
+        var cookie_arr = {
+          cid: cid,
+          ccategory: ccategory,
+          cdesc: cdesc,
+        };
+        cookie_scan_arr.push(cookie_arr);
+      }
+      this.updateScanCookie(cookie_scan_arr);
+    },
+    getPostCookieList: function () {
+      var that = this;
+      var data = {
+        action: "gdpr_cookie_custom",
+        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
+        gdpr_custom_action: "get_post_cookies_list",
+      };
+      j.ajax({
+        url: settings_obj.cookie_list_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (data.response) {
+            that.post_cookie_list_length = data.total;
+            that.post_cookie_list = data.post_list;
+            that.setPostListValues();
+          } else {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert").css(
+              "background-color",
+              "#e55353"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+          }
+        },
+        error: function () {
+          that.success_error_message = data.message;
+          j("#gdpr-cookie-consent-save-settings-alert").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
+        },
+      });
+    },
+     scheduleScanShow() {
+      this.schedule_scan_show = true;
+    },
+    scheduleScanHide() {
+      this.schedule_scan_show = false;
+    },
+    scanTypeChange(value) {
+      this.schedule_scan_as = value;
+    },
+    scanTimeChange(value) {
+      this.schedule_scan_time_value = value;
+    },
+    scanDateChange(value) {
+      this.schedule_scan_date = value;
+    },
+    scanDayChange(value) {
+      this.schedule_scan_day = value;
+    },
+    scanWeekdayChange(value) {
+      this.schedule_scan_weekday = value;
+    },
+    updateScanCookie(cookie_arr) {
+      var that = this;
+      var data = {
+        action: "wpl_cookie_scanner",
+        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
+        wpl_scanner_action: "update_scan_cookie",
+        cookie_arr: cookie_arr,
+      };
+      j.ajax({
+        url: settings_obj.cookie_scan_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (data.response === true) {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+              "background-color",
+              "#72b85c"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+            that.showScanCookieList();
+          } else {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+              "background-color",
+              "#e55353"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+          }
+        },
+        error: function () {
+          that.success_error_message = data.message;
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
+        },
+      });
+    },
+    onSwitchingScriptBlocker() {
+      this.is_script_blocker_on = !this.is_script_blocker_on;
+    },
+    showScriptBlockerForm() {
+      this.show_script_blocker = !this.show_script_blocker;
+    },
+    onSwitchingScriptDependency() {
+      this.is_script_dependency_on = !this.is_script_dependency_on;
+
+      if( this.is_script_dependency_on === false ){
+        this.header_dependency = null;
+        this.footer_dependency = null;
+      }
+    },
+    onHeaderDependencySelect(value) {
+      
+      this.header_dependency_map.body = false;
+      this.header_dependency_map.footer = false;
+
+      if (this.header_dependency) {
+        this.header_dependency_map[this.header_dependency] = true;
+        this.header_dependency = this.header_dependency;
+      } else {
+        this.header_dependency = '';
+      }
+    },
+    onFooterDependencySelect(value) {
+      
+      this.footer_dependency_map.header = false;
+      this.footer_dependency_map.body = false;
+
+      if (this.footer_dependency) {
+        this.footer_dependency_map[this.footer_dependency] = true;
+        this.footer_dependency = this.footer_dependency;
+      } else {
+        this.footer_dependency = '';
+      }
+    },
+    onSwitchScriptBlocker(script_id) {
+      j("#gdpr-cookie-consent-updating-settings-alert-scb").fadeIn(200);
+      j("#gdpr-cookie-consent-updating-settings-alert-scb").fadeOut(2000);
+      var that = this;
+      this.scripts_list_data[script_id - 1]["script_status"] =
+        !this.scripts_list_data[script_id - 1]["script_status"];
+      var status = "1";
+      if (this.scripts_list_data[script_id - 1]["script_status"]) {
+        status = "1";
+      } else {
+        status = "0";
+      }
+      var data = {
+        action: "wpl_script_blocker",
+        security:
+          settings_obj.script_blocker_settings.nonces.wpl_script_blocker,
+        wpl_script_action: "update_script_status",
+        status: status,
+        id: script_id,
+      };
+      jQuery.ajax({
+        url: settings_obj.script_blocker_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (data.response === true) {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-scb").css(
+              "background-color",
+              "#72b85c"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
+          } else {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-scb").css(
+              "background-color",
+              "#e55353"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
+          }
+        },
+        error: function () {
+          that.success_error_message = data.message;
+          j("#gdpr-cookie-consent-save-settings-alert-scb").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
+        },
+      });
+    },
+    onScriptCategorySelect(values) {
+      if (!values) {
+        this.success_error_message = "You must select a category.";
+        j("#gdpr-cookie-consent-save-settings-alert-scb").css(
+          "background-color",
+          "#e55353"
+        );
+        j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+        j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
+        return false;
+      }
+      var that = this;
+      var category_code = values.split(",")[0];
+      var script_id = values.split(",")[1];
+      for (let i = 0; i < this.category_list_options.length; i++) {
+        if (this.category_list_options[i]["code"] === category_code) {
+          if (
+            this.scripts_list_data[script_id - 1]["script_category"] ===
+            category_code
+          ) {
+            this.success_error_message = "Category updated successfully";
+            j("#gdpr-cookie-consent-save-settings-alert-scb").css(
+              "background-color",
+              "#72b85c"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
+            return false;
+          } else {
+            this.scripts_list_data[script_id - 1]["script_category"] =
+              this.category_list_options[i].code;
+            this.scripts_list_data[script_id - 1]["script_category_label"] =
+              this.category_list_options[i].label;
+            break;
+          }
+        }
+      }
+      var data = {
+        action: "wpl_script_blocker",
+        security:
+          settings_obj.script_blocker_settings.nonces.wpl_script_blocker,
+        wpl_script_action: "update_script_category",
+        category: category_code,
+        id: script_id,
+      };
+      jQuery.ajax({
+        url: settings_obj.script_blocker_settings.ajax_url,
+        data: data,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+          if (data.response === true) {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-scb").css(
+              "background-color",
+              "#72b85c"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
+          } else {
+            that.success_error_message = data.message;
+            j("#gdpr-cookie-consent-save-settings-alert-scb").css(
+              "background-color",
+              "#e55353"
+            );
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
+          }
+        },
+        error: function () {
+          that.success_error_message = data.message;
+          j("#gdpr-cookie-consent-save-settings-alert-scb").css(
+            "background-color",
+            "#e55353"
+          );
+          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
+        },
+      });
+    },
+    saveScriptBlockerSettings() {
+      this.save_loading = true;
+
+      var that = this;
+      var dataV = jQuery("#gcc-save-script-blocker-settings-form").serialize();
+      jQuery
+        .ajax({
+          type: "POST",
+          url: settings_obj.ajaxurl,
+          data: dataV + "&action=gcc_save_script_blocker_settings",
+        })
+        .done(function (data) {
+          that.success_error_message = "Settings Saved.";
+          j("#gdpr-cookie-consent-save-settings-alert-scb").css({
+              "background-color": "#72b85c",
+              "z-index": "10000",
+          });
+          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
+          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
+
+          that.save_loading = false;
+        })
+        .fail(function () {
+          that.save_loading = false;
+        });
+    }
   },
   mounted() {
     var that = this;
@@ -4792,13 +7528,41 @@ var gen = new Vue({
     window.vueMounted = true; // Mark as mounted
     j("#gdpr-before-mount").css("display", "none");
 
+    // A plugin update shipped new IAB vendor JSON: rebuild the stored vendor data.
+    if (settings_obj.iab_vendor_refresh_needed && this.iabtcf_is_on) {
+      this.fetchIABData().catch((err) => console.error("Failed to refresh IAB Data", err));
+    }
+
     if (settings_obj.is_user_connected) {
       if (performance.navigation.type !== 1) {
         const urlParams = new URLSearchParams(window.location.search);
         const scanUrlParam = urlParams.get("scan_url");
+        // Check if the 'scan' parameter is present and has the value '1'
+        if (scanUrlParam) {
+          // Run the onClickStartScan() method
+          const singlePageScan = true;
+          this.onClickStartScan(singlePageScan);
+        }
       }
     }
     this.setValues();
+    this.setPostListValues();
+    if (this.scan_cookie_list_length > 0) {
+      this.setScanListValues();
+    }
+    that.$nextTick(function () {
+      var parts = window.location.hash.split('#').filter(Boolean);
+      if (parts.length < 2) return;
+
+      var target = '#' + parts[0] + '#' + parts[1];
+      var link = j('.nav-link').filter(function () {
+        return this.getAttribute('href') === target;
+      }).first();
+
+      if (link.length) link[0].click();
+    });
+    this.activateTabFromHash();
+    
     j(".gdpr-cookie-consent-settings-nav .nav .nav-item .nav-link").on(
       "click",
       function () {
@@ -4937,6 +7701,7 @@ var gen = new Vue({
           data: {
             action: "wpl_script_add",
             type: type,
+            _wpnonce: settings_obj.nonce,
           },
           success: function (response) {
             if (response.success) {
@@ -5059,7 +7824,8 @@ var gen = new Vue({
         type: "POST",
         dataType: "json",
         data: {
-          action: "gcc_get_preview_banner_state"
+          action: "gcc_get_preview_banner_state",
+          _wpnonce: settings_obj.nonce,
         },
         success: function(response){
           if (response.success) {
@@ -5067,7 +7833,37 @@ var gen = new Vue({
           }
         }
       });
+    //SAVE SCHEDULE SCAN SETTINGS
+    jQuery.ajax({
+      url: settings_obj.ajaxurl,
+      type: "POST",
+      data: {
+        action: "gcc_get_schedule_scan",
+        _wpnonce: settings_obj.nonce,
+      },
+      success: function(response) {
+        if (response.success && response.data) {
+          that.schedule_scan_as = response.data.schedule_scan_as || 'never';
+          that.schedule_scan_date = response.data.schedule_scan_date || '';
+          that.schedule_scan_time_value = response.data.schedule_scan_time_value || '';
+          that.schedule_scan_day = response.data.schedule_scan_day || '';
+          that.schedule_scan_weekday = response.data.schedule_scan_weekday || 'Monday';
+          that.next_scan_is_when = response.data.next_scan_is_when || 'Not Scheduled';
+          // No restart needed: the schedule lives in WP-Cron, not in this page.
+        }
+      }
+    });
+  },
+  watch: {
+    cookie_bar_color: {
+      handler: 'updatePopupColors',
+      immediate: true
+    },
 
+    button_accept_all_button_color: {
+      handler: 'updatePopupColors',
+      immediate: true
+    }
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
 });
@@ -5196,7 +7992,7 @@ var app = new Vue({
         this.gdpr_policy === "gdpr" || this.gdpr_policy === "both"
           ? true
           : false,
-      is_ccpa:
+      is_us_state_laws:
         this.gdpr_policy === "ccpa" || this.gdpr_policy === "both"
           ? true
           : false,
@@ -5219,12 +8015,24 @@ var app = new Vue({
         : "",
       gdpr_message: settings_obj.the_options.hasOwnProperty("notify_message")
         ? this.stripSlashes(settings_obj.the_options["notify_message"])
-        : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
+        : "We use cookies to optimize your experience, analyze traffic, and personalize ads. Please choose whether you accept our use of non-essential cookies.",
+      uk_gdpr_message: settings_obj.the_options.hasOwnProperty("notify_message_uk_gdpr")
+        ? this.stripSlashes(settings_obj.the_options["notify_message_uk_gdpr"])
+        : "We use cookies to improve our site, analyze performance, and serve personalized marketing. Please select your cookie preferences.",
+      pdpl_message: settings_obj.the_options.hasOwnProperty("notify_message_pdpl")
+        ? this.stripSlashes(settings_obj.the_options["notify_message_pdpl"])
+        : "We utilize cookies to analyze traffic and customize your experience in compliance with KSA PDPL. Please provide your consent for non-essential tracking.",
+      pipeda_message: settings_obj.the_options.hasOwnProperty("notify_message_pipeda")
+        ? this.stripSlashes(settings_obj.the_options["notify_message_pipeda"])
+        : "We use cookies to analyze performance and power our site. For details on how we protect your privacy or to adjust your choices, view our Cookie Policy.",
+      app_message: settings_obj.the_options.hasOwnProperty("notify_message_app")
+        ? this.stripSlashes(settings_obj.the_options["notify_message_app"])
+        : "We collect data via tracking technologies to optimize our site and deliver marketing. To review your options or opt-out of sharing, view our Privacy Policy.",
       lgpd_message: settings_obj.the_options.hasOwnProperty(
         "notify_message_lgpd"
       )
         ? this.stripSlashes(settings_obj.the_options["notify_message_lgpd"])
-        : "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.",
+        : "This website uses cookies to provide a better browsing experience. You can select your cookie preferences or accept all tracking categories below.",
       gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty(
         "about_message"
       )
@@ -5239,14 +8047,24 @@ var app = new Vue({
         "notify_message_ccpa"
       )
         ? this.stripSlashes(settings_obj.the_options["notify_message_ccpa"])
-        : "In case of sale of your personal information, you may opt out by using the link",
+        : "We use tracking tools to provide targeted advertising. Under state law, you have the right to opt-out of the sharing or sale of your personal information.",
+      default_opt_out_message: settings_obj.the_options.hasOwnProperty(
+        "notify_message_default_opt_out"
+      )
+        ? this.stripSlashes(settings_obj.the_options["notify_message_default_opt_out"])
+        : "We use cookies and similar technologies for targeted advertising. You have the right to opt-out of the sale or processing of your personal data.",
+      pure_opt_out_message: settings_obj.the_options.hasOwnProperty(
+        "notify_message_pure_opt_out"
+      )
+        ? this.stripSlashes(settings_obj.the_options["notify_message_pure_opt_out"])
+        : "We collect personal data via tracking technologies for analytics and marketing. To exercise your right to opt-out of this processing, choose below.",
       ccpa_optout_message: settings_obj.the_options.hasOwnProperty(
         "optout_text"
       )
         ? this.stripSlashes(settings_obj.the_options["optout_text"])
-        : "Do you really wish to opt-out?",
+        : 'We use third-party cookies that help us analyse how you use this website, store your preferences, and provide the content and advertisements that are relevant to you. However, you can opt out of these cookies by checking "Do Not Sell or Share My Personal Information" and clicking the "Save My Preferences" button. Once you opt out, you can opt in again at any time by unchecking "Do Not Sell or Share My Personal Information" and clicking the "Save My Preferences" button.',
       show_visitor_conditions:
-        this.is_ccpa || (this.is_gdpr && "1" === settings_obj.is_pro_active)
+        this.is_us_state_laws || (this.is_gdpr && "1" === settings_obj.is_pro_active)
           ? true
           : false,
       selectedRadioIab:
@@ -5882,7 +8700,7 @@ var app = new Vue({
         "button_decline_text"
       )
         ? settings_obj.the_options["button_decline_text"]
-        : "Decline",
+        : "Reject All",
       decline_text_color: settings_obj.the_options.hasOwnProperty(
         "button_decline_link_color"
       )
@@ -5955,7 +8773,7 @@ var app = new Vue({
         "button_settings_text"
       )
         ? settings_obj.the_options["button_settings_text"]
-        : "Cookie Settings",
+        : "Preferences",
       settings_text_color: settings_obj.the_options.hasOwnProperty(
         "button_settings_link_color"
       )
@@ -6009,7 +8827,7 @@ var app = new Vue({
         "button_confirm_text"
       )
         ? settings_obj.the_options["button_confirm_text"]
-        : "Confirm",
+        : "Save My Preferences",
       confirm_text_color: settings_obj.the_options.hasOwnProperty(
         "button_confirm_link_color"
       )
@@ -6284,7 +9102,7 @@ var app = new Vue({
         "button_decline_text1"
       )
         ? settings_obj.the_options["button_decline_text1"]
-        : "Decline",
+        : "Reject All",
       decline_text_color1: settings_obj.the_options.hasOwnProperty(
         "button_decline_link_color1"
       )
@@ -6358,7 +9176,7 @@ var app = new Vue({
         "button_settings_text1"
       )
         ? settings_obj.the_options["button_settings_text1"]
-        : "Cookie Settings",
+        : "Preferences",
       settings_text_color1: settings_obj.the_options.hasOwnProperty(
         "button_settings_link_color1"
       )
@@ -6405,7 +9223,7 @@ var app = new Vue({
         "button_confirm_text1"
       )
         ? settings_obj.the_options["button_confirm_text1"]
-        : "Confirm",
+        : "Save My Preferences",
       confirm_text_color1: settings_obj.the_options.hasOwnProperty(
         "button_confirm_link_color1"
       )
@@ -6687,7 +9505,7 @@ var app = new Vue({
         "button_decline_text2"
       )
         ? settings_obj.the_options["button_decline_text2"]
-        : "Decline",
+        : "Reject All",
       decline_text_color2: settings_obj.the_options.hasOwnProperty(
         "button_decline_link_color2"
       )
@@ -6761,7 +9579,7 @@ var app = new Vue({
         "button_settings_text2"
       )
         ? settings_obj.the_options["button_settings_text2"]
-        : "Cookie Settings",
+        : "Preferences",
       settings_text_color2: settings_obj.the_options.hasOwnProperty(
         "button_settings_link_color2"
       )
@@ -6808,7 +9626,7 @@ var app = new Vue({
         "button_confirm_text2"
       )
         ? settings_obj.the_options["button_confirm_text2"]
-        : "Confirm",
+        : "Save My Preferences",
       confirm_text_color2: settings_obj.the_options.hasOwnProperty(
         "button_confirm_link_color2"
       )
@@ -6967,7 +9785,7 @@ var app = new Vue({
       onPrg: 0,
       template: settings_obj.the_options.hasOwnProperty("template")
         ? settings_obj.the_options["template"]
-        : "default",
+        : "new_default",
       cookie_accept_all_on:
         settings_obj.the_options.hasOwnProperty("button_accept_all_is_on") &&
         (true === settings_obj.the_options["button_accept_all_is_on"] ||
@@ -7057,32 +9875,6 @@ var app = new Vue({
       selectedFile: "",
       //Consent Log
       consent_log_switch_clicked: false,
-      // Data Request
-      data_reqs_on:
-        "true" == settings_obj.the_options["data_reqs_on"] ||
-        1 === settings_obj.the_options["data_reqs_on"] ||
-        "1" == settings_obj.the_options["data_reqs_on"]
-          ? true
-          : false,
-      shortcode_copied: false,
-      data_reqs_switch_clicked: false,
-      data_req_email_address: settings_obj.the_options.hasOwnProperty(
-        "data_req_email_address"
-      )
-        ? settings_obj.the_options["data_req_email_address"]
-        : "",
-      data_req_subject: settings_obj.the_options.hasOwnProperty(
-        "data_req_subject"
-      )
-        ? settings_obj.the_options["data_req_subject"]
-        : "We have received your request",
-      data_req_editor_message: settings_obj.the_options.hasOwnProperty(
-        "data_req_editor_message"
-      )
-        ? this.decodeHTMLString(
-            settings_obj.the_options["data_req_editor_message"]
-          )
-        : "",
       enable_safe:
         settings_obj.the_options.hasOwnProperty("enable_safe") &&
         ("true" === settings_obj.the_options["enable_safe"] ||
@@ -7232,19 +10024,6 @@ var app = new Vue({
     stripSlashes(value) {
       return value.replace(/\\(.)/gm, "$1");
     },
-    copyTextToClipboard() {
-      const textToCopy = "[wpl_data_request]";
-      const textArea = document.createElement("textarea");
-      textArea.value = textToCopy;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textArea);
-      this.shortcode_copied = true;
-      setTimeout(() => {
-        this.shortcode_copied = false;
-      }, 1500);
-    },
     decodeHTMLString(encodedString) {
       var doc = new DOMParser().parseFromString(encodedString, "text/html");
       return doc.documentElement.textContent.replace(/\\/g, "");
@@ -7274,14 +10053,14 @@ var app = new Vue({
     },
     setValues() {
       if (this.gdpr_policy === "both") {
-        this.is_ccpa = true;
+        this.is_us_state_laws = true;
         this.is_gdpr = true;
         this.is_eprivacy = false;
         this.is_lgpd = false;
         this.show_visitor_conditions = true;
         this.show_revoke_card = true;
       } else if (this.gdpr_policy === "ccpa") {
-        this.is_ccpa = true;
+        this.is_us_state_laws = true;
         this.is_eprivacy = false;
         this.is_gdpr = false;
         this.is_lgpd = false;
@@ -7289,14 +10068,14 @@ var app = new Vue({
         this.show_revoke_card = false;
       } else if (this.gdpr_policy === "gdpr") {
         this.is_gdpr = true;
-        this.is_ccpa = false;
+        this.is_us_state_laws = false;
         this.is_eprivacy = false;
         this.is_lgpd = false;
         this.show_revoke_card = true;
         this.show_visitor_conditions = true;
       } else if (this.gdpr_policy === "lgpd") {
         this.is_gdpr = false;
-        this.is_ccpa = false;
+        this.is_us_state_laws = false;
         this.is_lgpd = true;
         this.is_eprivacy = false;
         this.show_revoke_card = true;
@@ -7304,7 +10083,7 @@ var app = new Vue({
       } else {
         this.is_eprivacy = true;
         this.is_gdpr = false;
-        this.is_ccpa = false;
+        this.is_us_state_laws = false;
         this.is_lgpd = false;
         this.show_visitor_conditions = false;
         this.show_revoke_card = true;
@@ -7410,11 +10189,6 @@ var app = new Vue({
       //changing the value of do_not_track_on enable/disable
       this.do_not_track_on = !this.do_not_track_on;
     },
-    onSwitchDataReqsEnable() {
-      //changing the value of data_reqs_on enable/disable
-      this.data_reqs_on = !this.data_reqs_on;
-      this.data_reqs_switch_clicked = true;
-    },
     onSwitchCookieAcceptEnable() {
       this.cookie_accept_on = !this.cookie_accept_on;
     },
@@ -7516,7 +10290,7 @@ var app = new Vue({
           "Customize your consent preferences for Cookie Categories and advertising tracking preferences for Purposes & Features and Vendors below. You can give granular consent for each Third Party Vendor. Most vendors require consent for personal data processing, while some rely on legitimate interest. However, you have the right to object to their use of legitimate interest. The choices you make regarding the purposes and entities listed in this notice are saved in a cookie named wpl_tc_string for a maximum duration of 12 months.";
       } else {
         this.gdpr_message =
-          "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
+          "We use cookies to optimize your experience, analyze traffic, and personalize ads. Please choose whether you accept our use of non-essential cookies.";
         this.gdpr_about_cookie_message =
           "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
       }
@@ -7556,47 +10330,6 @@ var app = new Vue({
     onSwitchLoggingOn() {
       this.logging_on = !this.logging_on;
       this.consent_log_switch_clicked = true;
-    },
-    onClickAddMedia() {
-      // Get the button element
-      jQuery(document).ready(function ($) {
-        var frame = wp.media({
-          title: "Select or Upload Media",
-          button: {
-            text: "Use this media",
-          },
-          multiple: false, // Set to false if selecting only one file
-        });
-
-        frame.open();
-
-        frame.on("select", function () {
-          var selection = frame.state().get("selection");
-
-          selection.map(function (attachment) {
-            var attachmentURL = attachment.attributes.url;
-            var attachmentType = attachment.attributes.type;
-            var attachmentFileName = attachment.attributes.filename;
-
-            var editor = $("#quill-container .ql-editor")[0];
-            var quillInstance = editor.__quill || editor.parentNode.__quill;
-
-            if (attachmentType === "application" || attachmentType === "text") {
-              var link = $("<a>")
-                .attr("href", attachmentURL)
-                .text(attachmentFileName);
-              quillInstance.root.appendChild(link[0]);
-              quillInstance.root.appendChild($("<br>")[0]);
-            } else {
-              quillInstance.insertEmbed(
-                quillInstance.getLength(),
-                "image",
-                attachmentURL
-              );
-            }
-          });
-        });
-      });
     },
     cookieAcceptChange(value) {
       if (value === "#cookie_action_close_header") {
@@ -8058,16 +10791,41 @@ var app = new Vue({
     onSelectPrivacyPage2(value) {
       this.button_readmore_page2 = value;
     },
+    onHeadingInput(value){
+      if(value.length > 0)  {
+        this.heading_is_on = true;
+        this.heading_is_on1 = true;
+        this.heading_is_on2 = true;
+      }
+      else{
+        this.heading_is_on = false;
+        this.heading_is_on1 = false;
+        this.heading_is_on2 = false;
+      }
+
+    },
     cookiePolicyChange(value) {
       this.onSwitchReloadLaw();
       if (this.gdpr_policy) {
         value = this.gdpr_policy;
       }
       if (value === "both") {
-        this.is_ccpa = true;
+        this.is_us_state_laws = true;
         this.is_gdpr = true;
         this.is_eprivacy = false;
         this.is_lgpd = false;
+        this.button_accept_all_is_on = true;
+        this.button_decline_is_on = true;
+        this.button_settings_is_on = true;
+        this.button_accept_is_on = false;
+        this.button_accept_all_is_on1 = true;
+        this.button_decline_is_on1 = true;
+        this.button_settings_is_on1 = true;
+        this.button_accept_is_on1 = false;
+        this.button_accept_all_is_on2 = true;
+        this.button_decline_is_on2 = true;
+        this.button_settings_is_on2 = true;
+        this.button_accept_is_on2 = false;
         this.show_visitor_conditions = true;
         this.show_revoke_card = true;
         //visitors condition.
@@ -8082,7 +10840,7 @@ var app = new Vue({
         this.is_selectedCountry_on = false;
         this.is_selectedCountry_on_ccpa = false;
       } else if (value === "ccpa") {
-        this.is_ccpa = true;
+        this.is_us_state_laws = true;
         this.is_eprivacy = false;
         this.is_gdpr = false;
         this.is_lgpd = false;
@@ -8103,9 +10861,21 @@ var app = new Vue({
         this.is_selectedCountry_on_ccpa = false;
       } else if (value === "gdpr") {
         this.is_gdpr = true;
-        this.is_ccpa = false;
+        this.is_us_state_laws = false;
         this.is_eprivacy = false;
         this.is_lgpd = false;
+        this.button_accept_all_is_on = true;
+        this.button_decline_is_on = true;
+        this.button_settings_is_on = true;
+        this.button_accept_is_on = false;
+        this.button_accept_all_is_on1 = true;
+        this.button_decline_is_on1 = true;
+        this.button_settings_is_on1 = true;
+        this.button_accept_is_on1 = false;
+        this.button_accept_all_is_on2 = true;
+        this.button_decline_is_on2 = true;
+        this.button_settings_is_on2 = true;
+        this.button_accept_is_on2 = false;
         this.show_revoke_card = true;
         this.show_visitor_conditions = true;
         this.selectedRadioWorldWide = "yes";
@@ -8119,7 +10889,7 @@ var app = new Vue({
         this.is_selectedCountry_on = false;
         this.is_selectedCountry_on_ccpa = false;
       } else if (value === "lgpd") {
-        this.is_ccpa = false;
+        this.is_us_state_laws = false;
         this.is_eprivacy = false;
         this.is_gdpr = false;
         this.is_lgpd = true;
@@ -8129,7 +10899,7 @@ var app = new Vue({
       } else {
         this.is_eprivacy = true;
         this.is_gdpr = false;
-        this.is_ccpa = false;
+        this.is_us_state_laws = false;
         this.is_lgpd = false;
         this.show_visitor_conditions = false;
         this.show_revoke_card = true;
@@ -8162,7 +10932,7 @@ var app = new Vue({
       this.border_style = "none";
       this.cookie_border_color = "#ffffff";
       this.cookie_bar_border_radius = "0";
-      this.template = "default";
+      this.template = "new_default";
       this.accept_text = "Accept";
       this.accept_url = "#";
       this.accept_action = "#cookie_action_close_header";
@@ -8248,7 +11018,7 @@ var app = new Vue({
       this.gcm_advertiser_mode = false;
       this.gcm_url_passthrough = false;
       this.gacm_is_on = false;
-      this.decline_text = "Decline";
+      this.decline_text = "Reject All";
       this.decline_url = "#";
       this.decline_action = "#cookie_action_settings";
       this.decline_text_color = "#ffffff";
@@ -8261,7 +11031,7 @@ var app = new Vue({
       this.decline_style = "none";
       this.decline_border_color = "#333333";
       this.decline_border_radius = "0";
-      this.settings_text = "Cookie Settings";
+      this.settings_text = "Preferences";
       this.settings_text_color = "#ffffff";
       this.settings_background_color = "#333333";
       this.settings_as_button = true;
@@ -8274,7 +11044,7 @@ var app = new Vue({
       this.settings_border_radius = "0";
       this.opt_out_text = "Do Not Sell My Personal Information";
       this.opt_out_text_color = "#359bf5";
-      this.confirm_text = "Confirm";
+      this.confirm_text = "Save My Preferences";
       this.confirm_background_color = "#18a300";
       this.confirm_text_color = "#ffffff";
       this.confirm_opacity = "1";
@@ -8328,14 +11098,20 @@ var app = new Vue({
       this.on_hide = true;
       this.on_load = false;
       this.gdpr_message =
-        "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
+        "We use cookies to optimize your experience, analyze traffic, and personalize ads. Please choose whether you accept our use of non-essential cookies.";
+      this.uk_gdpr_message = "We use cookies to improve our site, analyze performance, and serve personalized marketing. Please select your cookie preferences.",
+      this.pdpl_message = "We utilize cookies to analyze traffic and customize your experience in compliance with KSA PDPL. Please provide your consent for non-essential tracking.",
+      this.pipeda_message = "We use cookies to analyze performance and power our site. For details on how we protect your privacy or to adjust your choices, view our Cookie Policy.",
+      this.app_message = "We collect data via tracking technologies to optimize our site and deliver marketing. To review your options or opt-out of sharing, view our Privacy Policy.",
       this.lgpd_message =
-        "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.";
+        "This website uses cookies to provide a better browsing experience. You can select your cookie preferences or accept all tracking categories below.";
       this.eprivacy_message =
         "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
       this.ccpa_message =
-        "In case of sale of your personal information, you may opt out by using the link";
-      this.ccpa_optout_message = "Do you really wish to opt-out?";
+        "We use tracking tools to provide targeted advertising. Under state law, you have the right to opt-out of the sharing or sale of your personal information.";
+      this.default_opt_out_message = "We use cookies and similar technologies for targeted advertising. You have the right to opt-out of the sale or processing of your personal data.";
+      this.pure_opt_out_message = "We collect personal data via tracking technologies for analytics and marketing. To exercise your right to opt-out of this processing, choose below.";
+      this.ccpa_optout_message = 'We use third-party cookies that help us analyse how you use this website, store your preferences, and provide the content and advertisements that are relevant to you. However, you can opt out of these cookies by checking "Do Not Sell or Share My Personal Information" and clicking the "Save My Preferences" button. Once you opt out, you can opt in again at any time by unchecking "Do Not Sell or Share My Personal Information" and clicking the "Save My Preferences" button.';
       this.cookie_position = "bottom";
       this.cookie_widget_position = "left";
       this.cookie_widget_position1 = "left";
@@ -8361,9 +11137,6 @@ var app = new Vue({
       this.gdpr_css_text = "";
       this.gdpr_css_text_free = "/*Your CSS here*/";
       this.do_not_track_on = false;
-      this.data_reqs_on = true;
-      this.data_req_email_address = "";
-      this.data_req_subject = "We have received your request";
       // Script Dependency
       this.is_script_dependency_on = false;
       this.header_dependency = '';
@@ -8551,6 +11324,7 @@ var app = new Vue({
           type: "POST",
           url: settings_obj.ajaxurl,
           data: dataV + "&action=gcc_save_wizard_settings",
+          _wpnonce: settings_obj.nonce,
         })
         .done(function (data) {
           that.success_error_message = "Settings Saved";
@@ -8603,5688 +11377,3 @@ var app = new Vue({
   },
   icons: { cilPencil, cilSettings, cilInfo, cibGoogleKeep },
 });
-
-var adv = new Vue({
-  el: "#gdpr-cookie-consent-advanced-settings",
-  data() {
-    return {
-      labelIcon: {},
-      labelIconNew: {
-        labelOn: "\u2713",
-        labelOff: "\uD83D\uDD12",
-      },
-
-      isGdprProActive: "1" === settings_obj.is_pro_active,
-      disableSwitch: false,
-      is_template_changed: false,
-      is_auto_template_generated: false,
-      processof_auto_template_generated: false,
-      is_lang_changed: false,
-      is_iabtcf_changed: false,
-      is_logo_removed: false,
-      is_logo_removed1: false,
-      is_logo_removed2: false,
-      is_logo_removedML1: false,
-      is_logo_added: false,
-      save_loading: false,
-      edit_discovered_cookie: {},
-      edit_discovered_cookie_on: false,
-      cookie_scanner_data: '',
-      ab_testing_data: '',
-      gcm_adver_mode_data: '',
-      gcm_scan_flag: false,
-      json_templates: settings_obj.templates,
-      default_template_json: settings_obj.default_template_json,
-      pollingInterval: '',
-      appendField: ".gdpr-cookie-consent-settings-container",
-      configure_image_url: require("../admin/images/configure-icon.png"),
-      progress_bar: require("../admin/images/progress_bar.svg"),
-      edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
-      close_round_img: require("../admin/images/Close_round.svg"),
-      account_connection: require("../admin/images/account_connection.svg"),
-      pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
-      closeOnBackdrop: true,
-      centered: true,
-      edit_region: false,
-      add_region: false,
-      accept_button_popup: false,
-      button_readmore_popup: false,
-      button_readmore_popup1: false,
-      button_readmore_popup2: false,
-      revoke_consent_popup: false,
-      revoke_consent_popup1: false,
-      revoke_consent_popup2: false,
-      accept_all_button_popup: false,
-      decline_button_popup: false,
-      show_script_blocker: false,
-      settings_button_popup: false,
-      confirm_button_popup: false,
-      cancel_button_popup: false,
-      opt_out_link_popup: false,
-      accept_button_popup1: false,
-      accept_all_button_popup1: false,
-      decline_button_popup1: false,
-      settings_button_popup1: false,
-      confirm_button_popup1: false,
-      cancel_button_popup1: false,
-      opt_out_link_popup1: false,
-      accept_button_popup2: false,
-      accept_all_button_popup2: false,
-      decline_button_popup2: false,
-      settings_button_popup2: false,
-      confirm_button_popup2: false,
-      cancel_button_popup2: false,
-      opt_out_link_popup2: false,
-      show_more_cookie_design_popup: false,
-      show_more_cookie_design_popup: false,
-      schedule_scan_show: false,
-      show_custom_cookie_popup: false,
-      scan_in_progress: false,
-
-      gcm_scan_result: settings_obj.ab_options.hasOwnProperty("wpl_gcm_latest_scan_result")
-        ? settings_obj.ab_options["wpl_gcm_latest_scan_result"]
-        : "",
-      consent_version: settings_obj.the_options.hasOwnProperty(
-        "consent_version"
-      )
-        ? this.stripSlashes(settings_obj.the_options["consent_version"])
-        : 1,
-      scripts_list_total: settings_obj.script_blocker_settings.hasOwnProperty(
-        "scripts_list"
-      )
-        ? settings_obj.script_blocker_settings.scripts_list["total"]
-        : 0,
-      scripts_list_data: settings_obj.script_blocker_settings.hasOwnProperty(
-        "scripts_list"
-      )
-        ? settings_obj.script_blocker_settings.scripts_list["data"]
-        : [],
-      category_list_options:
-        settings_obj.script_blocker_settings.hasOwnProperty("category_list")
-          ? settings_obj.script_blocker_settings["category_list"]
-          : [],
-
-      cookie_is_on:
-        settings_obj.the_options.hasOwnProperty("is_on") &&
-        (true === settings_obj.the_options["is_on"] ||
-          1 === settings_obj.the_options["is_on"])
-          ? true
-          : false,
-      iabtcf_is_on:
-        settings_obj.the_options.hasOwnProperty("is_iabtcf_on") &&
-        (true === settings_obj.the_options["is_iabtcf_on"] ||
-          1 === settings_obj.the_options["is_iabtcf_on"])
-          ? true
-          : false,
-      gacm_is_on:
-        settings_obj.the_options.hasOwnProperty("is_gacm_on") &&
-        (true === settings_obj.the_options["is_gacm_on"] ||
-          1 === settings_obj.the_options["is_gacm_on"] ||
-          "true" === settings_obj.the_options["is_gacm_on"]||
-          "1" === settings_obj.the_options["is_gacm_on"])
-          ? true
-          : false,
-      gacm_key: settings_obj.ab_options.hasOwnProperty("gacm_key")
-        ? settings_obj.ab_options["gacm_key"]
-        : "",
-      iabtcf_msg: `We and our <a id = "vendor-link" href = "#" data-toggle = "gdprmodal" data-target = "#gdpr-gdprmodal">836 partners</a> use cookies and other tracking technologies to improve your experience on our website. We may store and/or access information on a device and process personal data, such as your IP address and browsing data, for personalised advertising and content, advertising and content measurement, audience research and services development. Additionally, we may utilize precise geolocation data and identification through device scanning.\n\nPlease note that your consent will be valid across all our subdomains. You can change or withdraw your consent at any time by clicking the “Cookie Settings” button at the bottom of your screen. We respect your choices and are committed to providing you with a transparent and secure browsing experience.`,
-      gcm_is_on: settings_obj.the_options.hasOwnProperty("is_gcm_on") && 
-        (true === settings_obj.the_options["is_gcm_on"] || 
-          "true" === settings_obj.the_options["is_gcm_on"] ||
-          1 === settings_obj.the_options["is_gcm_on"]||
-          "1" === settings_obj.the_options["is_gcm_on"])
-          ? true
-          : false,
-      gcm_wait_for_update_duration: settings_obj.the_options.hasOwnProperty(
-        "gcm_wait_for_update_duration"
-      )
-        ? settings_obj.the_options["gcm_wait_for_update_duration"]
-        : "500",
-      gcm_url_passthrough: settings_obj.the_options.hasOwnProperty("is_gcm_url_passthrough") && 
-        (true === settings_obj.the_options["is_gcm_url_passthrough"] ||
-          "true" === settings_obj.the_options["is_gcm_url_passthrough"] ||
-          1 === settings_obj.the_options["is_gcm_url_passthrough"] ||
-          "1" === settings_obj.the_options["is_gcm_url_passthrough"])
-          ? true
-          : false,
-      gcm_ads_redact: settings_obj.the_options.hasOwnProperty("is_gcm_ads_redact") && 
-        (true === settings_obj.the_options["is_gcm_ads_redact"] ||
-          "true" === settings_obj.the_options["is_gcm_ads_redact"] ||
-          1 === settings_obj.the_options["is_gcm_ads_redact"] ||
-          "1" === settings_obj.the_options["is_gcm_ads_redact"])
-          ? true
-          : false,
-      gcm_debug_mode: settings_obj.the_options.hasOwnProperty("is_gcm_debug_mode") && 
-        (true === settings_obj.the_options["is_gcm_debug_mode"] ||
-          "true" === settings_obj.the_options["is_gcm_debug_mode"] ||
-          1 === settings_obj.the_options["is_gcm_debug_mode"] ||
-          "1" === settings_obj.the_options["is_gcm_debug_mode"])
-          ? true
-          : false,
-      gcm_advertiser_mode: settings_obj.the_options.hasOwnProperty("is_gcm_advertiser_mode") && 
-        (true === settings_obj.the_options["is_gcm_advertiser_mode"] ||
-          "true" === settings_obj.the_options["is_gcm_advertiser_mode"] ||
-          1 === settings_obj.the_options["is_gcm_advertiser_mode"] ||
-          "1" === settings_obj.the_options["is_gcm_advertiser_mode"])
-          ? true
-          : false,
-      regions: settings_obj.the_options.hasOwnProperty('gcm_defaults') ? JSON.parse(settings_obj.the_options["gcm_defaults"]) : [
-        {
-          region: 'All',
-          ad_storage: 'denied',
-          analytics_storage: 'denied',
-          ad_user_data: 'denied',
-          ad_personalization: 'denied',
-          functionality_storage: 'granted',
-          personalization_storage: 'denied',
-          security_storage: 'granted'
-        },
-      ],
-      newRegion: {
-        region: 'All',
-        ad_storage: false,
-        analytics_storage: false,
-        ad_user_data: false,
-        ad_personalization: false,
-        functionality_storage: true,
-        personalization_storage: false,
-        security_storage: true
-      },
-      dynamic_lang_is_on:
-        settings_obj.the_options.hasOwnProperty("is_dynamic_lang_on") &&
-        (true === settings_obj.the_options["is_dynamic_lang_on"] ||
-          1 === settings_obj.the_options["is_dynamic_lang_on"] ||
-          "true" === settings_obj.the_options["is_dynamic_lang_on"] ||
-          "1" === settings_obj.the_options["is_dynamic_lang_on"] )
-          ? true
-          : false,
-      banner_preview_is_on:
-        "true" == settings_obj.the_options["banner_preview_enable"] ||
-        1 === settings_obj.the_options["banner_preview_enable"]
-          ? true
-          : false,
-      policy_options: settings_obj.policies,
-      gdpr_policy: settings_obj.the_options.hasOwnProperty("cookie_usage_for")
-        ? settings_obj.the_options["cookie_usage_for"]
-        : "gdpr",
-      is_gdpr:
-        this.gdpr_policy === "gdpr" || this.gdpr_policy === "both"
-          ? true
-          : false,
-      is_ccpa:
-        this.gdpr_policy === "ccpa" || this.gdpr_policy === "both"
-          ? true
-          : false,
-      is_lgpd: this.gdpr_policy === "lgpd" ? true : false,
-      is_eprivacy: this.gdpr_policy === "eprivacy" ? true : false,
-      eprivacy_message: settings_obj.the_options.hasOwnProperty(
-        "notify_message_eprivacy"
-      )
-        ? this.stripSlashes(settings_obj.the_options["notify_message_eprivacy"])
-        : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
-      gdpr_message_heading: settings_obj.the_options.hasOwnProperty(
-        "bar_heading_text"
-      )
-        ? this.stripSlashes(settings_obj.the_options["bar_heading_text"])
-        : "",
-      lgpd_message_heading: settings_obj.the_options.hasOwnProperty(
-        "bar_heading_lgpd_text"
-      )
-        ? this.stripSlashes(settings_obj.the_options["bar_heading_lgpd_text"])
-        : "",
-      gdpr_message: settings_obj.the_options.hasOwnProperty("notify_message")
-        ? this.stripSlashes(settings_obj.the_options["notify_message"])
-        : "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.",
-      lgpd_message: settings_obj.the_options.hasOwnProperty(
-        "notify_message_lgpd"
-      )
-        ? this.stripSlashes(settings_obj.the_options["notify_message_lgpd"])
-        : "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.",
-      gdpr_about_cookie_message: settings_obj.the_options.hasOwnProperty(
-        "about_message"
-      )
-        ? this.stripSlashes(settings_obj.the_options["about_message"])
-        : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
-      lgpd_about_cookie_message: settings_obj.the_options.hasOwnProperty(
-        "about_message_lgpd"
-      )
-        ? this.stripSlashes(settings_obj.the_options["about_message_lgpd"])
-        : "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.",
-      ccpa_message: settings_obj.the_options.hasOwnProperty(
-        "notify_message_ccpa"
-      )
-        ? this.stripSlashes(settings_obj.the_options["notify_message_ccpa"])
-        : "In case of sale of your personal information, you may opt out by using the link",
-      ccpa_optout_message: settings_obj.the_options.hasOwnProperty(
-        "optout_text"
-      )
-        ? this.stripSlashes(settings_obj.the_options["optout_text"])
-        : "Do you really wish to opt-out?",
-      show_visitor_conditions:
-        this.is_ccpa || (this.is_gdpr && "1" === settings_obj.is_pro_active)
-          ? true
-          : false,
-      selectedRadioIab:
-        settings_obj.the_options.hasOwnProperty("is_ccpa_iab_on") &&
-        (true === settings_obj.the_options["is_ccpa_iab_on"] ||
-          1 === settings_obj.the_options["is_ccpa_iab_on"])
-          ? "yes"
-          : "no",
-      is_iab_on:
-        settings_obj.the_options.hasOwnProperty("is_ccpa_iab_on") &&
-        (true === settings_obj.the_options["is_ccpa_iab_on"] ||
-          1 === settings_obj.the_options["is_ccpa_iab_on"])
-          ? true
-          : false,
-      is_eu_on:
-        settings_obj.the_options.hasOwnProperty("is_eu_on") &&
-        (true === settings_obj.the_options["is_eu_on"] ||
-          1 === settings_obj.the_options["is_eu_on"])
-          ? true
-          : false,
-      is_ccpa_on:
-        settings_obj.the_options.hasOwnProperty("is_ccpa_on") &&
-        (true === settings_obj.the_options["is_ccpa_on"] ||
-          1 === settings_obj.the_options["is_ccpa_on"])
-          ? true
-          : false,
-      is_revoke_consent_on:
-        settings_obj.the_options.hasOwnProperty("show_again") &&
-        (true === settings_obj.the_options["show_again"] ||
-          1 === settings_obj.the_options["show_again"])
-          ? true
-          : false,
-      is_revoke_consent_on1:
-      settings_obj.the_options.hasOwnProperty("show_again1") &&
-      (true === settings_obj.the_options["show_again1"] ||
-        1 === settings_obj.the_options["show_again1"])
-        ? true
-        : false,
-      is_revoke_consent_on2:
-      settings_obj.the_options.hasOwnProperty("show_again2") &&
-      (true === settings_obj.the_options["show_again2"] ||
-        1 === settings_obj.the_options["show_again2"])
-        ? true
-        : false,
-      tab_position_options: settings_obj.tab_position_options,
-      tab_position: settings_obj.the_options.hasOwnProperty(
-        "show_again_position"
-      )
-        ? settings_obj.the_options["show_again_position"]
-        : "right",
-      tab_position1: settings_obj.the_options.hasOwnProperty(
-        "show_again_position1"
-      )
-        ? settings_obj.the_options["show_again_position1"]
-        : "right",
-      tab_position2: settings_obj.the_options.hasOwnProperty(
-        "show_again_position2"
-      )
-        ? settings_obj.the_options["show_again_position2"]
-        : "right",
-      tab_margin: settings_obj.the_options.hasOwnProperty("show_again_margin")
-        ? settings_obj.the_options["show_again_margin"]
-        : "5",
-      tab_margin1: settings_obj.the_options.hasOwnProperty("show_again_margin1")
-        ? settings_obj.the_options["show_again_margin1"]
-        : "5",
-      tab_margin2: settings_obj.the_options.hasOwnProperty("show_again_margin2")
-        ? settings_obj.the_options["show_again_margin2"]
-        : "5",
-      tab_text: settings_obj.the_options.hasOwnProperty("show_again_text")
-        ? settings_obj.the_options["show_again_text"]
-        : "Cookie Settings",
-      tab_text1: settings_obj.the_options.hasOwnProperty("show_again_text1")
-        ? settings_obj.the_options["show_again_text1"]
-        : "Cookie Settings",
-      tab_text2: settings_obj.the_options.hasOwnProperty("show_again_text2")
-        ? settings_obj.the_options["show_again_text2"]
-        : "Cookie Settings",
-      show_revoke_card: this.is_gdpr || this.is_eprivacy,
-      autotick:
-        settings_obj.the_options.hasOwnProperty("is_ticked") &&
-        (true === settings_obj.the_options["is_ticked"] ||
-          1 === settings_obj.the_options["is_ticked"])
-          ? true
-          : false,
-      auto_hide:
-        settings_obj.the_options.hasOwnProperty("auto_hide") &&
-        (true === settings_obj.the_options["auto_hide"] ||
-          1 === settings_obj.the_options["auto_hide"])
-          ? true
-          : false,
-      auto_hide_delay: settings_obj.the_options.hasOwnProperty(
-        "auto_hide_delay"
-      )
-        ? settings_obj.the_options["auto_hide_delay"]
-        : "10000",
-      auto_banner_initialize:
-        settings_obj.the_options.hasOwnProperty("auto_banner_initialize") &&
-        (true === settings_obj.the_options["auto_banner_initialize"] ||
-          1 === settings_obj.the_options["auto_banner_initialize"])
-          ? true
-          : false,
-      auto_generated_banner:
-        settings_obj.the_options.hasOwnProperty("auto_generated_banner") &&
-        (true === settings_obj.the_options["auto_generated_banner"] ||
-          1 === settings_obj.the_options["auto_generated_banner"])
-          ? true
-          : false,
-      auto_banner_initialize_delay: settings_obj.the_options.hasOwnProperty(
-        "auto_banner_initialize_delay"
-      )
-        ? settings_obj.the_options["auto_banner_initialize_delay"]
-        : "10000",
-      auto_scroll:
-        settings_obj.the_options.hasOwnProperty("auto_scroll") &&
-        (true === settings_obj.the_options["auto_scroll"] ||
-          1 === settings_obj.the_options["auto_scroll"])
-          ? true
-          : false,
-      auto_click:
-        settings_obj.the_options.hasOwnProperty("auto_click") &&
-        (true === settings_obj.the_options["auto_click"] ||
-          1 === settings_obj.the_options["auto_click"])
-          ? true
-          : false,
-      auto_scroll_offset: settings_obj.the_options.hasOwnProperty(
-        "auto_scroll_offset"
-      )
-        ? settings_obj.the_options["auto_scroll_offset"]
-        : "10",
-      auto_scroll_reload:
-        settings_obj.the_options.hasOwnProperty("auto_scroll_reload") &&
-        (true === settings_obj.the_options["auto_scroll_reload"] ||
-          1 === settings_obj.the_options["auto_scroll_reload"])
-          ? true
-          : false,
-      accept_reload:
-        settings_obj.the_options.hasOwnProperty("accept_reload") &&
-        (true === settings_obj.the_options["accept_reload"] ||
-          1 === settings_obj.the_options["accept_reload"])
-          ? true
-          : false,
-      decline_reload:
-        settings_obj.the_options.hasOwnProperty("decline_reload") &&
-        (true === settings_obj.the_options["decline_reload"] ||
-          1 === settings_obj.the_options["decline_reload"])
-          ? true
-          : false,
-      delete_on_deactivation:
-        settings_obj.the_options.hasOwnProperty("delete_on_deactivation") &&
-        (true === settings_obj.the_options["delete_on_deactivation"] ||
-          1 === settings_obj.the_options["delete_on_deactivation"])
-          ? true
-          : false,
-      show_credits:
-        settings_obj.the_options.hasOwnProperty("show_credits") &&
-        (true === settings_obj.the_options["show_credits"] ||
-          1 === settings_obj.the_options["show_credits"])
-          ? true
-          : false,
-      cookie_expiry_options: settings_obj.cookie_expiry_options,
-      cookie_expiry: settings_obj.the_options.hasOwnProperty("cookie_expiry")
-        ? settings_obj.the_options["cookie_expiry"]
-        : "365",
-      logging_on:
-        settings_obj.the_options.hasOwnProperty("logging_on") &&
-        (true === settings_obj.the_options["logging_on"] ||
-          1 === settings_obj.the_options["logging_on"])
-          ? true
-          : false,
-      list_of_contents: settings_obj.list_of_contents,
-      restrict_posts: settings_obj.the_options.hasOwnProperty("restrict_posts")
-        ? settings_obj.the_options["restrict_posts"]
-        : [],
-      restrict_array: [],
-      button_readmore_is_on:
-        settings_obj.the_options.hasOwnProperty("button_readmore_is_on") &&
-        (true === settings_obj.the_options["button_readmore_is_on"] ||
-          1 === settings_obj.the_options["button_readmore_is_on"])
-          ? true
-          : false,
-      button_readmore_is_on1:
-        settings_obj.the_options.hasOwnProperty("button_readmore_is_on1") &&
-        (true === settings_obj.the_options["button_readmore_is_on1"] ||
-          1 === settings_obj.the_options["button_readmore_is_on1"])
-          ? true
-          : false,
-      button_readmore_is_on2:
-      settings_obj.the_options.hasOwnProperty("button_readmore_is_on2") &&
-      (true === settings_obj.the_options["button_readmore_is_on2"] ||
-        1 === settings_obj.the_options["button_readmore_is_on2"])
-        ? true
-        : false,
-      button_readmore_text: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_text"
-      )
-        ? settings_obj.the_options["button_readmore_text"]
-        : "Read More",
-      button_readmore_link_color: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_link_color"
-      )
-        ? settings_obj.the_options["button_readmore_link_color"]
-        : "#359bf5",
-      show_as_options: settings_obj.show_as_options,
-      button_readmore_as_button:
-        settings_obj.the_options.hasOwnProperty("button_readmore_as_button") &&
-        (true === settings_obj.the_options["button_readmore_as_button"] ||
-          1 === settings_obj.the_options["button_readmore_as_button"])
-          ? true
-          : false,
-      url_type_options: settings_obj.url_type_options,
-      button_readmore_url_type:
-        settings_obj.the_options.hasOwnProperty("button_readmore_url_type") &&
-        (false === settings_obj.the_options["button_readmore_url_type"] ||
-          0 === settings_obj.the_options["button_readmore_url_type"])
-          ? false
-          : true,
-      privacy_policy_options: settings_obj.privacy_policy_options,
-      button_readmore_page: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_page"
-      )
-        ? settings_obj.the_options["button_readmore_page"]
-        : "0",
-      readmore_page: "",
-      readmore_page1: "",
-      readmore_page2: "",
-      button_readmore_wp_page:
-        settings_obj.the_options.hasOwnProperty("button_readmore_wp_page") &&
-        (true === settings_obj.the_options["button_readmore_wp_page"] ||
-          1 === settings_obj.the_options["button_readmore_wp_page"])
-          ? true
-          : false,
-      button_readmore_new_win:
-        settings_obj.the_options.hasOwnProperty("button_readmore_new_win") &&
-        (true === settings_obj.the_options["button_readmore_new_win"] ||
-          1 === settings_obj.the_options["button_readmore_new_win"])
-          ? true
-          : false,
-      button_readmore_url: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_url"
-      )
-        ? settings_obj.the_options["button_readmore_url"]
-        : "#",
-      button_readmore_button_color: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_button_color"
-      )
-        ? settings_obj.the_options["button_readmore_button_color"]
-        : "#000000",
-      button_readmore_button_opacity: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_button_opacity"
-      )
-        ? settings_obj.the_options["button_readmore_button_opacity"]
-        : "1",
-      button_readmore_button_border_style:
-        settings_obj.the_options.hasOwnProperty(
-          "button_readmore_button_border_style"
-        )
-          ? settings_obj.the_options["button_readmore_button_border_style"]
-          : "none",
-      button_readmore_button_border_width:
-        settings_obj.the_options.hasOwnProperty(
-          "button_readmore_button_border_width"
-        )
-          ? settings_obj.the_options["button_readmore_button_border_width"]
-          : "0",
-      button_readmore_button_border_color:
-        settings_obj.the_options.hasOwnProperty(
-          "button_readmore_button_border_color"
-        )
-          ? settings_obj.the_options["button_readmore_button_border_color"]
-          : "#000000",
-      button_readmore_button_border_radius:
-        settings_obj.the_options.hasOwnProperty(
-          "button_readmore_button_border_radius"
-        )
-          ? settings_obj.the_options["button_readmore_button_border_radius"]
-          : "0",
-      button_readmore_button_size: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_button_size"
-      )
-        ? settings_obj.the_options["button_readmore_button_size"]
-        : "medium",
-      button_size_options: settings_obj.button_size_options,
-      banner_preview: true,
-      show_cookie_as_options: settings_obj.show_cookie_as_options,
-      show_language_as_options: settings_obj.show_language_as_options,
-      schedule_scan_options: settings_obj.schedule_scan_options,
-      schedule_scan_as: settings_obj.the_options.hasOwnProperty(
-        "schedule_scan_type"
-      )
-        ? settings_obj.the_options["schedule_scan_type"]
-        : "never", //schedule scan type
-      schedule_scan_day_options: settings_obj.schedule_scan_day_options,
-      schedule_scan_day: settings_obj.the_options.hasOwnProperty("scan_day")
-        ? settings_obj.the_options["scan_day"]
-        : "Day 1", //scan day
-      schedule_scan_time_value: settings_obj.the_options.hasOwnProperty(
-        "scan_time"
-      )
-        ? settings_obj.the_options["scan_time"]
-        : "8:00 PM", //scan time
-      schedule_scan_date: settings_obj.the_options.hasOwnProperty("scan_date")
-        ? settings_obj.the_options["scan_date"]
-        : new Date(), //scan date
-      next_scan_is_when: settings_obj.the_options.hasOwnProperty(
-        "schedule_scan_when"
-      )
-        ? settings_obj.the_options["schedule_scan_when"]
-        : "Not Scheduled", //next scan when
-      show_language_as: settings_obj.the_options.hasOwnProperty("lang_selected")
-        ? settings_obj.the_options["lang_selected"]
-        : "en",
-      show_cookie_as: settings_obj.the_options.hasOwnProperty("cookie_bar_as")
-        ? settings_obj.the_options["cookie_bar_as"]
-        : "banner",
-      cookie_position_options: settings_obj.position_options,
-      cookie_position: settings_obj.the_options.hasOwnProperty(
-        "notify_position_vertical"
-      )
-        ? settings_obj.the_options["notify_position_vertical"]
-        : "bottom",
-      cookie_widget_position_options: settings_obj.widget_position_options,
-      cookie_widget_position: settings_obj.the_options.hasOwnProperty(
-        "notify_position_horizontal"
-      )
-        ? settings_obj.the_options["notify_position_horizontal"]
-        : "left",
-      cookie_add_overlay:
-        settings_obj.the_options.hasOwnProperty("popup_overlay") &&
-        (true === settings_obj.the_options["popup_overlay"] ||
-          1 === settings_obj.the_options["popup_overlay"])
-          ? true
-          : false,
-      on_hide_options: settings_obj.on_hide_options,
-      on_load_options: settings_obj.on_load_options,
-      cookie_bar_color: settings_obj.the_options.hasOwnProperty("background")
-        ? settings_obj.the_options["background"]
-        : "#ffffff",
-      on_hide:
-        settings_obj.the_options.hasOwnProperty("notify_animate_hide") &&
-        (true === settings_obj.the_options["notify_animate_hide"] ||
-          1 === settings_obj.the_options["notify_animate_hide"])
-          ? true
-          : false,
-      on_load:
-        settings_obj.the_options.hasOwnProperty("notify_animate_show") &&
-        (true === settings_obj.the_options["notify_animate_show"] ||
-          1 === settings_obj.the_options["notify_animate_show"])
-          ? true
-          : false,
-      cookie_text_color: settings_obj.the_options.hasOwnProperty("text")
-        ? settings_obj.the_options["text"]
-        : "#000000",
-      cookie_bar_opacity: settings_obj.the_options.hasOwnProperty("opacity")
-        ? settings_obj.the_options["opacity"]
-        : "0.80",
-      cookie_bar_border_width: settings_obj.the_options.hasOwnProperty(
-        "background_border_width"
-      )
-        ? settings_obj.the_options["background_border_width"]
-        : "0",
-      border_style_options: settings_obj.border_style_options,
-      border_style: settings_obj.the_options.hasOwnProperty(
-        "background_border_style"
-      )
-        ? settings_obj.the_options["background_border_style"]
-        : "none",
-      cookie_border_color: settings_obj.the_options.hasOwnProperty(
-        "background_border_color"
-      )
-        ? settings_obj.the_options["background_border_color"]
-        : "#ffffff",
-      cookie_bar_border_radius: settings_obj.the_options.hasOwnProperty(
-        "background_border_radius"
-      )
-        ? settings_obj.the_options["background_border_radius"]
-        : "0",
-      font_options: settings_obj.font_options,
-      cookie_font: settings_obj.the_options.hasOwnProperty("font_family")
-        ? settings_obj.the_options["font_family"]
-        : "inherit",
-      cookie_accept_on:
-        settings_obj.the_options.hasOwnProperty("button_accept_is_on") &&
-        (true === settings_obj.the_options["button_accept_is_on"] ||
-          1 === settings_obj.the_options["button_accept_is_on"])
-          ? true
-          : false,
-      accept_text: settings_obj.the_options.hasOwnProperty("button_accept_text")
-        ? settings_obj.the_options["button_accept_text"]
-        : "Accept",
-      accept_text_color: settings_obj.the_options.hasOwnProperty(
-        "button_accept_link_color"
-      )
-        ? settings_obj.the_options["button_accept_link_color"]
-        : "#ffffff",
-      accept_action_options: settings_obj.accept_action_options,
-      accept_action: settings_obj.the_options.hasOwnProperty(
-        "button_accept_action"
-      )
-        ? settings_obj.the_options["button_accept_action"]
-        : "#cookie_action_close_header",
-      accept_url: settings_obj.the_options.hasOwnProperty("button_accept_url")
-        ? settings_obj.the_options["button_accept_url"]
-        : "#",
-      is_open_url:
-        this.accept_action === "#cookie_action_close_header" ? false : true,
-      accept_as_button_options: settings_obj.accept_button_as_options,
-      gcm_permission_options: settings_obj.gcm_permission_options,
-      accept_as_button:
-        settings_obj.the_options.hasOwnProperty("button_accept_as_button") &&
-        (true === settings_obj.the_options["button_accept_as_button"] ||
-          1 === settings_obj.the_options["button_accept_as_button"])
-          ? true
-          : false,
-      open_url_options: settings_obj.open_url_options,
-      open_url:
-        settings_obj.the_options.hasOwnProperty("button_accept_new_win") &&
-        (true === settings_obj.the_options["button_accept_new_win"] ||
-          1 === settings_obj.the_options["button_accept_new_win"])
-          ? true
-          : false,
-      accept_background_color: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_color"
-      )
-        ? settings_obj.the_options["button_accept_button_color"]
-        : "#18a300",
-      accept_opacity: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_opacity"
-      )
-        ? settings_obj.the_options["button_accept_button_opacity"]
-        : "1",
-      accept_style: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_border_style"
-      )
-        ? settings_obj.the_options["button_accept_button_border_style"]
-        : "none",
-      accept_border_color: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_border_color"
-      )
-        ? settings_obj.the_options["button_accept_button_border_color"]
-        : "#18a300",
-      accept_border_width: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_border_width"
-      )
-        ? settings_obj.the_options["button_accept_button_border_width"]
-        : "0",
-      accept_border_radius: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_border_radius"
-      )
-        ? settings_obj.the_options["button_accept_button_border_radius"]
-        : "0",
-      cookie_decline_on:
-        settings_obj.the_options.hasOwnProperty("button_decline_is_on") &&
-        (true === settings_obj.the_options["button_decline_is_on"] ||
-          1 === settings_obj.the_options["button_decline_is_on"])
-          ? true
-          : false,
-      decline_text: settings_obj.the_options.hasOwnProperty(
-        "button_decline_text"
-      )
-        ? settings_obj.the_options["button_decline_text"]
-        : "Decline",
-      decline_text_color: settings_obj.the_options.hasOwnProperty(
-        "button_decline_link_color"
-      )
-        ? settings_obj.the_options["button_decline_link_color"]
-        : "#ffffff",
-      decline_as_button:
-        settings_obj.the_options.hasOwnProperty("button_decline_as_button") &&
-        (true === settings_obj.the_options["button_decline_as_button"] ||
-          1 === settings_obj.the_options["button_decline_as_button"])
-          ? true
-          : false,
-      decline_background_color: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_color"
-      )
-        ? settings_obj.the_options["button_decline_button_color"]
-        : "#333333",
-      decline_opacity: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_opacity"
-      )
-        ? settings_obj.the_options["button_decline_button_opacity"]
-        : "1",
-      decline_style: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_border_style"
-      )
-        ? settings_obj.the_options["button_decline_button_border_style"]
-        : "none",
-      decline_border_color: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_border_color"
-      )
-        ? settings_obj.the_options["button_decline_button_border_color"]
-        : "#333333",
-      decline_border_width: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_border_width"
-      )
-        ? settings_obj.the_options["button_decline_button_border_width"]
-        : "0",
-      decline_border_radius: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_border_radius"
-      )
-        ? settings_obj.the_options["button_decline_button_border_radius"]
-        : "0",
-      decline_action: settings_obj.the_options.hasOwnProperty(
-        "button_decline_action"
-      )
-        ? settings_obj.the_options["button_decline_action"]
-        : "#cookie_action_close_header_reject",
-      decline_action_options: settings_obj.decline_action_options,
-      decline_open_url:
-        this.decline_action === "#cookie_action_close_header_reject"
-          ? false
-          : true,
-      decline_url: settings_obj.the_options.hasOwnProperty("button_decline_url")
-        ? settings_obj.the_options["button_decline_url"]
-        : "#",
-      open_decline_url:
-        settings_obj.the_options.hasOwnProperty("button_decline_new_win") &&
-        (true === settings_obj.the_options["button_decline_new_win"] ||
-          1 === settings_obj.the_options["button_decline_new_win"])
-          ? true
-          : false,
-      cookie_settings_on:
-        settings_obj.the_options.hasOwnProperty("button_settings_is_on") &&
-        (true === settings_obj.the_options["button_settings_is_on"] ||
-          1 === settings_obj.the_options["button_settings_is_on"])
-          ? true
-          : false,
-      is_banner: this.show_cookie_as === "banner" ? true : false,
-      
-      settings_text: settings_obj.the_options.hasOwnProperty(
-        "button_settings_text"
-      )
-        ? settings_obj.the_options["button_settings_text"]
-        : "Cookie Settings",
-      settings_text_color: settings_obj.the_options.hasOwnProperty(
-        "button_settings_link_color"
-      )
-        ? settings_obj.the_options["button_settings_link_color"]
-        : "#ffffff",
-      settings_as_button:
-        settings_obj.the_options.hasOwnProperty("button_settings_as_button") &&
-        (true === settings_obj.the_options["button_settings_as_button"] ||
-          1 === settings_obj.the_options["button_settings_as_button"])
-          ? true
-          : false,
-      settings_background_color: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_color"
-      )
-        ? settings_obj.the_options["button_settings_button_color"]
-        : "#333333",
-      settings_opacity: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_opacity"
-      )
-        ? settings_obj.the_options["button_settings_button_opacity"]
-        : "1",
-      settings_style: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_border_style"
-      )
-        ? settings_obj.the_options["button_settings_button_border_style"]
-        : "none",
-      settings_border_color: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_border_color"
-      )
-        ? settings_obj.the_options["button_settings_button_border_color"]
-        : "#333333",
-      settings_border_width: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_border_width"
-      )
-        ? settings_obj.the_options["button_settings_button_border_width"]
-        : "0",
-      settings_border_radius: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_border_radius"
-      )
-        ? settings_obj.the_options["button_settings_button_border_radius"]
-        : "0",
-      cookie_on_frontend:
-        settings_obj.the_options.hasOwnProperty(
-          "button_settings_display_cookies"
-        ) &&
-        (true === settings_obj.the_options["button_settings_display_cookies"] ||
-          1 === settings_obj.the_options["button_settings_display_cookies"])
-          ? true
-          : false,
-      confirm_text: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_text"
-      )
-        ? settings_obj.the_options["button_confirm_text"]
-        : "Confirm",
-      confirm_text_color: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_link_color"
-      )
-        ? settings_obj.the_options["button_confirm_link_color"]
-        : "#ffffff",
-      confirm_background_color: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_color"
-      )
-        ? settings_obj.the_options["button_confirm_button_color"]
-        : "#18a300",
-      confirm_opacity: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_opacity"
-      )
-        ? settings_obj.the_options["button_confirm_button_opacity"]
-        : "1",
-      confirm_style: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_border_style"
-      )
-        ? settings_obj.the_options["button_confirm_button_border_style"]
-        : "none",
-      confirm_border_color: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_border_color"
-      )
-        ? settings_obj.the_options["button_confirm_button_border_color"]
-        : "#18a300",
-      confirm_border_width: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_border_width"
-      )
-        ? settings_obj.the_options["button_confirm_button_border_width"]
-        : "0",
-      confirm_border_radius: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_border_radius"
-      )
-        ? settings_obj.the_options["button_confirm_button_border_radius"]
-        : "0",
-      cancel_text: settings_obj.the_options.hasOwnProperty("button_cancel_text")
-        ? settings_obj.the_options["button_cancel_text"]
-        : "Cancel",
-      cancel_text_color: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_link_color"
-      )
-        ? settings_obj.the_options["button_cancel_link_color"]
-        : "#ffffff",
-      cancel_background_color: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_color"
-      )
-        ? settings_obj.the_options["button_cancel_button_color"]
-        : "#333333",
-      cancel_opacity: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_opacity"
-      )
-        ? settings_obj.the_options["button_cancel_button_opacity"]
-        : "1",
-      cancel_style: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_border_style"
-      )
-        ? settings_obj.the_options["button_cancel_button_border_style"]
-        : "none",
-      cancel_border_color: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_border_color"
-      )
-        ? settings_obj.the_options["button_cancel_button_border_color"]
-        : "#333333",
-      cancel_border_width: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_border_width"
-      )
-        ? settings_obj.the_options["button_cancel_button_border_width"]
-        : "0",
-      cancel_border_radius: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_border_radius"
-      )
-        ? settings_obj.the_options["button_cancel_button_border_radius"]
-        : "0",
-      opt_out_text: settings_obj.the_options.hasOwnProperty(
-        "button_donotsell_text"
-      )
-        ? settings_obj.the_options["button_donotsell_text"]
-        : "Do Not Sell My Personal Information",
-      opt_out_text_color: settings_obj.the_options.hasOwnProperty(
-        "button_donotsell_link_color"
-      )
-        ? settings_obj.the_options["button_donotsell_link_color"]
-        : "#359bf5",
-
-      cookie_bar1_name: settings_obj.the_options.hasOwnProperty(
-        "cookie_bar1_name"
-      )
-        ? settings_obj.the_options["cookie_bar1_name"]
-        : "Test Banner A",
-      default_cookie_bar:
-        settings_obj.the_options.hasOwnProperty("default_cookie_bar") &&
-        (true == settings_obj.the_options["default_cookie_bar"] ||
-          "true" == settings_obj.the_options["default_cookie_bar"] ||
-          1 == settings_obj.the_options["default_cookie_bar"])
-          ? true
-          : false,
-
-      active_test_banner_tab:
-        settings_obj.the_options.hasOwnProperty("default_cookie_bar") &&
-        (true == settings_obj.the_options["default_cookie_bar"] ||
-          "true" == settings_obj.the_options["default_cookie_bar"] ||
-          1 == settings_obj.the_options["default_cookie_bar"])
-          ? 1
-          : 2,
-      // Multiple Legislation Data
-      active_default_multiple_legislation: "gdpr",
-      multiple_legislation_cookie_bar_color1:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_cookie_bar_color1"
-        )
-          ? settings_obj.the_options["multiple_legislation_cookie_bar_color1"]
-          : "#ffffff",
-      multiple_legislation_cookie_bar_color2:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_cookie_bar_color2"
-        )
-          ? settings_obj.the_options["multiple_legislation_cookie_bar_color2"]
-          : "#ffffff",
-      multiple_legislation_cookie_bar_opacity1:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_cookie_bar_opacity1"
-        )
-          ? settings_obj.the_options["multiple_legislation_cookie_bar_opacity1"]
-          : "1",
-      multiple_legislation_cookie_bar_opacity2:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_cookie_bar_opacity2"
-        )
-          ? settings_obj.the_options["multiple_legislation_cookie_bar_opacity2"]
-          : "1",
-      multiple_legislation_cookie_text_color1:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_cookie_text_color1"
-        )
-          ? settings_obj.the_options["multiple_legislation_cookie_text_color1"]
-          : "#000000",
-      multiple_legislation_cookie_text_color2:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_cookie_text_color2"
-        )
-          ? settings_obj.the_options["multiple_legislation_cookie_text_color2"]
-          : "#000000",
-      multiple_legislation_border_style1:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_border_style1"
-        )
-          ? settings_obj.the_options["multiple_legislation_border_style1"]
-          : "none",
-      multiple_legislation_border_style2:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_border_style2"
-        )
-          ? settings_obj.the_options["multiple_legislation_border_style2"]
-          : "none",
-      multiple_legislation_cookie_bar_border_width1:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_cookie_bar_border_width1"
-        )
-          ? settings_obj.the_options[
-              "multiple_legislation_cookie_bar_border_width1"
-            ]
-          : "0",
-      multiple_legislation_cookie_bar_border_width2:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_cookie_bar_border_width2"
-        )
-          ? settings_obj.the_options[
-              "multiple_legislation_cookie_bar_border_width2"
-            ]
-          : "0",
-      multiple_legislation_cookie_border_color1:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_cookie_border_color1"
-        )
-          ? settings_obj.the_options[
-              "multiple_legislation_cookie_border_color1"
-            ]
-          : "#ffffff",
-      multiple_legislation_cookie_border_color2:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_cookie_border_color2"
-        )
-          ? settings_obj.the_options[
-              "multiple_legislation_cookie_border_color2"
-            ]
-          : "#ffffff",
-      multiple_legislation_cookie_bar_border_radius1:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_cookie_bar_border_radius1"
-        )
-          ? settings_obj.the_options[
-              "multiple_legislation_cookie_bar_border_radius1"
-            ]
-          : "0",
-      multiple_legislation_cookie_bar_border_radius2:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_cookie_bar_border_radius2"
-        )
-          ? settings_obj.the_options[
-              "multiple_legislation_cookie_bar_border_radius2"
-            ]
-          : "0",
-      multiple_legislation_cookie_font1:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_cookie_font1"
-        )
-          ? settings_obj.the_options["multiple_legislation_cookie_font1"]
-          : "inherit",
-      multiple_legislation_cookie_font2:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_cookie_font2"
-        )
-          ? settings_obj.the_options["multiple_legislation_cookie_font2"]
-          : "inherit",
-      multiple_legislation_accept_all_border_radius1:
-        settings_obj.the_options.hasOwnProperty(
-          "multiple_legislation_accept_all_border_radius1"
-        )
-          ? settings_obj.the_options[
-              "multiple_legislation_accept_all_border_radius1"
-            ]
-          : "0",
-      cookie_bar_color1: settings_obj.the_options.hasOwnProperty(
-        "cookie_bar_color1"
-      )
-        ? settings_obj.the_options["cookie_bar_color1"]
-        : "#ffffff",
-      cookie_text_color1: settings_obj.the_options.hasOwnProperty(
-        "cookie_text_color1"
-      )
-        ? settings_obj.the_options["cookie_text_color1"]
-        : "#000000",
-      cookie_bar_opacity1: settings_obj.the_options.hasOwnProperty(
-        "cookie_bar_opacity1"
-      )
-        ? settings_obj.the_options["cookie_bar_opacity1"]
-        : "0.80",
-      cookie_bar_border_width1: settings_obj.the_options.hasOwnProperty(
-        "cookie_bar_border_width1"
-      )
-        ? settings_obj.the_options["cookie_bar_border_width1"]
-        : "0",
-      border_style1: settings_obj.the_options.hasOwnProperty("border_style1")
-        ? settings_obj.the_options["border_style1"]
-        : "none",
-      cookie_border_color1: settings_obj.the_options.hasOwnProperty(
-        "cookie_border_color1"
-      )
-        ? settings_obj.the_options["cookie_border_color1"]
-        : "#ffffff",
-      cookie_bar_border_radius1: settings_obj.the_options.hasOwnProperty(
-        "cookie_bar_border_radius1"
-      )
-        ? settings_obj.the_options["cookie_bar_border_radius1"]
-        : "0",
-      cookie_font1: settings_obj.the_options.hasOwnProperty("cookie_font1")
-        ? settings_obj.the_options["cookie_font1"]
-        : "inherit",
-      cookie_accept_on1:
-        settings_obj.the_options.hasOwnProperty("button_accept_is_on1") &&
-        (false === settings_obj.the_options["button_accept_is_on1"] ||
-          0 === settings_obj.the_options["button_accept_is_on1"] ||
-          "false" === settings_obj.the_options["button_accept_is_on1"])
-          ? false
-          : true,
-      accept_text1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_text1"
-      )
-        ? settings_obj.the_options["button_accept_text1"]
-        : "Accept",
-      accept_text_color1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_link_color1"
-      )
-        ? settings_obj.the_options["button_accept_link_color1"]
-        : "#ffffff",
-      accept_action1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_action1"
-      )
-        ? settings_obj.the_options["button_accept_action1"]
-        : "#cookie_action_close_header",
-      accept_url1: settings_obj.the_options.hasOwnProperty("button_accept_url1")
-        ? settings_obj.the_options["button_accept_url1"]
-        : "#",
-      accept_as_button1:
-        settings_obj.the_options.hasOwnProperty("button_accept_as_button1") &&
-        (false === settings_obj.the_options["button_accept_as_button1"] ||
-          0 === settings_obj.the_options["button_accept_as_button1"] ||
-          "false" === settings_obj.the_options["button_accept_as_button1"])
-          ? false
-          : true,
-      open_url1:
-        settings_obj.the_options.hasOwnProperty("button_accept_new_win1") &&
-        (true === settings_obj.the_options["button_accept_new_win1"] ||
-          1 === settings_obj.the_options["button_accept_new_win1"] ||
-          "true" === settings_obj.the_options["button_accept_new_win1"])
-          ? true
-          : false,
-      accept_background_color1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_color1"
-      )
-        ? settings_obj.the_options["button_accept_button_color1"]
-        : "#18a300",
-      accept_opacity1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_opacity1"
-      )
-        ? settings_obj.the_options["button_accept_button_opacity1"]
-        : "1",
-      accept_style1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_border_style1"
-      )
-        ? settings_obj.the_options["button_accept_button_border_style1"]
-        : "none",
-      accept_border_color1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_border_color1"
-      )
-        ? settings_obj.the_options["button_accept_button_border_color1"]
-        : "#18a300",
-      accept_border_width1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_border_width1"
-      )
-        ? settings_obj.the_options["button_accept_button_border_width1"]
-        : "0",
-      accept_border_radius1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_border_radius1"
-      )
-        ? settings_obj.the_options["button_accept_button_border_radius1"]
-        : "0",
-      cookie_accept_all_on1:
-        settings_obj.the_options.hasOwnProperty("button_accept_all_is_on1") &&
-        (true === settings_obj.the_options["button_accept_all_is_on1"] ||
-          1 === settings_obj.the_options["button_accept_all_is_on1"] ||
-          "true" === settings_obj.the_options["button_accept_all_is_on1"])
-          ? true
-          : false,
-      accept_all_text1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_text1"
-      )
-        ? settings_obj.the_options["button_accept_all_text1"]
-        : "Accept All",
-      accept_all_text_color1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_link_color1"
-      )
-        ? settings_obj.the_options["button_accept_all_link_color1"]
-        : "#ffffff",
-      accept_all_as_button1:
-        settings_obj.the_options.hasOwnProperty(
-          "button_accept_all_as_button1"
-        ) &&
-        (false === settings_obj.the_options["button_accept_all_as_button1"] ||
-          0 === settings_obj.the_options["button_accept_all_as_button1"] ||
-          "false" === settings_obj.the_options["button_accept_all_as_button1"])
-          ? false
-          : true,
-      accept_all_action1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_action1"
-      )
-        ? settings_obj.the_options["button_accept_all_action1"]
-        : "#cookie_action_close_header",
-      accept_all_url1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_url1"
-      )
-        ? settings_obj.the_options["button_accept_all_url1"]
-        : "#",
-      accept_all_new_win1:
-        settings_obj.the_options.hasOwnProperty("button_accept_all_new_win1") &&
-        (true === settings_obj.the_options["button_accept_all_new_win1"] ||
-          1 === settings_obj.the_options["button_accept_all_new_win1"] ||
-          "true" === settings_obj.the_options["button_accept_all_new_win1"])
-          ? true
-          : false,
-      accept_all_background_color1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_button_color1"
-      )
-        ? settings_obj.the_options["button_accept_all_button_color1"]
-        : "#18a300",
-      accept_all_style1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_btn_border_style1"
-      )
-        ? settings_obj.the_options["button_accept_all_btn_border_style1"]
-        : "none",
-      accept_all_border_color1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_btn_border_color1"
-      )
-        ? settings_obj.the_options["button_accept_all_btn_border_color1"]
-        : "#18a300",
-      accept_all_opacity1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_btn_opacity1"
-      )
-        ? settings_obj.the_options["button_accept_all_btn_opacity1"]
-        : "1",
-      accept_all_border_width1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_btn_border_width1"
-      )
-        ? settings_obj.the_options["button_accept_all_btn_border_width1"]
-        : "0",
-      accept_all_border_radius1: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_btn_border_radius1"
-      )
-        ? settings_obj.the_options["button_accept_all_btn_border_radius1"]
-        : "0",
-
-      cookie_decline_on1:
-        settings_obj.the_options.hasOwnProperty("button_decline_is_on1") &&
-        (false === settings_obj.the_options["button_decline_is_on1"] ||
-          0 === settings_obj.the_options["button_decline_is_on1"] ||
-          "false" === settings_obj.the_options["button_decline_is_on1"])
-          ? false
-          : true,
-      decline_text1: settings_obj.the_options.hasOwnProperty(
-        "button_decline_text1"
-      )
-        ? settings_obj.the_options["button_decline_text1"]
-        : "Decline",
-      decline_text_color1: settings_obj.the_options.hasOwnProperty(
-        "button_decline_link_color1"
-      )
-        ? settings_obj.the_options["button_decline_link_color1"]
-        : "#ffffff",
-      decline_as_button1:
-        settings_obj.the_options.hasOwnProperty("button_decline_as_button1") &&
-        (false === settings_obj.the_options["button_decline_as_button1"] ||
-          0 === settings_obj.the_options["button_decline_as_button1"] ||
-          "false" === settings_obj.the_options["button_decline_as_button1"])
-          ? false
-          : true,
-      decline_background_color1: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_color1"
-      )
-        ? settings_obj.the_options["button_decline_button_color1"]
-        : "#333333",
-      decline_opacity1: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_opacity1"
-      )
-        ? settings_obj.the_options["button_decline_button_opacity1"]
-        : "1",
-      decline_style1: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_border_style1"
-      )
-        ? settings_obj.the_options["button_decline_button_border_style1"]
-        : "none",
-      decline_border_color1: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_border_color1"
-      )
-        ? settings_obj.the_options["button_decline_button_border_color1"]
-        : "#333333",
-      decline_border_width1: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_border_width1"
-      )
-        ? settings_obj.the_options["button_decline_button_border_width1"]
-        : "0",
-      decline_border_radius1: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_border_radius1"
-      )
-        ? settings_obj.the_options["button_decline_button_border_radius1"]
-        : "0",
-      decline_action1: settings_obj.the_options.hasOwnProperty(
-        "button_decline_action1"
-      )
-        ? settings_obj.the_options["button_decline_action1"]
-        : "#cookie_action_close_header_reject",
-
-      decline_url1: settings_obj.the_options.hasOwnProperty(
-        "button_decline_url1"
-      )
-        ? settings_obj.the_options["button_decline_url1"]
-        : "#",
-      open_decline_url1:
-        settings_obj.the_options.hasOwnProperty("button_decline_new_win1") &&
-        (true === settings_obj.the_options["button_decline_new_win1"] ||
-          1 === settings_obj.the_options["button_decline_new_win1"] ||
-          "true" === settings_obj.the_options["button_decline_new_win1"])
-          ? true
-          : false,
-
-      cookie_settings_on1:
-        settings_obj.the_options.hasOwnProperty("button_settings_is_on1") &&
-        (false === settings_obj.the_options["button_settings_is_on1"] ||
-          0 === settings_obj.the_options["button_settings_is_on1"] ||
-          "false" === settings_obj.the_options["button_settings_is_on1"])
-          ? false
-          : true,
-
-      settings_text1: settings_obj.the_options.hasOwnProperty(
-        "button_settings_text1"
-      )
-        ? settings_obj.the_options["button_settings_text1"]
-        : "Cookie Settings",
-      settings_text_color1: settings_obj.the_options.hasOwnProperty(
-        "button_settings_link_color1"
-      )
-        ? settings_obj.the_options["button_settings_link_color1"]
-        : "#ffffff",
-      settings_as_button1:
-        settings_obj.the_options.hasOwnProperty("button_settings_as_button1") &&
-        (false === settings_obj.the_options["button_settings_as_button1"] ||
-          0 === settings_obj.the_options["button_settings_as_button1"] ||
-          "false" === settings_obj.the_options["button_settings_as_button1"])
-          ? false
-          : true,
-      settings_background_color1: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_color1"
-      )
-        ? settings_obj.the_options["button_settings_button_color1"]
-        : "#333333",
-      settings_opacity1: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_opacity1"
-      )
-        ? settings_obj.the_options["button_settings_button_opacity1"]
-        : "1",
-      settings_style1: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_border_style1"
-      )
-        ? settings_obj.the_options["button_settings_button_border_style1"]
-        : "none",
-      settings_border_color1: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_border_color1"
-      )
-        ? settings_obj.the_options["button_settings_button_border_color1"]
-        : "#333333",
-      settings_border_width1: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_border_width1"
-      )
-        ? settings_obj.the_options["button_settings_button_border_width1"]
-        : "0",
-      settings_border_radius1: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_border_radius1"
-      )
-        ? settings_obj.the_options["button_settings_button_border_radius1"]
-        : "0",
-      cookie_on_frontend1:
-        settings_obj.the_options.hasOwnProperty(
-          "button_settings_display_cookies1"
-        ) &&
-        (true ===
-          settings_obj.the_options["button_settings_display_cookies1"] ||
-          1 === settings_obj.the_options["button_settings_display_cookies1"] ||
-          "true" ===
-            settings_obj.the_options["button_settings_display_cookies1"])
-          ? true
-          : false,
-      confirm_text1: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_text1"
-      )
-        ? settings_obj.the_options["button_confirm_text1"]
-        : "Confirm",
-      confirm_text_color1: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_link_color1"
-      )
-        ? settings_obj.the_options["button_confirm_link_color1"]
-        : "#ffffff",
-      confirm_background_color1: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_color1"
-      )
-        ? settings_obj.the_options["button_confirm_button_color1"]
-        : "#18a300",
-      confirm_opacity1: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_opacity1"
-      )
-        ? settings_obj.the_options["button_confirm_button_opacity1"]
-        : "1",
-      confirm_style1: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_border_style1"
-      )
-        ? settings_obj.the_options["button_confirm_button_border_style1"]
-        : "none",
-      confirm_border_color1: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_border_color1"
-      )
-        ? settings_obj.the_options["button_confirm_button_border_color1"]
-        : "#18a300",
-      confirm_border_width1: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_border_width1"
-      )
-        ? settings_obj.the_options["button_confirm_button_border_width1"]
-        : "0",
-      confirm_border_radius1: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_border_radius1"
-      )
-        ? settings_obj.the_options["button_confirm_button_border_radius1"]
-        : "0",
-      cancel_text1: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_text1"
-      )
-        ? settings_obj.the_options["button_cancel_text1"]
-        : "Cancel",
-      cancel_text_color1: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_link_color1"
-      )
-        ? settings_obj.the_options["button_cancel_link_color1"]
-        : "#ffffff",
-      cancel_background_color1: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_color1"
-      )
-        ? settings_obj.the_options["button_cancel_button_color1"]
-        : "#333333",
-      cancel_opacity1: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_opacity1"
-      )
-        ? settings_obj.the_options["button_cancel_button_opacity1"]
-        : "1",
-      cancel_style1: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_border_style1"
-      )
-        ? settings_obj.the_options["button_cancel_button_border_style1"]
-        : "none",
-      cancel_border_color1: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_border_color1"
-      )
-        ? settings_obj.the_options["button_cancel_button_border_color1"]
-        : "#333333",
-      cancel_border_width1: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_border_width1"
-      )
-        ? settings_obj.the_options["button_cancel_button_border_width1"]
-        : "0",
-      cancel_border_radius1: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_border_radius1"
-      )
-        ? settings_obj.the_options["button_cancel_button_border_radius1"]
-        : "0",
-      opt_out_text1: settings_obj.the_options.hasOwnProperty(
-        "button_donotsell_text1"
-      )
-        ? settings_obj.the_options["button_donotsell_text1"]
-        : "Do Not Sell My Personal Information",
-      opt_out_text_color1: settings_obj.the_options.hasOwnProperty(
-        "button_donotsell_link_color1"
-      )
-        ? settings_obj.the_options["button_donotsell_link_color1"]
-        : "#359bf5",
-      button_readmore_text1: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_text1"
-      )
-        ? settings_obj.the_options["button_readmore_text1"]
-        : "Read More",
-      button_readmore_link_color1: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_link_color1"
-      )
-        ? settings_obj.the_options["button_readmore_link_color1"]
-        : "#359bf5",
-      button_readmore_as_button1:
-        settings_obj.the_options.hasOwnProperty("button_readmore_as_button1") &&
-        (true === settings_obj.the_options["button_readmore_as_button1"] ||
-          1 === settings_obj.the_options["button_readmore_as_button1"])
-          ? true
-          : false,
-      button_readmore_url_type1:
-        settings_obj.the_options.hasOwnProperty("button_readmore_url_type1") &&
-        (false === settings_obj.the_options["button_readmore_url_type1"] ||
-          0 === settings_obj.the_options["button_readmore_url_type1"])
-          ? false
-          : true,
-      button_readmore_page1: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_page1"
-      )
-        ? settings_obj.the_options["button_readmore_page1"]
-        : "0",
-      button_readmore_wp_page1:
-        settings_obj.the_options.hasOwnProperty("button_readmore_wp_page1") &&
-        (true === settings_obj.the_options["button_readmore_wp_page1"] ||
-          1 === settings_obj.the_options["button_readmore_wp_page1"])
-          ? true
-          : false,
-      button_readmore_new_win1:
-        settings_obj.the_options.hasOwnProperty("button_readmore_new_win1") &&
-        (true === settings_obj.the_options["button_readmore_new_win1"] ||
-          1 === settings_obj.the_options["button_readmore_new_win1"])
-          ? true
-          : false,
-      button_readmore_url1: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_url1"
-      )
-        ? settings_obj.the_options["button_readmore_url1"]
-        : "#",
-      button_readmore_button_color1: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_button_color1"
-      )
-        ? settings_obj.the_options["button_readmore_button_color1"]
-        : "#000000",
-      button_readmore_button_opacity1: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_button_opacity1"
-      )
-        ? settings_obj.the_options["button_readmore_button_opacity1"]
-        : "1",
-      button_readmore_button_border_style1:
-        settings_obj.the_options.hasOwnProperty(
-          "button_readmore_button_border_style1"
-        )
-          ? settings_obj.the_options["button_readmore_button_border_style1"]
-          : "none",
-      button_readmore_button_border_width1:
-        settings_obj.the_options.hasOwnProperty(
-          "button_readmore_button_border_width1"
-        )
-          ? settings_obj.the_options["button_readmore_button_border_width1"]
-          : "0",
-      button_readmore_button_border_color1:
-        settings_obj.the_options.hasOwnProperty(
-          "button_readmore_button_border_color1"
-        )
-          ? settings_obj.the_options["button_readmore_button_border_color1"]
-          : "#000000",
-      button_readmore_button_border_radius1:
-        settings_obj.the_options.hasOwnProperty(
-          "button_readmore_button_border_radius1"
-        )
-          ? settings_obj.the_options["button_readmore_button_border_radius1"]
-          : "0",
-      button_readmore_button_size1: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_button_size1"
-      )
-        ? settings_obj.the_options["button_readmore_button_size1"]
-        : "medium",  
-      cookie_bar2_name: settings_obj.the_options.hasOwnProperty(
-        "cookie_bar2_name"
-      )
-        ? settings_obj.the_options["cookie_bar2_name"]
-        : "Test Banner B",
-
-      cookie_bar_color2: settings_obj.the_options.hasOwnProperty(
-        "cookie_bar_color2"
-      )
-        ? settings_obj.the_options["cookie_bar_color2"]
-        : "#ffffff",
-      cookie_text_color2: settings_obj.the_options.hasOwnProperty(
-        "cookie_text_color2"
-      )
-        ? settings_obj.the_options["cookie_text_color2"]
-        : "#000000",
-      cookie_bar_opacity2: settings_obj.the_options.hasOwnProperty(
-        "cookie_bar_opacity2"
-      )
-        ? settings_obj.the_options["cookie_bar_opacity2"]
-        : "0.80",
-      cookie_bar_border_width2: settings_obj.the_options.hasOwnProperty(
-        "cookie_bar_border_width2"
-      )
-        ? settings_obj.the_options["cookie_bar_border_width2"]
-        : "0",
-      border_style2: settings_obj.the_options.hasOwnProperty("border_style2")
-        ? settings_obj.the_options["border_style2"]
-        : "none",
-      cookie_border_color2: settings_obj.the_options.hasOwnProperty(
-        "cookie_border_color2"
-      )
-        ? settings_obj.the_options["cookie_border_color2"]
-        : "#ffffff",
-      cookie_bar_border_radius2: settings_obj.the_options.hasOwnProperty(
-        "cookie_bar_border_radius2"
-      )
-        ? settings_obj.the_options["cookie_bar_border_radius2"]
-        : "0",
-      cookie_font2: settings_obj.the_options.hasOwnProperty("cookie_font2")
-        ? settings_obj.the_options["cookie_font2"]
-        : "inherit",
-      cookie_accept_on2:
-        settings_obj.the_options.hasOwnProperty("button_accept_is_on2") &&
-        (false === settings_obj.the_options["button_accept_is_on2"] ||
-          0 === settings_obj.the_options["button_accept_is_on2"] ||
-          "false" === settings_obj.the_options["button_accept_is_on2"])
-          ? false
-          : true,
-      accept_text2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_text2"
-      )
-        ? settings_obj.the_options["button_accept_text2"]
-        : "Accept",
-      accept_text_color2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_link_color2"
-      )
-        ? settings_obj.the_options["button_accept_link_color2"]
-        : "#ffffff",
-      accept_action2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_action2"
-      )
-        ? settings_obj.the_options["button_accept_action2"]
-        : "#cookie_action_close_header",
-      accept_url2: settings_obj.the_options.hasOwnProperty("button_accept_url2")
-        ? settings_obj.the_options["button_accept_url2"]
-        : "#",
-      accept_as_button2:
-        settings_obj.the_options.hasOwnProperty("button_accept_as_button2") &&
-        (false === settings_obj.the_options["button_accept_as_button2"] ||
-          0 === settings_obj.the_options["button_accept_as_button2"] ||
-          "false" === settings_obj.the_options["button_accept_as_button2"])
-          ? false
-          : true,
-      open_url2:
-        settings_obj.the_options.hasOwnProperty("button_accept_new_win2") &&
-        (true === settings_obj.the_options["button_accept_new_win2"] ||
-          1 === settings_obj.the_options["button_accept_new_win2"] ||
-          "true" === settings_obj.the_options["button_accept_new_win2"])
-          ? true
-          : false,
-      accept_background_color2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_color2"
-      )
-        ? settings_obj.the_options["button_accept_button_color2"]
-        : "#18a300",
-      accept_opacity2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_opacity2"
-      )
-        ? settings_obj.the_options["button_accept_button_opacity2"]
-        : "1",
-      accept_style2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_border_style2"
-      )
-        ? settings_obj.the_options["button_accept_button_border_style2"]
-        : "none",
-      accept_border_color2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_border_color2"
-      )
-        ? settings_obj.the_options["button_accept_button_border_color2"]
-        : "#18a300",
-      accept_border_width2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_border_width2"
-      )
-        ? settings_obj.the_options["button_accept_button_border_width2"]
-        : "0",
-      accept_border_radius2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_button_border_radius2"
-      )
-        ? settings_obj.the_options["button_accept_button_border_radius2"]
-        : "0",
-      cookie_accept_all_on2:
-        settings_obj.the_options.hasOwnProperty("button_accept_all_is_on2") &&
-        (true === settings_obj.the_options["button_accept_all_is_on2"] ||
-          1 === settings_obj.the_options["button_accept_all_is_on2"] ||
-          "true" === settings_obj.the_options["button_accept_all_is_on2"])
-          ? true
-          : false,
-      accept_all_text2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_text2"
-      )
-        ? settings_obj.the_options["button_accept_all_text2"]
-        : "Accept All",
-      accept_all_text_color2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_link_color2"
-      )
-        ? settings_obj.the_options["button_accept_all_link_color2"]
-        : "#ffffff",
-      accept_all_as_button2:
-        settings_obj.the_options.hasOwnProperty(
-          "button_accept_all_as_button2"
-        ) &&
-        (false === settings_obj.the_options["button_accept_all_as_button2"] ||
-          0 === settings_obj.the_options["button_accept_all_as_button2"] ||
-          "false" === settings_obj.the_options["button_accept_all_as_button2"])
-          ? false
-          : true,
-      accept_all_action2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_action2"
-      )
-        ? settings_obj.the_options["button_accept_all_action2"]
-        : "#cookie_action_close_header",
-      accept_all_url2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_url2"
-      )
-        ? settings_obj.the_options["button_accept_all_url2"]
-        : "#",
-      accept_all_new_win2:
-        settings_obj.the_options.hasOwnProperty("button_accept_all_new_win2") &&
-        (true === settings_obj.the_options["button_accept_all_new_win2"] ||
-          1 === settings_obj.the_options["button_accept_all_new_win2"] ||
-          "true" === settings_obj.the_options["button_accept_all_new_win2"])
-          ? true
-          : false,
-      accept_all_background_color2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_button_color2"
-      )
-        ? settings_obj.the_options["button_accept_all_button_color2"]
-        : "#18a300",
-      accept_all_style2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_btn_border_style2"
-      )
-        ? settings_obj.the_options["button_accept_all_btn_border_style2"]
-        : "none",
-      accept_all_border_color2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_btn_border_color2"
-      )
-        ? settings_obj.the_options["button_accept_all_btn_border_color2"]
-        : "#18a300",
-      accept_all_opacity2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_btn_opacity2"
-      )
-        ? settings_obj.the_options["button_accept_all_btn_opacity2"]
-        : "1",
-      accept_all_border_width2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_btn_border_width2"
-      )
-        ? settings_obj.the_options["button_accept_all_btn_border_width2"]
-        : "0",
-      accept_all_border_radius2: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_btn_border_radius2"
-      )
-        ? settings_obj.the_options["button_accept_all_btn_border_radius2"]
-        : "0",
-
-      cookie_decline_on2:
-        settings_obj.the_options.hasOwnProperty("button_decline_is_on2") &&
-        (false === settings_obj.the_options["button_decline_is_on2"] ||
-          0 === settings_obj.the_options["button_decline_is_on2"] ||
-          "false" === settings_obj.the_options["button_decline_is_on2"])
-          ? false
-          : true,
-      decline_text2: settings_obj.the_options.hasOwnProperty(
-        "button_decline_text2"
-      )
-        ? settings_obj.the_options["button_decline_text2"]
-        : "Decline",
-      decline_text_color2: settings_obj.the_options.hasOwnProperty(
-        "button_decline_link_color2"
-      )
-        ? settings_obj.the_options["button_decline_link_color2"]
-        : "#ffffff",
-      decline_as_button2:
-        settings_obj.the_options.hasOwnProperty("button_decline_as_button2") &&
-        (false === settings_obj.the_options["button_decline_as_button2"] ||
-          0 === settings_obj.the_options["button_decline_as_button2"] ||
-          "false" === settings_obj.the_options["button_decline_as_button2"])
-          ? false
-          : true,
-      decline_background_color2: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_color2"
-      )
-        ? settings_obj.the_options["button_decline_button_color2"]
-        : "#333333",
-      decline_opacity2: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_opacity2"
-      )
-        ? settings_obj.the_options["button_decline_button_opacity2"]
-        : "1",
-      decline_style2: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_border_style2"
-      )
-        ? settings_obj.the_options["button_decline_button_border_style2"]
-        : "none",
-      decline_border_color2: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_border_color2"
-      )
-        ? settings_obj.the_options["button_decline_button_border_color2"]
-        : "#333333",
-      decline_border_width2: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_border_width2"
-      )
-        ? settings_obj.the_options["button_decline_button_border_width2"]
-        : "0",
-      decline_border_radius2: settings_obj.the_options.hasOwnProperty(
-        "button_decline_button_border_radius2"
-      )
-        ? settings_obj.the_options["button_decline_button_border_radius2"]
-        : "0",
-      decline_action2: settings_obj.the_options.hasOwnProperty(
-        "button_decline_action2"
-      )
-        ? settings_obj.the_options["button_decline_action2"]
-        : "#cookie_action_close_header_reject",
-
-      decline_url2: settings_obj.the_options.hasOwnProperty(
-        "button_decline_url2"
-      )
-        ? settings_obj.the_options["button_decline_url2"]
-        : "#",
-      open_decline_url2:
-        settings_obj.the_options.hasOwnProperty("button_decline_new_win2") &&
-        (true === settings_obj.the_options["button_decline_new_win2"] ||
-          1 === settings_obj.the_options["button_decline_new_win2"] ||
-          "true" === settings_obj.the_options["button_decline_new_win2"])
-          ? true
-          : false,
-
-      cookie_settings_on2:
-        settings_obj.the_options.hasOwnProperty("button_settings_is_on2") &&
-        (false === settings_obj.the_options["button_settings_is_on2"] ||
-          1 === settings_obj.the_options["button_settings_is_on2"] ||
-          "false" === settings_obj.the_options["button_settings_is_on2"])
-          ? false
-          : true,
-
-      
-      settings_text2: settings_obj.the_options.hasOwnProperty(
-        "button_settings_text2"
-      )
-        ? settings_obj.the_options["button_settings_text2"]
-        : "Cookie Settings",
-      settings_text_color2: settings_obj.the_options.hasOwnProperty(
-        "button_settings_link_color2"
-      )
-        ? settings_obj.the_options["button_settings_link_color2"]
-        : "#ffffff",
-      settings_as_button2:
-        settings_obj.the_options.hasOwnProperty("button_settings_as_button2") &&
-        (false === settings_obj.the_options["button_settings_as_button2"] ||
-          0 === settings_obj.the_options["button_settings_as_button2"] ||
-          "false" === settings_obj.the_options["button_settings_as_button2"])
-          ? false
-          : true,
-      settings_background_color2: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_color2"
-      )
-        ? settings_obj.the_options["button_settings_button_color2"]
-        : "#333333",
-      settings_opacity2: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_opacity2"
-      )
-        ? settings_obj.the_options["button_settings_button_opacity2"]
-        : "1",
-      settings_style2: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_border_style2"
-      )
-        ? settings_obj.the_options["button_settings_button_border_style2"]
-        : "none",
-      settings_border_color2: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_border_color2"
-      )
-        ? settings_obj.the_options["button_settings_button_border_color2"]
-        : "#333333",
-      settings_border_width2: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_border_width2"
-      )
-        ? settings_obj.the_options["button_settings_button_border_width2"]
-        : "0",
-      settings_border_radius2: settings_obj.the_options.hasOwnProperty(
-        "button_settings_button_border_radius2"
-      )
-        ? settings_obj.the_options["button_settings_button_border_radius2"]
-        : "0",
-      cookie_on_frontend2:
-        settings_obj.the_options.hasOwnProperty(
-          "button_settings_display_cookies2"
-        ) &&
-        (true ===
-          settings_obj.the_options["button_settings_display_cookies2"] ||
-          1 === settings_obj.the_options["button_settings_display_cookies2"] ||
-          "true" ===
-            settings_obj.the_options["button_settings_display_cookies2"])
-          ? true
-          : false,
-      confirm_text2: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_text2"
-      )
-        ? settings_obj.the_options["button_confirm_text2"]
-        : "Confirm",
-      confirm_text_color2: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_link_color2"
-      )
-        ? settings_obj.the_options["button_confirm_link_color2"]
-        : "#ffffff",
-      confirm_background_color2: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_color2"
-      )
-        ? settings_obj.the_options["button_confirm_button_color2"]
-        : "#18a300",
-      confirm_opacity2: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_opacity2"
-      )
-        ? settings_obj.the_options["button_confirm_button_opacity2"]
-        : "1",
-      confirm_style2: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_border_style2"
-      )
-        ? settings_obj.the_options["button_confirm_button_border_style2"]
-        : "none",
-      confirm_border_color2: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_border_color2"
-      )
-        ? settings_obj.the_options["button_confirm_button_border_color2"]
-        : "#18a300",
-      confirm_border_width2: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_border_width2"
-      )
-        ? settings_obj.the_options["button_confirm_button_border_width2"]
-        : "0",
-      confirm_border_radius2: settings_obj.the_options.hasOwnProperty(
-        "button_confirm_button_border_radius2"
-      )
-        ? settings_obj.the_options["button_confirm_button_border_radius2"]
-        : "0",
-      cancel_text2: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_text2"
-      )
-        ? settings_obj.the_options["button_cancel_text2"]
-        : "Cancel",
-      cancel_text_color2: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_link_color2"
-      )
-        ? settings_obj.the_options["button_cancel_link_color2"]
-        : "#ffffff",
-      cancel_background_color2: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_color2"
-      )
-        ? settings_obj.the_options["button_cancel_button_color2"]
-        : "#333333",
-      cancel_opacity2: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_opacity2"
-      )
-        ? settings_obj.the_options["button_cancel_button_opacity2"]
-        : "1",
-      cancel_style2: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_border_style2"
-      )
-        ? settings_obj.the_options["button_cancel_button_border_style2"]
-        : "none",
-      cancel_border_color2: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_border_color2"
-      )
-        ? settings_obj.the_options["button_cancel_button_border_color2"]
-        : "#333333",
-      cancel_border_width2: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_border_width2"
-      )
-        ? settings_obj.the_options["button_cancel_button_border_width2"]
-        : "0",
-      cancel_border_radius2: settings_obj.the_options.hasOwnProperty(
-        "button_cancel_button_border_radius2"
-      )
-        ? settings_obj.the_options["button_cancel_button_border_radius2"]
-        : "0",
-      opt_out_text2: settings_obj.the_options.hasOwnProperty(
-        "button_donotsell_text2"
-      )
-        ? settings_obj.the_options["button_donotsell_text2"]
-        : "Do Not Sell My Personal Information",
-      opt_out_text_color2: settings_obj.the_options.hasOwnProperty(
-        "button_donotsell_link_color2"
-      )
-        ? settings_obj.the_options["button_donotsell_link_color2"]
-        : "#359bf5",
-      button_readmore_text2: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_text2"
-      )
-        ? settings_obj.the_options["button_readmore_text2"]
-        : "Read More",
-      button_readmore_link_color2: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_link_color2"
-      )
-        ? settings_obj.the_options["button_readmore_link_color2"]
-        : "#359bf5",
-      button_readmore_as_button2:
-        settings_obj.the_options.hasOwnProperty("button_readmore_as_button2") &&
-        (true === settings_obj.the_options["button_readmore_as_button2"] ||
-          1 === settings_obj.the_options["button_readmore_as_button2"])
-          ? true
-          : false,
-      button_readmore_url_type2:
-        settings_obj.the_options.hasOwnProperty("button_readmore_url_type2") &&
-        (false === settings_obj.the_options["button_readmore_url_type2"] ||
-          0 === settings_obj.the_options["button_readmore_url_type2"])
-          ? false
-          : true,
-      button_readmore_page2: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_page2"
-      )
-        ? settings_obj.the_options["button_readmore_page2"]
-        : "0",
-      button_readmore_wp_page2:
-        settings_obj.the_options.hasOwnProperty("button_readmore_wp_page2") &&
-        (true === settings_obj.the_options["button_readmore_wp_page2"] ||
-          1 === settings_obj.the_options["button_readmore_wp_page2"])
-          ? true
-          : false,
-      button_readmore_new_win2:
-        settings_obj.the_options.hasOwnProperty("button_readmore_new_win2") &&
-        (true === settings_obj.the_options["button_readmore_new_win2"] ||
-          1 === settings_obj.the_options["button_readmore_new_win2"])
-          ? true
-          : false,
-      button_readmore_url2: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_url2"
-      )
-        ? settings_obj.the_options["button_readmore_url2"]
-        : "#",
-      button_readmore_button_color2: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_button_color2"
-      )
-        ? settings_obj.the_options["button_readmore_button_color2"]
-        : "#000000",
-      button_readmore_button_opacity2: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_button_opacity2"
-      )
-        ? settings_obj.the_options["button_readmore_button_opacity2"]
-        : "1",
-      button_readmore_button_border_style2:
-        settings_obj.the_options.hasOwnProperty(
-          "button_readmore_button_border_style2"
-        )
-          ? settings_obj.the_options["button_readmore_button_border_style2"]
-          : "none",
-      button_readmore_button_border_width2:
-        settings_obj.the_options.hasOwnProperty(
-          "button_readmore_button_border_width2"
-        )
-          ? settings_obj.the_options["button_readmore_button_border_width2"]
-          : "0",
-      button_readmore_button_border_color2:
-        settings_obj.the_options.hasOwnProperty(
-          "button_readmore_button_border_color2"
-        )
-          ? settings_obj.the_options["button_readmore_button_border_color2"]
-          : "#000000",
-      button_readmore_button_border_radius2:
-        settings_obj.the_options.hasOwnProperty(
-          "button_readmore_button_border_radius2"
-        )
-          ? settings_obj.the_options["button_readmore_button_border_radius2"]
-          : "0",
-      button_readmore_button_size2: settings_obj.the_options.hasOwnProperty(
-        "button_readmore_button_size2"
-      )
-        ? settings_obj.the_options["button_readmore_button_size2"]
-        : "medium",  
-      is_script_blocker_on:
-        settings_obj.the_options.hasOwnProperty("is_script_blocker_on") &&
-        (true === settings_obj.the_options["is_script_blocker_on"] ||
-          1 === settings_obj.the_options["is_script_blocker_on"])
-          ? true
-          : false,
-      header_scripts: settings_obj.the_options.hasOwnProperty("header_scripts")
-        ? this.stripSlashes(settings_obj.the_options["header_scripts"])
-        : "",
-      body_scripts: settings_obj.the_options.hasOwnProperty("body_scripts")
-        ? this.stripSlashes(settings_obj.the_options["body_scripts"])
-        : "",
-      footer_scripts: settings_obj.the_options.hasOwnProperty("footer_scripts")
-        ? this.stripSlashes(settings_obj.the_options["footer_scripts"])
-        : "",
-      success_error_message: "",
-      custom_cookie_categories:
-        settings_obj.cookie_list_settings.hasOwnProperty(
-          "cookie_list_categories"
-        )
-          ? settings_obj.cookie_list_settings["cookie_list_categories"]
-          : [],
-      custom_cookie_types: settings_obj.cookie_list_settings.hasOwnProperty(
-        "cookie_list_types"
-      )
-        ? settings_obj.cookie_list_settings["cookie_list_types"]
-        : [],
-      custom_cookie_category: 1,
-      custom_cookie_type: "HTTP Cookie",
-      custom_cookie_name: "",
-      custom_cookie_domain: "",
-      custom_cookie_duration: "",
-      custom_cookie_description: "",
-      is_custom_cookie_duration_disabled:
-        this.custom_cookie_type === "HTTP Cookie" ? false : true,
-      custom_cookie_duration_placeholder: "Duration(days/session)",
-      post_cookie_list_length: settings_obj.cookie_list_settings.hasOwnProperty(
-        "post_cookie_list"
-      )
-        ? settings_obj.cookie_list_settings["post_cookie_list"]["total"]
-        : 0,
-      post_cookie_list: settings_obj.cookie_list_settings.hasOwnProperty(
-        "post_cookie_list"
-      )
-        ? settings_obj.cookie_list_settings["post_cookie_list"]["data"]
-        : [],
-      show_custom_form: this.post_cookie_list_length > 0 ? false : true,
-      show_add_custom_button: this.post_cookie_list_length > 0 ? true : false,
-      scan_cookie_list_length: settings_obj.cookie_scan_settings.hasOwnProperty(
-        "scan_cookie_list"
-      )
-        ? settings_obj.cookie_scan_settings["scan_cookie_list"]["total"]
-        : 0,
-      scan_cookie_list: settings_obj.cookie_scan_settings.hasOwnProperty(
-        "scan_cookie_list"
-      )
-        ? settings_obj.cookie_scan_settings["scan_cookie_list"]["data"]
-        : [],
-      scan_cookie_error_message:
-        settings_obj.cookie_scan_settings.hasOwnProperty("error_message")
-          ? settings_obj.cookie_scan_settings["error_message"]
-          : "",
-      scan_cookie_last_scan: settings_obj.cookie_scan_settings.hasOwnProperty(
-        "last_scan"
-      )
-        ? settings_obj.cookie_scan_settings["last_scan"]
-        : [],
-      continue_scan: 1,
-      pollCount: 0,
-      onPrg: 0,
-      selected_template_json : settings_obj.the_options.hasOwnProperty("selected_template_json") 
-        ? JSON.parse(settings_obj.the_options['selected_template_json'])
-        : [],
-      template: settings_obj.the_options.hasOwnProperty("template")
-        ? settings_obj.the_options["template"]
-        : "default",
-      cookie_accept_all_on:
-        settings_obj.the_options.hasOwnProperty("button_accept_all_is_on") &&
-        (true === settings_obj.the_options["button_accept_all_is_on"] ||
-          1 === settings_obj.the_options["button_accept_all_is_on"])
-          ? true
-          : false,
-      accept_all_text: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_text"
-      )
-        ? settings_obj.the_options["button_accept_all_text"]
-        : "Accept All",
-      accept_all_text_color: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_link_color"
-      )
-        ? settings_obj.the_options["button_accept_all_link_color"]
-        : "#ffffff",
-      accept_all_as_button_options: settings_obj.accept_button_as_options,
-      accept_all_as_button:
-        settings_obj.the_options.hasOwnProperty(
-          "button_accept_all_as_button"
-        ) &&
-        (true === settings_obj.the_options["button_accept_all_as_button"] ||
-          1 === settings_obj.the_options["button_accept_all_as_button"])
-          ? true
-          : false,
-      accept_all_action: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_action"
-      )
-        ? settings_obj.the_options["button_accept_all_action"]
-        : "#cookie_action_close_header",
-      accept_all_url: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_url"
-      )
-        ? settings_obj.the_options["button_accept_all_url"]
-        : "#",
-      accept_all_open_url:
-        this.accept_all_action === "#cookie_action_close_header" ? false : true,
-      accept_all_new_win:
-        settings_obj.the_options.hasOwnProperty("button_accept_all_new_win") &&
-        (true === settings_obj.the_options["button_accept_all_new_win"] ||
-          1 === settings_obj.the_options["button_accept_all_new_win"])
-          ? true
-          : false,
-      accept_all_background_color: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_button_color"
-      )
-        ? settings_obj.the_options["button_accept_all_button_color"]
-        : "#18a300",
-      accept_all_style: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_btn_border_style"
-      )
-        ? settings_obj.the_options["button_accept_all_btn_border_style"]
-        : "none",
-      accept_all_border_color: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_btn_border_color"
-      )
-        ? settings_obj.the_options["button_accept_all_btn_border_color"]
-        : "#18a300",
-      accept_all_opacity: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_btn_opacity"
-      )
-        ? settings_obj.the_options["button_accept_all_btn_opacity"]
-        : "1",
-      accept_all_border_width: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_btn_border_width"
-      )
-        ? settings_obj.the_options["button_accept_all_btn_border_width"]
-        : "0",
-      accept_all_border_radius: settings_obj.the_options.hasOwnProperty(
-        "button_accept_all_btn_border_radius"
-      )
-        ? settings_obj.the_options["button_accept_all_btn_border_radius"]
-        : "0",
-      //custom css
-      gdpr_css_text: settings_obj.the_options.hasOwnProperty("gdpr_css_text")
-        ? this.decodeCSS(settings_obj.the_options["gdpr_css_text"])
-        : "",
-      gdpr_css_text_free: "/*Your CSS here*/",
-
-      //Do not track
-      do_not_track_on:
-        "true" == settings_obj.the_options["do_not_track_on"] ||
-        true == settings_obj.the_options["do_not_track_on"] ||
-        1 === settings_obj.the_options["do_not_track_on"]
-          ? true
-          : false,
-      //import file selected
-      selectedFile: "",
-      //Consent Log
-      consent_log_switch_clicked: false,
-      // Data Request.
-      data_reqs_on:
-        "true" == settings_obj.the_options["data_reqs_on"] ||
-        1 === settings_obj.the_options["data_reqs_on"] ||
-        "1" == settings_obj.the_options["data_reqs_on"]
-          ? true
-          : false,
-      shortcode_copied: false,
-      data_reqs_switch_clicked: false,
-      data_req_email_address: settings_obj.the_options.hasOwnProperty(
-        "data_req_email_address"
-      )
-        ? settings_obj.the_options["data_req_email_address"]
-        : "",
-      data_req_subject: settings_obj.the_options.hasOwnProperty(
-        "data_req_subject"
-      )
-        ? settings_obj.the_options["data_req_subject"]
-        : "We have received your request",
-      data_req_editor_message: settings_obj.the_options.hasOwnProperty(
-        "data_req_editor_message"
-      )
-        ? this.decodeHTMLString(
-            settings_obj.the_options["data_req_editor_message"]
-          )
-        : "",
-      enable_safe:
-        settings_obj.the_options.hasOwnProperty("enable_safe") &&
-        ("true" === settings_obj.the_options["enable_safe"] ||
-          true === settings_obj.the_options["enable_safe"] ||
-          '1' === settings_obj.the_options["enable_safe"] ||
-          1 === settings_obj.the_options["enable_safe"])
-          ? true
-          : false,
-      usage_data: settings_obj.hasOwnProperty("is_usage_tracking_allowed")
-      ? ("true" === settings_obj["is_usage_tracking_allowed"] )
-      : "false",
-      reload_onSelect_law: false,
-      reload_onSafeMode: false,
-      // hide banner.
-      select_pages: settings_obj.the_options.hasOwnProperty("select_pages")
-        ? settings_obj.the_options["select_pages"]
-        : [],
-      select_pages_array: [],
-      list_of_pages: settings_obj.list_of_pages,
-      
-      //script dependency
-      is_script_dependency_on:
-      settings_obj.the_options.hasOwnProperty("is_script_dependency_on") &&
-      (true === settings_obj.the_options["is_script_dependency_on"] ||
-        1 === settings_obj.the_options["is_script_dependency_on"])
-        ? true
-        : false,
-      header_dependency: settings_obj.the_options.hasOwnProperty("header_dependency")
-        ? settings_obj.the_options["header_dependency"]
-        : '',
-      header_dependency_list: settings_obj.header_dependency_list,
-      header_dependency_map: {
-        'Body Scripts': false,
-        'Footer Scripts': false,
-      },
-      footer_dependency: settings_obj.the_options.hasOwnProperty("footer_dependency")
-        ? settings_obj.the_options["footer_dependency"]
-        : '',
-      footer_dependency_selected: null,
-      footer_dependency_list: settings_obj.footer_dependency_list,
-      footer_dependency_map: {
-        'Header Scripts': false,
-        'Body Scripts': false,
-      },
-      
-      // consent forward .
-      consent_forward:
-        settings_obj.the_options.hasOwnProperty("consent_forward") &&
-        (true === settings_obj.the_options["consent_forward"] ||
-          1 === settings_obj.the_options["consent_forward"])
-          ? true
-          : false,
-      select_sites: settings_obj.the_options.hasOwnProperty("select_sites")
-        ? settings_obj.the_options["select_sites"]
-        : [],
-      select_sites_array: [],
-      list_of_sites: settings_obj.list_of_sites,
-      pluginVersion:
-        typeof GDPR_COOKIE_CONSENT_VERSION !== "undefined"
-          ? GDPR_COOKIE_CONSENT_VERSION
-          : "",
-
-      ab_testing_enabled:
-        settings_obj.ab_options.hasOwnProperty("ab_testing_enabled") &&
-        (true === settings_obj.ab_options["ab_testing_enabled"] ||
-          "true" === settings_obj.ab_options["ab_testing_enabled"])
-          ? true
-          : false,
-      ab_testing_period: settings_obj.ab_options.hasOwnProperty(
-        "ab_testing_period"
-      )
-        ? settings_obj.ab_options["ab_testing_period"]
-        : "30",
-      ab_testing_auto:
-        settings_obj.ab_options.hasOwnProperty("ab_testing_auto") &&
-        (true === settings_obj.ab_options["ab_testing_auto"] ||
-          "true" === settings_obj.ab_options["ab_testing_auto"])
-          ? true
-          : false,
-      enable_geotargeting:
-        settings_obj.geo_options.hasOwnProperty("enable_geotargeting") &&
-        (true === settings_obj.geo_options["enable_geotargeting"] ||
-          "true" === settings_obj.geo_options["enable_geotargeting"])
-          ? true
-          : false,
-      database_file_path: settings_obj.geo_options.hasOwnProperty(
-        "database_file_path"
-      )
-        ? settings_obj.geo_options["database_file_path"]
-        : "",
-      alert_message: "Maxmind Key Integrated",
-      document_link: "https://club.wpeka.com/docs/wp-cookie-consent/",
-      video_link: "https://www.youtube.com/embed/hrfSoFjEpzQ",
-      support_link:
-        "https://club.wpeka.com/my-account/?utm_source=gdpr&utm_medium=plugin&utm_campaign=integrations",
-      // revoke consent text color.
-      button_revoke_consent_text_color: settings_obj.the_options.hasOwnProperty(
-        "button_revoke_consent_text_color"
-      )
-        ? settings_obj.the_options["button_revoke_consent_text_color"]
-        : "",
-      button_revoke_consent_background_color:
-        settings_obj.the_options.hasOwnProperty(
-          "button_revoke_consent_background_color"
-        )
-          ? settings_obj.the_options["button_revoke_consent_background_color"]
-          : "",
-      button_revoke_consent_text_color1: settings_obj.the_options.hasOwnProperty(
-        "button_revoke_consent_text_color1"
-      )
-        ? settings_obj.the_options["button_revoke_consent_text_color1"]
-        : "",
-      button_revoke_consent_background_color1:
-        settings_obj.the_options.hasOwnProperty(
-          "button_revoke_consent_background_color1"
-        )
-          ? settings_obj.the_options["button_revoke_consent_background_color1"]
-          : "",
-      button_revoke_consent_text_color2: settings_obj.the_options.hasOwnProperty(
-        "button_revoke_consent_text_color2"
-      )
-        ? settings_obj.the_options["button_revoke_consent_text_color2"]
-        : "",
-      button_revoke_consent_background_color2:
-        settings_obj.the_options.hasOwnProperty(
-          "button_revoke_consent_background_color2"
-        )
-          ? settings_obj.the_options["button_revoke_consent_background_color2"]
-          : "",
-      is_selectedCountry_on:
-        settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
-        (true === settings_obj.the_options["is_selectedCountry_on"] ||
-          1 === settings_obj.the_options["is_selectedCountry_on"])
-          ? true
-          : false,
-      is_selectedCountry_on_ccpa:
-        settings_obj.the_options.hasOwnProperty("is_selectedCountry_on_ccpa") &&
-        (true === settings_obj.the_options["is_selectedCountry_on_ccpa"] ||
-          1 === settings_obj.the_options["is_selectedCountry_on_ccpa"])
-          ? true
-          : false,
-      is_worldwide_on:
-        settings_obj.the_options.hasOwnProperty("is_worldwide_on") &&
-        (true === settings_obj.the_options["is_worldwide_on"] ||
-          1 === settings_obj.the_options["is_worldwide_on"])
-          ? true
-          : false,
-      is_worldwide_on_ccpa:
-        settings_obj.the_options.hasOwnProperty("is_worldwide_on_ccpa") &&
-        (true === settings_obj.the_options["is_worldwide_on_ccpa"] ||
-          1 === settings_obj.the_options["is_worldwide_on_ccpa"])
-          ? true
-          : false,
-      selectedRadioWorldWide:
-        settings_obj.the_options.hasOwnProperty("is_worldwide_on") &&
-        (true === settings_obj.the_options["is_worldwide_on"] ||
-          1 === settings_obj.the_options["is_worldwide_on"])
-          ? true
-          : false,
-      selectedRadioWorldWideCcpa:
-        settings_obj.the_options.hasOwnProperty("is_worldwide_on_ccpa") &&
-        (true === settings_obj.the_options["is_worldwide_on_ccpa"] ||
-          1 === settings_obj.the_options["is_worldwide_on_ccpa"])
-          ? true
-          : false,
-      list_of_countries: settings_obj.list_of_countries,
-      select_countries: settings_obj.the_options.hasOwnProperty(
-        "select_countries"
-      )
-        ? settings_obj.the_options["select_countries"]
-        : [],
-      select_countries_ccpa: settings_obj.the_options.hasOwnProperty(
-        "select_countries_ccpa"
-      )
-        ? settings_obj.the_options["select_countries_ccpa"]
-        : [],
-      select_countries_array: [],
-      select_countries_array_ccpa: [],
-      show_Select_Country: false,
-      selectedRadioCountry:
-        settings_obj.the_options.hasOwnProperty("is_selectedCountry_on") &&
-        (true === settings_obj.the_options["is_selectedCountry_on"] ||
-          1 === settings_obj.the_options["is_selectedCountry_on"])
-          ? true
-          : false,
-      selectedRadioCountryCcpa:
-        settings_obj.the_options.hasOwnProperty("is_selectedCountry_on_ccpa") &&
-        (true === settings_obj.the_options["is_selectedCountry_on_ccpa"] ||
-          1 === settings_obj.the_options["is_selectedCountry_on_ccpa"])
-          ? true
-          : false,
-      cookie_list_tab: true,
-      cookie_scan_dropdown: false,
-      discovered_cookies_list_tab: false,
-      scan_history_list_tab: false,
-      preview_cookie_declaration: true,
-      preview_about_cookie: false,
-      preview_necessary: true,
-      preview_marketing: false,
-      preview_analysis: false,
-      preview_preference: false,
-      preview_unclassified: false,
-
-      isCategoryActive: true,
-      isFeaturesActive: false,
-      isVendorsActive: false,
-      cookieSettingsPopupAccentColor: ''
-    };
-  },
-  methods: {
-    stripSlashes(value) {
-      return value.replace(/\\(.)/gm, "$1");
-    },
-    decodeCSS(encodedCSS) {
-      const lines = encodedCSS.split("\\r\\n");
-      let decodedCSS = "";
-      let currentIndent = 0;
-
-      for (const line of lines) {
-        const trimmedLine = line.trim();
-
-        if (trimmedLine === "") continue; // Skip empty lines
-
-        if (trimmedLine.startsWith("}") && currentIndent > 0) {
-          currentIndent--;
-        }
-
-        decodedCSS += "  ".repeat(currentIndent) + trimmedLine + "\n";
-
-        if (trimmedLine.endsWith("{")) {
-          currentIndent++;
-        }
-      }
-
-      return decodedCSS;
-    },
-    decodeHTMLString(encodedString) {
-      var doc = new DOMParser().parseFromString(encodedString, "text/html");
-      return doc.documentElement.textContent.replace(/\\/g, "");
-    },
-    setValues() {
-      if (this.gdpr_policy === "both") {
-        this.is_ccpa = true;
-        this.is_gdpr = true;
-        this.is_eprivacy = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = true;
-        this.show_revoke_card = true;
-      } else if (this.gdpr_policy === "ccpa") {
-        this.is_ccpa = true;
-        this.is_eprivacy = false;
-        this.is_gdpr = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = true;
-        this.show_revoke_card = false;
-      } else if (this.gdpr_policy === "gdpr") {
-        this.is_gdpr = true;
-        this.is_ccpa = false;
-        this.is_eprivacy = false;
-        this.is_lgpd = false;
-        this.show_revoke_card = true;
-        this.show_visitor_conditions = true;
-      } else if (this.gdpr_policy === "lgpd") {
-        this.is_gdpr = false;
-        this.is_ccpa = false;
-        this.is_lgpd = true;
-        this.is_eprivacy = false;
-        this.show_revoke_card = true;
-        this.show_visitor_conditions = false;
-      } else {
-        this.is_eprivacy = true;
-        this.is_gdpr = false;
-        this.is_ccpa = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = false;
-        this.show_revoke_card = true;
-      }
-
-      if (this.list_of_sites && this.list_of_sites.length) {
-        // multiple entries for the consent forward .
-        for (let i = 0; i < this.list_of_sites.length; i++) {
-          if (
-            this.select_sites.includes(this.list_of_sites[i].code.toString())
-          ) {
-            this.select_sites_array.push(this.list_of_sites[i]);
-          }
-        }
-      }
-
-      let navLinks = j("#gcc-save-advanced-settings-form .nav-link").map(function () {
-          return this.getAttribute("href");
-      });
-
-      if (this.$refs.active_tab === undefined) this.$refs.active_tab = {};
-
-      for (let i = 0; i < navLinks.length; i++) {
-          let link = navLinks[i]; // e.g. "#advanced_settings#consent"
-
-          // Split the link and URL by '#'
-          let linkParts = link.split('#').filter(Boolean);
-          let urlParts = window.location.hash.split('#').filter(Boolean);
-
-          // Check if the last part matches
-          if (linkParts[linkParts.length - 1] === urlParts[urlParts.length - 1]) {
-              // Remove only the last fragment from the URL
-              urlParts.pop();
-              let newHash = urlParts.length ? '#' + urlParts.join('#') : '';
-              window.history.replaceState(null, '', window.location.pathname + window.location.search + newHash);
-
-              // Set the active tab
-              this.$refs.active_tab.activeTabIndex = i;
-              break;
-          }
-      }
-    },
-    saveAdvancedCookieSettings() {
-      this.save_loading = true;
-      
-      var that = this;
-      var dataV = jQuery("#gcc-save-advanced-settings-form").serialize();
-      jQuery
-        .ajax({
-          type: "POST",
-          url: settings_obj.ajaxurl,
-          data: dataV + "&action=gcc_save_advanced_settings",
-        })
-        .done(function (data) {
-          that.success_error_message = "Settings Saved.";
-          j("#gdpr-cookie-consent-save-settings-alert-adv").css({
-              "background-color": "#72b85c",
-              "z-index": "10000",
-          });
-          j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
-
-          if (that.consent_log_switch_clicked == true) {
-            that.consent_log_switch_clicked = false;
-            location.reload();
-          }
-          if (that.reload_onSafeMode == true) {
-            that.reload_onSafeMode = false;
-            location.reload();
-          }
-          that.save_loading = false;
-        })
-        .fail(function () {
-          that.save_loading = false;
-        });
-    },
-    onSwitchLoggingOn() {
-      this.logging_on = !this.logging_on;
-      this.consent_log_switch_clicked = true;
-    },
-    onSwitchAutotick() {
-      this.autotick = !this.autotick;
-    },
-    onSwitchAutoHide() {
-      this.auto_hide = !this.auto_hide;
-    },
-    onSwitchAutoScroll() {
-      this.auto_scroll = !this.auto_scroll;
-    },
-    onSwitchAutoClick() {
-      this.auto_click = !this.auto_click;
-    },
-    onSwitchAutoScrollReload() {
-      this.auto_scroll_reload = !this.auto_scroll_reload;
-    },
-    onSwitchAcceptReload() {
-      this.accept_reload = !this.accept_reload;
-    },
-    onSwitchDeclineReload() {
-      this.decline_reload = !this.decline_reload;
-    },
-    onSwitchDntEnable() {
-      this.do_not_track_on = !this.do_not_track_on;
-    },
-    onSwitchConsentForward() {
-      this.consent_forward = !this.consent_forward;
-    },
-    onSiteSelect(value) {
-      let tmp_array = [];
-      for (let i = 0; i < value.length; i++) {
-        tmp_array[i] = value[i];
-      }
-      this.select_sites = tmp_array;
-    },
-    onSwitchDeleteOnDeactivation() {
-      this.delete_on_deactivation = !this.delete_on_deactivation;
-    },
-    onSwitchShowCredits() {
-      this.show_credits = !this.show_credits;
-    },
-    onEnablesafeSwitch() {
-      if (this.enable_safe === "true") {
-        this.is_worldwide_on = true;
-        this.is_eu_on = false;
-        this.selectedRadioCountry = false;
-      } else {
-        this.is_worldwide_on = true;
-        this.is_eu_on = false;
-        this.selectedRadioCountry = false;
-      }
-    },
-    onEnablesafeSwitchCCPA() {
-      if (this.enable_safe === "true") {
-        this.is_worldwide_on = true;
-        this.is_ccpa_on = false;
-        this.selectedRadioCountry = false;
-      } else {
-        this.is_worldwide_on = true;
-        this.is_ccpa_on = false;
-        this.selectedRadioCountry = false;
-      }
-    },
-    onSwitchReloadSafeMode() {
-      this.reload_onSafeMode = !this.reload_onSafeMode;
-      this.reload_onSafeMode = true;
-    },
-    onSwitchEnableSafe() {
-      this.onEnablesafeSwitch();
-      this.onEnablesafeSwitchCCPA();
-      this.onSwitchReloadSafeMode();
-      this.enable_safe = !this.enable_safe;
-    },
-    onSwitchEnableUsageData() {
-      this.usage_data = !this.usage_data;
-    },
-    onClickRestoreButton() {
-      let answer = confirm(
-        "Are you sure you want to reset to default settings?"
-      );
-      if (answer) {
-        this.restoreDefaultSettings();
-      }
-    },
-    removeFile() {
-      this.selectedFile = null;
-      document.getElementById("fileInput").value = "";
-      document.getElementById("importButton").disabled = true;
-      document
-        .getElementById("importButton")
-        .classList.add("disable-import-button");
-    },
-    updateFileName(event) {
-      this.selectedFile = event.target.files[0];
-      document.getElementById("importButton").disabled = false;
-      document.getElementById("importButton").classList.remove("disabled");
-      document
-        .getElementById("importButton")
-        .classList.remove("disable-import-button");
-      document.getElementById("importButton").add("#importButton");
-      document
-        .getElementById("importButton")
-        .classList.remove("disable-import-button");
-      document.getElementById("importButton").remove("#importButton");
-    },
-    exportsettings() {
-      const siteAddress = window.location.origin;
-
-      // Make an AJAX request to fetch data from the custom endpoint
-      fetch(siteAddress + "/wp-json/custom/v1/gdpr-data/")
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then(async (data) => { // Make async
-          // Process the fetched data
-          const settingsCopy = { ...data };
-
-          // Check if gdpr_text_css is not empty
-          if (settingsCopy.gdpr_text_css !== "") {
-            const text_css = settingsCopy.gdpr_css_text;
-            const final_css = text_css.replace(/\\r\\n/g, "\n");
-            settingsCopy.gdpr_css_text = final_css;
-          }
-
-            // Prepare logo URLs to fetch and convert to base64
-            const logoUrls = [
-                { key: 'gdpr_cookie_bar_logo', url: data.gdpr_cookie_bar_logo },
-                { key: 'gdpr_cookie_bar_logo1', url: data.gdpr_cookie_bar_logo1 },
-                { key: 'gdpr_cookie_bar_logo2', url: data.gdpr_cookie_bar_logo2 },
-                { key: 'gdpr_cookie_bar_logo_ml', url: data.gdpr_cookie_bar_logo_ml }
-            ];
-
-            // Create an object to store base64 image data
-            const logoImages = {};
-
-            // Fetch and convert each logo to base64
-            for (const logo of logoUrls) {
-                if (logo.url && logo.url.trim() !== '') {
-                    try {
-                        const response = await fetch(logo.url);
-                        const blob = await response.blob();
-                        const base64 = await new Promise((resolve) => {
-                            const reader = new FileReader();
-                            reader.onloadend = () => resolve(reader.result);
-                            reader.readAsDataURL(blob);
-                        });
-                        
-                        // Extract filename from URL
-                        const filename = logo.url.split('/').pop();
-                        
-                        logoImages[logo.key] = {
-                            image: base64,
-                            name: filename
-                        };
-                    } catch (error) {
-                        console.error(`Error fetching logo ${logo.url}:`, error);
-                    }
-                }
-            }
-
-            // Create the export data structure
-            const exportData = {
-                settings: settingsCopy,  // Main settings
-                logo_images: logoImages   // Base64 logo images
-            };
-
-          // Convert the data object to JSON with indentation
-          const settingsJSON = JSON.stringify(exportData, null, 2);
-          // Create a Blob containing the JSON data
-          const blob = new Blob([settingsJSON], { type: "application/json" });
-          // Create a download link for the Blob
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "wpeka-banner-settings.json";
-
-          // Trigger a click on the link to initiate the download
-          a.click();
-
-          // Release the object URL to free up resources
-          URL.revokeObjectURL(url);
-        })
-        .catch((error) => {
-          console.error("There was a problem with the fetch operation:", error);
-        });
-    },
-    importsettings() {
-      var that = this;
-      var fileInput = document.getElementById("fileInput");
-      var file = fileInput.files[0];
-
-      if (file) {
-        var reader = new FileReader();
-        document.getElementById("importButton").disabled = true;
-        document
-          .getElementById("importButton")
-          .classList.add("disable-import-button");
-        reader.onload = function (event) {
-          var jsonData = event.target.result;
-          try {
-            const parsedData = JSON.parse(jsonData);
-            // Extract data from the imported file
-            const settings = parsedData.settings;
-            const logoImages = parsedData.logo_images || {};
-            
-            // Prepare the data object with base64 images
-            var data = {
-              action: "gcc_update_imported_settings",
-              security: settings_obj.import_settings_nonce,
-              settings: JSON.stringify(settings),
-              banner_image: logoImages.gdpr_cookie_bar_logo ? JSON.stringify(logoImages.gdpr_cookie_bar_logo) : '',
-              banner_image1: logoImages.gdpr_cookie_bar_logo1 ? JSON.stringify(logoImages.gdpr_cookie_bar_logo1) : '',
-              banner_image2: logoImages.gdpr_cookie_bar_logo2 ? JSON.stringify(logoImages.gdpr_cookie_bar_logo2) : '',
-              banner_image_ml: logoImages.gdpr_cookie_bar_logo_ml ? JSON.stringify(logoImages.gdpr_cookie_bar_logo_ml) : ''
-            };
-            jQuery.ajax({
-              url: settings_obj.ajaxurl,
-              data: data,
-              dataType: "json",
-              type: "POST",
-              success: function (data) {
-                if (data.success === true) {
-                  setTimeout(function addsettings() {
-                    window.location.reload();
-                  }, 7000);
-
-                  that.success_error_message =
-                    "Your file has been imported successfully. Please click on the Save Changes button to make the changes.";
-                  j("#gdpr-cookie-consent-save-settings-alert-adv").css(
-                    "background-color",
-                    "#72b85c"
-                  );
-                  j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
-                  j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(7000);
-                } else {
-                  that.success_error_message = "Please try again.";
-                  j("#gdpr-cookie-consent-save-settings-alert-adv").css(
-                    "background-color",
-                    "#72b85c"
-                  );
-                  j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
-                  j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
-                }
-              },
-              error: function () {
-                that.success_error_message = "Please try again.";
-                j("#gdpr-cookie-consent-save-settings-alert-adv").css(
-                  "background-color",
-                  "#72b85c"
-                );
-                j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
-                j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
-              },
-            });
-          } catch (e) {
-            console.error("Error parsing JSON data:", e);
-          }
-        };
-
-        reader.readAsText(file);
-      } else {
-        console.error("No file selected");
-      }
-    },
-    restoreDefaultSettings() {
-
-
-      this.ab_testing_enabled = false;
-      this.ab_testing_auto = false;
-      this.ab_testing_period = "30";
-      this.gacm_key = "";
-      this.template = "default";
-      this.accept_text = "Accept";
-      this.accept_url = "#";
-      this.accept_action = "#cookie_action_close_header";
-      this.open_url = false;
-      this.iabtcf_is_on = false;
-      this.gcm_is_on = false;
-      this.gcm_wait_for_update_duration = '500';
-      this.gcm_url_passthrough = false;
-      this.gcm_ads_redact = false;
-      this.gcm_debug_mode = false;
-      this.gcm_advertiser_mode = false;
-      this.dynamic_lang_is_on = false;
-      this.gacm_is_on = false;
-      this.accept_all_button_popup = false;
-      this.accept_all_text = "Accept All";
-      this.accept_all_url = "#";
-      this.accept_all_action = "#cookie_action_close_header";
-      this.accept_all_new_win = false;
-      this.accept_all_as_button = true;
-      this.button_readmore_text = "Read More";
-      this.button_readmore_url = "#";
-      this.button_readmore_new_win = false;
-      this.button_readmore_as_button = false;
-      this.button_readmore_is_on = true;
-      this.button_readmore_url_type = true;
-      this.button_readmore_wp_page = false;
-      this.button_readmore_page = "0";
-      
-      this.button_readmore_text1 = "Read More";
-      this.button_readmore_url1 = "#";
-      this.button_readmore_new_win1 = false;
-      this.button_readmore_as_button1 = false;
-      this.button_readmore_button_size1 = "medium";
-      this.button_readmore_is_on1 = true;
-      this.button_readmore_url_type1 = true;
-      this.button_readmore_wp_page1 = false;
-      this.button_readmore_page1 = "0";
-
-      this.button_readmore_text2 = "Read More";
-      this.button_readmore_url2 = "#";
-      this.button_readmore_new_win2 = false;
-      this.button_readmore_as_button2 = false;
-      this.button_readmore_button_size2 = "medium";
-      this.button_readmore_is_on2 = true;
-      this.button_readmore_url_type2 = true;
-      this.button_readmore_wp_page2 = false;
-      this.button_readmore_page2 = "0";
-
-      this.decline_text = "Decline";
-      this.decline_url = "#";
-      this.decline_action = "#cookie_action_settings";
-      this.open_decline_url = false;
-      this.decline_as_button = true;
-      this.settings_text = "Cookie Settings";
-      this.settings_as_button = true;
-      this.cookie_on_frontend = true;
-      this.opt_out_text = "Do Not Sell My Personal Information";
-      this.confirm_text = "Confirm";
-      this.cancel_text = "Cancel";
-      this.accept_text1 = "Accept";
-      this.accept_url1 = "#";
-      this.accept_action1 = "#cookie_action_close_header";
-      this.open_url1 = false;
-      this.accept_as_button1 = true;
-      this.accept_all_button_popup1 = false;
-      this.accept_all_text1 = "Accept All";
-      this.accept_all_url1 = "#";
-      this.accept_all_action1 = "#cookie_action_close_header";
-      this.accept_all_new_win1 = false;
-      this.accept_all_as_button1 = true;
-      this.decline_text1 = "Decline";
-      this.decline_url1 = "#";
-      this.decline_action1 = "#cookie_action_settings";
-      this.open_decline_url1 = false;
-      this.decline_as_button1 = true;
-      this.settings_text1 = "Cookie Settings";
-      this.settings_as_button1 = true;
-      this.cookie_on_frontend1 = true;
-      this.opt_out_text1 = "Do Not Sell My Personal Information";
-      this.confirm_text1 = "Confirm";
-      this.cancel_text1 = "Cancel";
-      this.accept_text2 = "Accept";
-      this.accept_url2 = "#";
-      this.accept_action2 = "#cookie_action_close_header";
-      this.open_url2 = false;
-      this.accept_as_button2 = true;
-      this.accept_all_button_popup2 = false;
-      this.accept_all_text2 = "Accept All";
-      this.accept_all_url2 = "#";
-      this.accept_all_action2 = "#cookie_action_close_header";
-      this.accept_all_new_win2 = false;
-      this.accept_all_as_button2 = true;
-      this.decline_text2 = "Decline";
-      this.decline_url2 = "#";
-      this.decline_action2 = "#cookie_action_settings";
-      this.open_decline_url2 = false;
-      this.decline_as_button2 = true;
-      this.settings_text2 = "Cookie Settings";
-      this.settings_as_button2 = true;
-      this.cookie_on_frontend2 = true;
-      this.opt_out_text2 = "Do Not Sell My Personal Information";
-      this.confirm_text2 = "Confirm";
-      this.cancel_text2 = "Cancel";
-      this.cookie_is_on = true;
-      this.is_eu_on = false;
-      this.is_ccpa_on = false;
-      this.is_iab_on = false;
-      this.selectedRadioIab = "no";
-      this.logging_on = true;
-      this.show_credits = true;
-      this.autotick = false;
-      this.is_revoke_consent_on = true;
-      this.is_revoke_consent_on1 = true;
-      this.is_revoke_consent_on2 = true;
-      this.is_script_blocker_on = false;
-      this.auto_hide = false;
-      this.auto_banner_initialize = false;
-      this.auto_scroll = false;
-      this.auto_click = false;
-      this.auto_scroll_reload = false;
-      this.accept_reload = false;
-      this.decline_reload = false;
-      this.delete_on_deactivation = false;
-      this.tab_position = "right";
-      this.tab_position1 = "right";
-      this.tab_position2 = "right";
-      this.tab_text = "Cookie Settings";
-      this.tab_text1 = "Cookie Settings";
-      this.tab_text2 = "Cookie Settings";
-      this.tab_margin = "5";
-      this.tab_margin1 = "5";
-      this.tab_margin2 = "5";
-      this.auto_hide_delay = "10000";
-      this.auto_banner_initialize_delay = "10000";
-      this.auto_scroll_offset = "10";
-      this.cookie_expiry = "365";
-      this.on_hide = true;
-      this.on_load = false;
-      this.gdpr_message =
-        "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
-      this.lgpd_message =
-        "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish.";
-      this.eprivacy_message =
-        "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.";
-      this.ccpa_message =
-        "In case of sale of your personal information, you may opt out by using the link";
-      this.ccpa_optout_message = "Do you really wish to opt-out?";
-      this.cookie_position = "bottom";
-      this.cookie_widget_position = "left";
-      this.cookie_text_color = "#000000";
-      this.gdpr_message_heading = "";
-      this.lgpd_message_heading = "";
-      this.show_cookie_as = "banner";
-      this.gdpr_policy = "gdpr";
-      this.cookie_add_overlay = true;
-      this.gdpr_about_cookie_message =
-        "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
-      this.lgpd_about_cookie_message =
-        "Cookies are small text files that can be used by websites to make a user's experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.";
-      this.header_scripts = "";
-      this.body_scripts = "";
-      this.footer_scripts = "";
-      this.restrict_posts = [];
-      // array for hide banner.
-      this.select_pages = [];
-      this.banner_preview_is_on = false;
-      this.show_language_as = "en";
-      this.gdpr_css_text = "";
-      this.gdpr_css_text_free = "/*Your CSS here*/";
-      this.do_not_track_on = false;
-      this.data_reqs_on = true;
-      this.data_req_email_address = "";
-      this.data_req_subject = "We have received your request";
-      // consent forward.
-      this.consent_forward = false;
-      this.select_sites = [];
-      this.selectedRadioCountry = false;
-      this.selectedRadioCountryCcpa = false;
-      this.is_selectedCountry_on = false;
-      this.is_selectedCountry_on_ccpa = false;
-      this.selectedRadioWorldWide = true;
-      this.selectedRadioWorldWideCcpa = true;
-      this.is_worldwide_on = true;
-      this.is_worldwide_on_ccpa = true;
-      this.list_of_countries = [];
-      this.select_countries = [];
-      this.select_countries_ccpa = [];
-      this.select_countries_array = [];
-      this.select_countries_array_ccpa = [];
-      this.show_Select_Country = false;
-      this.cookie_font1 = "inherit";
-      this.cookie_text_color1 = "#000000";
-      this.multiple_legislation_cookie_text_color1 = "#000000";
-      this.cookie_font2 = "inherit";
-      this.cookie_text_color2 = "#000000";
-      this.cookie_list_tab = true;
-      this.cookie_scan_dropdown = false;
-      this.discovered_cookies_list_tab = false;
-      this.scan_history_list_tab = false;
-      // Script dependency
-      this.is_script_dependency_on = false;
-      this.header_dependency = '';
-      this.footer_dependency = '';
-
-
-
-
-      //styles
-      const selectedTemplate = this.default_template_json;
-      this.cookie_bar_color =                       selectedTemplate['styles']['background-color'];
-      this.cookie_bar_opacity =                     selectedTemplate['styles']['opacity'];
-      this.cookie_text_color =                      selectedTemplate['styles']['color'];
-      this.border_style =                           selectedTemplate['styles']['border-style'];
-      this.cookie_bar_border_width =                selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
-      this.cookie_border_color =                    selectedTemplate['styles']['border-color'];
-      this.cookie_bar_border_radius =               selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
-      this.cookie_font =                            selectedTemplate['styles']['font-family'];
-      this.cookie_accept_on =                       selectedTemplate['accept_button']['is_on'];
-      this.accept_as_button =                       true;
-      this.accept_text_color =                      selectedTemplate['accept_button']['color'];
-      this.accept_background_color =                selectedTemplate['accept_button']['background-color'];
-      this.accept_style =                           selectedTemplate['accept_button']['border-style'];
-      this.accept_border_color =                    selectedTemplate['accept_button']['border-color'];
-      this.accept_opacity =                         selectedTemplate['accept_button']['opacity'];
-      this.accept_border_width =                    selectedTemplate['accept_button']['border-width'].substring(0, selectedTemplate['accept_button']['border-width'].length - 2);
-      this.accept_border_radius =                   selectedTemplate['accept_button']['border-radius'].substring(0, selectedTemplate['accept_button']['border-radius'].length - 2);
-      this.cookie_decline_on =                      selectedTemplate['decline_button']['is_on'];
-      this.decline_as_button =                      true;
-      this.decline_text_color =                     selectedTemplate['decline_button']['color'];
-      this.decline_background_color =               selectedTemplate['decline_button']['background-color'];
-      this.decline_style =                          selectedTemplate['decline_button']['border-style'];
-      this.decline_border_color =                   selectedTemplate['decline_button']['border-color'];
-      this.decline_opacity =                        selectedTemplate['decline_button']['opacity'];
-      this.decline_border_width =                   selectedTemplate['decline_button']['border-width'].substring(0, selectedTemplate['decline_button']['border-width'].length - 2);
-      this.decline_border_radius =                  selectedTemplate['decline_button']['border-radius'].substring(0, selectedTemplate['decline_button']['border-radius'].length - 2);
-      this.cookie_accept_all_on =                   selectedTemplate['accept_all_button']['is_on'];
-      this.accept_all_as_button =                   true;
-      this.accept_all_text_color =                  selectedTemplate['accept_all_button']['color'];
-      this.accept_all_background_color =            selectedTemplate['accept_all_button']['background-color'];
-      this.accept_all_style =                       selectedTemplate['accept_all_button']['border-style'];
-      this.accept_all_border_color =                selectedTemplate['accept_all_button']['border-color'];
-      this.accept_all_opacity =                     selectedTemplate['accept_all_button']['opacity'];
-      this.accept_all_border_width =                selectedTemplate['accept_all_button']['border-width'].substring(0, selectedTemplate['accept_all_button']['border-width'].length - 2);
-      this.accept_all_border_radius =               selectedTemplate['accept_all_button']['border-radius'].substring(0, selectedTemplate['accept_all_button']['border-radius'].length - 2);
-      this.cookie_settings_on =                     selectedTemplate['settings_button']['is_on'];
-      this.settings_as_button =                     true;
-      this.settings_text_color =                    selectedTemplate['settings_button']['color'];
-      this.settings_background_color =              selectedTemplate['settings_button']['background-color'];
-      this.settings_style =                         selectedTemplate['settings_button']['border-style'];
-      this.settings_border_color =                  selectedTemplate['settings_button']['border-color'];
-      this.settings_opacity =                       selectedTemplate['settings_button']['opacity'];
-      this.settings_border_width =                  selectedTemplate['settings_button']['border-width'].substring(0, selectedTemplate['settings_button']['border-width'].length - 2);
-      this.settings_border_radius =                 selectedTemplate['settings_button']['border-radius'].substring(0, selectedTemplate['settings_button']['border-radius'].length - 2);
-      this.button_readmore_link_color =             selectedTemplate['readmore_button']['color'];
-      this.button_readmore_button_color =           selectedTemplate['readmore_button']['background-color'];
-      this.button_readmore_button_opacity =         selectedTemplate['readmore_button']['opacity'];
-      this.button_readmore_button_border_style =    selectedTemplate['readmore_button']['border-style'];
-      this.button_readmore_button_border_color =    selectedTemplate['readmore_button']['border-color'];
-      this.button_readmore_button_border_radius =   selectedTemplate['readmore_button']['border-radius'].substring(0, selectedTemplate['readmore_button']['border-radius'].length - 2);
-      this.button_readmore_button_border_width =    selectedTemplate['readmore_button']['border-width'].substring(0, selectedTemplate['readmore_button']['border-width'].length - 2);
-      this.opt_out_text_color =                     selectedTemplate['opt_out_button']['color'];
-      this.button_revoke_consent_text_color =       selectedTemplate['revoke_consent_button']['color'];
-      this.button_revoke_consent_background_color = selectedTemplate['revoke_consent_button']['background-color'];
-      //ab testing banners settings
-      
-      this.cookie_bar_color1 =                       selectedTemplate['styles']['background-color'];
-      this.cookie_bar_opacity1 =                     selectedTemplate['styles']['opacity'];
-      this.cookie_text_color1 =                      selectedTemplate['styles']['color'];
-      this.border_style1 =                           selectedTemplate['styles']['border-style'];
-      this.cookie_bar_border_width1 =                selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
-      this.cookie_border_color1 =                    selectedTemplate['styles']['border-color'];
-      this.cookie_bar_border_radius1 =               selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
-      this.cookie_font1 =                            selectedTemplate['styles']['font-family'];
-      this.cookie_accept_on1 =                       selectedTemplate['accept_button']['is_on'];
-      this.accept_as_button1 =                       true;
-      this.accept_text_color1 =                      selectedTemplate['accept_button']['color'];
-      this.accept_background_color1 =                selectedTemplate['accept_button']['background-color'];
-      this.accept_style1 =                           selectedTemplate['accept_button']['border-style'];
-      this.accept_border_color1 =                    selectedTemplate['accept_button']['border-color'];
-      this.accept_opacity1 =                         selectedTemplate['accept_button']['opacity'];
-      this.accept_border_width1 =                    selectedTemplate['accept_button']['border-width'].substring(0, selectedTemplate['accept_button']['border-width'].length - 2);
-      this.accept_border_radius1 =                   selectedTemplate['accept_button']['border-radius'].substring(0, selectedTemplate['accept_button']['border-radius'].length - 2);
-      this.cookie_decline_on1 =                      selectedTemplate['decline_button']['is_on'];
-      this.decline_as_button1 =                      true;
-      this.decline_text_color1 =                     selectedTemplate['decline_button']['color'];
-      this.decline_background_color1 =               selectedTemplate['decline_button']['background-color'];
-      this.decline_style1 =                          selectedTemplate['decline_button']['border-style'];
-      this.decline_border_color1 =                   selectedTemplate['decline_button']['border-color'];
-      this.decline_opacity1 =                        selectedTemplate['decline_button']['opacity'];
-      this.decline_border_width1 =                   selectedTemplate['decline_button']['border-width'].substring(0, selectedTemplate['decline_button']['border-width'].length - 2);
-      this.decline_border_radius1 =                  selectedTemplate['decline_button']['border-radius'].substring(0, selectedTemplate['decline_button']['border-radius'].length - 2);
-      this.cookie_accept_all_on1 =                   selectedTemplate['accept_all_button']['is_on'];
-      this.accept_all_as_button1 =                   true;
-      this.accept_all_text_color1 =                  selectedTemplate['accept_all_button']['color'];
-      this.accept_all_background_color1 =            selectedTemplate['accept_all_button']['background-color'];
-      this.accept_all_style1 =                       selectedTemplate['accept_all_button']['border-style'];
-      this.accept_all_border_color1 =                selectedTemplate['accept_all_button']['border-color'];
-      this.accept_all_opacity1 =                     selectedTemplate['accept_all_button']['opacity'];
-      this.accept_all_border_width1 =                selectedTemplate['accept_all_button']['border-width'].substring(0, selectedTemplate['accept_all_button']['border-width'].length - 2);
-      this.accept_all_border_radius1 =               selectedTemplate['accept_all_button']['border-radius'].substring(0, selectedTemplate['accept_all_button']['border-radius'].length - 2);
-      this.cookie_settings_on1 =                     selectedTemplate['settings_button']['is_on'];
-      this.settings_as_button1 =                     true;
-      this.settings_text_color1 =                    selectedTemplate['settings_button']['color'];
-      this.settings_background_color1 =              selectedTemplate['settings_button']['background-color'];
-      this.settings_style1 =                         selectedTemplate['settings_button']['border-style'];
-      this.settings_border_color1 =                  selectedTemplate['settings_button']['border-color'];
-      this.settings_opacity1 =                       selectedTemplate['settings_button']['opacity'];
-      this.settings_border_width1 =                  selectedTemplate['settings_button']['border-width'].substring(0, selectedTemplate['settings_button']['border-width'].length - 2);
-      this.settings_border_radius1 =                 selectedTemplate['settings_button']['border-radius'].substring(0, selectedTemplate['settings_button']['border-radius'].length - 2);
-      this.opt_out_text_color1 =                     selectedTemplate['opt_out_button']['color'];
-
-      this.cookie_bar_color2 =                       selectedTemplate['styles']['background-color'];
-      this.cookie_bar_opacity2 =                     selectedTemplate['styles']['opacity'];
-      this.cookie_text_color2 =                      selectedTemplate['styles']['color'];
-      this.border_style2 =                           selectedTemplate['styles']['border-style'];
-      this.cookie_bar_border_width2 =                selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
-      this.cookie_border_color2 =                    selectedTemplate['styles']['border-color'];
-      this.cookie_bar_border_radius2 =               selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
-      this.cookie_font2 =                            selectedTemplate['styles']['font-family'];
-      this.cookie_accept_on2 =                       selectedTemplate['accept_button']['is_on'];
-      this.accept_as_button2 =                       true;
-      this.accept_text_color2 =                      selectedTemplate['accept_button']['color'];
-      this.accept_background_color2 =                selectedTemplate['accept_button']['background-color'];
-      this.accept_style2 =                           selectedTemplate['accept_button']['border-style'];
-      this.accept_border_color2 =                    selectedTemplate['accept_button']['border-color'];
-      this.accept_opacity2 =                         selectedTemplate['accept_button']['opacity'];
-      this.accept_border_width2 =                    selectedTemplate['accept_button']['border-width'].substring(0, selectedTemplate['accept_button']['border-width'].length - 2);
-      this.accept_border_radius2 =                   selectedTemplate['accept_button']['border-radius'].substring(0, selectedTemplate['accept_button']['border-radius'].length - 2);
-      this.cookie_decline_on2 =                      selectedTemplate['decline_button']['is_on'];
-      this.decline_as_button2 =                      true;
-      this.decline_text_color2 =                     selectedTemplate['decline_button']['color'];
-      this.decline_background_color2 =               selectedTemplate['decline_button']['background-color'];
-      this.decline_style2 =                          selectedTemplate['decline_button']['border-style'];
-      this.decline_border_color2 =                   selectedTemplate['decline_button']['border-color'];
-      this.decline_opacity2 =                        selectedTemplate['decline_button']['opacity'];
-      this.decline_border_width2 =                   selectedTemplate['decline_button']['border-width'].substring(0, selectedTemplate['decline_button']['border-width'].length - 2);
-      this.decline_border_radius2 =                  selectedTemplate['decline_button']['border-radius'].substring(0, selectedTemplate['decline_button']['border-radius'].length - 2);
-      this.cookie_accept_all_on2 =                   selectedTemplate['accept_all_button']['is_on'];
-      this.accept_all_as_button2 =                   true;
-      this.accept_all_text_color2 =                  selectedTemplate['accept_all_button']['color'];
-      this.accept_all_background_color2 =            selectedTemplate['accept_all_button']['background-color'];
-      this.accept_all_style2 =                       selectedTemplate['accept_all_button']['border-style'];
-      this.accept_all_border_color2 =                selectedTemplate['accept_all_button']['border-color'];
-      this.accept_all_opacity2 =                     selectedTemplate['accept_all_button']['opacity'];
-      this.accept_all_border_width2 =                selectedTemplate['accept_all_button']['border-width'].substring(0, selectedTemplate['accept_all_button']['border-width'].length - 2);
-      this.accept_all_border_radius2 =               selectedTemplate['accept_all_button']['border-radius'].substring(0, selectedTemplate['accept_all_button']['border-radius'].length - 2);
-      this.cookie_settings_on2 =                     selectedTemplate['settings_button']['is_on'];
-      this.settings_as_button2 =                     true;
-      this.settings_text_color2 =                    selectedTemplate['settings_button']['color'];
-      this.settings_background_color2 =              selectedTemplate['settings_button']['background-color'];
-      this.settings_style2 =                         selectedTemplate['settings_button']['border-style'];
-      this.settings_border_color2 =                  selectedTemplate['settings_button']['border-color'];
-      this.settings_opacity2 =                       selectedTemplate['settings_button']['opacity'];
-      this.settings_border_width2 =                  selectedTemplate['settings_button']['border-width'].substring(0, selectedTemplate['settings_button']['border-width'].length - 2);
-      this.settings_border_radius2 =                 selectedTemplate['settings_button']['border-radius'].substring(0, selectedTemplate['settings_button']['border-radius'].length - 2);
-      this.opt_out_text_color2 =                     selectedTemplate['opt_out_button']['color'];
-
-      // Multiple Legislation
-      this.multiple_legislation_cookie_bar_color1 =         selectedTemplate["styles"]["background-color"];
-      this.multiple_legislation_cookie_bar_border_radius1 = selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
-      this.multiple_legislation_cookie_text_color1 =        selectedTemplate['styles']['color'];
-      this.multiple_legislation_cookie_bar_opacity1 =       selectedTemplate['styles']['opacity'];
-      this.multiple_legislation_border_style1 =             selectedTemplate['styles']['border-style'];
-      this.multiple_legislation_cookie_bar_border_width1 =  selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
-      this.multiple_legislation_cookie_border_color1 =      selectedTemplate['styles']['border-color'];
-      this.multiple_legislation_cookie_font1 =              selectedTemplate['styles']['font-family'];
-
-      this.multiple_legislation_cookie_bar_color2 =         selectedTemplate["styles"]["background-color"];
-      this.multiple_legislation_cookie_bar_border_radius2 = selectedTemplate['styles']['border-radius'].substring(0, selectedTemplate['styles']['border-radius'].length - 2);
-      this.multiple_legislation_cookie_text_color2 =        selectedTemplate['styles']['color'];
-      this.multiple_legislation_cookie_bar_opacity2 =       selectedTemplate['styles']['opacity'];
-      this.multiple_legislation_border_style2 =             selectedTemplate['styles']['border-style'];
-      this.multiple_legislation_cookie_bar_border_width2 =  selectedTemplate['styles']['border-width'].substring(0, selectedTemplate['styles']['border-width'].length - 2);
-      this.multiple_legislation_cookie_border_color2 =      selectedTemplate['styles']['border-color'];
-      this.multiple_legislation_cookie_font2 =              selectedTemplate['styles']['font-family'];
-
-
-
-      var data = {
-        action: "gcc_restore_default_settings",
-        security: settings_obj.restore_settings_nonce,
-      };
-      var that = this;
-      jQuery.ajax({
-        url: settings_obj.ajaxurl,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.success === true) {
-            that.success_error_message = "Settings reset to default";
-            j("#gdpr-cookie-consent-save-settings-alert-adv").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
-            location.reload();
-          } else {
-            that.success_error_message = "Please try again.";
-            j("#gdpr-cookie-consent-save-settings-alert-adv").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = "Please try again.";
-          j("#gdpr-cookie-consent-save-settings-alert-adv").css(
-            "background-color",
-            "#72b85c"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert-adv").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-adv").fadeOut(2500);
-        },
-      });
-    },
-  },
-  mounted() {
-    j("#gdpr-before-mount").css("display", "none");
-    this.setValues();
-  }
-});
-
-var abt = new Vue({
-  el: "#gdpr-cookie-consent-abtesting-settings",
-  data() {
-    return {
-      labelIcon: {},
-      labelIconNew: {
-        labelOn: "\u2713",
-        labelOff: "\uD83D\uDD12",
-      },
-      save_loading: false,
-      success_error_message: "",
-      ab_testing_data: '',
-      account_connection: require("../admin/images/account_connection.svg"),
-      pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
-      edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
-      gdpr_policy: settings_obj.the_options.hasOwnProperty("cookie_usage_for")
-        ? settings_obj.the_options["cookie_usage_for"]
-        : "gdpr",
-      is_gdpr:
-        this.gdpr_policy === "gdpr" || this.gdpr_policy === "both"
-          ? true
-          : false,
-      is_ccpa:
-        this.gdpr_policy === "ccpa" || this.gdpr_policy === "both"
-          ? true
-          : false,
-      is_lgpd: this.gdpr_policy === "lgpd" ? true : false,
-      is_eprivacy: this.gdpr_policy === "eprivacy" ? true : false,
-      show_revoke_card: this.is_gdpr || this.is_eprivacy,
-      show_visitor_conditions:
-        this.is_ccpa || (this.is_gdpr && "1" === settings_obj.is_pro_active)
-          ? true
-          : false,
-      ab_testing_enabled:
-        settings_obj.ab_options.hasOwnProperty("ab_testing_enabled") &&
-        (true === settings_obj.ab_options["ab_testing_enabled"] ||
-          "true" === settings_obj.ab_options["ab_testing_enabled"])
-          ? true
-          : false,
-      cookie_on_frontend1:
-        settings_obj.the_options.hasOwnProperty(
-          "button_settings_display_cookies1"
-        ) &&
-        (true ===
-          settings_obj.the_options["button_settings_display_cookies1"] ||
-          1 === settings_obj.the_options["button_settings_display_cookies1"] ||
-          "true" ===
-            settings_obj.the_options["button_settings_display_cookies1"])
-          ? true
-          : false,
-      cookie_on_frontend2:
-        settings_obj.the_options.hasOwnProperty(
-          "button_settings_display_cookies2"
-        ) &&
-        (true ===
-          settings_obj.the_options["button_settings_display_cookies2"] ||
-          1 === settings_obj.the_options["button_settings_display_cookies2"] ||
-          "true" ===
-            settings_obj.the_options["button_settings_display_cookies2"])
-          ? true
-          : false,
-      active_test_banner_tab:
-        settings_obj.the_options.hasOwnProperty("default_cookie_bar") &&
-        (true == settings_obj.the_options["default_cookie_bar"] ||
-          "true" == settings_obj.the_options["default_cookie_bar"] ||
-          1 == settings_obj.the_options["default_cookie_bar"])
-          ? 1
-          : 2,
-      ab_testing_period: settings_obj.ab_options.hasOwnProperty(
-        "ab_testing_period"
-      )
-        ? settings_obj.ab_options["ab_testing_period"]
-        : "30",
-      ab_testing_auto:
-        settings_obj.ab_options.hasOwnProperty("ab_testing_auto") &&
-        (true === settings_obj.ab_options["ab_testing_auto"] ||
-          "true" === settings_obj.ab_options["ab_testing_auto"])
-          ? true
-          : false,
-      default_cookie_bar:
-        settings_obj.the_options.hasOwnProperty("default_cookie_bar") &&
-        (true == settings_obj.the_options["default_cookie_bar"] ||
-          "true" == settings_obj.the_options["default_cookie_bar"] ||
-          1 == settings_obj.the_options["default_cookie_bar"])
-          ? true
-          : false,
-    }
-  },
-  methods: {
-    setValues() {
-      if (this.gdpr_policy === "both") {
-        this.is_ccpa = true;
-        this.is_gdpr = true;
-        this.is_eprivacy = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = true;
-        this.show_revoke_card = true;
-      } else if (this.gdpr_policy === "ccpa") {
-        this.is_ccpa = true;
-        this.is_eprivacy = false;
-        this.is_gdpr = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = true;
-        this.show_revoke_card = false;
-      } else if (this.gdpr_policy === "gdpr") {
-        this.is_gdpr = true;
-        this.is_ccpa = false;
-        this.is_eprivacy = false;
-        this.is_lgpd = false;
-        this.show_revoke_card = true;
-        this.show_visitor_conditions = true;
-      } else if (this.gdpr_policy === "lgpd") {
-        this.is_gdpr = false;
-        this.is_ccpa = false;
-        this.is_lgpd = true;
-        this.is_eprivacy = false;
-        this.show_revoke_card = true;
-        this.show_visitor_conditions = false;
-      } else {
-        this.is_eprivacy = true;
-        this.is_gdpr = false;
-        this.is_ccpa = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = false;
-        this.show_revoke_card = true;
-      }
-    },
-    refreshABTestingData(html) {
-      this.ab_testing_data = html;
-      const container = document.querySelector('#ab-testing-container');
-      this.$nextTick(() => {
-                new Vue({
-                    el: container,
-                    template: html,
-                    data: this.$data, // Reuse the existing Vue instance data
-                    methods: this.$options.methods, // Reuse the existing methods
-                    mounted: this.$options.mounted, // Reuse the original mounted logic
-                });
-            });
-    },
-    onSwitchABTestingEnable() {
-      j("#gdpr-cookie-consent-updating-settings-alert-abt")
-        .fadeIn(200)
-        .fadeOut(2000);
-      this.ab_testing_enabled = !this.ab_testing_enabled;
-      this.cookie_on_frontend1 = true;
-      this.cookie_on_frontend2 = true;
-      if (this.ab_testing_enabled === false) this.active_test_banner_tab = 1;
-
-      var dataV = jQuery("#gcc-save-settings-form").serialize();
-      // Make the AJAX request to save the new state
-      jQuery
-        .ajax({
-          type: "POST",
-          url: settings_obj.ajaxurl,
-          data: {
-            action: "ab_testing_enable",
-            "gcc-ab-testing-enable": this.ab_testing_enabled, // Add the key with the updated value
-          },
-        })
-        .done(function (data) {
-          window.location.reload();
-          // Show success message
-          this.success_error_message = "Settings Saved";
-          j("#gdpr-cookie-consent-save-settings-alert-abt")
-            .css("background-color", "#72b85c")
-            .fadeIn(400)
-            .fadeOut(2500, function () {
-              // Optionally reload the page or perform other actions
-            });
-        })
-        .fail(function (error) {
-          console.error("AJAX call failed:", error);
-          alert(
-            "An error occurred while saving the settings. Please try again."
-          );
-        });
-    },
-    onSwitchCookieOnFrontend1() {
-      this.cookie_on_frontend1 = !this.cookie_on_frontend1;
-    },
-    onSwitchCookieOnFrontend2() {
-      this.cookie_on_frontend2 = !this.cookie_on_frontend2;
-    },
-    changeActiveTestBannerTabTo1() {
-      if (this.active_test_banner_tab === 2) this.active_test_banner_tab = 1;
-    },
-    changeActiveTestBannerTabTo2() {
-      if (this.active_test_banner_tab === 1) this.active_test_banner_tab = 2;
-    },
-    onSwitchABTestingAuto() {
-      this.ab_testing_auto = !this.ab_testing_auto;
-    },
-    saveABTestingSettings() {
-      this.save_loading = true;
-
-      var that = this;
-      var dataV = jQuery("#gcc-save-abtesting-settings-form").serialize();
-      jQuery
-        .ajax({
-          type: "POST",
-          url: settings_obj.ajaxurl,
-          data: dataV + "&action=gcc_save_abtesting_settings",
-        })
-        .done(function (data) {
-          that.success_error_message = "Settings Saved.";
-          j("#gdpr-cookie-consent-save-settings-alert-abt").css({
-              "background-color": "#72b85c",
-              "z-index": "10000",
-          });
-          j("#gdpr-cookie-consent-save-settings-alert-abt").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-abt").fadeOut(2500);
-
-          that.save_loading = false;
-        })
-        .fail(function () {
-          that.save_loading = false;
-        });
-    },
-    restoreDefaultSettings() {
-      this.ab_testing_enabled = false;
-      this.cookie_on_frontend1 = true;
-      this.cookie_on_frontend2 = true;
-      this.gdpr_policy = "gdpr";
-      this.ab_testing_period = "30";
-      this.ab_testing_auto = false;
-    }
-  },
-  mounted() {
-    j("#gdpr-before-mount").css("display", "none");
-    this.setValues();
-
-    //For fixing quill js buttons accessibility issues
-    this.$nextTick(() => {
-      const quillLabels = {
-        "ql-bold": "Bold",
-        "ql-italic": "Italic",
-        "ql-underline": "Underline",
-        "ql-code-block": "Code Block",
-        "ql-strike": "Strikethrough",
-        "ql-link": "Insert Link",
-        "ql-image": "Insert Image",
-        "ql-list": "List",
-        "ql-clean": "Remove Formatting",
-        "ql-align": "Align Text",
-        "ql-blockquote": "Blockquote",
-        "ql-indent": "Indent Text",
-        "ql-video": "Insert Video",
-        "ql-header": "Header",
-        "ql-color": "Text Color",
-        "ql-background": "Background Color",
-        "ql-preview": "Preview",
-      };
-
-      Object.entries(quillLabels).forEach(([className, label]) => {
-        const buttons = document.querySelectorAll(`.ql-toolbar .${className}`);
-        buttons.forEach((button) => {
-          button.setAttribute("aria-label", label);
-          button.setAttribute("title", label);
-        });
-      });
-
-      // Fix for Ace Editor’s textarea
-      const observer = new MutationObserver(() => {
-        const aceInput = document.querySelector(".ace_text-input");
-        if (aceInput) {
-          aceInput.setAttribute("aria-hidden", "true");
-          aceInput.setAttribute("tabindex", "-1");
-          aceInput.setAttribute("role", "presentation");
-          aceInput.removeAttribute("aria-label"); // optional, but removes confusion
-          aceInput.removeAttribute("title"); // in case any tooltips are there
-
-          observer.disconnect();
-        }
-      });
-
-      observer.observe(document.body, { childList: true, subtree: true });
-      setTimeout(() => observer.disconnect(), 10000);
-
-      // First: For ab_testing_period_text_field
-      const abInterval = setInterval(() => {
-        const inputs = document.querySelectorAll(
-          'input[name="ab_testing_period_text_field"]'
-        );
-
-        inputs.forEach((input) => {
-          if (
-            !input.hasAttribute("aria-label") &&
-            !input.hasAttribute("aria-labelledby")
-          ) {
-            input.setAttribute("aria-label", "A/B Testing Period");
-          }
-        });
-
-        if (inputs.length) clearInterval(abInterval);
-      }, 300);
-
-      setTimeout(() => clearInterval(abInterval), 7000); // safety timeout
-
-      // Second: For display-time inputs
-      const timeInterval = setInterval(() => {
-        const timeInputs = document.querySelectorAll("input.display-time");
-
-        timeInputs.forEach((input) => {
-          if (
-            !input.hasAttribute("aria-label") &&
-            !input.hasAttribute("aria-labelledby")
-          ) {
-            input.setAttribute("aria-label", "Choose time");
-          }
-        });
-
-        if (timeInputs.length) clearInterval(timeInterval);
-      }, 300);
-
-      setTimeout(() => clearInterval(timeInterval), 7000);
-    });
-  },
-});
-window.abt = abt;
-
-var scb = new Vue({
-  el: "#gdpr-cookie-consent-script_blocker-settings",
-  data() {
-    return {
-      labelIcon: {},
-      labelIconNew: {
-        labelOn: "\u2713",
-        labelOff: "\uD83D\uDD12",
-      },
-      save_loading: false,
-      success_error_message: "",
-      edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
-      gdpr_policy: settings_obj.the_options.hasOwnProperty("cookie_usage_for")
-        ? settings_obj.the_options["cookie_usage_for"]
-        : "gdpr",
-      appendField: ".gdpr-cookie-consent-settings-container",
-      show_revoke_card: this.is_gdpr || this.is_eprivacy,
-      enable_safe:
-        settings_obj.the_options.hasOwnProperty("enable_safe") &&
-        ("true" === settings_obj.the_options["enable_safe"] ||
-          true === settings_obj.the_options["enable_safe"] ||
-          '1' === settings_obj.the_options["enable_safe"] ||
-          1 === settings_obj.the_options["enable_safe"])
-          ? true
-          : false,
-      is_script_blocker_on:
-        settings_obj.the_options.hasOwnProperty("is_script_blocker_on") &&
-        (true === settings_obj.the_options["is_script_blocker_on"] ||
-          1 === settings_obj.the_options["is_script_blocker_on"])
-          ? true
-          : false,
-      show_script_blocker: false,
-      scripts_list_total: settings_obj.script_blocker_settings.hasOwnProperty(
-        "scripts_list"
-      )
-        ? settings_obj.script_blocker_settings.scripts_list["total"]
-        : 0,
-      scripts_list_data: settings_obj.script_blocker_settings.hasOwnProperty(
-        "scripts_list"
-      )
-        ? settings_obj.script_blocker_settings.scripts_list["data"]
-        : [],
-      category_list_options:
-        settings_obj.script_blocker_settings.hasOwnProperty("category_list")
-          ? settings_obj.script_blocker_settings["category_list"]
-          : [],
-      header_scripts: settings_obj.the_options.hasOwnProperty("header_scripts")
-        ? this.stripSlashes(settings_obj.the_options["header_scripts"])
-        : "",
-      body_scripts: settings_obj.the_options.hasOwnProperty("body_scripts")
-        ? this.stripSlashes(settings_obj.the_options["body_scripts"])
-        : "",
-      footer_scripts: settings_obj.the_options.hasOwnProperty("footer_scripts")
-        ? this.stripSlashes(settings_obj.the_options["footer_scripts"])
-        : "",
-      is_gdpr:
-        this.gdpr_policy === "gdpr" || this.gdpr_policy === "both"
-          ? true
-          : false,
-      is_script_dependency_on:
-      settings_obj.the_options.hasOwnProperty("is_script_dependency_on") &&
-      (true === settings_obj.the_options["is_script_dependency_on"] ||
-        1 === settings_obj.the_options["is_script_dependency_on"])
-        ? true
-        : false,
-      account_connection: require("../admin/images/account_connection.svg"),
-      pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
-      header_dependency: settings_obj.the_options.hasOwnProperty("header_dependency")
-        ? settings_obj.the_options["header_dependency"]
-        : '',
-      header_dependency_list: settings_obj.header_dependency_list,
-      header_dependency_map: {
-        'Body Scripts': false,
-        'Footer Scripts': false,
-      },
-      footer_dependency: settings_obj.the_options.hasOwnProperty("footer_dependency")
-        ? settings_obj.the_options["footer_dependency"]
-        : '',
-      footer_dependency_selected: null,
-      footer_dependency_list: settings_obj.footer_dependency_list,
-      footer_dependency_map: {
-        'Header Scripts': false,
-        'Body Scripts': false,
-      },
-    }
-  },
-  methods: {
-    setValues() {
-      if (this.gdpr_policy === "both") {
-        this.is_ccpa = true;
-        this.is_gdpr = true;
-        this.is_eprivacy = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = true;
-        this.show_revoke_card = true;
-      } else if (this.gdpr_policy === "ccpa") {
-        this.is_ccpa = true;
-        this.is_eprivacy = false;
-        this.is_gdpr = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = true;
-        this.show_revoke_card = false;
-      } else if (this.gdpr_policy === "gdpr") {
-        this.is_gdpr = true;
-        this.is_ccpa = false;
-        this.is_eprivacy = false;
-        this.is_lgpd = false;
-        this.show_revoke_card = true;
-        this.show_visitor_conditions = true;
-      } else if (this.gdpr_policy === "lgpd") {
-        this.is_gdpr = false;
-        this.is_ccpa = false;
-        this.is_lgpd = true;
-        this.is_eprivacy = false;
-        this.show_revoke_card = true;
-        this.show_visitor_conditions = false;
-      } else {
-        this.is_eprivacy = true;
-        this.is_gdpr = false;
-        this.is_ccpa = false;
-        this.is_lgpd = false;
-        this.show_visitor_conditions = false;
-        this.show_revoke_card = true;
-      }
-
-      for (let i = 0; i < this.scripts_list_total; i++) {
-        var rawStatus = this.scripts_list_data[i]["script_status"];
-        this.scripts_list_data[i]["script_status"] = rawStatus === true || rawStatus === "1" || rawStatus === 1;
-        for (let j = 0; j < this.category_list_options.length; j++) {
-          if (
-            this.category_list_options[j].code ===
-            this.scripts_list_data[i]["script_category"].toString()
-          ) {
-            this.scripts_list_data[i]["script_category_label"] =
-              this.category_list_options[j].label;
-            break;
-          }
-        }
-      }
-    },
-    stripSlashes(value) {
-      return value.replace(/\\(.)/gm, "$1");
-    },
-    onSwitchingScriptBlocker() {
-      this.is_script_blocker_on = !this.is_script_blocker_on;
-    },
-    showScriptBlockerForm() {
-      this.show_script_blocker = !this.show_script_blocker;
-    },
-    onSwitchingScriptDependency() {
-      this.is_script_dependency_on = !this.is_script_dependency_on;
-
-      if( this.is_script_dependency_on === false ){
-        this.header_dependency = null;
-        this.footer_dependency = null;
-      }
-    },
-    onHeaderDependencySelect(value) {
-      
-      this.header_dependency_map.body = false;
-      this.header_dependency_map.footer = false;
-
-      if (this.header_dependency) {
-        this.header_dependency_map[this.header_dependency] = true;
-        this.header_dependency = this.header_dependency;
-      } else {
-        this.header_dependency = '';
-      }
-    },
-    onFooterDependencySelect(value) {
-      
-      this.footer_dependency_map.header = false;
-      this.footer_dependency_map.body = false;
-
-      if (this.footer_dependency) {
-        this.footer_dependency_map[this.footer_dependency] = true;
-        this.footer_dependency = this.footer_dependency;
-      } else {
-        this.footer_dependency = '';
-      }
-    },
-    onSwitchScriptBlocker(script_id) {
-      j("#gdpr-cookie-consent-updating-settings-alert-scb").fadeIn(200);
-      j("#gdpr-cookie-consent-updating-settings-alert-scb").fadeOut(2000);
-      var that = this;
-      this.scripts_list_data[script_id - 1]["script_status"] =
-        !this.scripts_list_data[script_id - 1]["script_status"];
-      var status = "1";
-      if (this.scripts_list_data[script_id - 1]["script_status"]) {
-        status = "1";
-      } else {
-        status = "0";
-      }
-      var data = {
-        action: "wpl_script_blocker",
-        security:
-          settings_obj.script_blocker_settings.nonces.wpl_script_blocker,
-        wpl_script_action: "update_script_status",
-        status: status,
-        id: script_id,
-      };
-      jQuery.ajax({
-        url: settings_obj.script_blocker_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert-scb").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert-scb").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert-scb").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
-        },
-      });
-    },
-    onScriptCategorySelect(values) {
-      if (!values) {
-        this.success_error_message = "You must select a category.";
-        j("#gdpr-cookie-consent-save-settings-alert-scb").css(
-          "background-color",
-          "#e55353"
-        );
-        j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
-        j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
-        return false;
-      }
-      var that = this;
-      var category_code = values.split(",")[0];
-      var script_id = values.split(",")[1];
-      for (let i = 0; i < this.category_list_options.length; i++) {
-        if (this.category_list_options[i]["code"] === category_code) {
-          if (
-            this.scripts_list_data[script_id - 1]["script_category"] ===
-            category_code
-          ) {
-            this.success_error_message = "Category updated successfully";
-            j("#gdpr-cookie-consent-save-settings-alert-scb").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
-            return false;
-          } else {
-            this.scripts_list_data[script_id - 1]["script_category"] =
-              this.category_list_options[i].code;
-            this.scripts_list_data[script_id - 1]["script_category_label"] =
-              this.category_list_options[i].label;
-            break;
-          }
-        }
-      }
-      var data = {
-        action: "wpl_script_blocker",
-        security:
-          settings_obj.script_blocker_settings.nonces.wpl_script_blocker,
-        wpl_script_action: "update_script_category",
-        category: category_code,
-        id: script_id,
-      };
-      jQuery.ajax({
-        url: settings_obj.script_blocker_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert-scb").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert-scb").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert-scb").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
-        },
-      });
-    },
-    saveScriptBlockerSettings() {
-      this.save_loading = true;
-
-      var that = this;
-      var dataV = jQuery("#gcc-save-script-blocker-settings-form").serialize();
-      jQuery
-        .ajax({
-          type: "POST",
-          url: settings_obj.ajaxurl,
-          data: dataV + "&action=gcc_save_script_blocker_settings",
-        })
-        .done(function (data) {
-          that.success_error_message = "Settings Saved.";
-          j("#gdpr-cookie-consent-save-settings-alert-scb").css({
-              "background-color": "#72b85c",
-              "z-index": "10000",
-          });
-          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-scb").fadeOut(2500);
-
-          that.save_loading = false;
-        })
-        .fail(function () {
-          that.save_loading = false;
-        });
-    }
-  },
-  mounted() {
-    j("#gdpr-before-mount").css("display", "none");
-    this.setValues();
-  }
-});
-
-var lang = new Vue({
-  el: "#gdpr-cookie-consent-language-settings", 
-  data() {
-    return {
-      labelIcon: {},
-      labelIconNew: {
-        labelOn: "\u2713",
-        labelOff: "\uD83D\uDD12",
-      },
-      save_loading: false,
-      success_error_message: "",
-      is_lang_changed: false,
-      show_language_as: settings_obj.the_options.hasOwnProperty("lang_selected")
-        ? settings_obj.the_options["lang_selected"]
-        : "en",
-      show_language_as_options: settings_obj.show_language_as_options,
-      account_connection: require("../admin/images/account_connection.svg"),
-      pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
-      edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
-    }
-  },
-  methods: {
-    saveLanguageSettings() {
-      this.save_loading = true; 
-
-      var that = this;
-      var dataV = jQuery("#gcc-save-language-settings-form").serialize();
-      jQuery
-        .ajax({
-          type: "POST",
-          url: settings_obj.ajaxurl,
-          data:
-            dataV + "&action=gcc_save_language_settings" + 
-            "&lang_changed=" +
-            that.is_lang_changed
-        })
-        .done(function(data) {
-          that.success_error_message = "Settings Saved";
-          j("#gdpr-cookie-consent-save-settings-alert-lang").css(
-            "background-color",
-            "#72b85c"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert-lang").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-lang").fadeOut(2500);
-          
-          if (that.is_lang_changed) {
-            that.is_lang_changed = false;
-            location.reload();
-          }
-
-          that.save_loading = false;
-        })
-        .fail(function() {
-          that.save_loading = false;
-        });
-    },
-    onLanguageChange() {
-      this.is_lang_changed = true;
-    },
-  }
-});
-
-var ckm = new Vue({
-  el: "#gdpr-cookie-consent-cookie_manager-settings",
-  data() {
-    return {
-      labelIcon: {},
-      labelIconNew: {
-        labelOn: "\u2713",
-        labelOff: "\uD83D\uDD12",
-      },
-      save_loading: false,
-      success_error_message: "",
-      cookie_scanner_data: '',
-      cookie_list_tab: true,
-      show_custom_cookie_popup: false,
-      account_connection: require("../admin/images/account_connection.svg"),
-      pluginBasePath: '/wp-content/plugins/gdpr-cookie-consent/includes/templates/logo_images/',
-      edit_discovered_cookies_img: require("../admin/images/edit-discovered-cookies.svg"),
-      custom_cookie_categories:
-        settings_obj.cookie_list_settings.hasOwnProperty(
-          "cookie_list_categories"
-        )
-          ? settings_obj.cookie_list_settings["cookie_list_categories"]
-          : [],
-      custom_cookie_types: settings_obj.cookie_list_settings.hasOwnProperty(
-        "cookie_list_types"
-      )
-        ? settings_obj.cookie_list_settings["cookie_list_types"]
-        : [],
-      custom_cookie_category: 1,
-      custom_cookie_type: "HTTP",
-      custom_cookie_name: "",
-      custom_cookie_domain: "",
-      custom_cookie_duration: "",
-      custom_cookie_description: "",
-      is_custom_cookie_duration_disabled: this.custom_cookie_type === "HTTP" ? false : true,
-      custom_cookie_duration_placeholder: "Duration(days/session)",
-      scan_history_list_tab: true,
-      post_cookie_list_length: settings_obj.cookie_list_settings.hasOwnProperty(
-        "post_cookie_list"
-      )
-        ? settings_obj.cookie_list_settings["post_cookie_list"]["total"]
-        : 0,
-      post_cookie_list: settings_obj.cookie_list_settings.hasOwnProperty(
-        "post_cookie_list"
-      )
-        ? settings_obj.cookie_list_settings["post_cookie_list"]["data"]
-        : [],
-      show_custom_form: this.post_cookie_list_length > 0 ? false : true,
-      show_add_custom_button: this.post_cookie_list_length > 0 ? true : false,
-      scan_cookie_list_length: settings_obj.cookie_scan_settings.hasOwnProperty(
-        "scan_cookie_list"
-      )
-        ? settings_obj.cookie_scan_settings["scan_cookie_list"]["total"]
-        : 0,
-      scan_cookie_list: settings_obj.cookie_scan_settings.hasOwnProperty(
-        "scan_cookie_list"
-      )
-        ? settings_obj.cookie_scan_settings["scan_cookie_list"]["data"]
-        : [],
-      scan_cookie_error_message:
-        settings_obj.cookie_scan_settings.hasOwnProperty("error_message")
-          ? settings_obj.cookie_scan_settings["error_message"]
-          : "",
-      scan_cookie_last_scan: settings_obj.cookie_scan_settings.hasOwnProperty(
-        "last_scan"
-      )
-        ? settings_obj.cookie_scan_settings["last_scan"]
-        : [],
-      continue_scan: 1,
-      pollCount: 0,
-      onPrg: 0,
-      discovered_cookies_list_tab: true,
-      scan_in_progress: settings_obj.the_options["scan_in_progress"],
-      schedule_scan_show: false,
-      schedule_scan_options: settings_obj.schedule_scan_options,
-      schedule_scan_as: settings_obj.the_options.hasOwnProperty(
-        "schedule_scan_type"
-      )
-        ? settings_obj.the_options["schedule_scan_type"]
-        : "never",
-        schedule_scan_day_options: settings_obj.schedule_scan_day_options,
-      schedule_scan_day: settings_obj.the_options.hasOwnProperty("scan_day")
-        ? settings_obj.the_options["scan_day"]
-        : "Day 1",
-      schedule_scan_time_value: settings_obj.the_options.hasOwnProperty(
-        "scan_time"
-      )
-        ? settings_obj.the_options["scan_time"]
-        : "8:00 PM",
-      schedule_scan_date: settings_obj.the_options.hasOwnProperty("scan_date")
-        ? settings_obj.the_options["scan_date"]
-        : new Date(),
-      next_scan_is_when: settings_obj.the_options.hasOwnProperty(
-        "schedule_scan_when"
-      )
-        ? settings_obj.the_options["schedule_scan_when"]
-        : "Not Scheduled", 
-      progress_bar: require("../admin/images/progress_bar.svg"),
-      edit_discovered_cookie_on: false,
-      edit_discovered_cookie: {},
-      close_round_img: require("../admin/images/Close_round.svg"),
-    }
-  },
-  methods: {
-    setValues() {
-      if (this.custom_cookie_type === "HTTP") {
-        this.is_custom_cookie_duration_disabled = false;
-        this.custom_cookie_duration = "";
-      } else {
-        this.is_custom_cookie_duration_disabled = true;
-        this.custom_cookie_duration = "Persistent";
-      }
-
-      this.show_custom_form = this.post_cookie_list_length > 0 ? false : true;
-      this.show_add_custom_button = this.post_cookie_list_length > 0 ? true : false;
-
-    },
-    refreshCookieScannerData(html) {
-      this.cookie_scanner_data = html;
-      const container = document.querySelector('#cookie-scanner-container');
-      this.$nextTick(() => {
-                new Vue({
-                    el: container,
-                    data: this.$data, // Reuse the existing Vue instance data
-                    methods: this.$options.methods, // Reuse the existing methods
-                    mounted: this.$options.mounted, // Reuse the original mounted logic
-                    icons: this.$options.icons, // Optionally reuse created lifecycle hook
-                });
-            });
-    },
-    openCustomCookieTab() {
-      this.cookie_list_tab = true;
-      this.scan_history_list_tab = false;
-      this.showCreateCookiePopup();
-    },
-    openDiscoveredScanTab() {
-      this.discovered_cookies_list_tab = true;
-      this.scan_history_list_tab = false;
-      this.onClickStartScan();
-    },
-    showCreateCookiePopup() {
-      this.show_custom_cookie_popup = !this.show_custom_cookie_popup;
-    },
-    hideCookieForm() {
-      this.custom_cookie_name = "";
-      this.custom_cookie_domain = "";
-      this.custom_cookie_description = "";
-      this.custom_cookie_category = 1;
-      this.custom_cookie_type = "HTTP";
-      this.show_custom_form = false;
-      this.show_add_custom_button = true;
-      this.is_custom_cookie_duration_disabled = false;
-      this.custom_cookie_duration = "";
-      this.show_custom_cookie_popup = false;
-    },
-    onSelectCustomCookieType(value) {
-      if (value !== "HTTP") {
-        this.is_custom_cookie_duration_disabled = true;
-        this.custom_cookie_duration = "Persistent";
-      } else {
-        this.is_custom_cookie_duration_disabled = false;
-        this.custom_cookie_duration = "";
-      }
-    },
-    onSaveCustomCookie() {
-      var parent = j(".gdpr-custom-save-cookie").parents(
-        "div.gdpr-add-custom-cookie-form"
-      );
-      var gdpr_addcookie = parent.find('input[name="gdpr_addcookie"]').val();
-      if (gdpr_addcookie == 1) {
-        var pattern =
-          /^((http|https):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9]{1,10})$/gm;
-        var cname = this.custom_cookie_name;
-        var cdomain = this.custom_cookie_domain;
-        var cduration = this.custom_cookie_duration;
-        var ccategory = this.custom_cookie_category;
-        var ctype = this.custom_cookie_type;
-        var cdesc = this.custom_cookie_description;
-        if (!cname) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Name";
-          parent
-            .find('input[name="gdpr-cookie-consent-custom-cookie-name"]')
-            .focus();
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-          return false;
-        }
-        if (!cdomain) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Domain";
-          parent
-            .find('input[name="gdpr-cookie-consent-custom-cookie-domain"]')
-            .focus();
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-          return false;
-        } else {
-          if (!pattern.test(cdomain)) {
-            this.success_error_message = "Cookie domain is not valid.";
-            parent
-              .find('input[name="gdpr-cookie-consent-custom-cookie-domain"]')
-              .focus();
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-            return false;
-          }
-        }
-        if (!cduration) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Duration";
-          parent
-            .find('input[name="gdpr-cookie-consent-custom-cookie-duration"]')
-            .focus();
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-          return false;
-        }
-        if (!ctype) {
-          this.success_error_message = "Please select a Cookie Type";
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-          return false;
-        }
-        if (!ccategory) {
-          this.success_error_message = "Please select a Cookie Category";
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-          return false;
-        }
-        var cookie_arr = {
-          cname: cname,
-          cdomain: cdomain,
-          cduration: cduration,
-          ccategory: ccategory,
-          ctype: ctype,
-          cdesc: cdesc,
-        };
-        this.saveCustomPostCookies(cookie_arr);
-      }
-    },
-    saveCookieUpdateSettings() {
-      var cookie_post_arr = [];
-      var error = false;
-      for (let i = 0; i < this.post_cookie_list_length; i++) {
-        var pattern =
-          /^((http|https):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9]{1,10})$/gm;
-        var cid = this.post_cookie_list[i]["id_gdpr_cookie_post_cookies"];
-        var cname = this.post_cookie_list[i]["name"];
-        var cdomain = this.post_cookie_list[i]["domain"];
-        var cduration = this.post_cookie_list[i]["duration"];
-        var ccategory = this.post_cookie_list[i]["category_id"];
-        var ctype = this.post_cookie_list[i]["type"];
-        var cdesc = this.post_cookie_list[i]["description"];
-        if (!cname) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Name";
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-          error = true;
-        }
-        if (!cdomain) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Domain";
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-          error = true;
-        } else {
-          if (!pattern.test(cdomain)) {
-            this.success_error_message = "Cookie Domain is not valid.";
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-            error = true;
-          }
-        }
-        if (!cduration) {
-          this.success_error_message =
-            "Please fill in these mandatory fields : Cookie Duration";
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-          error = true;
-        }
-        var cookie_arr = {
-          cid: cid,
-          cname: cname,
-          cdomain: cdomain,
-          cduration: cduration,
-          ccategory: ccategory,
-          ctype: ctype,
-          cdesc: cdesc,
-        };
-        cookie_post_arr.push(cookie_arr);
-      }
-      if (error) {
-        return false;
-      }
-      this.updatePostCookie(cookie_post_arr);
-    },
-    onUpdateScannedCookieCategory(value) {
-      const id = value.split(",")[1];
-      const cat = value.split(",")[0];
-      this.edit_discovered_cookie.category_id = parseInt(cat);
-      for (let i = 0; i < this.scan_cookie_list_length; i++) {
-        if (this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"] == id) {
-          for (let j = 0; j < this.custom_cookie_categories.length; j++) {
-            if (
-              parseInt(this.custom_cookie_categories[j]["code"]) ==
-              parseInt(cat)
-            ) {
-              this.scan_cookie_list[i]["category_id"] =
-                this.custom_cookie_categories[j].code;
-              this.scan_cookie_list[i]["category"] =
-                this.custom_cookie_categories[j].label;
-              break;
-            }
-          }
-          break;
-        }
-      }
-    },
-    onSelectUpdateCookieCategory(value) {
-      const id = value.split(",")[1];
-      const cat = value.split(",")[0];
-      for (let i = 0; i < this.post_cookie_list_length; i++) {
-        if (this.post_cookie_list[i]["id_gdpr_cookie_post_cookies"] === id) {
-          for (let j = 0; i < this.custom_cookie_categories.length; j++) {
-            if (this.custom_cookie_categories[j]["code"] === parseInt(cat)) {
-              this.post_cookie_list[i]["category_id"] =
-                this.custom_cookie_categories[j].code;
-              this.post_cookie_list[i]["category"] =
-                this.custom_cookie_categories[j].label;
-              break;
-            }
-          }
-          break;
-        }
-      }
-    },
-    onSelectUpdateCookieType(value) {
-      const id = value.split(",")[1];
-      const type_id = value.split(",")[0];
-      for (let i = 0; i < this.post_cookie_list_length; i++) {
-        if (this.post_cookie_list[i]["id_gdpr_cookie_post_cookies"] === id) {
-          if (type_id !== "HTTP") {
-            this.post_cookie_list[i]["enable_duration"] = true;
-            this.post_cookie_list[i]["duration"] = "Persistent";
-          } else {
-            this.post_cookie_list[i]["enable_duration"] = false;
-            this.post_cookie_list[i]["duration"] = "";
-          }
-          for (let j = 0; i < this.custom_cookie_types.length; j++) {
-            if (this.custom_cookie_types[j]["code"] === type_id) {
-              this.post_cookie_list[i]["type"] =
-                this.custom_cookie_types[j].code;
-              this.post_cookie_list[i]["type_name"] =
-                this.custom_cookie_types[j].label;
-              break;
-            }
-          }
-          break;
-        }
-      }
-    },
-    setPostListValues() {
-      for (let i = 0; i < this.post_cookie_list_length; i++) {
-        if (this.post_cookie_list[i]["type"] === "HTTP") {
-          this.post_cookie_list[i]["enable_duration"] = false;
-        } else {
-          this.post_cookie_list[i]["enable_duration"] = true;
-        }
-        for (let j = 0; j < this.custom_cookie_types.length; j++) {
-          if (
-            this.custom_cookie_types[j]["code"] ===
-            this.post_cookie_list[i]["type"]
-          ) {
-            this.post_cookie_list[i]["type_name"] =
-              this.custom_cookie_types[j].label;
-          }
-        }
-      }
-      this.show_custom_form = this.post_cookie_list_length > 0 ? false : true;
-      this.show_add_custom_button =
-        this.post_cookie_list_length > 0 ? true : false;
-    },
-    setScanListValues() {
-      for (let i = 0; i < this.scan_cookie_list_length; i++) {
-        for (let j = 0; j < this.custom_cookie_types.length; j++) {
-          if (
-            this.custom_cookie_types[j]["code"] ===
-            this.scan_cookie_list[i]["type"]
-          ) {
-            this.scan_cookie_list[i]["type_name"] =
-              this.custom_cookie_types[j].label;
-          }
-        }
-      }
-    },
-    onChangeCookieListTab() {
-      this.cookie_list_tab = true;
-      this.discovered_cookies_list_tab = false;
-      this.scan_history_list_tab = false;
-      this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
-      const dropdownarrow = document.querySelector('.cookie_arrow')
-      dropdownarrow.classList.remove('up');
-      dropdownarrow.classList.add('down');
-      const tabLink = document.querySelector("a[href='#cookie_settings#cookie_list']");
-        if (tabLink) {
-            tabLink.click();
-        }
-      window.location.hash = "#cookie_settings#cookie_list#custom_cookie";
-    },
-    onChangeDiscoveredListTab() {
-      this.cookie_list_tab = false;
-      this.discovered_cookies_list_tab = true;
-      this.scan_history_list_tab = false;
-      this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
-      const dropdownarrow = document.querySelector('.cookie_arrow')
-      dropdownarrow.classList.remove('up');
-      dropdownarrow.classList.add('down');
-      const tabLink = document.querySelector("a[href='#cookie_settings#cookie_list']");
-        if (tabLink) {
-            tabLink.click();
-        }
-      window.location.hash = "#cookie_settings#cookie_list#discovered_cookies";
-    },
-    onChangeScanHistoryTab() {
-      this.cookie_list_tab = false;
-      this.discovered_cookies_list_tab = false;
-      this.scan_history_list_tab = true;
-      this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
-      const dropdownarrow = document.querySelector('.cookie_arrow')
-      dropdownarrow.classList.remove('up');
-      dropdownarrow.classList.add('down');
-      const tabLink = document.querySelector("a[href='#cookie_settings#cookie_list']");
-        if (tabLink) {
-            tabLink.click();
-        }
-      window.location.hash = "#cookie_settings#cookie_list#scan_history";
-    },
-    activateTabFromHash() {
-      const hash = window.location.hash;
-      if (hash === "#cookie_settings#cookie_list#custom_cookie") {
-        this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
-        this.onChangeCookieListTab();
-      } else if (hash === "#cookie_settings#cookie_list#discovered_cookies") {
-        this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
-        this.onChangeDiscoveredListTab();
-      } else if (hash === "#cookie_settings#cookie_list#scan_history") {
-        this.cookie_scan_dropdown = !this.cookie_scan_dropdown;
-        this.onChangeScanHistoryTab();
-      }
-    },
-    onStartScheduleScan() {
-      this.schedule_scan_show = false; //make it false to close the popup
-
-      if (this.schedule_scan_as == "once") {
-        //execute schedule scan once
-        this.scheduleScanOnce();
-
-        //set value for the Next Scan Details when Once
-        const dateObject = new Date(this.schedule_scan_date);
-        const formattedDate = dateObject.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        });
-        this.next_scan_is_when = formattedDate;
-      } else if (this.schedule_scan_as == "monthly") {
-        //execute scan schedule monthly
-        this.scanMonthly();
-
-        //set value for the Next Scan Details when Monthly
-
-        // Get the day of the month when the scan should run
-        const dayString = this.schedule_scan_day;
-        const dayNumber = parseInt(dayString.replace("Day ", ""), 10);
-        const targetDayOfMonth = dayNumber;
-
-        // Assuming this.schedule_scan_day contains the day of the month (1 to 31)
-        const dayOfMonth = parseInt(
-          this.schedule_scan_day.replace("Day ", ""),
-          10
-        );
-
-        if (isNaN(dayOfMonth) || dayOfMonth < 1 || dayOfMonth > 31) {
-          console.error("Invalid day of the month:", dayOfMonth);
-        } else {
-          // Get the current date and day of the month
-          const currentDate = new Date();
-          const currentDayOfMonth = currentDate.getDate();
-
-          // Get the selected day of the month for scanning
-          const targetDayOfMonth = dayOfMonth;
-
-          // Get the number of days in the current month
-          const currentYear = currentDate.getFullYear();
-          const currentMonth = currentDate.getMonth() + 1; // Month is zero-based, so we add 1
-          const daysInCurrentMonth = new Date(
-            currentYear,
-            currentMonth,
-            0
-          ).getDate();
-
-          // Calculate the next scan date based on the current date and the selected day of the month
-          let nextScanDate;
-          if (
-            dayOfMonth > daysInCurrentMonth ||
-            currentDayOfMonth > dayOfMonth
-          ) {
-            // If the selected day exceeds the number of days in the current month
-            // or if the current day is greater than the selected day,
-            // set the next scan date to the selected day of the month in the next month
-            nextScanDate = new Date(
-              currentYear,
-              currentMonth,
-              targetDayOfMonth
-            );
-          } else {
-            // If the current day of the month is less than or equal to the selected day of the month,
-            // set the next scan date to the selected day of the month in the current month
-            nextScanDate = new Date(
-              currentYear,
-              currentMonth - 1,
-              targetDayOfMonth
-            );
-          }
-
-          // Format the next scan date as needed (e.g., 'Mar 2, 2023')
-          const formattedDate = nextScanDate.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          });
-          this.next_scan_is_when = formattedDate;
-        }
-      } else if (this.schedule_scan_as == "never") {
-        this.next_scan_is_when = "Not Scheduled";
-      }
-      jQuery.ajax({
-        url: settings_obj.ajaxurl,
-        type: "POST",
-        data: {
-          action: "gcc_save_schedule_scan",
-          schedule_scan_as: this.schedule_scan_as,
-          schedule_scan_date: this.schedule_scan_date,
-          schedule_scan_time_value: this.schedule_scan_time_value,
-          schedule_scan_day: this.schedule_scan_day,
-          next_scan_is_when: this.next_scan_is_when,
-        },
-      });
-    },
-    clearScheduleAfterScan() {
-      var that = this;
-      jQuery.ajax({
-        url: settings_obj.ajaxurl,
-        type: "POST",
-        data: {
-          action: "gcc_clear_schedule_scan"
-        },
-        success: function(response) {
-          that.next_scan_is_when = "Not Scheduled";
-          that.schedule_scan_as = "never";
-          console.log("Schedule cleared after successful scan");
-        }, error: function() {
-          console.error("Error clearing schedule after scan");
-        }
-      });
-    },
-    scheduleScanOnce() {
-      if (this.schedule_scan_as !== "once") {
-          return;
-        }
-
-      // Define the date and time when you want the function to execute
-      let targetDate = new Date(this.schedule_scan_date);
-
-      // Parse the time entered by the user and handle both 12-hour and 24-hour formats
-      const timeParts = this.schedule_scan_time_value.split(":");
-      let hours = parseInt(timeParts[0], 10);
-      const minutes = parseInt(timeParts[1], 10);
-
-      // Check if the time is in 12-hour format (e.g., "01:03 AM")
-      if (
-        this.schedule_scan_time_value.toUpperCase().includes("PM") &&
-        hours < 12
-      ) {
-        hours += 12;
-      } else if (
-        this.schedule_scan_time_value.toUpperCase().includes("AM") &&
-        hours === 12
-      ) {
-        hours = 0;
-      }
-
-      // Set the hours and minutes in the target date
-      targetDate.setHours(hours);
-      targetDate.setMinutes(minutes);
-
-      // Calculate the time difference between now and the target date
-      const timeUntilExecution = targetDate - new Date();
-      // Extract date components
-      const targetYear = targetDate.getFullYear();
-      const targetMonth = targetDate.getMonth();
-      const targetDay = targetDate.getDate();
-      const targetHour = targetDate.getHours();
-      const targetMinute = targetDate.getMinutes();
-        
-      // Check if the target date is in the future
-       if (timeUntilExecution > 0) {
-          setInterval(() => {
-            // Use setInterval to delay the execution of scan
-            const now = new Date();
-            // Check ALL date components
-            if (now.getFullYear() === targetYear &&
-                now.getMonth() === targetMonth &&
-                now.getDate() === targetDay &&
-                now.getHours() === targetHour &&
-                now.getMinutes() === targetMinute) {      
-          // after the scan is completed successfully, clear the schedule
-          this.onClickStartScan();
-          this.clearScheduleAfterScan();
-          this.next_scan_is_when = "Not Scheduled";
-          this.schedule_scan_as = "never";
-          }
-        }, 60000); // Check every minute
-      } else {
-        // if the target date is in the past
-        alert("Selected date is in the past. Please select a vaild date.");
-        this.schedule_scan_show = true;
-      }
-    },
-    scanMonthly() {
-      // Get the day of the month when the scan should run
-      const dayString = this.schedule_scan_day;
-      const dayNumber = parseInt(dayString.replace("Day ", ""), 10);
-      const targetDayOfMonth = dayNumber;
-
-      if (
-        isNaN(targetDayOfMonth) ||
-        targetDayOfMonth <= 0 ||
-        targetDayOfMonth > 31
-      ) {
-        alert("Invalid day of the month:", this.schedule_scan_day);
-        return; // Exit if the day is invalid
-      }
-
-      // Define the time (hours and minutes)
-      const timeParts = this.schedule_scan_time_value.split(":");
-      let hours = parseInt(timeParts[0], 10);
-      const minutes = parseInt(timeParts[1], 10);
-
-      // Check if the time is in 12-hour format (e.g., "01:03 AM")
-      if (
-        this.schedule_scan_time_value.toUpperCase().includes("PM") &&
-        hours < 12
-      ) {
-        hours += 12;
-      } else if (
-        this.schedule_scan_time_value.toUpperCase().includes("AM") &&
-        hours === 12
-      ) {
-        hours = 0;
-      }
-      // Define a function to check and run the scan when the conditions are met
-      const checkAndRunScan = () => {
-        const currentDate = new Date();
-        const currentDayOfMonth = currentDate.getDate();
-        const currentHours = currentDate.getHours();
-        const currentMinutes = currentDate.getMinutes();
-
-        if (
-          currentDayOfMonth === targetDayOfMonth &&
-          currentHours === hours &&
-          currentMinutes === minutes
-        ) {
-          // The conditions are met; execute the scan
-          this.onClickStartScan();
-          const nextMonthDate = new Date(currentDate);
-          nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
-          nextMonthDate.setDate(targetDayOfMonth);
-
-          const formattedDate = nextMonthDate.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          });
-
-          jQuery.ajax({
-            url: settings_obj.ajaxurl,
-            type: "POST",
-            data: {
-              action: "gcc_save_schedule_scan",
-              schedule_scan_as: "monthly",
-              schedule_scan_date: formattedDate,
-              schedule_scan_time_value: this.schedule_scan_time_value,
-              schedule_scan_day: this.schedule_scan_day,
-              next_scan_is_when: formattedDate,
-            },
-            success: () => {
-              this.next_scan_is_when = formattedDate;
-            }
-          });
-        }
-      };
-
-      // Set an interval to check if the conditions for running the scan are met
-      setInterval(checkAndRunScan, 60000);
-    },
-    onClickStartScan(singlePageScan = false) {
-      var that = this;
-      var hash = Math.random().toString( 36 ).replace( '0.', '' );
-      var data = {
-        action: "wpl_cookie_start_scanning",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        hash: hash,
-      };
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (!data.success) {
-            // This is actually an "error"
-            if (data.data?.message === 'Scanning already in progress'){
-              that.success_error_message = "A scanning is already in progress. Please wait for it to complete.";
-            }
-            else if (data.data?.message === 'Failed to contact scanner server'){
-              that.success_error_message = "Failed to contact the scanning server, please refresh and try. If the problem persists, please raise a support ticket."
-            }
-            else if (data.data.server_response?.status === 'Pages limit reached') {
-              that.success_error_message = "You have exhausted your pages limit. Please upgrade your plan to continue scanning.";
-            } else if (data.data.server_response?.status === 'Monthly scan limit reached') {
-              that.success_error_message = "You have exhausted your monthly scan limit. Either wait for a month or upgrade your plan to continue scanning.";
-            } else {
-              that.success_error_message = data.data.message;
-            }
-
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").css("background-color", "#e55353");
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(4500);
-          } else {
-            
-            that.success_error_message = "Scanning has started. You will be notified via mail once scan is completed.";
-            that.scan_in_progress = true;
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").css("background-color", "#72b85c");
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(4500);
-          }
-        },
-        error: function (e) {
-          console.log("Error: ", e);
-        },
-      });
-    },
-    doScan(singlePageScan = false) {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "check_api",
-      };
-      var scanbar = j(".wpl_scanbar");
-      scanbar.html(
-        '<span style="float:left; height:40px; line-height:40px;">' +
-          settings_obj.cookie_scan_settings.labels.checking_api +
-          '</span> <img src="' +
-          settings_obj.cookie_scan_settings.loading_gif +
-          '" style="display:inline-block;" />'
-      );
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          scanbar.html("");
-          if (data.response === true) {
-            that.scanNow(singlePageScan);
-          } else {
-            that.serverUnavailable(scanbar, data.message);
-          }
-        },
-        error: function () {
-          scanbar.html("");
-          that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
-        },
-      });
-    },
-    scanNow(singlePageScan = false) {
-      var html = this.makeHtml();
-      var scanbar = j(".gdpr_scanbar");
-      scanbar.html(html);
-      j(".gdpr_scanbar_staypage").css({ display: "flex" }).show();
-      this.attachScanStop();
-      j(".gdpr_scanlog").css({ display: "block", opacity: 0 }).animate(
-        {
-          opacity: 1,
-          height: "auto",
-        },
-        1000
-      );
-      this.takePages(0, 0, 0, 0, singlePageScan);
-    },
-    animateProgressBar(offset, total, msg) {
-      var prgElm = j(".gdpr_progress_bar");
-      var w = prgElm.width();
-      var sp = 100 / total;
-      var sw = w / total;
-      var cw = sw * offset;
-      var cp = sp * offset;
-
-      cp = cp > 100 ? 100 : cp;
-      cp = Math.floor(cp < 1 ? 1 : cp);
-
-      cw = cw > w ? w : cw;
-      cw = Math.floor(cw < 1 ? 1 : cw);
-      j(".gdpr_progress_bar_inner")
-        .stop(true, true)
-        .animate({ width: cw + "px" }, 300, function () {
-          j(".gdpr_progress_action_main").html(msg);
-        })
-        .html(cp + "%");
-    },
-    appendLogAnimate(data, offset) {
-      var that = this;
-      if (data.length > offset) {
-        offset++;
-        var speed = 300 / data.length;
-        setTimeout(function () {
-          that.appendLogAnimate(data, offset);
-        }, speed);
-      }
-    },
-    takePages(offset, limit, total, scan_id, singlePageScan = false) {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "get_pages",
-        offset: offset,
-      };
-      if (limit) {
-        data["limit"] = limit;
-      }
-      if (total) {
-        data["total"] = total;
-      }
-      if (scan_id) {
-        data["scan_id"] = scan_id;
-      }
-      // Fake progress.
-      this.animateProgressBar(
-        1,
-        100,
-        settings_obj.cookie_scan_settings.labels.finding
-      );
-      jQuery.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (that.isGdprProActive) {
-            that.scan_id =
-              typeof data.scan_id != "undefined" ? data.scan_id : 0;
-            if (that.continue_scan == 0) {
-              return false;
-            }
-            if (typeof data.response != "undefined" && data.response === true) {
-              that.appendLogAnimate(data.log, 0);
-              var new_offset = parseInt(data.offset) + parseInt(data.limit);
-              if (data.total - 1 > new_offset) {
-                // substract 1 from total because of home page.
-                that.takePages(
-                  new_offset,
-                  data.limit,
-                  data.total,
-                  data.scan_id
-                );
-              } else {
-                j(".wpl_progress_action_main").html(
-                  settings_obj.cookie_scan_settings.labels.scanning
-                );
-                that.scanPages(data.scan_id, 0, data.total);
-              }
-            } else {
-              that.showErrorScreen(
-                settings_obj.cookie_scan_settings.labels.error
-              );
-            }
-          } else {
-            const urlParams = new URLSearchParams(window.location.search);
-            const scanUrlParam = urlParams.get("scan_url");
-            var ndata = {
-              action: "wpl_cookie_scanner_view_capabilities",
-              security:
-                settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-              no_of_scan: singlePageScan == true ? 1 : data.log.length,
-              offset: offset,
-              scan_id: scan_id ? scan_id : 0,
-              total_pages: data.total,
-            };
-            jQuery
-              .ajax({
-                url: settings_obj.cookie_scan_settings.ajax_url,
-                data: ndata,
-                dataType: "json",
-                type: "POST",
-              })
-              .done(function (response) {
-                if (
-                  response.success &&
-                  response.data.connection_status === "active"
-                ) {
-                  that.scan_id = data.scan_id !== undefined ? data.scan_id : 0;
-                  if (that.continue_scan == 0) {
-                    return false;
-                  }
-                  if (data.response === true) {
-                    that.appendLogAnimate(data.log, 0);
-                    var new_offset =
-                      parseInt(data.offset) + parseInt(data.limit);
-                    if (data.total - 1 > new_offset) {
-                      // subtract 1 from total because of home page.
-                      that.takePages(
-                        new_offset,
-                        data.limit,
-                        data.total,
-                        data.scan_id
-                      );
-                    } else {
-                      jQuery(".wpl_progress_action_main").html(
-                        settings_obj.cookie_scan_settings.labels.scanning
-                      );
-                      that.scanPages(data.scan_id, 0, data.total);
-                    }
-                  } else {
-                    that.showErrorScreen(
-                      settings_obj.cookie_scan_settings.labels.error
-                    );
-                  }
-                } else {
-                  that.showScanNowPopup();
-                }
-              })
-              .fail(function () {
-                if (that.continue_scan == 0) {
-                  return false;
-                }
-                that.showErrorScreen(
-                  settings_obj.cookie_scan_settings.labels.error
-                );
-              });
-          }
-        },
-        error: function () {
-          if (that.continue_scan == 0) {
-            return false;
-          }
-          that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
-        },
-      });
-    },
-    showScanNowPopup() {
-      this.$nextTick(() => {
-        const scanBtn = jQuery(".scan-now-btn");
-        const popup = jQuery("#popup-site-excausted");
-        const cancelButton = jQuery(".popup-image");
-        popup.fadeIn();
-        cancelButton.off("click").on("click", function (e) {
-          popup.fadeOut();
-          localStorage.setItem("auto_scan_process_started", "false");
-          window.location.reload();
-        });
-      });
-    },
-    scanPages(scan_id, offset, total) {
-      var that = this;
-      var scanbar = j(".gdpr_scanbar");
-      this.pollCount = 0;
-      var hash = Math.random().toString(36).replace("0.", "");
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "scan_pages",
-        offset: offset,
-        scan_id: scan_id,
-        total: total,
-        hash: hash,
-      };
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          that.scan_id = typeof data.scan_id != "undefined" ? data.scan_id : 0;
-          if (that.continue_scan == 0) {
-            return false;
-          }
-          if (data.response == true) {
-            this.scan_in_progress = false;
-            const currentUrl = new URL(window.location);
-            currentUrl.searchParams.delete("auto_scan");
-            that.getScanCookies(scan_id, offset, total, hash);
-          } else {
-            scanbar.html("");
-            j(".wpl_scanbar_staypage").hide();
-            that.serverUnavailable(scanbar, data.message);
-          }
-        },
-        error: function () {
-          var current = that;
-          if (that.continue_scan == 0) {
-            return false;
-          }
-          // error and retry function.
-
-          that.animateProgressBar(
-            offset,
-            total,
-            settings_obj.cookie_scan_settings.labels.retrying
-          );
-          setTimeout(function () {
-            current.scanPages(scan_id, offset, total);
-          }, 2000);
-        },
-      });
-    },
-    getScanCookies(scan_id, offset, total, hash) {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "get_post_scan_cookies",
-        offset: offset,
-        scan_id: scan_id,
-        total: total,
-        hash: hash,
-      };
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response == true) {
-            var prg_offset = parseInt(offset) + parseInt(data.total_scanned);
-            var prg_msg =
-              settings_obj.cookie_scan_settings.labels.scanning + " ";
-            that.appendLogAnimate(data.log, 0);
-            if (data.continue === true) {
-              that.scanPages(data.scan_id, data.offset, data.total);
-            } else {
-              prg_msg = settings_obj.cookie_scan_settings.labels.finished;
-              prg_msg +=
-                " (" +
-                settings_obj.cookie_scan_settings.labels.total_cookies_found +
-                ": " +
-                data.total_cookies +
-                ")";
-              that.showSuccessScreen(prg_msg, scan_id, 1);
-            }
-            that.animateProgressBar(prg_offset, total, prg_msg);
-          } else {
-            var current = that;
-            if (that.pollCount < 10) {
-              that.pollCount++;
-              setTimeout(function () {
-                current.getScanCookies(
-                  data.scan_id,
-                  data.offset,
-                  data.total,
-                  data.hash
-                );
-              }, 10000);
-            } else {
-              that.showErrorScreen("Something went wrong, please scan again");
-            }
-          }
-        },
-        error: function () {
-          var current = that;
-          if (that.continue_scan == 0) {
-            return false;
-          }
-          if (that.pollCount < 10) {
-            setTimeout(function () {
-              that.getScanCookies(offset, scan_id, total, hash);
-            }, 5000);
-          } else {
-            that.showErrorScreen("Something went wrong, please scan again");
-          }
-        },
-      });
-    },
-    makeHtml() {
-      return (
-        '<div class="gdpr_scanlog">' +
-        '<div class="gdpr_progress_bar">' +
-        '<span class="gdpr_progress_bar_inner gdpr_progress_bar_inner_restructured">' +
-        "</span>" +
-        "</div>" +
-        '<div class="gdpr_progress_action_main">' +
-        settings_obj.cookie_scan_settings.labels.finding +
-        "</div>" +
-        '<div class="gdpr_scanlog_bar"><button type="button" class="pull-right gdpr_stop_scan">' +
-        settings_obj.cookie_scan_settings.labels.stop +
-        "</button></div>" +
-        "</div>"
-      );
-    },
-    attachScanStop() {
-      var that = this;
-      j(".gdpr_stop_scan").click(function () {
-        that.stopScan();
-      });
-    },
-    stopScan() {
-      if (this.continue_scan == 0) {
-        return false;
-      }
-      if (confirm(settings_obj.cookie_scan_settings.labels.ru_sure)) {
-        this.continue_scan = 0;
-        this.stoppingScan(this.scan_id);
-      }
-    },
-    stoppingScan(scan_id) {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "stop_scan",
-        scan_id: scan_id,
-      };
-      j(".gdpr_stop_scan")
-        .html(settings_obj.cookie_scan_settings.labels.stoping)
-        .css({ opacity: ".5" });
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          that.showSuccessScreen(
-            settings_obj.cookie_scan_settings.labels.scanning_stopped,
-            scan_id,
-            data.total
-          );
-        },
-        error: function () {
-          // error function.
-          that.showErrorScreen(settings_obj.cookie_scan_settings.labels.error);
-        },
-      });
-    },
-    serverUnavailable: function (elm, msg) {
-      elm.html(
-        '<div style="background:#ffffff; border:solid 1px #cccccc; color:#333333; padding:5px;">' +
-          msg +
-          "</div>"
-      );
-    },
-    showErrorScreen: function (error_msg) {
-      var html =
-        '<button type="button" class="pull-right gdpr_scan_again" style="margin-left:5px;">' +
-        settings_obj.cookie_scan_settings.labels.scan_again +
-        "</button>";
-      j(".gdpr_scanlog_bar").html(html);
-      j(".gdpr_progress_action_main").html(error_msg);
-      this.success_error_message = error_msg;
-      j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-        "background-color",
-        "#e55353"
-      );
-      j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-      j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-      j(".gdpr_scanbar_staypage").hide();
-      this.scanAgain();
-    },
-    showSuccessScreen(success_msg, scan_id, total) {
-      var html =
-        '<button type="button" class="pull-right gdpr_scan_again" style="margin-left:5px;">' +
-        settings_obj.cookie_scan_settings.labels.scan_again +
-        "</button>";
-      html += '<span class="spinner" style="margin-top:5px"></span>';
-      j(".gdpr_scanlog_bar").html(html);
-      j(".gdpr_progress_action_main").html(success_msg);
-      this.success_error_message = success_msg;
-      j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-        "background-color",
-        "#72b85c"
-      );
-      j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-      j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-      j(".gdpr_scanbar_staypage").hide();
-      this.showScanCookieList();
-      this.scanAgain();
-      setTimeout(() => {
-        localStorage.setItem("auto_scan_process_started", "false");
-        window.location.reload();
-      }, 3000);
-    },
-    showScanCookieList() {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "get_scanned_cookies_list",
-      };
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response) {
-            that.scan_cookie_list_length = data.total;
-            that.scan_cookie_list = data.data;
-            that.setScanListValues();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-        },
-      });
-    },
-    scanAgain() {
-      var that = this;
-      j(".gdpr_scan_again")
-        .unbind("click")
-        .click(function () {
-          that.continue_scan = 1;
-          that.scanNow();
-        });
-    },
-    onClickDeleteCookie() {
-      var that = this;
-      var data = {
-        
-      };
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        type: "POST",
-        data: {
-          action: "wpl_cookies_deletion",
-          security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,  
-        },
-        success: function (response) {
-          that.showSuccessScreen("Cookies Cleared Successfully!");
-          window.location.reload();
-        },
-        error: function () {
-          // error function.
-          that.showErrorScreen("Some error occurred");
-        },
-      });
-    },
-    saveCustomPostCookies(cookie_data) {
-      var that = this;
-      var data = {
-        action: "gdpr_cookie_custom",
-        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
-        gdpr_custom_action: "save_post_cookie",
-        cookie_arr: cookie_data,
-      };
-      j.ajax({
-        url: settings_obj.cookie_list_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-            that.hideCookieForm();
-            that.getPostCookieList();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-        },
-      });
-    },
-    onDeleteCustomCookie(cookie_id) {
-      this.deletePostCookie(cookie_id);
-    },
-    updatePostCookie: function (cookie_arr) {
-      var that = this;
-      var data = {
-        action: "gdpr_cookie_custom",
-        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
-        gdpr_custom_action: "update_post_cookie",
-        cookie_arr: cookie_arr,
-      };
-      j.ajax({
-        url: settings_obj.cookie_list_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-            that.getPostCookieList();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
-    deletePostCookie(cookie_id) {
-      var that = this;
-      var data = {
-        action: "gdpr_cookie_custom",
-        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
-        gdpr_custom_action: "delete_post_cookie",
-        cookie_id: cookie_id,
-      };
-      j.ajax({
-        url: settings_obj.cookie_list_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-            that.getPostCookieList();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-        },
-      });
-    },
-    updateScannedCookies() {
-      // Update the specific cookie in scan_cookie_list with the edited values
-      for (let i = 0; i < this.scan_cookie_list.length; i++) {
-        if (this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"] === this.edit_discovered_cookie["id_wpl_cookie_scan_cookies"]) {
-          // Update the cookie in the list with the edited values
-          this.scan_cookie_list[i]["description"] = this.edit_discovered_cookie["description"];
-          this.scan_cookie_list[i]["category_id"] = this.edit_discovered_cookie["category_id"];
-          this.scan_cookie_list[i]["category"] = this.edit_discovered_cookie["category"];
-          break;
-        }
-      }
-      var cookie_scan_arr = [];
-      for (let i = 0; i < this.scan_cookie_list_length; i++) {
-        var cid = this.scan_cookie_list[i]["id_wpl_cookie_scan_cookies"];
-        var ccategory = this.scan_cookie_list[i]["category_id"];
-        var cdesc = this.scan_cookie_list[i]["description"];
-        var cookie_arr = {
-          cid: cid,
-          ccategory: ccategory,
-          cdesc: cdesc,
-        };
-        cookie_scan_arr.push(cookie_arr);
-      }
-      this.updateScanCookie(cookie_scan_arr);
-    },
-    getPostCookieList: function () {
-      var that = this;
-      var data = {
-        action: "gdpr_cookie_custom",
-        security: settings_obj.cookie_list_settings.nonces.gdpr_cookie_custom,
-        gdpr_custom_action: "get_post_cookies_list",
-      };
-      j.ajax({
-        url: settings_obj.cookie_list_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response) {
-            that.post_cookie_list_length = data.total;
-            that.post_cookie_list = data.post_list;
-            that.setPostListValues();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert").fadeOut(2500);
-        },
-      });
-    },
-    scheduleScanShow() {
-      this.schedule_scan_show = true;
-    },
-    scheduleScanHide() {
-      this.schedule_scan_show = false;
-    },
-    scanTypeChange(value) {
-      this.schedule_scan_as = value;
-    },
-    scanTimeChange(value) {
-      this.schedule_scan_time_value = value;
-    },
-    scanDateChange(value) {
-      this.schedule_scan_date = value;
-    },
-    scanDayChange(value) {
-      this.schedule_scan_day = value;
-    },
-    updateScanCookie(cookie_arr) {
-      var that = this;
-      var data = {
-        action: "wpl_cookie_scanner",
-        security: settings_obj.cookie_scan_settings.nonces.wpl_cookie_scanner,
-        wpl_scanner_action: "update_scan_cookie",
-        cookie_arr: cookie_arr,
-      };
-      j.ajax({
-        url: settings_obj.cookie_scan_settings.ajax_url,
-        data: data,
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-          if (data.response === true) {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-              "background-color",
-              "#72b85c"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-            that.showScanCookieList();
-          } else {
-            that.success_error_message = data.message;
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-              "background-color",
-              "#e55353"
-            );
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-            j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-          }
-        },
-        error: function () {
-          that.success_error_message = data.message;
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").css(
-            "background-color",
-            "#e55353"
-          );
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeIn(400);
-          j("#gdpr-cookie-consent-save-settings-alert-ckm").fadeOut(2500);
-        },
-      });
-    },
-    editCookie(cookie) {
-      this.edit_discovered_cookie_on = true;
-      this.edit_discovered_cookie = { ...cookie };
-    },
-    hideCreateCookiePopup() {
-      this.edit_discovered_cookie_on = false;
-    },
-  },
-  mounted() {
-    j("#gdpr-before-mount").css("display", "none");
-
-    if (settings_obj.is_user_connected) {
-      if (performance.navigation.type !== 1) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const scanUrlParam = urlParams.get("scan_url");
-        // Check if the 'scan' parameter is present and has the value '1'
-        if (scanUrlParam) {
-          // Run the onClickStartScan() method
-          const singlePageScan = true;
-          this.onClickStartScan(singlePageScan);
-        }
-      }
-    }
-
-    this.setValues();
-    this.setPostListValues();
-    if (this.scan_cookie_list_length > 0) {
-      this.setScanListValues();
-    }
-
-    this.activateTabFromHash();
-    //SAVE SCHEDULE SCAN SETTINGS
-    var that = this;
-    jQuery.ajax({
-      url: settings_obj.ajaxurl,
-      type: "POST",
-      data: {
-        action: "gcc_get_schedule_scan"
-      },
-      success: function(response) {
-        if (response.success && response.data) {
-          that.schedule_scan_as = response.data.schedule_scan_as || 'never';
-          that.schedule_scan_date = response.data.schedule_scan_date || '';
-          that.schedule_scan_time_value = response.data.schedule_scan_time_value || '';
-          that.schedule_scan_day = response.data.schedule_scan_day || '';
-          that.next_scan_is_when = response.data.next_scan_is_when || 'Not Scheduled';
-          // RESTART SCHEDULED SCANS AFTER PAGE LOAD
-          if (that.schedule_scan_as === 'once' && that.schedule_scan_date && that.schedule_scan_time_value) {
-
-            const targetDate = new Date(that.schedule_scan_date);
-            const timeParts = that.schedule_scan_time_value.split(':');
-            let hours = parseInt(timeParts[0], 10);
-            const minutes = parseInt(timeParts[1], 10);
-            if (that.schedule_scan_time_value.toUpperCase().includes('PM') && hours < 12) hours += 12;
-            if (that.schedule_scan_time_value.toUpperCase().includes('AM') && hours === 12) hours = 0;
-            targetDate.setHours(hours);
-            targetDate.setMinutes(minutes);
-
-            const now = new Date();
-
-            if (targetDate > now) {
-              that.scheduleScanOnce(); // schedule normally
-            } else {
-              that.clearScheduleAfterScan();
-            }
-          }
-          else if (that.schedule_scan_as === 'monthly') {
-                        that.scanMonthly();
-          }
-        }
-      }
-    });
-  },
-});
-window.ckm = ckm;

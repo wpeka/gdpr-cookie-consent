@@ -70,19 +70,19 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 		$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
 		?>
 		<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="gdpr">
-			<th scope="row"><label for="is_eu_on_field"><?php esc_attr_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?></label></th>
+			<th scope="row"><label for="is_eu_on_field"><?php esc_html_e( 'Show only for EU visitors', 'gdpr-cookie-consent' ); ?></label></th>
 			<td>
-				<input type="radio" id="is_eu_on_field_yes" name="is_eu_on_field" class="styled wpl_bar_on" value="true" <?php echo ( true === $the_options['is_eu_on'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
-				<input type="radio" id="is_eu_on_field_no" name="is_eu_on_field" class="styled" value="false" <?php echo ( false === $the_options['is_eu_on'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
-				<span class="gdpr_form_help"><?php esc_attr_e( 'GDPR message will be displayed to only EU visitors if enabled.', 'gdpr-cookie-consent' ); ?>
+				<input type="radio" id="is_eu_on_field_yes" name="is_eu_on_field" class="styled wpl_bar_on" value="true" <?php echo ( true === $the_options['is_eu_on'] ) ? ' checked="checked"' : ''; ?> /><?php esc_html_e( 'On', 'gdpr-cookie-consent' ); ?>
+				<input type="radio" id="is_eu_on_field_no" name="is_eu_on_field" class="styled" value="false" <?php echo ( false === $the_options['is_eu_on'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_html_e( 'Off', 'gdpr-cookie-consent' ); ?>
+				<span class="gdpr_form_help"><?php esc_html_e( 'GDPR message will be displayed to only EU visitors if enabled.', 'gdpr-cookie-consent' ); ?>
 			</td>
 		</tr>
 		<tr valign="top" gdpr_frm_tgl-id="gdpr_usage_option" gdpr_frm_tgl-val="ccpa">
-			<th scope="row"><label for="is_ccpa_on_field"><?php esc_attr_e( 'Show only for CCPA visitors', 'gdpr-cookie-consent' ); ?></label></th>
+			<th scope="row"><label for="is_ccpa_on_field"><?php esc_html_e( 'Show only for CCPA visitors', 'gdpr-cookie-consent' ); ?></label></th>
 			<td>
-				<input type="radio" id="is_ccpa_on_field_yes" name="is_ccpa_on_field" class="styled wpl_bar_on" value="true" <?php echo ( true === $the_options['is_ccpa_on'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
-				<input type="radio" id="is_ccpa_on_field_no" name="is_ccpa_on_field" class="styled" value="false" <?php echo ( false === $the_options['is_ccpa_on'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
-				<span class="gdpr_form_help"><?php esc_attr_e( 'CCPA message will be displayed to only CCPA visitors if enabled.', 'gdpr-cookie-consent' ); ?>
+				<input type="radio" id="is_ccpa_on_field_yes" name="is_ccpa_on_field" class="styled wpl_bar_on" value="true" <?php echo ( true === $the_options['is_ccpa_on'] ) ? ' checked="checked"' : ''; ?> /><?php esc_html_e( 'On', 'gdpr-cookie-consent' ); ?>
+				<input type="radio" id="is_ccpa_on_field_no" name="is_ccpa_on_field" class="styled" value="false" <?php echo ( false === $the_options['is_ccpa_on'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_html_e( 'Off', 'gdpr-cookie-consent' ); ?>
+				<span class="gdpr_form_help"><?php esc_html_e( 'CCPA message will be displayed to only CCPA visitors if enabled.', 'gdpr-cookie-consent' ); ?>
 			</td>
 		</tr>
 		<?php
@@ -97,36 +97,72 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 	 * @phpcs:disable
 	 */
 	public function wplgip_get_user_ip() {
-		if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) ) {
-			$ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-		} elseif( isset($_SERVER['HTTP_CF_CONNECTING_IP']) ) {
-            $ipaddress = $_SERVER['HTTP_CF_CONNECTING_IP'];
-        } elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'] ) )) > 0 ) {
-			$xForwardedFor = $_SERVER['HTTP_X_FORWARDED_FOR'];
-			$ipList = array_map('trim', explode(',', $xForwardedFor));
+		$ipaddress = 'UNKNOWN';
 
-			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
-		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED'] ) )) > 0 ) {
-			$xForwarded = $_SERVER['HTTP_X_FORWARDED'];
-			$ipList = array_map('trim', explode(',', $xForwarded));
+		if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+			$remote = filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP );
 
-			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
-		} elseif ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_FORWARDED_FOR'] ) )) > 0 ) {
-			$forwardedFor = $_SERVER['HTTP_FORWARDED_FOR'];
-			$ipList = array_map('trim', explode(',', $forwardedFor));
+			if ( $remote ) {
+				$ipaddress = $remote;
 
-			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
-		} elseif ( isset( $_SERVER['HTTP_FORWARDED'] ) && count( array_map('trim', explode(',', $_SERVER['HTTP_FORWARDED'] ) )) > 0 ) {
-			$forwarded = $_SERVER['HTTP_FORWARDED'];
-			$ipList = array_map('trim', explode(',', $forwarded));
+				$trusted_proxies = (array) apply_filters( 'gdpr_cookie_consent_trusted_proxies', array() );
 
-			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
-		} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
-			$ipaddress = $_SERVER['REMOTE_ADDR'];
-		} else {
-			$ipaddress = 'UNKNOWN';
+				if (
+					! empty( $trusted_proxies )
+					&& isset( $_SERVER['HTTP_X_FORWARDED_FOR'] )
+					&& $this->wpl_ip_matches( $remote, $trusted_proxies )
+				) {
+					$ip_list = array_reverse( array_map( 'trim', explode( ',', wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) ) );
+
+					foreach ( $ip_list as $candidate ) {
+						$candidate = filter_var( $candidate, FILTER_VALIDATE_IP );
+						if ( ! $candidate ) {
+							break;
+						}
+						$ipaddress = $candidate;
+						if ( ! $this->wpl_ip_matches( $candidate, $trusted_proxies ) ) {
+							break;
+						}
+					}
+				}
+			}
 		}
+
 		return $ipaddress;
+	}
+	private function wpl_ip_matches( $ip, array $list ) {
+		$ip_bin = inet_pton( $ip );
+		if ( false === $ip_bin ) {
+			return false;
+		}
+		foreach ( $list as $entry ) {
+			$parts = explode( '/', trim( (string) $entry ), 2 );
+			if ( ! filter_var( $parts[0], FILTER_VALIDATE_IP ) ) {
+				continue;
+			}
+			$net   = inet_pton( $parts[0] );
+			if ( false === $net || strlen( $net ) !== strlen( $ip_bin ) ) {
+				continue;
+			}
+			$max_bits = strlen( $net ) * 8;
+			$bits     = isset( $parts[1] ) ? (int) $parts[1] : $max_bits;
+			if ( $bits < 0 || $bits > $max_bits ) {
+				continue;
+			}
+			$bytes = intdiv( $bits, 8 );
+			if ( substr( $ip_bin, 0, $bytes ) !== substr( $net, 0, $bytes ) ) {
+				continue;
+			}
+			$rem = $bits % 8;
+			if ( 0 === $rem ) {
+				return true;
+			}
+			$mask = ( 0xFF << ( 8 - $rem ) ) & 0xFF;
+			if ( ( ord( $ip_bin[ $bytes ] ) & $mask ) === ( ord( $net[ $bytes ] ) & $mask ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -146,6 +182,9 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 		$user_ip      = $this->wplgip_get_user_ip();
 		$country_code = '';
 		if ( $user_ip && 'UNKNOWN' !== $user_ip && ! empty( $database_path ) ) {
+			if ( ! is_readable( $database_path ) ) {
+				return false;
+			}
 			try {
 				$reader = new Reader( $database_path );
 				try {
@@ -154,7 +193,7 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 				} catch ( \GeoIp2\Exception\AddressNotFoundException $e ) {
 					return false;
 				}
-			} catch ( \MaxMind\Db\Reader\InvalidDatabaseException $e ) {
+			} catch ( \Exception $e ) {
 				return false;
 			}
 			if ( in_array( $country_code, Gdpr_Cookie_Consent::get_eu_countries(), true ) ) {
@@ -184,6 +223,9 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 		$country_code = '';
 		$state_code   = '';
 		if ( $user_ip && 'UNKNOWN' !== $user_ip && ! empty( $database_path ) ) {
+			if ( ! is_readable( $database_path ) ) {
+				return false;
+			}
 			try {
 				$reader = new Reader( $database_path );
 				try {
@@ -196,12 +238,42 @@ class Gdpr_Cookie_Consent_Geo_Ip {
 				} catch ( \GeoIp2\Exception\AddressNotFoundException $e ) {
 					return false;
 				}
-			} catch ( \MaxMind\Db\Reader\InvalidDatabaseException $e ) {
+			} catch ( \Exception $e ) {
 				return false;
 			}
 			return $country_code;
 		}
 		return false;
+	}
+
+	/**
+	 * Full geo record for the current visitor.
+	 */
+	public function wpl_get_geo_data() {
+		$uploads_dir = wp_upload_dir();
+		//This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com. The data is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
+		$database_path = trailingslashit( $uploads_dir['basedir'] ) . 'gdpr_uploads/GeoLite2-City.mmdb';
+		$user_ip       = $this->wplgip_get_user_ip();
+
+		if ( ! $user_ip || 'UNKNOWN' === $user_ip || ! is_readable( $database_path ) ) {
+			return false;
+		}
+
+		try {
+			$reader = new Reader( $database_path );
+			$record = $reader->city( $user_ip );
+		} catch ( \Exception $e ) {
+			return false;
+		}
+
+		$sub_divisions = $record->subdivisions;
+
+		return array(
+			'ip'      => $user_ip,
+			'country' => $record->country->isoCode,
+			'state'   => ( $sub_divisions && isset( $sub_divisions[0] ) ) ? $sub_divisions[0]->isoCode : '',
+			'city'    => $record->city->name,
+		);
 	}
 
 	/**

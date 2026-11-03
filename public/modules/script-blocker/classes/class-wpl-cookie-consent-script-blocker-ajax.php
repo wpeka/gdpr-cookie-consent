@@ -39,6 +39,9 @@ class Gdpr_Cookie_Consent_Script_Blocker_Ajax extends Gdpr_Cookie_Consent_Script
 		);
 		if ( isset( $_POST['wpl_script_action'] ) ) {
 			check_admin_referer( 'wpl_script_blocker', 'security' );
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json( $out, 403 );
+			}
 			$wpl_script_action = sanitize_text_field( wp_unslash( $_POST['wpl_script_action'] ) );
 			$allowed_actions   = array( 'update_script_status', 'update_script_category', 'update_script_blocker' );
 			if ( in_array( $wpl_script_action, $allowed_actions, true ) && method_exists( $this, $wpl_script_action ) ) {

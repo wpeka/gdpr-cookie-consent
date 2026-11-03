@@ -5,11 +5,12 @@ jQuery(document).ready(function ($) {
         method: 'POST',
         data: {
             action: 'wpl_cookie_scanner_card',
+            security: cookie_scanner_ajax.security,
         },
         success: function (response) {
             $('.data_wait_loader_container').css("display","none");
-            if (window.ckm && typeof window.ckm.refreshCookieScannerData === 'function') {
-                window.ckm.refreshCookieScannerData(response.data.html);
+            if (window.gen && typeof window.gen.refreshCookieScannerData === 'function') {
+                window.gen.refreshCookieScannerData(response.data.html);
             } else {
                 console.error('Vue instance not found or refreshCookieScannerData method missing.');
             }

@@ -78,13 +78,16 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	public function search_box( $text, $input_id ) {
 		$input_id = $input_id . '-search-input-data-request';
 
-		if ( ! empty( $_REQUEST['orderby'] ) ) {
-			echo '<input type="hidden" name="orderby" value="'
-				. esc_attr( $_REQUEST['orderby'] ) . '" />';
+		$order_by = isset( $_REQUEST['orderby'] ) ? sanitize_key( wp_unslash( $_REQUEST['orderby'] ) ) : '';
+
+		if ( '' !== $order_by && array_key_exists( $order_by, $this->get_sortable_columns() ) ) {
+			echo '<input type="hidden" name="orderby" value="' . esc_attr( $order_by ) . '" />';
 		}
-		if ( ! empty( $_REQUEST['order'] ) ) {
-			echo '<input type="hidden" name="order" value="'
-				. esc_attr( $_REQUEST['order'] ) . '" />';
+		
+		$order = isset( $_REQUEST['order'] ) ? strtolower( sanitize_key( wp_unslash( $_REQUEST['order'] ) ) ) : '';
+
+		if ( in_array( $order, array( 'asc', 'desc' ), true ) ) {
+			echo '<input type="hidden" name="order" value="' . esc_attr( $order ) . '" />';
 		}
 		$search = $this->get_search();
 		?>
@@ -93,9 +96,10 @@ class WPL_Data_Req_Table extends WP_List_Table {
 				<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>">
 					<?php echo esc_html( $text ); ?>:
 				</label>
-				<input placeholder="Search Requests" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>"/>
-				<img id="search-logo-data-request" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
-				<?php
+				<input placeholder="Search Requests" type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_attr( $search ); ?>"/>
+				<img id="search-logo-data-request" v-on:click="submitDataRequestSearch" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
+			</div>
+			<?php
 				submit_button(
 					$text,
 					'button',
@@ -103,14 +107,8 @@ class WPL_Data_Req_Table extends WP_List_Table {
 					false,
 					array( 'ID' => 'search-submit-data-request' )
 				);
-				?>
-			</div>
+			?>
 		</div>
-		<script type="text/javascript">
-			document.getElementById('search-logo-data-request').addEventListener('click', function() {
-				document.getElementById('search-submit-data-request').click();
-			});
-		</script>
 					<?php
 
 			$this->resolved_select();
@@ -144,8 +142,12 @@ class WPL_Data_Req_Table extends WP_List_Table {
 			case 'resolved':
 				$value = $item['resolved'] ? __( 'Resolved', 'gdpr-cookie-consent' ) : __( 'Open', 'gdpr-cookie-consent' );
 				break;
-			default:
+			case 'datarequest':
+				// Built from the fixed request-type list, contains a link.
 				$value = isset( $item[ $column_name ] ) ? $item[ $column_name ] : null;
+				break;
+			default:
+				$value = isset( $item[ $column_name ] ) ? esc_html( $item[ $column_name ] ) : null;
 				break;
 		}
 		return apply_filters( 'wpl_dnsmpd_column_' . $column_name, $value, $item['ID'] );
@@ -159,8 +161,8 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function column_name( $item ) {
-		$name  = '#' . $item['ID'] . ' ';
-		$name .= ! empty( $item['name'] ) ? $item['name'] : '<em>' . __( 'Unnamed user', 'gdpr-cookie-consent' ) . '</em>';
+		$name  = '#' . esc_html( $item['ID'] ) . ' ';
+		$name .= ! empty( $item['name'] ) ? esc_html( $item['name'] ) : '<em>' . esc_html__( 'Unnamed user', 'gdpr-cookie-consent' ) . '</em>';
 		return $name;
 	}
 
@@ -266,17 +268,19 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		if ( ! current_user_can( 'manage_options' ) ) {
 		    wp_die( 'Unauthorized request.' );
 		}
-
-		$ids = isset( $_GET['user_id'] ) ? $_GET['user_id'] : false;
+		
+		$ids = isset( $_GET['user_id'] ) ? array_filter( array_map( 'absint', (array) wp_unslash( $_GET['user_id'] ) ) ) : array();
 		$action = $this->current_action();
 		if ( ! $action ) {
 			// If no action was found, check for action2 (bottom dropdown)
-			$action = isset($_GET['action2']) && $_GET['action2'] != '-1' ? $_GET['action2'] : false;
+			$action2 = isset( $_GET['action2'] ) ? sanitize_text_field( wp_unslash( $_GET['action2'] ) ) : '';
+			$action  = ( '' !== $action2 && '-1' !== $action2 ) ? $action2 : false;
 		}
-		if ( ! $ids ) {
+		if ( !$action || ! $ids ) {
 			return;
 		}
-
+		check_admin_referer( 'bulk-' . $this->_args['plural'] );
+		
 		if ( ! is_array( $ids ) ) {
 			$ids = array( $ids );
 		}
@@ -295,11 +299,16 @@ class WPL_Data_Req_Table extends WP_List_Table {
 					),
 					array( 'ID' => intval( $id ) )
 				);
-				$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
-				wp_redirect( admin_url( 'admin.php?page=wpl-datarequests' . $paged ) );
-
 			}
 		}
+		$paged = isset( $_GET['paged'] ) ? 'paged=' . absint( $_GET['paged'] ) : '';
+		$redirect_url = admin_url( 'admin.php?page=gdpr-cookie-consent' . ( $paged ? '&' . $paged : '' ) . '#compliance_records#data_request' );
+		if ( headers_sent() ) {
+			echo '<script>window.location.replace(' . wp_json_encode( esc_url_raw( $redirect_url ) ) . ');</script>';
+		} else {
+			wp_safe_redirect( $redirect_url );
+		}
+		exit;
 	}
 
 	/**
@@ -319,7 +328,7 @@ class WPL_Data_Req_Table extends WP_List_Table {
 	 * @since  3.0.0
 	 */
 	public function get_search() {
-		return ! empty( $_GET['s'] ) ? urldecode( trim( $_GET['s'] ) ) : false;
+		return ! empty( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : false;
 	}
 
 
@@ -376,9 +385,9 @@ class WPL_Data_Req_Table extends WP_List_Table {
 		$offset  = $this->per_page * ( $paged - 1 );
 		$search  = $this->get_search();
 		$order   = isset( $_GET['order'] )
-			? sanitize_text_field( $_GET['order'] ) : 'DESC';
+			? sanitize_text_field( wp_unslash( $_GET['order'] ) ) : 'DESC';
 		$orderby = isset( $_GET['orderby'] )
-			? sanitize_text_field( $_GET['orderby'] ) : 'id';
+			? sanitize_text_field( wp_unslash( $_GET['orderby'] ) ) : 'id';
 
 		$args = array(
 			'number'  => $this->per_page,
@@ -479,17 +488,18 @@ class WPL_Data_Req_Table extends WP_List_Table {
 
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'wpl_data_req';
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" ) !== $table_name ) {
+		
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) ) ) !== $table_name ) {
 			// Table doesn't exist yet, return empty result set or handle as needed
 			return array();
 		}
 		$sql = "SELECT * from {$wpdb->prefix}wpl_data_req WHERE 1=1 ";
 		if ( isset( $args['email'] ) && ! empty( $args['email'] ) && is_email( $args['email'] ) ) {
-			$sql .= " AND email like '" . '%' . sanitize_email( $args['email'] ) . '%' . "'";
+			$sql .= $wpdb->prepare( " AND email LIKE %s", '%' . $wpdb->esc_like( sanitize_email( $args['email'] ) ) . '%' );
 		}
 
 		if ( isset( $args['name'] ) && ! empty( $args['name'] ) ) {
-			$sql .= " AND name like '%" . sanitize_text_field( $args['name'] ) . "%'";
+			$sql .= $wpdb->prepare(" AND name LIKE %s", '%' . $wpdb->esc_like( $args['name'] ) . '%');
 		}
 
 		if ( isset( $args['resolved'] ) ) {

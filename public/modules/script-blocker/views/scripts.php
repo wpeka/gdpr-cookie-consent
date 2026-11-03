@@ -43,8 +43,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 									>
 									<span class="slider round"></span>
 								</label></td>
-							<td><?php echo esc_attr( $script['script_title'] ); ?></td>
-							<td><?php echo esc_attr( $script['script_description'] ); ?></td>
+							<td><?php echo esc_html( $script['script_title'] ); ?></td>
+							<td><?php echo esc_html( $script['script_description'] ); ?></td>
 							<td><select name="script_category" class="vvv_combobox script_category">
 									<?php foreach ( $category_list as $key => $category ) : ?>
 										<option value="<?php echo esc_attr( $key ); ?>"
@@ -53,7 +53,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 												echo 'selected';
 											}
 											?>
-										><?php echo esc_attr( $category ); ?></option>
+										><?php echo esc_html( $category ); ?></option>
 									<?php endforeach; ?>
 								</select></td>
 						</tr>

@@ -37,6 +37,12 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		$this->settings = new GDPR_Cookie_Consent_Settings();
 		$this->api_user_plan = $this->settings->get_plan();
 
+		// Refreshed only when the dashboard is rendered (admin page or the /get_dashboard-data
+		// REST route), not on admin_init: that also fires on every admin-ajax.php request,
+		// including the frontend banner pings. Registered outside the admin check because
+		// is_admin() is false for REST requests.
+		add_action( 'gdpr_refresh_consent_log_stats', array( $this, 'wpl_cl_maybe_refresh_stats' ) );
+
 		if ( Gdpr_Cookie_Consent::is_request( 'admin' ) ) {
 			add_action( 'admin_menu', array( $this, 'wplcl_admin_menu' ), 12 );
 			add_action( 'manage_edit-wplconsentlogs_columns', array( $this, 'wplcl_manage_edit_columns' ) );
@@ -48,10 +54,11 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			add_action( 'pre_get_posts', array( $this, 'wplcl_extend_admin_search' ) );
 			add_action( 'gdpr_module_before_other_general', array( $this, 'wplcl_other_general' ), 5 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_custom_admin_styles' ) );
-			add_action( 'admin_init', array( $this, 'wpl_cl_cookie_details_pie_chart' ) );
 			add_action( 'gdpr_consent_log_table_dashboard', array( $this, 'consent_log_dashboard_table' ), 5 );
 		}
 
+		add_action( 'rest_api_init', array( $this, 'wplcl_register_rest_routes' ) );
+		// Pages cached before 4.5 still post consent through admin-ajax.
 		add_action( 'wp_ajax_nopriv_gdpr_log_consent_action', array( $this, 'wplcl_log_consent_action' ) );
 		add_action( 'wp_ajax_gdpr_log_consent_action', array( $this, 'wplcl_log_consent_action' ) );
 		add_action( 'wp_ajax_nopriv_gdpr_increase_page_view', array( $this, 'wplcl_increase_page_view' ) );
@@ -92,10 +99,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		}
 		?>
 		<tr valign="top">
-			<th scope="row"><label for="logging_on_field"><?php esc_attr_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?></label></th>
+			<th scope="row"><label for="logging_on_field"><?php esc_html_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?></label></th>
 			<td>
-				<input type="radio" id="logging_on_field_yes" name="logging_on_field" class="styled wpl_bar_on" value="true" <?php echo ( true === $the_options['logging_on'] ) ? ' checked="checked"' : ''; ?> /><?php esc_attr_e( 'On', 'gdpr-cookie-consent' ); ?>
-				<input type="radio" id="logging_on_field_no" name="logging_on_field" class="styled" value="false" <?php echo ( false === $the_options['logging_on'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_attr_e( 'Off', 'gdpr-cookie-consent' ); ?>
+				<input type="radio" id="logging_on_field_yes" name="logging_on_field" class="styled wpl_bar_on" value="true" <?php echo ( true === $the_options['logging_on'] ) ? ' checked="checked"' : ''; ?> /><?php esc_html_e( 'On', 'gdpr-cookie-consent' ); ?>
+				<input type="radio" id="logging_on_field_no" name="logging_on_field" class="styled" value="false" <?php echo ( false === $the_options['logging_on'] ) ? ' checked="checked" ' : ''; ?> /><?php esc_html_e( 'Off', 'gdpr-cookie-consent' ); ?>
 			</td>
 		</tr>
 		<?php
@@ -231,8 +238,13 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	?>
 		<script type="text/javascript">
 			jQuery(document).ready(function($) {
-				var s = jQuery('#post-search-input').val();
-				jQuery("<a  href='<?php echo admin_url('admin-post.php?action=export.csv'); ?>&s=" + s + "' id='export_consent_logs' class='add-new-h2'><?php echo $scan_export_menu; ?></a>").insertAfter(".wrap h1");
+				var s = jQuery('#post-search-input').val() || '';
+				jQuery('<a>', {
+					href: <?php echo wp_json_encode( esc_url_raw( add_query_arg( '_wpnonce', wp_create_nonce( 'wplcl_export_csv' ), admin_url( 'admin-post.php?action=export.csv' ) ) ) ); ?> + '&s=' + encodeURIComponent(s),
+					id: 'export_consent_logs',
+					'class': 'add-new-h2',
+					text: <?php echo wp_json_encode( $scan_export_menu ); ?>
+				}).insertAfter(".wrap h1");
 			});
 		</script>
 		<?php
@@ -246,6 +258,12 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 */
 	public function wplcl_process_csv_export()
 	{
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+    	    wp_die( __( 'Unauthorized', 'gdpr-cookie-consent' ), 403 );
+    	}
+		check_admin_referer( 'wplcl_export_csv' );
+
 		global $wpdb;
 
 		$wpdb->hide_errors();
@@ -288,8 +306,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			)
 		);
 		if (isset($_GET['s']) && !empty($_GET['s'])) {
-			$search                   = $_GET['s'];
-			$search                   = trim($search);
+			$search                   = sanitize_text_field( wp_unslash( $_GET['s'] ) );
 			$wplcl_args['meta_query'] = array(
 				'relation' => 'OR',
 				array(
@@ -403,8 +420,18 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 */
 	public static function format_data($data)
 	{
+		$data = (string) $data;
 		$enc  = mb_detect_encoding($data, 'UTF-8, ISO-8859-1', true);
-		$data = ($enc == 'UTF-8') ? $data : utf8_encode($data);
+		$data = ( $enc === 'UTF-8' ) ? $data : mb_convert_encoding( $data, 'UTF-8', 'ISO-8859-1' );
+
+		// Check if the data starts with =, +, -, @, tab or carriage return, indicating a potential formula.
+		// Values such as the logged IP address originate from request headers, so wrapping
+		// the column in quotes alone does not stop a spreadsheet from evaluating it.
+		if ( preg_match( '/^[=+\-@\t\r]/', $data ) ) {
+			// If a potential formula is detected, prepend the data with a single quote.
+			$data = "'" . $data;
+		}
+
 		return $data;
 	}
 
@@ -425,8 +452,8 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		check_ajax_referer( 'wpl_consent_logging_nonce', 'security' );
 		$ab_option = get_option('wpl_ab_options');
 		if($ab_option['ab_testing_enabled'] == false || $ab_option['ab_testing_enabled'] == "false") return;  //do not collect data if a/b testing is disabled.
-		$chosenBanner = $_POST['chosenBanner'];
-		$user_preference = $_POST['user_preference'];
+		$chosenBanner    = isset( $_POST['chosenBanner'] ) ? absint( $_POST['chosenBanner'] ) : 0;
+		$user_preference = isset( $_POST['user_preference'] ) ? map_deep( wp_unslash( $_POST['user_preference'] ), 'sanitize_text_field' ) : '';
 		if($chosenBanner == 1){
 			if($user_preference == "no choice"){
 				$ab_option["noChoice1"]++;
@@ -480,7 +507,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 * @since 6.3.5
 	 */
 	public function wplcl_increase_ignore_rate(){
-			
+		check_ajax_referer( 'wpl_consent_logging_nonce', 'security' );
 		$wpl_total_ignore_count = get_option('wpl_total_ignore_count');
 		if($wpl_total_ignore_count === false){
 			add_option("wpl_total_ignore_count", 0);
@@ -495,69 +522,21 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 * @since 6.3.5
 	 */
 	public function wplcl_increase_page_view(){
-		$key = gmdate('M d, Y');
-		$wpl_page_views = get_option('wpl_page_views');
-		if($wpl_page_views === false){
-			add_option("wpl_page_views", []);
-			$wpl_page_views = [];
-		}	
-		$wpl_total_page_views = get_option('wpl_total_page_views');
-		if($wpl_total_page_views === false){
-			add_option("wpl_total_page_views", 0);
-			$wpl_page_views = 0;
-		}
-    	// Check if the key exists in the $wpl_page_views array
-		if (isset($wpl_page_views[$key])) {
-			// If the key exists, increment its value
-			$wpl_page_views[$key] += 1;
+		check_ajax_referer( 'wpl_consent_logging_nonce', 'security' );
+		Gdpr_Cookie_Consent_Page_Views::increment();
+		$monthly_views = Gdpr_Cookie_Consent_Page_Views::get_monthly_views( true );
+
+		$limit = Gdpr_Cookie_Consent_Page_Views::get_monthly_limit( $this->api_user_plan );
+
+		if ( $limit && $monthly_views >= $limit ) {
+		    $notice_message = '20k monthly banner views used on your free plan. Go Pro to continue displaying it.';
 		} else {
-			// If the key doesn't exist, create it and set its value to 1
-			$wpl_page_views[$key] = 1;
+		    // Unlimited plan, or the limit is not reached: clear the notice message.
+		    $notice_message = '';
 		}
-		$wpl_total_page_views++;
-
-		$current_month = gmdate('M Y');
-		$monthly_views = $this->get_monthly_views($wpl_page_views, $current_month);
-		update_option('wpl_monthly_page_views', $monthly_views);
-		
-		$limits = [
-		  'free' => 20000,
-		  '3sites' => 100000,
-		  '10sites' => PHP_INT_MAX, // effect: unlimited
-		];
-		$limit = $limits[$this->api_user_plan] ?? PHP_INT_MAX;
-
-		$plan_limit_messages = [
-		    'free' => "20k monthly banner views used on your free plan. Go Pro to continue displaying it.",
-		    '3sites' => "100K monthly banner views used on your current plan. Upgrade to Business Plan to keep it running.",
-			'10sites' => ""
-		];
-
-		if ($monthly_views >= $limit) {
-		    if ($limit != PHP_INT_MAX) {
-		        update_option( 'page_view_notice_message', $plan_limit_messages[$this->api_user_plan] );
-		    }
-		} else {
-		    // If the limit is not reached, clear the notice message
-		    update_option( 'page_view_notice_message', '' );
+		if ( get_option( 'page_view_notice_message', '' ) !== $notice_message ) {
+		    update_option( 'page_view_notice_message', $notice_message );
 		}
-
-		update_option('wpl_page_views', $wpl_page_views);
-		update_option('wpl_total_page_views', $wpl_total_page_views);
-	}
-
-	/**
-	 * Calculate monthly page views.
-	 */
-	function get_monthly_views($wpl_page_views, $current_month) {
-		$monthly_views = 0;
-		foreach ($wpl_page_views as $date => $views) {
-			$date_obj = DateTime::createFromFormat('M d, Y', $date);
-			if ($date_obj && $date_obj->format('M Y') === $current_month) {
-				$monthly_views += $views;
-			}
-		}
-		return $monthly_views;
 	}
 
 	/**
@@ -567,21 +546,30 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 */
 	public function wplcl_log_consent_action() {
 		check_ajax_referer( 'wpl_consent_logging_nonce', 'security' );
-		$settings      = Gdpr_Cookie_Consent::gdpr_get_settings();
-		$selectedsites = $settings['select_sites'];
+		$settings = Gdpr_Cookie_Consent::gdpr_get_settings();
 
 		if ( ! empty( $_POST ) && $settings['logging_on'] ) {
 			$js_cookie_list     = array();
 			$wpl_cookie_details = array();
-			if ( isset( $_POST['subSiteId'] ) ) {
-				$subSiteId = sanitize_text_field( wp_unslash( $_POST['subSiteId'] ) );
+
+			// Consent forwarding is decided by the stored settings, never by the request.
+			$forward_enabled = ( true === $settings['consent_forward'] );
+
+			// Only forward to a blog the administrator has allow-listed in `select_sites`.
+			$subSiteId = null;
+			if ( is_multisite() && $forward_enabled && isset( $_POST['subSiteId'] ) ) {
+				$requested_site_id = absint( wp_unslash( $_POST['subSiteId'] ) );
+				if ( ! $this->wplcl_is_forwarding_allowed( $requested_site_id, $settings['select_sites'] ) ) {
+					wp_send_json_error( array( 'message' => __( 'Invalid site.', 'gdpr-cookie-consent' ) ), 403 );
+				}
+				$subSiteId = $requested_site_id;
 			}
-			if ( isset( $_POST['currentSite'] ) ) {
-				$SiteURL = esc_url( $_POST['currentSite'] );
-			}
-			if ( isset( $_POST['consent_forward'] ) ) {
-				$consent_forward = $_POST['consent_forward'];
-			}
+
+			// Mirrors the value the bundled script sends, so stored meta keeps its historical shape.
+			$consent_forward = $forward_enabled ? 'true' : 'false';
+
+			$posted_site_url = isset( $_POST['currentSite'] ) ? esc_url_raw( wp_unslash( $_POST['currentSite'] ) ) : '';
+			$SiteURL         = $this->wplcl_get_origin_site_url( $posted_site_url );
 			if ( isset( $_POST['gdpr_user_action'] ) ) {
 				$gdpr_user_action = sanitize_text_field( wp_unslash( $_POST['gdpr_user_action'] ) );
 				if ( isset( $_POST['cookie_list'] ) && is_array( $_POST['cookie_list'] ) ) {
@@ -602,7 +590,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								}
 								if ( strpos( $key, 'wpl_tc_string' ) !== false) {
 									if($settings['is_iabtcf_on'] === "true" || $settings['is_iabtcf_on'] === true || $settings['is_iabtcf_on'] === 1){
-										$wpl_cookie_details['wpl_tc_string'] = $val;
+										$wpl_cookie_details['wpl_tc_string'] = preg_match( '/^[A-Za-z0-9_\-.]*$/', $val ) ? $val : '';
 									}
 									else{
 										$wpl_cookie_details['wpl_tc_string'] = "";
@@ -611,7 +599,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								}
 								if ( strpos( $key, 'IABTCF_AddtlConsent' ) !== false) {
 									if($settings['is_gacm_on'] === "true" || $settings['is_gacm_on'] === true || $settings['is_gacm_on'] === 1 || $settings['is_gacm_on'] === "1"){
-										$wpl_cookie_details['Additional_Consent_String'] = $val;
+										$wpl_cookie_details['Additional_Consent_String'] = preg_match( '/^[0-9]+~[A-Za-z0-9.~]*$/', $val ) ? $val : '';
 									}
 									else{
 										$wpl_cookie_details['Additional_Consent_String'] = "";
@@ -632,9 +620,8 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			}
 
 			$args['consent_details'] = $wpl_cookie_details;
-			$subSiteId               = $subSiteId ?? null;
 
-			if ( ( is_multisite() && $consent_forward && $this->wpl_insert_consent_log( $args, $subSiteId, $SiteURL, $consent_forward ) ) || ( is_multisite() && isset( $subSiteId ) && $this->wpl_insert_consent_log( $args, $subSiteId, $SiteURL, $consent_forward ) ) || ( ! is_multisite() && $this->wpl_insert_consent_log( $args, null, $SiteURL, $consent_forward ) ) ) {
+			if ( $this->wpl_insert_consent_log( $args, $subSiteId, $SiteURL, $consent_forward ) ) {
 				$data = array( 'message' => __( 'Consent Logged Successfully.', 'gdpr-cookie-consent' ) );
 			} else {
 				$data = array( 'message' => __( 'Error.', 'gdpr-cookie-consent' ) );
@@ -642,8 +629,319 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			wp_send_json_success( $data );
 		} else {
 			$data = array( 'message' => __( 'Consent Logging is not enabled.', 'gdpr-cookie-consent' ) );
-			wp_send_json_success( $settings );
+			wp_send_json_success( $data );
 		}
+	}
+
+	/**
+	 * Register the consent log endpoint.
+	 *
+	 * @since 4.5.0
+	 */
+	public function wplcl_register_rest_routes() {
+		register_rest_route(
+			'gdpr/v2',
+			'/consent-log',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'wplcl_rest_log_consent' ),
+				// Visitors are anonymous and pages are cached, so there is no user or
+				// fresh nonce to check. The request is validated field by field below,
+				// limited to this site's origin, and rate limited per IP.
+				'permission_callback' => '__return_true',
+			)
+		);
+	}
+
+	/**
+	 * Store one consent decision sent by the consent core with sendBeacon.
+	 *
+	 * Only the decision itself is accepted: the consent ID, the action, the
+	 * category grants, the US opt-out, the law, and the consent and banner
+	 * versions. The visitor's cookie jar is not sent or stored.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function wplcl_rest_log_consent( $request ) {
+		$settings = Gdpr_Cookie_Consent::gdpr_get_settings();
+		if ( true !== $settings['logging_on'] && 'true' !== $settings['logging_on'] ) {
+			return new WP_REST_Response( null, 204 );
+		}
+
+		if ( ! $this->wplcl_is_same_origin( $request ) ) {
+			return new WP_Error( 'wpl_consent_log_origin', 'Cross-origin request.', array( 'status' => 403 ) );
+		}
+
+		$body = (string) $request->get_body();
+		if ( strlen( $body ) > 8192 ) {
+			return new WP_Error( 'wpl_consent_log_size', 'Request too large.', array( 'status' => 413 ) );
+		}
+
+		if ( ! $this->wplcl_rate_limit_ok() ) {
+			return new WP_Error( 'wpl_consent_log_rate', 'Too many requests.', array( 'status' => 429 ) );
+		}
+
+		$entry = $this->wplcl_validate_consent_entry( json_decode( $body, true ), $settings );
+		if ( is_wp_error( $entry ) ) {
+			return $entry;
+		}
+
+		$site_url        = $this->wplcl_get_origin_site_url( $entry['url'] );
+		$forward_enabled = ( true === $settings['consent_forward'] );
+		$consent_forward = $forward_enabled ? 'true' : 'false';
+		$args            = array( 'consent_details' => $entry['details'] );
+
+		$logged = (bool) $this->wpl_insert_consent_log( $args, null, $site_url, $consent_forward );
+
+		// Consent forwarding: the same decision is logged on each allow-listed blog.
+		if ( $logged && $forward_enabled && is_multisite() ) {
+			foreach ( $entry['sites'] as $site_id ) {
+				if ( get_current_blog_id() !== $site_id && $this->wplcl_is_forwarding_allowed( $site_id, $settings['select_sites'] ) ) {
+					$this->wpl_insert_consent_log( $args, $site_id, $site_url, $consent_forward );
+				}
+			}
+		}
+
+		return new WP_REST_Response( array( 'logged' => $logged ), $logged ? 201 : 500 );
+	}
+
+	/**
+	 * Validate a consent log payload and build the stored details.
+	 *
+	 * The details keep the keys the log table, CSV export and PDF already read
+	 * (wpl_viewed_cookie, wpl_user_preference as JSON, wpl_optout_cookie), and add
+	 * the consent record fields.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param mixed $data     Decoded JSON.
+	 * @param array $settings Plugin settings.
+	 * @return array|WP_Error
+	 */
+	public function wplcl_validate_consent_entry( $data, $settings ) {
+		if ( ! is_array( $data ) ) {
+			return new WP_Error( 'wpl_consent_log_invalid', 'Invalid payload.', array( 'status' => 400 ) );
+		}
+
+		$actions = array( 'accept', 'accept_all', 'reject', 'dismiss', 'optout', 'optin', 'gpc', 'dnt', 'legacy' );
+		$id      = isset( $data['id'] ) ? (string) $data['id'] : '';
+		$action  = isset( $data['action'] ) ? (string) $data['action'] : '';
+		if ( ! preg_match( '/^[A-Za-z0-9-]{8,64}$/', $id ) || ! in_array( $action, $actions, true ) ) {
+			return new WP_Error( 'wpl_consent_log_invalid', 'Invalid payload.', array( 'status' => 400 ) );
+		}
+
+		$known = array();
+		foreach ( Gdpr_Cookie_Consent_Cookie_Custom::get_categories( true ) as $category ) {
+			$known[] = $category['gdpr_cookie_category_slug'];
+		}
+
+		$categories = null;
+		if ( isset( $data['categories'] ) && is_array( $data['categories'] ) ) {
+			$categories = array();
+			foreach ( $known as $slug ) {
+				$categories[ $slug ] = ( 'necessary' === $slug ) || ( isset( $data['categories'][ $slug ] ) && true === $data['categories'][ $slug ] );
+			}
+		}
+		$optout = ( isset( $data['optout'] ) && is_bool( $data['optout'] ) ) ? $data['optout'] : null;
+		if ( null === $categories && null === $optout ) {
+			return new WP_Error( 'wpl_consent_log_invalid', 'Invalid payload.', array( 'status' => 400 ) );
+		}
+
+		$law = isset( $data['law'] ) ? sanitize_key( $data['law'] ) : '';
+		$src = isset( $data['src'] ) ? sanitize_key( $data['src'] ) : 'banner';
+
+		$details = array(
+			'consent_id'        => $id,
+			'consent_action'    => $action,
+			'consent_source'    => in_array( $src, array( 'banner', 'gpc', 'dnt', 'legacy' ), true ) ? $src : 'banner',
+			'consent_law'       => substr( $law, 0, 20 ),
+			'consent_version'   => isset( $data['cv'] ) ? absint( $data['cv'] ) : 0,
+			'consent_banner'    => ( isset( $data['banner'] ) && 2 === absint( $data['banner'] ) ) ? 2 : 1,
+			'consent_timestamp' => time(),
+			'gpc'               => ! empty( $data['gpc'] ) ? 'yes' : 'no',
+		);
+
+		if ( null !== $categories ) {
+			$preference = array();
+			foreach ( $categories as $slug => $granted ) {
+				$preference[ $slug ] = $granted ? 'yes' : 'no';
+			}
+			if ( 'dismiss' === $action ) {
+				$viewed = 'unset';
+			} elseif ( in_array( $action, array( 'reject', 'gpc', 'dnt' ), true ) ) {
+				$viewed = 'no';
+			} else {
+				$viewed = 'yes';
+			}
+			$details['wpl_viewed_cookie']   = $viewed;
+			$details['wpl_user_preference'] = wp_json_encode( $preference );
+			$details['consent_categories']  = $categories;
+		}
+		if ( null !== $optout ) {
+			$details['wpl_optout_cookie'] = $optout ? 'yes' : 'no';
+		}
+
+		$is_on = function ( $value ) {
+			return true === $value || 'true' === $value || 1 === $value || '1' === $value;
+		};
+		$tcf   = isset( $data['tcf'] ) ? (string) $data['tcf'] : '';
+		$ac    = isset( $data['ac'] ) ? (string) $data['ac'] : '';
+		if ( $is_on( $settings['is_iabtcf_on'] ) ) {
+			$details['wpl_tc_string'] = ( strlen( $tcf ) <= 4096 && preg_match( '/^[A-Za-z0-9_\-.]*$/', $tcf ) ) ? $tcf : '';
+		}
+		if ( $is_on( $settings['is_gacm_on'] ?? false ) ) {
+			$details['Additional_Consent_String'] = ( strlen( $ac ) <= 4096 && preg_match( '/^[0-9]+~[A-Za-z0-9.~]*$/', $ac ) ) ? $ac : '';
+		}
+
+		$sites = array();
+		if ( isset( $data['sites'] ) && is_array( $data['sites'] ) ) {
+			$sites = array_slice( array_unique( array_map( 'absint', $data['sites'] ) ), 0, 50 );
+		}
+
+		return array(
+			'details' => $details,
+			'url'     => isset( $data['url'] ) ? esc_url_raw( (string) $data['url'] ) : '',
+			'sites'   => $sites,
+		);
+	}
+
+	/**
+	 * Whether the request comes from a page on this site.
+	 *
+	 * sendBeacon sends an Origin header; a missing Origin and Referer is allowed
+	 * because privacy extensions strip them.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return bool
+	 */
+	private function wplcl_is_same_origin( $request ) {
+		$source = $request->get_header( 'origin' );
+		if ( empty( $source ) || 'null' === $source ) {
+			$source = $request->get_header( 'referer' );
+		}
+		if ( empty( $source ) ) {
+			return true;
+		}
+		$host = wp_parse_url( $source, PHP_URL_HOST );
+		if ( empty( $host ) ) {
+			return false;
+		}
+		foreach ( array( home_url(), site_url() ) as $known_url ) {
+			if ( strtolower( (string) wp_parse_url( $known_url, PHP_URL_HOST ) ) === strtolower( $host ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * At most 120 log entries per IP every 10 minutes (offices share one IP).
+	 *
+	 * @since 4.5.0
+	 * @return bool
+	 */
+	private function wplcl_rate_limit_ok() {
+		$ip  = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		$key = 'wpl_cl_rate_' . substr( hash_hmac( 'sha256', $ip, wp_salt( 'nonce' ) ), 0, 20 );
+		/**
+		 * Maximum consent log entries per IP per 10 minutes.
+		 *
+		 * @since 4.5.0
+		 * @param int $limit Limit.
+		 */
+		$limit = (int) apply_filters( 'gdprcookieconsent_consent_log_rate_limit', 120 );
+		$count = (int) get_transient( $key );
+		if ( $count >= $limit ) {
+			return false;
+		}
+		set_transient( $key, $count + 1, 10 * MINUTE_IN_SECONDS );
+		return true;
+	}
+
+	/**
+	 * The visitor's country from the local GeoLite2 database, if there is one.
+	 *
+	 * No third-party lookup: the visitor's IP is not sent anywhere.
+	 *
+	 * @since 4.5.0
+	 * @return string
+	 */
+	private function wplcl_get_visitor_country() {
+		if ( ! class_exists( 'Gdpr_Cookie_Consent_Geo_Ip' ) ) {
+			return 'Unknown';
+		}
+		$geoip = new Gdpr_Cookie_Consent_Geo_Ip();
+		$geo   = $geoip->wpl_get_geo_data();
+		return ( is_array( $geo ) && ! empty( $geo['country'] ) ) ? $geo['country'] : 'Unknown';
+	}
+
+	/**
+	 * Check whether consent may be forwarded to the given blog.
+	 *
+	 * The current blog is always permitted because the bundled script posts it
+	 * alongside the allow-listed sites. Every other blog must appear in the
+	 * administrator-configured `select_sites` list, which is historically stored
+	 * as an array of numeric strings, e.g. array( '2' ).
+	 *
+	 * @since 4.4.3
+	 *
+	 * @param int   $site_id      Requested blog ID.
+	 * @param mixed $select_sites Stored `select_sites` setting.
+	 *
+	 * @return bool
+	 */
+	private function wplcl_is_forwarding_allowed( $site_id, $select_sites ) {
+		if ( $site_id <= 0 ) {
+			return false;
+		}
+		if ( get_current_blog_id() === $site_id ) {
+			return true;
+		}
+		$allowed_sites = is_array( $select_sites ) ? array_map( 'absint', $select_sites ) : array();
+		if ( ! in_array( $site_id, $allowed_sites, true ) ) {
+			return false;
+		}
+		return (bool) get_site( $site_id );
+	}
+
+	/**
+	 * Resolve the URL the consent was given on.
+	 *
+	 * The page URL is supplied by the browser, so it is only kept when it points at
+	 * the current site. Anything else falls back to the site's own home URL rather
+	 * than failing, so logging keeps working on unusual host configurations.
+	 *
+	 * @since 4.4.3
+	 *
+	 * @param string $raw_url Sanitized URL posted by the browser.
+	 *
+	 * @return string
+	 */
+	private function wplcl_get_origin_site_url( $raw_url ) {
+		$fallback = trailingslashit( home_url() );
+		if ( ! is_string( $raw_url ) || '' === $raw_url ) {
+			return $fallback;
+		}
+		$url  = esc_url( $raw_url );
+		$host = $url ? wp_parse_url( $url, PHP_URL_HOST ) : '';
+		if ( empty( $host ) ) {
+			return $fallback;
+		}
+
+		$allowed_hosts = array();
+		foreach ( array( home_url(), site_url() ) as $known_url ) {
+			$known_host = wp_parse_url( $known_url, PHP_URL_HOST );
+			if ( ! empty( $known_host ) ) {
+				$allowed_hosts[] = strtolower( $known_host );
+			}
+		}
+
+		return in_array( strtolower( $host ), $allowed_hosts, true ) ? $url : $fallback;
 	}
 	/**
 	 * Save consent log into custom post type.
@@ -690,21 +988,17 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 			$user_id = get_current_user_id();
 
 			$user_ip = $this->wpl_get_user_ip();
-			// Fetch country information using ip-api.com.
-			$api_url  = 'http://ip-api.com/json/' . $user_ip;
-			$response = wp_safe_remote_get( $api_url );
-			if ( is_wp_error( $response ) ) {
-				$data = 'Unknown'; // Handle the error gracefully.
-			} else {
-				$body = wp_remote_retrieve_body( $response );
-				$data = json_decode( $body );
-			}
-			if ( isset($data) && property_exists( $data, 'country' ) ) {
-				$user_country = $data->country;
-			} else {
-				$user_country = 'unknown';
-			}
-			if ( is_multisite() && $consent_forward == true ) {
+
+			// Skip geo lookup for masking level > 2
+			$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+			$anonymization_enabled = isset( $the_options['ip_anonymization_on'] )
+				&& ( $the_options['ip_anonymization_on'] === true || $the_options['ip_anonymization_on'] === 1 || $the_options['ip_anonymization_on'] === '1' || $the_options['ip_anonymization_on'] === 'true' );
+			$masking_level = isset( $the_options['ip_masking_level'] ) ? (string) $the_options['ip_masking_level'] : '2';
+			$skip_geo = $anonymization_enabled && in_array( $masking_level, array('3', 'full' ), true );
+
+			$user_country = $skip_geo ? 'Unknown' : $this->wplcl_get_visitor_country();
+			// The flag arrives as the string 'true' or 'false'; 'false' == true in PHP.
+			if ( is_multisite() && ( true === $consent_forward || 'true' === $consent_forward ) ) {
 				global $wpdb;
 				switch_to_blog( $subSiteId );
 
@@ -731,6 +1025,51 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	}
 
 	/**
+	 * Anonymizes an IP address based on the configured masking level.
+	 *
+	 * IPv4 masking:
+	 *   Level 1 → 192.168.100.xxx
+	 *   Level 2 → 192.168.xxx.xxx  (Recommended)
+	 *   Level 3 → 192.xxx.xxx.xxx
+	 *   Full    → xxx.xxx.xxx.xxx
+	 *
+	 * @param string $ip    The raw IP address.
+	 * @param int|string $level  Masking level: 1, 2, 3, or 'full'.
+	 * @return string The anonymized IP address.
+	 */
+	public function wpl_anonymize_ip( $ip, $level ) {
+		if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
+			// IPv4
+			$parts = explode( '.', $ip );
+			switch ( $level ) {
+				case 1:
+					$parts[3] = 'xxx';
+					break;
+				case 2:
+					$parts[2] = 'xxx';
+					$parts[3] = 'xxx';
+					break;
+				case 3:
+					$parts[1] = 'xxx';
+					$parts[2] = 'xxx';
+					$parts[3] = 'xxx';
+					break;
+				case 'full':
+					$parts = array( 'xxx', 'xxx', 'xxx', 'xxx' );
+					break;
+				default:
+					// Fallback to level 2 (recommended) if unexpected value
+					$parts[2] = 'xxx';
+					$parts[3] = 'xxx';
+					break;
+			}
+			return implode( '.', $parts );
+
+		}
+		// If IP is invalid/unknown, return as ip as it is
+		return $ip;
+	}
+	/**
 	 * Returns IP address of the user for consent log.
 	 *
 	 * @since 3.0.0
@@ -740,35 +1079,99 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 	 */
 	public function wpl_get_user_ip()
 	{
-		$ipaddress = '';
-		if (isset($_SERVER['HTTP_CLIENT_IP'])) {
-			$ipaddress = filter_var($_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP);
-		} elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'] ) )) > 0) {
-			$xForwardedFor = $_SERVER['HTTP_X_FORWARDED_FOR'];
-			$ipList = array_map('trim', explode(',', $xForwardedFor));
+		$ipaddress = 'UNKNOWN';
+		if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+			$remote = filter_var(
+				wp_unslash( $_SERVER['REMOTE_ADDR'] ),
+				FILTER_VALIDATE_IP
+			);
 
-			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
-		} elseif (isset($_SERVER['HTTP_X_FORWARDED']) && count( array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED'] ) )) > 0) {
-			$xForwarded = $_SERVER['HTTP_X_FORWARDED'];
-			$ipList = array_map('trim', explode(',', $xForwarded));
+			if ( $remote ) {
+				$ipaddress = $remote;
 
-			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
-		} elseif (isset($_SERVER['HTTP_FORWARDED_FOR']) && count( array_map('trim', explode(',', $_SERVER['HTTP_FORWARDED_FOR'] ) )) > 0) {
-			$forwardedFor = $_SERVER['HTTP_FORWARDED_FOR'];
-			$ipList = array_map('trim', explode(',', $forwardedFor));
+				$trusted_proxies = (array) apply_filters(
+					'gdpr_cookie_consent_trusted_proxies',
+					array()
+				);
 
-			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
-		} elseif (isset($_SERVER['HTTP_FORWARDED']) && count( array_map('trim', explode(',', $_SERVER['HTTP_FORWARDED'] ) )) > 0) {
-			$forwarded = $_SERVER['HTTP_FORWARDED'];
-			$ipList = array_map('trim', explode(',', $forwarded));
+				if (
+					! empty( $trusted_proxies )
+					&& isset( $_SERVER['HTTP_X_FORWARDED_FOR'] )
+					&& $this->wpl_ip_matches( $remote, $trusted_proxies )
+				) {
+					$ip_list = array_reverse(
+						array_map(
+							'trim',
+							explode(
+								',',
+								wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] )
+							)
+						)
+					);
 
-			$ipaddress = filter_var($ipList[0], FILTER_VALIDATE_IP);
-		} elseif (isset($_SERVER['REMOTE_ADDR'])) {
-			$ipaddress = filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP);
-		} else {
-			$ipaddress = 'UNKNOWN';
+					foreach ( $ip_list as $candidate ) {
+						$candidate = filter_var( $candidate, FILTER_VALIDATE_IP );
+
+						if ( ! $candidate ) {
+							break;
+						}
+
+						$ipaddress = $candidate;
+
+						if ( ! $this->wpl_ip_matches( $candidate, $trusted_proxies ) ) {
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		if ( class_exists( 'Gdpr_Cookie_Consent' ) ) {
+			$the_options = Gdpr_Cookie_Consent::gdpr_get_settings();
+		}
+
+		$anonymization_enabled = isset( $the_options['ip_anonymization_on'] )
+    		&& ( $the_options['ip_anonymization_on'] === true || $the_options['ip_anonymization_on'] === 1 || $the_options['ip_anonymization_on'] === '1' || $the_options['ip_anonymization_on'] === 'true' );
+
+		if ( $anonymization_enabled && ! empty( $ipaddress ) && $ipaddress !== 'UNKNOWN' ) {
+			$level     = isset( $the_options['ip_masking_level'] ) ? $the_options['ip_masking_level'] : 2;
+			$ipaddress = $this->wpl_anonymize_ip( $ipaddress, $level );
 		}
 		return esc_html($ipaddress);
+	}
+	private function wpl_ip_matches( $ip, array $list ) {
+		$ip_bin = inet_pton( $ip );
+		if ( false === $ip_bin ) {
+			return false;
+		}
+		foreach ( $list as $entry ) {
+			$parts = explode( '/', trim( (string) $entry ), 2 );
+			if ( ! filter_var( $parts[0], FILTER_VALIDATE_IP ) ) {
+				continue;
+			}
+			$net   = inet_pton( $parts[0] );
+			if ( false === $net || strlen( $net ) !== strlen( $ip_bin ) ) {
+				continue;
+			}
+			$max_bits = strlen( $net ) * 8;
+			$bits     = isset( $parts[1] ) ? (int) $parts[1] : $max_bits;
+			if ( $bits < 0 || $bits > $max_bits ) {
+				continue;
+			}
+			$bytes = intdiv( $bits, 8 );
+			if ( substr( $ip_bin, 0, $bytes ) !== substr( $net, 0, $bytes ) ) {
+				continue;
+			}
+			$rem = $bits % 8;
+			if ( 0 === $rem ) {
+				return true;
+			}
+			$mask = ( 0xFF << ( 8 - $rem ) ) & 0xFF;
+			if ( ( ord( $ip_bin[ $bytes ] ) & $mask ) === ( ord( $net[ $bytes ] ) & $mask ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -833,6 +1236,23 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 		}
 		$columns['wplconsentlogspdf'] = '<div style="text-align: center;">' . __( 'Proof Of Consent', 'gdpr-cookie-consent' ) . '</div>';
 		return $columns;
+	}
+
+	/**
+	 * Recalculate the consent log totals (wpl_cl_* options) at most once per TTL.
+	 *
+	 * The full calculation scans every consent log in postmeta, so a transient marks the
+	 * stored totals as fresh and later dashboard loads / REST calls just read the options.
+	 *
+	 * @return void
+	 */
+	public function wpl_cl_maybe_refresh_stats() {
+		// Also recalculate when the totals are missing, e.g. right after they were deleted.
+		if ( get_transient( 'wpl_cl_stats_fresh' ) && false !== get_option( 'wpl_cl_accept' ) ) {
+			return;
+		}
+		$this->wpl_cl_cookie_details_pie_chart();
+		set_transient( 'wpl_cl_stats_fresh', 1, apply_filters( 'gdpr_consent_log_stats_ttl', HOUR_IN_SECONDS ) );
 	}
 
 	/**
@@ -1632,9 +2052,9 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						'<?php echo esc_js(addslashes($local_time)) ?>',
 						'<?php echo esc_js(isset($custom['_wplconsentlogs_ip'][0]) ? esc_attr($custom['_wplconsentlogs_ip'][0]) : 'Unknown'); ?>',
 						'<?php echo esc_js(isset($data->country) ? esc_attr($data->country) : 'Unknown'); ?>',
-						'<?php echo esc_attr($consent_status); ?>',
-						'<?php echo esc_attr( $tcString ); ?>',
-					<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>,
+						'<?php echo esc_js( $consent_status ); ?>',
+						'<?php echo esc_js( $tcString ); ?>',
+					'<?php echo esc_js( $preferencesDecoded ); ?>',
 						)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<g clip-path="url(#clip0_103_5501)">
 									<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
@@ -1758,7 +2178,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						if ($siteurl == $forwarded_site_url1) {
 							echo '<div style="text-align:center"> Self-Consent ' . '</div>';
 						} else {
-							echo '<div style="color:blue;text-align:center">' . $forwarded_site_url1 . '</div>';
+							echo '<div style=\"color:blue;text-align:center\">' . esc_html( $forwarded_site_url1 ) . '</div>';
 						}
 						break;
 					case 'wplconsentlogspdf':
@@ -1832,10 +2252,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 								'<?php echo esc_js(addslashes($local_time)) ?>',
 								'<?php echo esc_js(isset($custom['_wplconsentlogs_ip'][0]) ? esc_attr($custom['_wplconsentlogs_ip'][0]) : 'Unknown'); ?>',
 								'<?php echo esc_js(isset($data->country) ? esc_attr($data->country) : 'Unknown'); ?>',
-								'<?php echo esc_attr($consent_status); ?>',
-								'<?php echo esc_attr( $tcString ); ?>',
-								'<?php echo esc_attr($siteaddress); ?>',
-						'<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>',
+								'<?php echo esc_js( $consent_status ); ?>',
+								'<?php echo esc_js( $tcString ); ?>',
+								'<?php echo esc_js( $siteaddress ); ?>',
+						'<?php echo esc_js( $preferencesDecoded ); ?>',
 								)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<g clip-path="url(#clip0_103_5501)">
 										<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
@@ -1952,7 +2372,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						if ($siteurl == $forwarded_site_url) {
 							echo '<div style="text-align:center"> Self-Consent ' . '</div>';
 						} else {
-							echo '<div style="color:blue;text-align:center">' . $forwarded_site_url . '</div>';
+							echo '<div style=\"color:blue;text-align:center\">' . esc_html( $forwarded_site_url ) . '</div>';
 						}
 
 						break;
@@ -2027,10 +2447,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 									'<?php echo esc_js(addslashes($local_time)) ?>',
 									'<?php echo esc_js(isset($custom['_wplconsentlogs_ip_cf'][0]) ? esc_attr($custom['_wplconsentlogs_ip_cf'][0]) : 'Unknown'); ?>',
 									'<?php echo esc_js(isset($data->country) ? esc_attr($data->country) : 'Unknown'); ?>',
-									'<?php echo esc_attr($consent_status); ?>',
-									'<?php echo esc_attr( $tcString ); ?>',
-									'<?php echo esc_attr($siteaddress); ?>',
-						'<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>',
+									'<?php echo esc_js( $consent_status ); ?>',
+									'<?php echo esc_js( $tcString ); ?>',
+									'<?php echo esc_js( $siteaddress ); ?>',
+						'<?php echo esc_js( $preferencesDecoded ); ?>',
 									)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<g clip-path="url(#clip0_103_5501)">
 										<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
@@ -2147,7 +2567,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						if ($siteurl == $forwarded_site_url) {
 							echo '<div style="text-align:center"> Self-Consent ' . '</div>';
 						} else {
-							echo '<div style="color:blue;text-align:center">' . $forwarded_site_url . '</div>';
+							echo '<div style=\"color:blue;text-align:center\">' . esc_html( $forwarded_site_url ) . '</div>';
 						}
 
 						break;
@@ -2222,10 +2642,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 										'<?php echo esc_js(addslashes($local_time)) ?>',
 										'<?php echo esc_js(isset($custom['_wplconsentlogs_ip_cf'][0]) ? esc_attr($custom['_wplconsentlogs_ip_cf'][0]) : 'Unknown'); ?>',
 										'<?php echo esc_js(isset($data->country) ? esc_attr($data->country) : 'Unknown'); ?>',
-										'<?php echo esc_attr($consent_status); ?>',
-										'<?php echo esc_attr( $tcString ); ?>',
-										'<?php echo esc_attr($siteaddress); ?>',
-						'<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>',
+										'<?php echo esc_js( $consent_status ); ?>',
+										'<?php echo esc_js( $tcString ); ?>',
+										'<?php echo esc_js( $siteaddress ); ?>',
+						'<?php echo esc_js( $preferencesDecoded ); ?>',
 										)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<g clip-path="url(#clip0_103_5501)">
 										<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />
@@ -2343,7 +2763,7 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 						if ($siteurl == $forwarded_site_url) {
 							echo '<div style="text-align:center"> Self-Consent ' . '</div>';
 						} else {
-							echo '<div style="color:blue;text-align:center">' . $forwarded_site_url . '</div>';
+							echo '<div style=\"color:blue;text-align:center\">' . esc_html( $forwarded_site_url ) . '</div>';
 						}
 
 						break;
@@ -2419,10 +2839,10 @@ class Gdpr_Cookie_Consent_Consent_Logs {
 									'<?php echo esc_js(addslashes($local_time)) ?>',
 									'<?php echo esc_js(isset($custom['_wplconsentlogs_ip_cf'][0]) ? esc_attr($custom['_wplconsentlogs_ip_cf'][0]) : 'Unknown'); ?>',
 									'<?php echo esc_js(isset($data->country) ? esc_attr($data->country) : 'Unknown'); ?>',
-									'<?php echo esc_attr($consent_status); ?>',
-									'<?php echo esc_attr( $tcString ); ?>',
-									'<?php echo esc_attr($siteaddress); ?>',
-					                '<?php echo htmlspecialchars($preferencesDecoded, ENT_QUOTES, 'UTF-8'); ?>',
+									'<?php echo esc_js( $consent_status ); ?>',
+									'<?php echo esc_js( $tcString ); ?>',
+									'<?php echo esc_js( $siteaddress ); ?>',
+					                '<?php echo esc_js( $preferencesDecoded ); ?>',
 									)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<g clip-path="url(#clip0_103_5501)">
 										<path d="M14.9997 7H11.9997V1H7.99974V7H4.99974L9.99974 12L14.9997 7ZM19.3377 13.532C19.1277 13.308 17.7267 11.809 17.3267 11.418C17.0464 11.1493 16.673 10.9995 16.2847 11H14.5277L17.5917 13.994H14.0477C13.9996 13.9931 13.952 14.0049 13.9099 14.0283C13.8678 14.0516 13.8325 14.0857 13.8077 14.127L12.9917 16H7.00774L6.19174 14.127C6.1668 14.0858 6.13154 14.0519 6.08944 14.0286C6.04734 14.0052 5.99987 13.9933 5.95174 13.994H2.40774L5.47074 11H3.71474C3.31774 11 2.93874 11.159 2.67274 11.418C2.27274 11.81 0.871737 13.309 0.661737 13.532C0.172737 14.053 -0.0962632 14.468 0.0317368 14.981L0.592737 18.055C0.720737 18.569 1.28374 18.991 1.84474 18.991H18.1567C18.7177 18.991 19.2807 18.569 19.4087 18.055L19.9697 14.981C20.0957 14.468 19.8277 14.053 19.3377 13.532Z" fill="#3399FF" />

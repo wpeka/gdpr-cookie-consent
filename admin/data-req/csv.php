@@ -23,6 +23,26 @@ require_once ABSPATH . 'wp-admin/includes/image.php';
 // die( "no permission here, invalid command" );
 // }
 
+/**
+ * Neutralize spreadsheet formula lead characters before writing a cell to CSV.
+ *
+ * Values such as the data request name are supplied by unauthenticated visitors,
+ * so a leading =, +, -, @, tab or carriage return would be evaluated as a formula
+ * when the exported file is opened in Excel / LibreOffice / Google Sheets.
+ *
+ * @param mixed $data Cell value.
+ * @return string
+ */
+if ( ! function_exists( 'wpl_data_req_format_csv_cell' ) ) {
+	function wpl_data_req_format_csv_cell( $data ) {
+		$data = (string) $data;
+		if ( preg_match( '/^[=+\-@\t\r]/', $data ) ) {
+			$data = "'" . $data;
+		}
+		return $data;
+	}
+}
+
 function array_to_csv_download(
 	$array,
 	$filename = 'export.csv',
@@ -34,6 +54,8 @@ function array_to_csv_download(
 	echo "\xEF\xBB\xBF"; // UTF-8 BOM
 	// open the "output" stream
 	// see http://www.php.net/manual/en/wrappers.php.php#refsect2-wrappers.php-unknown-unknown-unknown-descriptioq
+	
+	// phpcs:disable WordPress.WP.AlternativeFunctions -- Streams to php://output, not the filesystem.
 	$f = fopen( 'php://output', 'w' );
 
 	foreach ( $array as $line ) {
@@ -55,7 +77,7 @@ function get_requests( $args ) {
 
 	global $wpdb;
 	$table_name = $wpdb->prefix . 'wpl_data_req';
-	if ( $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" ) !== $table_name ) {
+	if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $wpdb->esc_like( $table_name ) ) ) !== $table_name ) {
 		// Table doesn't exist yet, return empty result set or handle as needed
 		return array();
 	}
@@ -140,7 +162,13 @@ function export_array() {
 		// Translators: Placeholder %1$s represents the date, %2$s represents the time.
 		$date_time_format = __( '%1$s at %2$s', 'gdpr-cookie-consent' );
 		$date             = sprintf( $date_time_format, $date, $time );
-		$output[]         = array( $request->name, $request->email, $request->resolved, $datarequest, $date );
+		$output[]         = array(
+			wpl_data_req_format_csv_cell( $request->name ),
+			wpl_data_req_format_csv_cell( $request->email ),
+			wpl_data_req_format_csv_cell( $request->resolved ),
+			wpl_data_req_format_csv_cell( $datarequest ),
+			wpl_data_req_format_csv_cell( $date ),
+		);
 	}
 
 	return $output;

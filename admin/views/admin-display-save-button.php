@@ -20,7 +20,7 @@ if ( ! defined( 'WPINC' ) ) {
 <div class="gdpr-plugin-toolbar bottom">
 	<?php if ( isset( $need_submit_btn ) && 1 === $need_submit_btn ) { ?>
 		<div class="left">
-			<a class="button-primary update_admin_cookies" style="float:left;" ><?php esc_attr_e( 'Save All Cookies', 'gdpr-cookie-consent' ); ?></a>
+			<a class="button-primary update_admin_cookies" style="float:left;" ><?php esc_html_e( 'Save All Cookies', 'gdpr-cookie-consent' ); ?></a>
 			<span class="spinner" style="margin-top:9px"></span>
 		</div>
 		<div class="right"></div>

@@ -32,6 +32,16 @@ $this->settings = new GDPR_Cookie_Consent_Settings();
 // Call the is_connected() method from the instantiated object to check if the user is connected.
 $is_user_connected = $this->settings->is_connected();
 $api_user_plan     = $this->settings->get_plan();
+
+
+$free_trial_data = get_option( 'wplp_free_trial_data', [] );
+
+$local_expiry = (int) ( $free_trial_data['localExpiry'] ?? 0 );
+
+$is_free_trial_active = ! empty( $free_trial_data['isTrialActive'] ) && time() < $local_expiry;
+$trialEndsIn          = $is_free_trial_active ? ceil( ( $local_expiry - time() ) / DAY_IN_SECONDS ) : 0;
+$trialStartDate       = $free_trial_data['trialStartDate'] ?? '';
+$trialEndDate         = $free_trial_data['trialEndDate'] ?? '';
 /*
 * Number of scans on the basis of user's plan
 */
@@ -51,18 +61,15 @@ if ( 'free' === $api_user_plan ) {
 	$scan_limit     = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
 	$scan_limit_int = (int) $scan_limit; 
 	$gdpr_monthly_scan_percent = ( ( $scan_limit_int ) / 5 ) * 100;
+} else if ( '3sites' === strtolower( $api_user_plan ) ) {
+	$scan_limit     = get_transient( 'gdpr_monthly_scan_limit_exhausted' );
+	$scan_limit_int = (int) $scan_limit; 
+	$gdpr_monthly_scan_percent = ( ( $scan_limit_int ) / 50 ) * 100;
 }
 
-$gdpr_monthly_page_views = get_option('wpl_monthly_page_views', 0);
-$gdpr_monthly_page_views_limit = 0;
-$gdpr_monthly_page_views_percent = 0;
-if ( 'free' === $api_user_plan ) { 
-	$gdpr_monthly_page_views_limit = 20000;
-	$gdpr_monthly_page_views_percent = ( ( $gdpr_monthly_page_views ) / 20000 ) * 100;
-} else if ( '3sites' === $api_user_plan ) {
-	$gdpr_monthly_page_views_limit = 100000;
-	$gdpr_monthly_page_views_percent = ( ( $gdpr_monthly_page_views ) / 100000 ) * 100;
-}
+$gdpr_monthly_page_views         = Gdpr_Cookie_Consent_Page_Views::get_monthly_views();
+$gdpr_monthly_page_views_limit   = Gdpr_Cookie_Consent_Page_Views::get_monthly_limit( $api_user_plan );
+$gdpr_monthly_page_views_percent = Gdpr_Cookie_Consent_Page_Views::get_monthly_percent( $api_user_plan, $gdpr_monthly_page_views );
 
 $gdpr_remaining_page_views = $gdpr_monthly_page_views_limit - $gdpr_monthly_page_views;
 
@@ -78,6 +85,16 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 <div id="gdpr-cookie-consent-main-admin-structure" class="gdpr-cookie-consent-main-admin-structure">
 	<div id="gdpr-cookie-consent-main-admin-header" class="gdpr-cookie-consent-main-admin-header">
 		<div class="wplp-compliance-main-wrapper">
+
+			<div id="gdpr-before-mount">
+  				<div style="text-align:center;">
+  				  	<div class="gdpr-before-mount-loader-content"></div>
+  				  	<p class="gdpr-before-mount-loader-text">
+  				  	  	Loading...
+  				  	</p>
+  				</div>
+
+			</div>
 
 			<!-- Main top banner  -->
 			<div class="gdpr-cookie-consent-admin-fixed-banner">
@@ -129,7 +146,7 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 						<div class="gdpr-cookie-consent-admin-login">
 							<div class="gdpr-cookie-consent-admin-login-icon">
 								<a <?php if ( $is_user_connected ) {
-									echo 'href="https://app.wplegalpages.com/my-account" target="_blank"';
+									echo 'href="https://app.wplegalpages.com/app" target="_blank"';
 								} else {
 									echo 'class="api-connect-to-account-btn"'; 
 								} ?> >
@@ -138,7 +155,7 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 							</div>
 							<div class="gdpr-cookie-consent-admin-login-text">
 								<a <?php if ( $is_user_connected ) {
-									echo 'href="https://app.wplegalpages.com/my-account" target="_blank"';
+									echo 'href="https://app.wplegalpages.com/app" target="_blank"';
 								} else {
 									echo 'class="api-connect-to-account-btn"'; 
 								} ?> ><?php echo $is_user_connected ? esc_html('My Account', 'gdpr-cookie-consent') :esc_html('Login', 'gdpr-cookie-consent'); ?></a>
@@ -148,9 +165,18 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 			</div>
 
 			<!-- tabs -->
-			<div class="wplp-compliance-main">
+			<?php 
+				$wplp_current_page   = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+				$wplp_is_gdpr_admin  = ( $wplp_current_page === 'gdpr-cookie-consent' );
+				$wplp_is_horizontal  = $wplp_is_gdpr_admin ;
+			?>
+			<div class="wplp-compliance-main<?php echo $wplp_is_horizontal ? ' wplp-dashboard-horizontal' : ''; ?>">
 				<div class="gdpr-cookie-consent-admin-tabs-section">
-					<div class="gdpr-cookie-consent-admin-tabs dashboard-tabs">
+					<div class="gdpr-cookie-consent-admin-tabs dashboard-tabs<?php echo $wplp_is_horizontal ? ' wplp-tabs-horizontal-top' : ''; ?>"
+						<?php if ( $is_user_connected == true && $is_free_trial_active === true ) : ?>
+							style="max-height: 50vh; overflow-y: auto;"
+						<?php endif; ?>
+					>
 						<!-- Dashboard tab  -->
 						<?php  
 							 if ($is_legalpages_active) {
@@ -203,9 +229,6 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 
 									<?php echo esc_html('Legal Pages','gdpr-cookie-consent'); ?>
 								</div>
-								<svg width="10" height="7" viewBox="0 0 10 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path fill-rule="evenodd" clip-rule="evenodd" d="M4.4073 6.46477L0.282304 2.33977C-0.0430841 2.01438 -0.0430841 1.48682 0.282304 1.16143C0.607691 0.836044 1.13525 0.836045 1.46064 1.16143L4.28936 3.99016C4.67989 4.38068 5.31305 4.38068 5.70358 3.99016L8.5323 1.16143C8.85769 0.836044 9.38525 0.836044 9.71064 1.16143C10.036 1.48682 10.036 2.01438 9.71064 2.33977L5.58564 6.46477C5.42936 6.62099 5.21744 6.70875 4.99647 6.70875C4.7755 6.70875 4.56358 6.62099 4.4073 6.46477Z" fill="currentColor"/>
-								</svg>
 							</div>
 						</a>
 						<!-- Cookie Consent Plugin tab  -->
@@ -218,102 +241,55 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 
 									<?php echo esc_html('Cookie Consent','gdpr-cookie-consent'); ?>
 								</div>
-								<svg width="10" height="7" viewBox="0 0 10 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path fill-rule="evenodd" clip-rule="evenodd" d="M4.4073 6.46477L0.282304 2.33977C-0.0430841 2.01438 -0.0430841 1.48682 0.282304 1.16143C0.607691 0.836044 1.13525 0.836045 1.46064 1.16143L4.28936 3.99016C4.67989 4.38068 5.31305 4.38068 5.70358 3.99016L8.5323 1.16143C8.85769 0.836044 9.38525 0.836044 9.71064 1.16143C10.036 1.48682 10.036 2.01438 9.71064 2.33977L5.58564 6.46477C5.42936 6.62099 5.21744 6.70875 4.99647 6.70875C4.7755 6.70875 4.56358 6.62099 4.4073 6.46477Z" fill="currentColor"/>
-								</svg>
 							</div>
 
 							<div class="gdpr-cookie-consent-admin-tabs gdpr-sub-tabs">
 						
 								<!-- Create Banner tab  -->
-								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-cookie-banner-tab" data-tab="create_cookie_banner">
-								<?php echo esc_html('Create&nbsp;Cookie&nbsp;Banner','gdpr-cookie-consent'); ?>
-								</div>
+								<!-- <div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-cookie-banner-tab" data-tab="create_cookie_banner">
+								<?php //echo esc_html('Create&nbsp;Cookie&nbsp;Banner','gdpr-cookie-consent'); ?>
+								</div> -->
 								<!-- Cookie Settings tab  -->
 								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-cookie-settings-tab" data-tab="cookie_settings">
-									<?php echo esc_html('Cookie&nbsp;Settings','gdpr-cookie-consent'); ?>
+									<div style="display:flex; justify-content:space-between;gap:45px;width:100%;padding-right:10px;">
+										<?php echo esc_html('Banner&nbsp;Settings','gdpr-cookie-consent'); ?>
+										<svg class="gdpr-subnav-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M15 12.5L10 7.5L5 12.5" stroke="#074EA8"/>
+										</svg>
+									</div>
 								</div>
 
 								<!-- Cookie Manager tab  -->
 								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-cookie-manager-tab" data-tab="cookie_manager">
+									<div style="display:flex; justify-content:space-between;gap:45px;width:100%;padding-right:10px;">
 									<?php echo esc_html('Cookie&nbsp;Manager','gdpr-cookie-consent'); ?>
-								</div>
-
-								<!-- Script Blocker tab  -->
-								<?php if ( $the_options['cookie_usage_for'] !== 'ccpa' ) { ?>
-									<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-script-blocker-settings-tab" data-tab="script_blocker">
-										<?php echo esc_html('Script&nbsp;Blocker','gdpr-cookie-consent'); ?>
+										<svg class="gdpr-subnav-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M15 12.5L10 7.5L5 12.5" stroke="#074EA8"/>
+										</svg>
 									</div>
-								<?php } ?>
-								<!-- AB Testing tab  -->
-								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-abtesting-settings-tab" data-tab="ab_testing">
-									<?php echo esc_html('AB&nbsp;Testing','gdpr-cookie-consent'); ?>
 								</div>
 
-								<?php
-								if ( $is_consent_log_on && ! $pro_is_activated ) {
-									?>
-										<!-- consent log tab  -->
-											<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
-												<?php echo esc_html('Consent&nbsp;Logs','gdpr-cookie-consent'); ?>
-											</div>
-									<?php
-								}
-								if ( $pro_is_activated ) {
-									if ( $is_consent_log_on ) {
-										?>
-													<!-- consent log tab  -->
-													<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-consent-logs-tab" data-tab="consent_logs">
-														<?php echo esc_html('Consent&nbsp;Logs','gdpr-cookie-consent'); ?>
-													</div>
-												<?php
-									}
-								}
-								if ( $is_data_req_on && ! $pro_is_activated ) {
-								
-									?>
-												<!-- data req tab  -->
-												<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
-												<?php echo esc_html('Data&nbsp;Request','gdpr-cookie-consent'); ?>
-												</div>
-								
-												<?php
 
-								}
-							
-								if ( $pro_is_activated ) {
-								
-									?>
-
-											<?php
-
-											if ( $is_data_req_on ) {
-											
-												?>
-											<!-- data req tab  -->
-											<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-data-request-tab" data-tab="data_request">
-												<?php echo esc_html('Data&nbsp;Request','gdpr-cookie-consent'); ?>
-												</div>
-												<?php
-
-											}
-								}
-							
-								?>
-
-								<!-- Policy data tab  -->
-								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-policy-data-tab" data-tab="policy_data">
-								<?php echo esc_html('Policy&nbsp;Data','gdpr-cookie-consent'); ?>
+								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-compliance-records-tab" data-tab="compliance_records">
+									<div style="display:flex; justify-content:space-between;gap:45px;width:100%;padding-right:10px;">
+										<?php echo esc_html( 'Compliance&nbsp;Records', 'gdpr-cookie-consent' ); ?>
+										<svg class="gdpr-subnav-chevron gdpr-compliance-records-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M15 12.5L10 7.5L5 12.5" stroke="#074EA8"/>
+										</svg>
+									</div>
 								</div>
+
+								<?php // A/B Testing now lives inside Compliance Records so it shares the single save on #wplp-cookie-consent-admin-app. ?>
+
 							
-								<!-- Language Tab  -->
-								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-language-settings-tab" data-tab="language_settings">
-									<?php echo esc_html('Language','gdpr-cookie-consent'); ?>
-								</div>
-							
-								<!-- Advanced Settings Tab  -->
+								<!-- Advanced Tab  -->
 								<div class="gdpr-cookie-consent-admin-tab gdpr-cookie-consent-admin-advanced-settings-tab" data-tab="advanced_settings">
-									<?php echo esc_html('Advanced&nbsp;Settings','gdpr-cookie-consent'); ?>
+									<div style="display:flex; justify-content:space-between;gap:45px;width:100%;padding-right:10px;">
+										<?php echo esc_html('Advanced','gdpr-cookie-consent'); ?>
+										<svg class="gdpr-subnav-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M15 12.5L10 7.5L5 12.5" stroke="#074EA8"/>
+										</svg>
+									</div>
 								</div>
 								<?php
 								if ( $pro_is_activated ) {
@@ -365,6 +341,48 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 							<?php } ?>			
 					</div>
 
+					<?php if($is_user_connected == true && $is_free_trial_active == true) { ?>
+						<div class="wplp-trial-widget <?php echo ($trialEndsIn > 0) ? 'wplp-trial-widget-active' : 'wplp-trial-widget-ended'; ?>">
+							<div class="wplp-trial-widget-header">
+								<h5 class="wplp-trial-widget-title <?php echo ($trialEndsIn > 0) ? 'wplp-trial-widget-title-active' : 'wplp-trial-widget-title-ended'; ?>">Free Trial</h5>
+								<span class="wplp-trial-widget-badge <?php echo ($trialEndsIn > 0) ? 'wplp-trial-widget-badge-active' : 'wplp-trial-widget-badge-ended'; ?>">
+									<?php echo ($trialEndsIn > 0) ? 'Active' : 'Ended'; ?>
+								</span>
+							</div>
+
+							<div class="wplp-trial-widget-body">
+								<div class="wplp-trial-widget-status">
+									<h6 class="wplp-trial-widget-remaining <?php echo ($trialEndsIn > 0) ? 'wplp-trial-widget-remaining-active' : 'wplp-trial-widget-remaining-ended'; ?>">
+										<?php echo ($trialEndsIn > 0) ? esc_html($trialEndsIn) . ' days remaining' : 'Trial period ended'; ?>
+									</h6>
+									<p class="wplp-trial-widget-dates <?php echo ($trialEndsIn > 0) ? 'wplp-trial-widget-dates-active' : 'wplp-trial-widget-dates-ended'; ?>">
+										<?php echo esc_html($trialStartDate); ?> - <?php echo esc_html($trialEndDate); ?>
+									</p>
+								</div>
+
+								<div class="wplp-trial-widget-progress-track">
+									<div class="wplp-trial-widget-progress-fill" style="width: <?php echo esc_attr(((7 - $trialEndsIn) / 7) * 100); ?>%;"></div>
+								</div>
+							</div>
+							<?php if (!($trialEndsIn > 0)) : ?>
+							    <button id="wplp_free_trial_expired_btn" class="primary-button" onclick="window.open('https://app.wplegalpages.com/pricing/', '_blank', 'noopener,noreferrer')">
+							        <span>Upgrade</span>
+									<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+							            <path d="M17.5 2.5V1.5H18.5V2.5H17.5ZM9.87377 11.5404C9.48325 11.931 8.85008 11.931 8.45956 11.5404C8.06904 11.1499 8.06904 10.5168 8.45956 10.1262L9.16667 10.8333L9.87377 11.5404ZM17.5 9.16667H16.5V2.5H17.5H18.5V9.16667H17.5ZM17.5 2.5V3.5H10.8333V2.5V1.5H17.5V2.5ZM17.5 2.5L18.2071 3.20711L9.87377 11.5404L9.16667 10.8333L8.45956 10.1262L16.7929 1.79289L17.5 2.5Z" fill="white"/>
+							            <path d="M16.667 12.5002C16.667 13.5858 16.667 14.1286 16.5281 14.5689C16.2338 15.5024 15.5026 16.2337 14.5691 16.528C14.1287 16.6668 13.5859 16.6668 12.5003 16.6668H9.33366C6.50523 16.6668 5.09102 16.6668 4.21234 15.7881C3.33366 14.9095 3.33366 13.4953 3.33366 10.6668V7.50016C3.33366 6.41455 3.33366 5.87175 3.47251 5.43138C3.76684 4.49789 4.49805 3.76667 5.43154 3.47235C5.87192 3.3335 6.41472 3.3335 7.50033 3.3335" stroke="white" stroke-width="2" stroke-linecap="round"/>
+							        </svg>
+							    </button>
+							<?php else: ?>
+								<button id="wplp_free_trial_upgrade_button_gdpr" class="primary-button" onclick="window.open('https://app.wplegalpages.com/pricing/', '_blank', 'noopener,noreferrer')">
+									<span>Upgrade</span>
+									<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M17.5 2.5V1.5H18.5V2.5H17.5ZM9.87377 11.5404C9.48325 11.931 8.85008 11.931 8.45956 11.5404C8.06904 11.1499 8.06904 10.5168 8.45956 10.1262L9.16667 10.8333L9.87377 11.5404ZM17.5 9.16667H16.5V2.5H17.5H18.5V9.16667H17.5ZM17.5 2.5V3.5H10.8333V2.5V1.5H17.5V2.5ZM17.5 2.5L18.2071 3.20711L9.87377 11.5404L9.16667 10.8333L8.45956 10.1262L16.7929 1.79289L17.5 2.5Z" fill="white"/>
+										<path d="M16.667 12.5002C16.667 13.5858 16.667 14.1286 16.5281 14.5689C16.2338 15.5024 15.5026 16.2337 14.5691 16.528C14.1287 16.6668 13.5859 16.6668 12.5003 16.6668H9.33366C6.50523 16.6668 5.09102 16.6668 4.21234 15.7881C3.33366 14.9095 3.33366 13.4953 3.33366 10.6668V7.50016C3.33366 6.41455 3.33366 5.87175 3.47251 5.43138C3.76684 4.49789 4.49805 3.76667 5.43154 3.47235C5.87192 3.3335 6.41472 3.3335 7.50033 3.3335" stroke="white" stroke-width="2" stroke-linecap="round"/>
+									</svg>
+								</button>
+							<?php endif; ?>
+						</div>
+					<?php } ?>
 				</div>
 
 				<!-- tab content  -->
@@ -374,33 +392,42 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 				<!-- scans -->
 				<?php
 				// if user is connected to the app.wplegalpages then show remaining scans
-				if ( $is_user_connected == true && !$pro_installed ) {
+				if ( ($is_user_connected == true && !$pro_installed) || $is_user_connected == false  ) {
 					?>
 					<div class="gdpr-remaining-scans-content" >
-						<div class="wplp-remaining-scan-header-left">
-							<div class="wplp-scan-label" style="<?php if( $gdpr_plan_warning === true ) {
-								echo 'flex-direction: row;';
-							} ?>">
-								<p><?php echo esc_html( 'Remaining Scans', 'gdpr-cookie-consent' ); ?></p>
-								<p><?php echo esc_html( '& Usage:', 'gdpr-cookie-consent' ); ?></p>
-							</div>
-
-							<?php if( $gdpr_plan_warning === true ) { ?>
-								<div class="wplp-plan-limit-warning">
-									<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/plan_limit_exceeded.svg'; ?>" alt="Plan Limit Exceeded"></span>
-									<p><?php echo esc_html( 'You have exhausted your current plan.', 'gdpr-cookie-consent' ); ?><br><?php echo esc_html( 'Upgrade to Continue', 'gdpr-cookie-consent'); ?></p>
+						<?php if($is_user_connected == true) { ?>
+							<div class="wplp-remaining-scan-header-left">
+								<div class="wplp-scan-label" style="<?php if( $gdpr_plan_warning === true ) {
+									echo 'flex-direction: row;';
+								} ?>">
+									<p><?php echo esc_html__( 'Remaining Scans', 'gdpr-cookie-consent' ); ?></p>
+									<p><?php echo esc_html__( '& Usage:', 'gdpr-cookie-consent' ); ?></p>
 								</div>
-							<?php } ?>
-						</div>	
-						
+
+								<?php if( $gdpr_plan_warning === true ) { ?>
+									<div class="wplp-plan-limit-warning">
+										<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/plan_limit_exceeded.svg'; ?>" alt="Plan Limit Exceeded"></span>
+										<p><?php echo esc_html__( 'You have exhausted your current plan.', 'gdpr-cookie-consent' ); ?><br><?php echo esc_html( 'Upgrade to Continue', 'gdpr-cookie-consent'); ?></p>
+									</div>
+								<?php } ?>
+							</div>	
+						<?php } else { ?>
+							<div class="wplp-remaining-scan-header-left">
+								<div class="wplp-scan-label" style="flex-direction: row;">
+									<p><?php echo esc_html__( 'Remaining Usage:', 'gdpr-cookie-consent' ); ?></p>
+								</div>
+							</div>	
+						<?php } ?>
+
+						<?php if($is_user_connected == true) { ?>
 						<div class="gdpr-progress-wrapper">
 							<div class="gdpr-monthly-scans-progress" style="
 								background: 
 									radial-gradient(closest-side, white 90%, transparent 80% 100%), 
-									conic-gradient( <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?> <?php echo esc_html( $gdpr_monthly_scan_percent ); ?>%, <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_html('#e6f5ee', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_html('#fef7c3', 'gdpr-cookie-consent') : esc_html('#f8e6e6', 'gdpr-cookie-consent') ); ?> 0);"
+									conic-gradient( <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_attr('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_attr('#ca8b25', 'gdpr-cookie-consent') : esc_attr('#c93a38', 'gdpr-cookie-consent') ); ?> <?php echo 'free' !== $api_user_plan ? esc_attr(0) : esc_attr( $gdpr_monthly_scan_percent ); ?>%, <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_attr('#e6f5ee', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_attr('#fef7c3', 'gdpr-cookie-consent') : esc_attr('#f8e6e6', 'gdpr-cookie-consent') ); ?> 0);"
 							>
 								<?php if ( 'free' === $api_user_plan ) { ?>
-									<span style="color: <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?>;"><?php echo esc_attr( ceil( $gdpr_monthly_scan_percent ) ); ?>%</span>
+									<span style="color: <?php echo ( $gdpr_monthly_scan_percent < 35 ) ? esc_attr('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_scan_percent < 75 ) ? esc_attr('#ca8b25', 'gdpr-cookie-consent') : esc_attr('#c93a38', 'gdpr-cookie-consent') ); ?>;"><?php echo esc_html( ceil( $gdpr_monthly_scan_percent ) ); ?>%</span>
   									<progress value="<?php echo esc_attr( ceil( $gdpr_monthly_scan_percent ) ); ?>" min="0" max="100" style="visibility:hidden;height:0;width:0;"></progress>
 								<?php } else { ?>
 									<span><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/Unlimited_scan.svg'; ?>" alt="Unlimited Monthly Scans"></span>
@@ -411,14 +438,19 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 
 							<div class="gdpr-progress-content">
 								<h3><?php echo esc_html( 'Scans / Month', 'gdpr-cookie-consent' ); ?></h3>
-								<?php if ( 'free' === $api_user_plan ) { ?>
-										<p><?php echo esc_html( $scan_limit_int . ' / 5', 'gdpr-cookie-consent' ) ?>
+								<?php
+									$plan = strtolower( $api_user_plan );
+
+									$limit = 5;
+								?>
+								<?php if ( in_array( $plan, [ 'free' ], true ) ) { ?>
+										<p><?php echo esc_html( $scan_limit_int . ' / ' . $limit, 'gdpr-cookie-consent' ) ?>
 											<span>
 												<?php if ( $gdpr_monthly_scan_percent >= 75 ) {
         											echo '<img src="' . esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL . 'admin/images/limit_warning.svg' ) . '" alt="">'; 
 												} ?>
 											</span>
-										<p><?php echo esc_html( ( 5 - $scan_limit_int ) . ' Remaining', 'gdpr-cookie-consent' ); ?></p>
+										<p><?php echo esc_html( ( $limit - $scan_limit_int ) . ' Remaining', 'gdpr-cookie-consent' ); ?></p>
 								<?php } else { ?>
 										<p><?php echo esc_html( 'Unlimited', 'gdpr-cookie-consent' ) ?></p>
 								<?php } ?>
@@ -426,7 +458,7 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 						</div>
 
 						<div class="gdpr-progress-wrapper">
-							<?php if ( '10Sites' === $api_user_plan || '25Sites' === $api_user_plan || '50Sites' === $api_user_plan || '100Sites' === $api_user_plan || '10sites' === $api_user_plan || '25sites' === $api_user_plan || '50sites' === $api_user_plan || '100sites' === $api_user_plan) { ?>
+							<?php if ( '3Sites' === $api_user_plan || '10Sites' === $api_user_plan || '25Sites' === $api_user_plan || '50Sites' === $api_user_plan || '100Sites' === $api_user_plan || '3sites' === $api_user_plan || '10sites' === $api_user_plan || '25sites' === $api_user_plan || '50sites' === $api_user_plan || '100sites' === $api_user_plan) { ?>
 								<div class="gdpr-remaining-scans-progress" style="
 									background: 
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),
@@ -444,9 +476,9 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 								<div class="gdpr-remaining-scans-progress" style="
 									background: 
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),
-    									conic-gradient( <?php echo ( $remaining_percentage_scan_limit < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $remaining_percentage_scan_limit < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?> <?php echo esc_html( $remaining_percentage_scan_limit ); ?>%, <?php echo ( $remaining_percentage_scan_limit < 35 ) ? esc_html('#e6f5ee', 'gdpr-cookie-consent') : ( ( $remaining_percentage_scan_limit < 75 ) ? esc_html('#fef7c3', 'gdpr-cookie-consent') : esc_html('#f8e6e6', 'gdpr-cookie-consent') ); ?> 0);"
+    									conic-gradient( <?php echo ( $remaining_percentage_scan_limit < 35 ) ? esc_attr('#469955', 'gdpr-cookie-consent') : ( ( $remaining_percentage_scan_limit < 75 ) ? esc_attr('#ca8b25', 'gdpr-cookie-consent') : esc_attr('#c93a38', 'gdpr-cookie-consent') ); ?> <?php echo esc_attr( $remaining_percentage_scan_limit ); ?>%, <?php echo ( $remaining_percentage_scan_limit < 35 ) ? esc_attr('#e6f5ee', 'gdpr-cookie-consent') : ( ( $remaining_percentage_scan_limit < 75 ) ? esc_attr('#fef7c3', 'gdpr-cookie-consent') : esc_attr('#f8e6e6', 'gdpr-cookie-consent') ); ?> 0);"
 								>
-									<span style="color: <?php echo ( $remaining_percentage_scan_limit < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $remaining_percentage_scan_limit < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?>;"><?php echo esc_attr( ceil( $remaining_percentage_scan_limit ) ); ?>%</span>
+									<span style="color: <?php echo ( $remaining_percentage_scan_limit < 35 ) ? esc_attr('#469955', 'gdpr-cookie-consent') : ( ( $remaining_percentage_scan_limit < 75 ) ? esc_attr('#ca8b25', 'gdpr-cookie-consent') : esc_attr('#c93a38', 'gdpr-cookie-consent') ); ?>;"><?php echo esc_html( ceil( $remaining_percentage_scan_limit ) ); ?>%</span>
   									<progress value="<?php echo esc_attr( ceil( $remaining_percentage_scan_limit ) ); ?>" min="0" max="100" style="visibility:hidden;height:0;width:0;"></progress>
 								</div>
 
@@ -464,8 +496,10 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 							<?php } ?>
 						</div>
 
+						<?php } ?>
+
 						<div class="gdpr-progress-wrapper">
-							<?php if ( '10Sites' === $api_user_plan || '10sites' === $api_user_plan || '25Sites' === $api_user_plan || '25sites' === $api_user_plan || '50Sites' === $api_user_plan || '50sites' === $api_user_plan || '100Sites' === $api_user_plan || '100sites' === $api_user_plan) { ?>
+							<?php if ( '3Sites' === $api_user_plan || '3sites' === $api_user_plan || '10Sites' === $api_user_plan || '10sites' === $api_user_plan || '25Sites' === $api_user_plan || '25sites' === $api_user_plan || '50Sites' === $api_user_plan || '50sites' === $api_user_plan || '100Sites' === $api_user_plan || '100sites' === $api_user_plan) { ?>
 								<div class="gdpr-pageviews-progress" style="
 									background: 
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),
@@ -483,9 +517,9 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 								<div class="gdpr-remaining-scans-progress" style="
 									background: 
 										radial-gradient(closest-side, white 90%, transparent 80% 100%),
-    									conic-gradient( <?php echo ( $gdpr_monthly_page_views_percent < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_page_views_percent < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?> <?php echo esc_html( $gdpr_monthly_page_views_percent ); ?>%, <?php echo ( $gdpr_monthly_page_views_percent < 35 ) ? esc_html('#e6f5ee', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_page_views_percent < 75 ) ? esc_html('#fef7c3', 'gdpr-cookie-consent') : esc_html('#f8e6e6', 'gdpr-cookie-consent') ); ?> 0);"
+    									conic-gradient( <?php echo ( $gdpr_monthly_page_views_percent < 35 ) ? esc_attr('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_page_views_percent < 75 ) ? esc_attr('#ca8b25', 'gdpr-cookie-consent') : esc_attr('#c93a38', 'gdpr-cookie-consent') ); ?> <?php echo esc_attr( $gdpr_monthly_page_views_percent ); ?>%, <?php echo ( $gdpr_monthly_page_views_percent < 35 ) ? esc_attr('#e6f5ee', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_page_views_percent < 75 ) ? esc_attr('#fef7c3', 'gdpr-cookie-consent') : esc_attr('#f8e6e6', 'gdpr-cookie-consent') ); ?> 0);"
 								>
-									<span style="color: <?php echo ( $gdpr_monthly_page_views_percent < 35 ) ? esc_html('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_page_views_percent < 75 ) ? esc_html('#ca8b25', 'gdpr-cookie-consent') : esc_html('#c93a38', 'gdpr-cookie-consent') ); ?>;"><?php echo esc_attr( floor( $gdpr_monthly_page_views_percent ) ); ?>%</span>
+									<span style="color: <?php echo ( $gdpr_monthly_page_views_percent < 35 ) ? esc_attr('#469955', 'gdpr-cookie-consent') : ( ( $gdpr_monthly_page_views_percent < 75 ) ? esc_attr('#ca8b25', 'gdpr-cookie-consent') : esc_attr('#c93a38', 'gdpr-cookie-consent') ); ?>;"><?php echo esc_html( floor( $gdpr_monthly_page_views_percent ) ); ?>%</span>
   									<progress value="<?php echo esc_attr( floor( $gdpr_monthly_page_views_percent ) ); ?>" min="0" max="100" style="visibility:hidden;height:0;width:0;"></progress>
 								</div>
 
@@ -503,6 +537,7 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 							<?php } ?>
 						</div>
 
+						<?php if($is_user_connected == true) { ?>
 						<div class="wplp-plan-details">
 							<p><?php echo esc_html('Current Plan: ', 'gdpr-cookie-consent'); ?>
 							<?php if( $api_user_plan !== 'free' ) { ?>
@@ -512,43 +547,76 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 							<?php if( $api_user_plan === 'free' || $api_user_plan === 'Free' ) { ?>
 								<a class="wplp--scan-header-upgrade-plan gdpr-cookie-consent-admin-upgrade-button"><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_header_upgrade_icon.svg'; ?>" alt=""><?php echo esc_html('Upgrade', 'gdpr-cookie-consent'); ?></a>
 							<?php } else { ?>
-								<a class="wplp-scan-header-add-sites gdpr-cookie-consent-admin-upgrade-button"><?php echo esc_html('Add More Sites', 'gdpr-cookie-consent'); ?><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_add_site.svg'; ?>" alt=""></a>
+								<a class="wplp-scan-header-add-sites gdpr-cookie-consent-admin-upgrade-button"><?php echo esc_html('Upgrade site limit', 'gdpr-cookie-consent'); ?><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_add_site.svg'; ?>" alt=""></a>
 							<?php } ?>
 						</div>
+						<?php } ?>
 					</div>
+
+					<?php if($gdpr_monthly_page_views_percent >= 80) { ?>
+							<div class="gdpr-pageviews-notice-wrapper <?php if($gdpr_monthly_page_views_percent < 100) echo 'gdpr-pageviews-notice-warning'; ?>">
+								<div class="gdpr-pageviews-notice-content">
+									<svg width="63" height="59" viewBox="0 0 63 59" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M28.9463 4.14232C30.1182 2.24145 32.8818 2.24145 34.0537 4.14232L55.9598 39.6757C57.192 41.6744 55.7541 44.25 53.406 44.25H9.59396C7.24592 44.25 5.80804 41.6744 7.04025 39.6757L28.9463 4.14232Z" fill="currentColor"/>
+										<path d="M30.84 30.224L29.3 17.12H33.92L32.352 30.224H30.84ZM31.512 37.42C30.8027 37.42 30.252 37.2707 29.86 36.972C29.4867 36.6733 29.3 36.216 29.3 35.6C29.3 35.096 29.4867 34.676 29.86 34.34C30.2333 34.004 30.8027 33.836 31.568 33.836C32.352 33.836 32.912 33.9947 33.248 34.312C33.584 34.6107 33.752 35.0587 33.752 35.656C33.752 36.2347 33.5653 36.6733 33.192 36.972C32.8187 37.2707 32.2587 37.42 31.512 37.42Z" fill="white"/>
+									</svg>
+
+
+									<div class="gdpr-pageviews-notice-text">
+										<h4>Warning!</h4>
+										<?php if($gdpr_monthly_page_views_percent < 100 ) { ?>
+										<p>You're nearing your monthly limit! You've used 80% of allowed cookie banner views. Upgrade your plan for unlimited views!</p>
+										<?php } else { ?>
+											<p>Limit Reached: You've used all available cookie banner views this month. Upgrade your plan for unlimited banner views!</p>
+										<?php } ?>
+									</div>
+								</div>
+								
+								
+							
+								<?php if( $api_user_plan === 'free' || $api_user_plan === 'Free' ) { ?>
+									<a class="wplp--scan-header-upgrade-plan gdpr-cookie-consent-admin-upgrade-button"><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_header_upgrade_icon.svg'; ?>" alt=""><?php echo esc_html('Upgrade', 'gdpr-cookie-consent'); ?></a>
+								<?php } else { ?>
+									<a class="wplp-scan-header-add-sites gdpr-cookie-consent-admin-upgrade-button"><?php echo esc_html('Upgrade site limit', 'gdpr-cookie-consent'); ?><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/gdpr_add_site.svg'; ?>" alt=""></a>
+								<?php } ?>
+							</div>
+					<?php } ?>
 					<?php if ( get_transient( 'app_wplp_subscription_payment_status_failed' ) ) { ?>
 					<div class="gdpr-subsription-payment-failed-notice" >
-						<svg class="gdpr-payment-fail-icon" viewBox="0 0 24 24">
-  						  <circle cx="12" cy="12" r="10" stroke="currentColor" fill="none" stroke-width="2"/>
-  						  <line x1="12" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-  						  <line x1="12" y1="12" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-  						</svg>
-						<p>
-							<span class="gdpr-payment-fail-message">
-								<strong>
-									<?php esc_html_e( 'Your last payment attempt failed.', 'gdpr-cookie-consent' ); ?>
-								</strong> 
-								<?php esc_html_e( 'Please update your payment details within 7 days to avoid service disruption.', 'gdpr-cookie-consent' ); ?>
-							</span>
-						</p>
+						<div class="gdpr-payment-fail-icon-wrapper">
+							<svg viewBox="0 0 24 24">
+  							  <circle cx="12" cy="12" r="10" stroke="currentColor" fill="none" stroke-width="2"/>
+  							  <line x1="12" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  							  <line x1="12" y1="12" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  							</svg>
+						</div>
+						<div class="gdpr-payment-fail-right-wrapper">
+							<div class="gdpr-payment-fail-content-wrapper">
+								<h1><?php esc_html_e( 'Your last payment attempt failed.', 'gdpr-cookie-consent' ); ?></h1>
+								<p><?php esc_html_e( 'Please update your payment details within 7 days to avoid service disruption.', 'gdpr-cookie-consent' ); ?></p>
+							</div>
+
+							<a href="<?php echo esc_url( 'https://www.wplegalpages.com/pricing/' ) ?>" target="_blank" class="gdpr-payment-fail-upgrade-button"><?php echo esc_html('Restore Plan', 'gdpr-cookie-consent'); ?></a>
+						</div>
 					</div>
 					<?php
 					}
 					if ( get_option( 'app_wplp_subscription_status_pending_cancel' ) ) { ?>
 					<div class="gdpr-subsription-payment-failed-notice" >
-						<svg class="gdpr-payment-fail-icon" viewBox="0 0 24 24">
-  						  <circle cx="12" cy="12" r="10" stroke="currentColor" fill="none" stroke-width="2"/>
-  						  <line x1="12" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-  						  <line x1="12" y1="12" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-  						</svg>
-						<p>
-							<span class="gdpr-payment-fail-message">
-							<?php esc_html_e( 'Your plan has been cancelled to the Free Plan due to a failed payment or manual cancellation.', 'gdpr-cookie-consent' ); ?>
-								<strong>
-									<?php esc_html_e( 'Upgrade now to restore premium features.', 'gdpr-cookie-consent' ); ?>
-								</strong>
-							</span>
-						</p>
+						<div class="gdpr-payment-fail-icon-wrapper">
+							<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+ 								<path d="M11.9998 8.99999V13M11.9998 17H12.0098M10.6151 3.89171L2.39019 18.0983C1.93398 18.8863 1.70588 19.2803 1.73959 19.6037C1.769 19.8857 1.91677 20.142 2.14613 20.3088C2.40908 20.5 2.86435 20.5 3.77487 20.5H20.2246C21.1352 20.5 21.5904 20.5 21.8534 20.3088C22.0827 20.142 22.2305 19.8857 22.2599 19.6037C22.2936 19.2803 22.0655 18.8863 21.6093 18.0983L13.3844 3.89171C12.9299 3.10654 12.7026 2.71396 12.4061 2.58211C12.1474 2.4671 11.8521 2.4671 11.5935 2.58211C11.2969 2.71396 11.0696 3.10655 10.6151 3.89171Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+ 							</svg>
+						</div>
+
+						<div class="gdpr-payment-fail-right-wrapper">
+							<div class="gdpr-payment-fail-content-wrapper">
+								<h1><?php esc_html_e( 'Your plan has been cancelled.', 'gdpr-cookie-consent' ); ?></h1>
+								<p><?php esc_html_e( 'You\'ll lose access to premium features soon. Upgrade now to avoid interruption.', 'gdpr-cookie-consent' ); ?></p>
+							</div>
+
+							<a href="<?php echo esc_url( 'https://www.wplegalpages.com/pricing/' ) ?>" target="_blank" class="gdpr-payment-fail-upgrade-button"><?php echo esc_html('Restore Plan', 'gdpr-cookie-consent'); ?></a>
+						</div>
 					</div>
 					<?php
 					}
@@ -559,55 +627,36 @@ $site_domain = wp_parse_url($site_url, PHP_URL_HOST);
 						<div class="gdpr-cookie-consent-admin-tabs-inner-content">
 
 							<!-- create cookie content  -->
-							<div class="gdpr-cookie-consent-admin-create-cookie-content gdpr-cookie-consent-admin-tab-content" id="create_cookie_banner">
-								<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-create-cookie-banner-tab-template.php'; ?>
-							</div>
-							<!-- cookie settings content -->
-							<div class="gdpr-cookie-consent-admin-cookie-settings-content gdpr-cookie-consent-admin-tab-content" id="cookie_settings">
-								<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-settings-tab-template.php'; ?>
-							</div>
+							<!-- <div class="gdpr-cookie-consent-admin-create-cookie-content gdpr-cookie-consent-admin-tab-content" id="create_cookie_banner">
+								<?php //require_once plugin_dir_path( __FILE__ ) . 'gdpr-create-cookie-banner-tab-template.php'; ?>
+							</div> -->
 
-							<!-- cookie manager content -->
-							<div class="gdpr-cookie-consent-admin-cookie-manager-content gdpr-cookie-consent-admin-tab-content" id="cookie_manager">
-								<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-manager-tab-template.php'; ?>
-							</div>
+							<div id="wplp-cookie-consent-admin-app">
+								<!-- cookie settings content -->
+								<div class="gdpr-cookie-consent-admin-cookie-settings-content gdpr-cookie-consent-admin-tab-content" id="cookie_settings">
+									<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-settings-tab-template.php'; ?>
+								</div>
+																	
+								<!-- compliance records content  -->
+								<div class="gdpr-cookie-consent-admin-compliance-records-data-content gdpr-cookie-consent-admin-tab-content" id="compliance_records">
+									<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-compliance-records-tab-template.php'; ?>
+								</div>
 
-							<!-- Script Blocker content  -->
-							<div class="gdpr-cookie-consent-admin-script-blocker-settings-content gdpr-cookie-consent-admin-tab-content" id="script_blocker">
-								<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-script-blocker-tab-template.php'; ?>
+								
+								<!-- cookie manager content -->
+								<div class="gdpr-cookie-consent-admin-cookie-manager-content gdpr-cookie-consent-admin-tab-content" id="cookie_manager">
+									<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-cookie-manager-tab-template.php'; ?>
+								</div>
+								<!-- Script Blocker content  -->
+								<div class="gdpr-cookie-consent-admin-script-blocker-settings-content gdpr-cookie-consent-admin-tab-content" id="script_blocker">
+									<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-script-blocker-tab-template.php'; ?>
+								</div>
+								<!-- Advanced Settings content  -->
+								<div class="gdpr-cookie-consent-admin-advanced-settings-content gdpr-cookie-consent-admin-tab-content" id="advanced_settings">
+									<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-advanced-settings-tab-template.php'; ?>
+								</div>
 							</div>
-
-							<!-- AB Testing content  -->
-							<div class="gdpr-cookie-consent-admin-abtesting-settings-content gdpr-cookie-consent-admin-tab-content" id="ab_testing">
-								<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-abtesting-tab-template.php'; ?>
-							</div>
-
-							<!-- policy data content  -->
-							<div class="gdpr-cookie-consent-admin-policy-data-content gdpr-cookie-consent-admin-tab-content" id="policy_data">
-								<?php do_action( 'add_policy_data_content' ); ?>
-								<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-policy-data-tab-template.php'; ?>
-							</div>
-
-							<!-- Language content  -->
-							<div class="gdpr-cookie-consent-admin-language-settings-content gdpr-cookie-consent-admin-tab-content" id="language_settings">
-								<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-language-settings-tab-template.php'; ?>
-							</div>
-
-							<!-- Advanced Settings content  -->
-							<div class="gdpr-cookie-consent-admin-advanced-settings-content gdpr-cookie-consent-admin-tab-content" id="advanced_settings">
-								<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-advanced-settings-tab-template.php'; ?>
-							</div>
-
-							<!-- consent log data content  -->
-							<div class="gdpr-cookie-consent-admin-consent-logs-data-content gdpr-cookie-consent-admin-tab-content" id="consent_logs">
-							<?php do_action( 'add_consent_log_content' ); ?>
-							<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-consent-logs-tab-template.php'; ?>
-							</div>
-							<!-- data req data content  -->
-							<div class="gdpr-cookie-consent-admin-data-request-data-content gdpr-cookie-consent-admin-tab-content" id="data_request">
-								<?php do_action( 'add_data_request_content' ); ?>
-								<?php require_once plugin_dir_path( __FILE__ ) . 'gdpr-data-request-tab-template.php'; ?>
-							</div>
+							
 							<!-- activation key content  -->
 							<div class="gdpr-cookie-consent-admin-data-request-activation-key gdpr-cookie-consent-admin-tab-content" id="activation_key">
 								<?php do_action( 'add_activation_key_content' ); ?>

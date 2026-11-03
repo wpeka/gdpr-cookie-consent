@@ -23,11 +23,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php
 			if ( 'necessary' === $category['gdpr_cookie_category_slug'] ) {
 				?>
-				<input type="checkbox" id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="gdpr_messagebar_body_button gdpr_messagebar_body_button_disabled" disabled="disabled" checked="checked" value="<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+				<input type="checkbox" id="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" class="gdpr_messagebar_body_button gdpr_messagebar_body_button_disabled" disabled="disabled" checked="checked" value="<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>">
 				<?php
 			} else {
 				?>
-				<input type="checkbox" id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="gdpr_messagebar_body_button" tabindex="0"
+				<input type="checkbox" id="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" class="gdpr_messagebar_body_button" tabindex="0"
 				<?php
 				if ( ! empty( $the_options['is_ticked'] ) && ! $the_options['viewed_cookie'] ) {
 					?>
@@ -39,11 +39,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php
 				}
 				?>
-				value="<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
+				value="<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>">
 				<?php
 			}
 			?>
-			<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>"><?php echo esc_html__( $category['gdpr_cookie_category_name'], 'gdpr-cookie-consent' ); //phpcs:ignore?></label>
+			<label for="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>"><?php echo esc_attr( $category['gdpr_cookie_category_name'] ); //phpcs:ignore?></label>
 		</div>
 		<?php
 	}
@@ -61,7 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php
 					foreach ( $cookie_data['categories'] as $category ) {
 						?>
-						<a data-target="gdpr_messagebar_detail_body_content_cookie_tabs_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" id="gdpr_messagebar_detail_body_content_overview_cookie_container_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" class="gdpr_messagebar_detail_body_content_overview_cookie_container_types
+						<a data-target="gdpr_messagebar_detail_body_content_cookie_tabs_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" id="gdpr_messagebar_detail_body_content_overview_cookie_container_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" class="gdpr_messagebar_detail_body_content_overview_cookie_container_types
 						<?php
 						if ( 'necessary' === $category['gdpr_cookie_category_slug'] ) {
 							?>
@@ -71,7 +71,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						?>
 						" tabindex="0" href="#">
 							<?php
-							echo esc_html__( $category['gdpr_cookie_category_name'], 'gdpr-cookie-consent' ); //phpcs:ignore
+							echo esc_html( $category['gdpr_cookie_category_name'] ); //phpcs:ignore
 							if ( ! empty( $the_options['button_settings_display_cookies'] ) ) {
 								echo esc_html( ' (' . $category['total'] . ')' );}
 							?>
@@ -98,7 +98,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						?>
 							class="gdpr_messagebar_detail_body_content_cookie_type_details">
 							<div class="gdpr_messagebar_detail_body_content_cookie_type_intro">
-							<?php echo esc_html__( $category['gdpr_cookie_category_description'], 'gdpr-cookie-consent' ); //phpcs:ignore?>
+							<?php echo esc_html( $category['gdpr_cookie_category_description'] ); //phpcs:ignore?>
 							</div>
 							<?php
 							if ( ! empty( $the_options['button_settings_display_cookies'] ) ) {
@@ -122,7 +122,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 										foreach ( $category['data'] as $cookie ) {
 											?>
 											<tr>
-											<td title="<?php echo esc_html( $cookie_data['name'] ); ?>">
+											<td title="<?php echo esc_attr( $cookie_data['name'] ); ?>">
 											<?php
 											if ( ! empty( $cookie['name'] ) ) {
 												echo esc_html( $cookie['name'] );
@@ -131,7 +131,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											}
 											?>
 											</td>
-											<td title="<?php echo esc_html( $cookie_data['domain'] ); ?>">
+											<td title="<?php echo esc_attr( $cookie_data['domain'] ); ?>">
 											<?php
 											if ( ! empty( $cookie['domain'] ) ) {
 												echo esc_html( $cookie['domain'] );
@@ -170,7 +170,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											}
 											?>
 											</td>
-											<td title="<?php echo esc_html( $cookie_data['type'] ); ?>">
+											<td title="<?php echo esc_attr( $cookie_data['type'] ); ?>">
 											<?php
 											if ( ! empty( $cookie['type'] ) ) {
 												echo esc_html( $cookie['type'] );
@@ -203,11 +203,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 		<?php
 		if ( $the_options['cookie_usage_for']==='gdpr' ) :?>
-			<div class="gdpr-about-cookies"><?php echo $the_options['is_iabtcf_on'] ? esc_html__( $cookie_data['dash_about_message_iabtcf'], 'gdpr-cookie-consent' ) : esc_html__( $cookie_data['dash_about_message'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
+			<div class="gdpr-about-cookies"><?php echo $the_options['is_iabtcf_on'] ? esc_html( $cookie_data['dash_about_message_iabtcf'] ) : esc_html( $cookie_data['dash_about_message'] ); // phpcs:ignore ?></div>
 		<?php elseif (  $the_options['cookie_usage_for']==='lgpd') :?>
-			<div class="gdpr-about-cookies"><?php echo esc_html__( $cookie_data['dash_about_message_lgpd'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
+			<div class="gdpr-about-cookies"><?php echo esc_html( $cookie_data['dash_about_message_lgpd'] ); // phpcs:ignore ?></div>
 		<?php elseif ( $the_options['cookie_usage_for']==='both' ) :?>
-			<div class="gdpr-about-cookies"><?php echo $the_options['is_iabtcf_on'] ? esc_html__( $cookie_data['dash_about_message_iabtcf'], 'gdpr-cookie-consent' ) : esc_html__( $cookie_data['dash_about_message'], 'gdpr-cookie-consent' ); // phpcs:ignore ?></div>
+			<div class="gdpr-about-cookies"><?php echo $the_options['is_iabtcf_on'] ? esc_html( $cookie_data['dash_about_message_iabtcf'] ) : esc_html( $cookie_data['dash_about_message'] ); // phpcs:ignore ?></div>
 		<?php endif; 
 			?>
 		</div>

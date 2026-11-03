@@ -18,6 +18,7 @@
 				data: {
 					action: 'data_reqs_form_submit',
 					form_data: formData,
+					security: data_req_obj.ajax_nonce,
 				},
 				success: function(response) {
 					var wpl_alert = $('.wpl-datarequest.wpl-alert');

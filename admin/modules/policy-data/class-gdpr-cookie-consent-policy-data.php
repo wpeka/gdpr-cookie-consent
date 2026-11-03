@@ -233,7 +233,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 		<script type="text/javascript">
 			jQuery(document).ready( function($)
 			{
-				jQuery('<a class="add-new-h2" href="<?php echo esc_attr( $import_page ); ?>"><?php echo esc_attr( $scan_import_menu ); ?></a>').insertAfter(".wrap h1");
+				jQuery('<a class="add-new-h2" href="<?php echo esc_url( $import_page ); ?>"><?php echo esc_html( $scan_import_menu ); ?></a>').insertAfter(".wrap h1");
 			});
 		</script>
 		<?php
@@ -285,8 +285,8 @@ class Gdpr_Cookie_Consent_Policy_Data {
 			wp_die( esc_html__( 'Unauthorized', 'gdpr-cookie-consent' ) );
 		}
 
-		if ( isset( $_GET['nonce'] ) ) {
-			$nonce = $_GET['nonce'];
+		if ( isset( $_GET['nonce'] ) && is_string( $_GET['nonce'] ) ) {
+			$nonce = sanitize_text_field( wp_unslash( $_GET['nonce'] ) );
 			if ( ! wp_verify_nonce( $nonce, 'wpl_csv_nonce' ) ) {
 				die( 'invalid request' );
 			}
@@ -303,6 +303,19 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	 * @since 1.9
 	 */
 	public function gdpr_process_csv_export_policies() {
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die(
+				esc_html__( 'You are not allowed to export policies.', 'gdpr-cookie-consent' ),
+				esc_html__( 'Unauthorized', 'gdpr-cookie-consent' ),
+				array( 'response' => 403 )
+			);
+		}
+
+		check_admin_referer(
+			'gdpr_policies_export_csv',
+			'_wpnonce'
+		);
 
 		global $wpdb;
 
@@ -377,7 +390,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 						break;
 				}
 			}
-			fputcsv( $fp, $row, ',', '"' );
+			fputcsv( $fp, $row, ',', '"' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fputcsv -- Writing to php://output, not the filesystem.
 			unset( $row );
 		}
 		unset( $policies );
@@ -393,11 +406,12 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	 * @return string
 	 */
 	public static function format_data( $data ) {
+		$data = (string) $data;
 		$enc  = mb_detect_encoding( $data, 'UTF-8, ISO-8859-1', true );
 		$data = ( 'UTF-8' === $enc ) ? $data : $data;
 
-		// Check if the data starts with =, +, -, or @, indicating a potential formula.
-		if ( preg_match( '/^([=\+\-@].*)/', $data ) ) {
+		// Check if the data starts with =, +, -, @, tab or carriage return, indicating a potential formula.
+		if ( preg_match( '/^[=+\-@\t\r]/', $data ) ) {
 			// If a potential formula is detected, prepend the data with a single quote.
 			$data = "'" . $data;
 		}
@@ -409,18 +423,17 @@ class Gdpr_Cookie_Consent_Policy_Data {
 	 * Process policy data csv.
 	 *
 	 * @since 1.9
-	 */
-	public function gdpr_process_csv_policies() {
+	 */public function gdpr_process_csv_policies() {
 		if ( isset( $_POST['_wpnonce-gdpr-policies-import-page'] ) ) {
 			check_admin_referer( 'gdpr-policies-import-page', '_wpnonce-gdpr-policies-import-page' );
 
 			if ( ! empty( $_FILES['policies_csv']['tmp_name'] ) ) {
 				// Setup settings variables.
-				$filename = sanitize_text_field( $_FILES['policies_csv']['tmp_name'] );
+				$filename = sanitize_text_field( wp_unslash( $_FILES['policies_csv']['tmp_name'] ) );
 
 				$result = $this->gdpr_import_csv_policies( $filename );
 
-				if ( ! $result['post_ids'] ) { // Some posts imported.
+				if ( ! $result['post_ids'] ) { // No posts imported.
 					wp_safe_redirect(
 						add_query_arg(
 							array(
@@ -430,6 +443,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 							wp_get_referer()
 						)
 					);
+					exit;
 				} elseif ( $result['errors'] ) { // Some posts imported.
 					wp_safe_redirect(
 						add_query_arg(
@@ -440,6 +454,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 							wp_get_referer()
 						)
 					);
+					exit;
 				} else { // All posts imported.
 					wp_safe_redirect(
 						add_query_arg(
@@ -450,9 +465,8 @@ class Gdpr_Cookie_Consent_Policy_Data {
 							wp_get_referer()
 						)
 					);
+					exit;
 				}
-
-				exit;
 			}
 			wp_safe_redirect(
 				add_query_arg(
@@ -463,7 +477,7 @@ class Gdpr_Cookie_Consent_Policy_Data {
 					wp_get_referer()
 				)
 			);
-			exit();
+			exit;
 		}
 	}
 

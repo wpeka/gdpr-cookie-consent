@@ -229,6 +229,9 @@ var gen = new Vue({
       admin_icon: require("../admin/images/dashboard-icons/summary/admin.svg"),
       dashboard_arrow_grey: require("../admin/images/dashboard_arrow_grey.svg"),
       account_connection: require("../admin/images/account_connection.svg"),
+      account_connection_new: require("../admin/images/account_connection_new.svg"),
+      lightening: require("../admin/images/lightening.svg"),
+      warning: require("../admin/images/warning.svg"),
       highlight_variant: "outline",
       decline_log: dashboard_options.hasOwnProperty("decline_log")
         ? dashboard_options["decline_log"]

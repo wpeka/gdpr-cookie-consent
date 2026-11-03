@@ -2,6 +2,17 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$pro_is_activated = get_option( 'wpl_pro_active', false );
+
+require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/settings/class-gdpr-cookie-consent-settings.php';
+
+$this->settings = new GDPR_Cookie_Consent_Settings();
+
+$is_user_connected      = $this->settings->is_connected();
+$api_user_email         = $this->settings->get_email();
+$api_user_site_key      = $this->settings->get_website_key();
+$api_user_plan          = $this->settings->get_plan();
 ?>
 <div class="gdpr-cookie-consent-app-container" id="gdpr-cookie-consent-advanced-settings">
     <c-container class="gdpr-cookie-consent-settings-container gdpr-cookie-consent-advanced-settings-container">
@@ -10,37 +21,35 @@ if ( ! defined( 'ABSPATH' ) ) {
             <div class="gdpr-cookie-consent-settings-content">
                 <div id="gdpr-cookie-consent-save-settings-alert-adv">{{success_error_message}}</div>
 				<div id="gdpr-cookie-consent-updating-settings-alert-adv">Updating Setting</div>
-
-				<div class="gdpr-preview-publish-btn gdpr-preview-publish-btn-adv">
-						<c-button :disabled="save_loading" class="gdpr-publish-btn" @click="saveAdvancedCookieSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
-				</div> 
-                <c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
+ 
+                <c-tabs variant="pills" ref="active_tab_adv" class="gdpr-cookie-consent-settings-nav">
 					<!-- Consent Settings Start -->
-                    <c-tab href="#advanced_settings#consent" class="consent-settings" title="<?php esc_attr_e( 'Consent Settings', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-consent-settings" >   
+                    <c-tab href="#advanced_settings#consent" class="consent-settings" title="<?php esc_attr_e( 'Consent Behavior', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-consent-settings" >   
 						<c-card class="consent_card">
+							<div class="gdpr-preview-publish-btn gdpr-preview-publish-btn-adv">
+								<c-button :disabled="save_loading" class="gdpr-publish-btn" @click="saveCookieSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
+							</div>
+
                             <c-card-body>
+								<c-row>
+									<c-col class="col-sm-32">
+										<div id="gdpr-cookie-consent-settings-configure-cookie-bar-top"><?php esc_html_e( 'Consent Behavior Settings', 'gdpr-cookie-consent' ); ?></div>
+									</c-col>
+								</c-row>
                                 <!-- Consent  Forwarding -->
 								<?php
 								if ( ! $is_pro_active ) :
 									$currentid = get_current_blog_id();
 									if ( is_multisite() ) { ?>
 								        <c-row>
-								        	<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Consent Forwarding', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'If you have multiple WordPress sites for one organization, you can get user consent on one site, and it will count for selected sites in the network. ', 'gdpr-cookie-consent' ); ?>" style="left:10px;"></tooltip></label></c-col>
+								        	<c-col class="col-sm-4 relative"><label><?php esc_html_e( 'Consent Forwarding', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_attr_e( 'If you have multiple WordPress sites for one organization, you can get user consent on one site, and it will count for selected sites in the network. ', 'gdpr-cookie-consent' ); ?>" style="left:10px;"></tooltip></label></c-col>
 								        	<c-col class="col-sm-8">
 								        		<input type="hidden" name="gcc-consent-forward" v-model="consent_forward">
 								        		<c-switch v-bind="labelIcon" v-model="consent_forward" id="gdpr-cookie-consent-forward" variant="3d" color="success" :checked="consent_forward" v-on:update:checked="onSwitchConsentForward"></c-switch>
 								        	</c-col>
 								        </c-row>
 								        <c-row v-show="consent_forward">
-								        	<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Forward to', 'gdpr-cookie-consent' ); ?><tooltip text="
-								        		<?php
-								        		esc_html_e(
-								        			'Choose the websites where the user\'s consent from the current site should be sent.
-								        	    ',
-								        			'gdpr-cookie-consent'
-								        		);
-								        		?>
-								        		"style="left:10px;"></tooltip></label></c-col>
+								        	<c-col class="col-sm-4 relative"><label><?php esc_html_e( 'Forward to', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_attr_e( 'Choose the websites where the user\'s consent from the current site should be sent.', 'gdpr-cookie-consent' ); ?>" style="left:10px;"></tooltip></label></c-col>
 								        	<c-col class="col-sm-8">
 								        		<v-select id="gdpr-cookie-consent-forward-sites" placeholder="Select sites":reduce="label => label.code" class="form-group" :options="list_of_sites" multiple v-model="select_sites_array" @input="onSiteSelect"></v-select>
 								        		<input type="hidden" name="gcc-selected-sites" v-model="select_sites">
@@ -49,12 +58,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 										<?php
 									} else { ?>
 								        <c-row>
-								        	<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Consent Forwarding', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( 'If you have multiple WordPress sites for one organization, you can get user consent on one site, and it will count for selected sites in the network.', 'gdpr-cookie-consent' ); ?>"style="left:10px;"></tooltip></label></c-col>
+								        	<c-col class="col-sm-4 relative"><label><?php esc_html_e( 'Consent Forwarding', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_attr_e( 'If you have multiple WordPress sites for one organization, you can get user consent on one site, and it will count for selected sites in the network.', 'gdpr-cookie-consent' ); ?>"style="left:10px;"></tooltip></label></c-col>
 								        	<c-col class="col-sm-8">
 								        		<input type="hidden" name="gcc-consent-forward" v-model="consent_forward">
 								        		<div class="consent-multisite">
 								        			<c-switch disabled v-bind="labelIcon" v-model="consent_forward" id="gdpr-cookie-consent-forward" variant="3d" color="success" :checked="consent_forward" v-on:update:checked="onSwitchConsentForward"></c-switch>
-								        			<p class="consent-tooltip">
+													<p class="consent-tooltip">
 								        			<?php
 								        			esc_html_e(
 								        				'This setting is only available for multisite WordPress instances.
@@ -63,7 +72,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								        			);
 								        			?>
 								        			</p>
-								        		</div>
+								        		</div>								        			
 								        	</c-col>
 								        </c-row>
 										<?php } ?>
@@ -74,9 +83,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                             
                                 <?php if ( ! $is_pro_active ) : ?>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Enable to log user’s consent.', 'gdpr-cookie-consent' ); ?>"></tooltip><div class="consent-log-readmore-container">
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Enable Consent Logging', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Enable to log user’s consent.', 'gdpr-cookie-consent' ); ?>"></tooltip><div class="consent-log-readmore-container">
 											<a class="consent-log-readmore" href="https://wplegalpages.com/docs/wplp-docs/features-walkthrough/cookie-consent/#h-consent-logs" target="_blank">
-												<?php esc_attr_e( 'Learn more about consent logging', 'gdpr-cookie-consent' ); ?>
+												<?php esc_html_e( 'Learn more about consent logging', 'gdpr-cookie-consent' ); ?>
 											</a>
 											</div></label></c-col>											
 										<c-col class="col-sm-8">
@@ -88,118 +97,101 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<?php if ( $is_pro_active ) : ?>
 									<?php do_action( 'gdpr_consent_settings_pro_top' ); ?>
 								<?php endif; ?>
-								<c-row v-show="is_gdpr">
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Autotick for Non-Necessary Cookies ', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Pre-select non-necessary cookie checkboxes.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-								<c-col class="col-sm-8">
-									<c-switch v-bind="labelIcon" v-model="autotick" id="gdpr-cookie-consent-autotick" variant="3d"  color="success" :checked="autotick" v-on:update:checked="onSwitchAutotick"></c-switch>
-									<input type="hidden" name="gcc-autotick" v-model="autotick">
-								</c-col>
-								</c-row>
-								<c-row v-show="show_revoke_card">
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Auto Hide (Accept)', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled Cookie Bar will be automatically hidden after specified time and cookie preferences will be set as accepted.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-								<c-col class="col-sm-8">
-									<c-switch v-bind="labelIcon" v-model="auto_hide" id="gdpr-cookie-consent-auto_hide" variant="3d"  color="success" :checked="auto_hide" v-on:update:checked="onSwitchAutoHide"></c-switch>
-									<input type="hidden" name="gcc-auto-hide" v-model="auto_hide">
-								</c-col>
-								</c-row>
-								<c-row v-show="auto_hide&&show_revoke_card">
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Auto Hide Delay (in milliseconds)', 'gdpr-cookie-consent' ); ?></label></c-col>
-								<c-col class="col-sm-8">
-									<c-input type="number" min="5000" max="60000" step="1000" name="gcc-auto-hide-delay" v-model="auto_hide_delay"></c-input>
-								</c-col>
-								</c-row>
-								<c-row v-show="show_revoke_card">
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Auto Scroll (Accept)', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( ' If enabled, Cookie Bar will automatically hide after the visitor scrolls the webpage and consent will be automatically accepted as Yes.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-								<c-col class="col-sm-8">
-									<c-switch v-bind="labelIcon" v-model="auto_scroll" id="gdpr-cookie-consent-auto_scroll" variant="3d"  color="success" :checked="auto_scroll" v-on:update:checked="onSwitchAutoScroll"></c-switch>
-									<input type="hidden" name="gcc-auto-scroll" v-model="auto_scroll">
-								</c-col>
-								</c-row>
-								<c-row v-show="auto_scroll">
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Auto Scroll Offset (in percent)', 'gdpr-cookie-consent' ); ?></label></c-col>
-								<c-col class="col-sm-8">
-									<c-input type="number" min="1" max="100" name="gcc-auto-scroll-offset" v-model="auto_scroll_offset"></c-input>
-								</c-col>
-								</c-row>
-								<c-row v-show="show_revoke_card">
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Auto Click (Accept)', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( ' If enabled, the Cookie Bar will automatically hide when the visitor clicks anywhere on the page, and consent will be accepted as Yes.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-								<c-col class="col-sm-8">
-									<c-switch v-bind="labelIcon" v-model="auto_click" id="gdpr-cookie-consent-auto_click" variant="3d"  color="success" :checked="auto_click" v-on:update:checked="onSwitchAutoClick"></c-switch>
-									<input type="hidden" name="gcc-auto-click" v-model="auto_click">
-								</c-col>
-								</c-row>
-								<c-row v-show="show_revoke_card">
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Reload After Scroll Accept', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled, the web page will be refreshed automatically once cookie settings are accepted because of scrolling.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
-								<c-col class="col-sm-8">
-									<c-switch v-bind="labelIcon" v-model="auto_scroll_reload" id="gdpr-cookie-consent-auto-scroll-reload" variant="3d"  color="success" :checked="auto_scroll_reload" v-on:update:checked="onSwitchAutoScrollReload"></c-switch>
-									<input type="hidden" name="gcc-auto-scroll-reload" v-model="auto_scroll_reload">
-								</c-col>
-								</c-row>
+
 								<c-row>
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Reload After Accept', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled web page will be refreshed automatically once cookie settings are accepted.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+								<c-col class="col-sm-4"><label><?php esc_html_e( 'Reload After Accept', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'If enabled web page will be refreshed automatically once cookie settings are accepted.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 								<c-col class="col-sm-8">
 									<c-switch v-bind="labelIcon" v-model="accept_reload" id="gdpr-cookie-consent-accept-reload" variant="3d"  color="success" :checked="accept_reload" v-on:update:checked="onSwitchAcceptReload"></c-switch>
 									<input type="hidden" name="gcc-accept-reload" v-model="accept_reload">
 								</c-col>
 								</c-row>
 								<c-row  v-show="show_revoke_card">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Reload After Decline', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If enabled web page will be refreshed automatically once cookie settings are declined.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Reload After Reject All', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'If enabled web page will be refreshed automatically once cookie settings are declined.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="decline_reload" id="gdpr-cookie-consent-decline-reload" variant="3d"  color="success" :checked="decline_reload" v-on:update:checked="onSwitchDeclineReload"></c-switch>
 										<input type="hidden" name="gcc-decline-reload" v-model="decline_reload">
 									</c-col>
 								</c-row>
-								<!-- Do Not Track  -->
-								<?php
-								$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
-								if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
-									if ( ! $is_pro_active ) :
-										?>
+								
+								<!--  Anonymize IP address - All laws-->
 								<c-row>
-									<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?>  <tooltip text="<?php esc_html_e( 'Automatically deny cookies for users who have enabled DNT or GPC in their browser settings.', 'gdpr-cookie-consent'); ?>"></tooltip></label>
-										<div class="gdpr-pro-label absolute" style="right: 0px;"><div class="gdpr-pro-label-text">Pro</div></div>
+									<c-col class="col-sm-4 relative">
+										<label>
+											<?php esc_html_e( 'Anonymize IP Address', 'gdpr-cookie-consent' ); ?>
+											<tooltip text="<?php esc_attr_e( 'Masks visitor IP addresses in consent logs to enhance privacy compliance. Higher masking reduces geo-location accuracy.', 'gdpr-cookie-consent' ); ?>"></tooltip>
+										</label>
 									</c-col>
 									<c-col class="col-sm-8">
-										<c-switch disabled v-bind="isGdprProActive ? labelIcon : labelIconNew" variant="3d" color="success"></c-switch>
+										<div class="gdpr-disabled-export-settings">
+										<c-switch 
+											v-bind="labelIcon" 
+											v-model="ip_anonymization_on" 
+											id="gdpr-cookie-consent-ip-anonymization" 
+											variant="3d" 
+											color="success" 
+											:checked="ip_anonymization_on" 
+											:disabled="!logging_on"
+											style="!logging_on ? 'cursor:not-allowed' : ''"
+											v-on:update:checked="onSwitchIpAnonymization">
+										</c-switch>
+										 <p v-if="!logging_on" class="gdpr-export-message">
+											<?php esc_html_e( 'To use this feature, turn on "Enable Consent Logging"', 'gdpr-cookie-consent' ); ?>
+										</p>
+										<input type="hidden" name="gcc-ip-anonymization-enabled" v-model="ip_anonymization_on">
+									</div>
 									</c-col>
 								</c-row>
-									<?php endif ?>
-									<?php
-									do_action( 'gdpr_consent_settings_dnt' ); } else {
-									?>
-								<c-row>
-									<c-col class="col-sm-4 relative"><label><?php esc_attr_e( 'Respect Do Not Track & Global Privacy Control', 'gdpr-cookie-consent' ); ?>  <tooltip text="<?php esc_html_e( 'Automatically deny cookies for users who have enabled DNT or GPC in their browser settings.', 'gdpr-cookie-consent'); ?>"></tooltip></label>
+
+								<!-- IP Masking Level-->
+								<c-row v-show="logging_on && ip_anonymization_on"> 
+									<c-col class="col-sm-4">
+										<label><?php esc_html_e( 'Select how many bytes to mask', 'gdpr-cookie-consent' ); ?></label>
 									</c-col>
 									<c-col class="col-sm-8">
-										<c-switch v-bind= labelIcon v-model="do_not_track_on" id="gdpr-cookie-do-not-track" variant="3d" color="success" :checked="do_not_track_on" v-on:update:checked="onSwitchDntEnable"></c-switch>
-										<input type="hidden" name="gcc-do-not-track" v-model="do_not_track_on">
+										<v-select
+											class="form-group"
+											id="gdpr-cookie-consent-ip-masking-level"
+											:reduce="label => label.code"
+											:options="ip_masking_options"
+											v-model="ip_masking_level"
+											:searchable="false">
+										</v-select>
+										<input type="hidden" name="gcc-ip-masking-level" v-model="ip_masking_level">
 									</c-col>
 								</c-row>
-								<?php } ?>
                             </c-card-body>
                         </c-card>
                     </c-tab> 
                     
                     <!-- Additional Settings Start -->
-                    <c-tab href="#advanced_settings#additional" class="additional-settings" title="<?php esc_attr_e( 'Additional Settings', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-additional-settings" >
+                    <c-tab href="#advanced_settings#additional" class="additional-settings" title="<?php esc_attr_e( 'Cookie & Privacy', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-additional-settings" >
                         <c-card class="additional_card">
+							<div class="gdpr-preview-publish-btn gdpr-preview-publish-btn-adv">
+								<c-button :disabled="save_loading" class="gdpr-publish-btn" @click="saveCookieSettings">{{ save_loading ? '<?php esc_html_e( 'Saving...', 'gdpr-cookie-consent' ); ?>' : '<?php esc_html_e( 'Save Changes', 'gdpr-cookie-consent' ); ?>' }}</c-button>
+							</div>
+
                             <c-card-body>
+								<c-row>
+									<c-col class="col-sm-32">
+										<div id="gdpr-cookie-consent-settings-configure-cookie-bar-top"><?php esc_html_e( 'Cookie & Privacy Settings', 'gdpr-cookie-consent' ); ?></div>
+									</c-col>
+								</c-row>
                                 <!-- Extra Settings -->             
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Delete Plugin Data on Deactivation', 'gdpr-cookie-consent' ); ?></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Delete Plugin Data on Deactivation', 'gdpr-cookie-consent' ); ?></label></c-col>
 									<c-col class="col-sm-8">
 										<c-switch v-bind="labelIcon" v-model="delete_on_deactivation" id="gdpr-cookie-consent-delete-on-deactivation" variant="3d"  color="success" :checked="delete_on_deactivation" v-on:update:checked="onSwitchDeleteOnDeactivation"></c-switch>
 										<input type="hidden" name="gcc-delete-on-deactivation" v-model="delete_on_deactivation">
 									</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Show Credits', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'If you are happy with the product and want to share credit with the developer, you can display credits under the Cookie Settings.', 'gdpr-cookie-consent' ); ?>"></tooltip>  <span class="probadge bg-badge"><?php esc_attr_e( 'Pro', 'gdpr-cookie-consent' ); ?></span></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Hide Credits', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'If you are happy with the product and want to share credit with the developer, you can display credits under the Preferences.', 'gdpr-cookie-consent' ); ?>"></tooltip>  <a href="https://wplegalpages.com/pricing?utm_source=wp_cookie_consent&utm_medium=hide_credits&utm_campaign=plugin_upgrade" class="probadge bg-badge"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 640" fill="#f5af2f"> <path d="M345 151.2C354.2 143.9 360 132.6 360 120C360 97.9 342.1 80 320 80C297.9 80 280 97.9 280 120C280 132.6 285.9 143.9 295 151.2L226.6 258.8C216.6 274.5 195.3 278.4 180.4 267.2L120.9 222.7C125.4 216.3 128 208.4 128 200C128 177.9 110.1 160 88 160C65.9 160 48 177.9 48 200C48 221.8 65.5 239.6 87.2 240L119.8 457.5C124.5 488.8 151.4 512 183.1 512L456.9 512C488.6 512 515.5 488.8 520.2 457.5L552.8 240C574.5 239.6 592 221.8 592 200C592 177.9 574.1 160 552 160C529.9 160 512 177.9 512 200C512 208.4 514.6 216.3 519.1 222.7L459.7 267.3C444.8 278.5 423.5 274.6 413.5 258.9L345 151.2z"/><path d="M180 550H460" fill="none" stroke="#f5af2f" stroke-width="28" stroke-linecap="round"/></svg></a></label></c-col>
 									<c-col class="col-sm-8">
 										<div class="gdpr-disabled-show-credits">
 										<?php 
 											$is_disabled = (!$is_user_connected || $api_user_plan === 'free');
 										?>
-										<c-switch v-bind="labelIcon" v-model="show_credits" id="gdpr-cookie-consent-show-credits" variant="3d"  color="success" :checked="<?php echo $is_disabled ? 'true' : 'show_credits'; ?>" v-on:update:checked="onSwitchShowCredits"  <?php echo $is_disabled ? 'disabled' : ''; ?>></c-switch>
+										<c-switch v-bind="labelIcon" v-model="show_credits" id="gdpr-cookie-consent-show-credits" variant="3d"  color="success" :checked="<?php echo $is_disabled ? 'false' : '!show_credits'; ?>" v-on:update:checked="onSwitchShowCredits"  <?php echo $is_disabled ? 'disabled' : ''; ?>></c-switch>
 										<input type="hidden" name="gcc-show-credits" v-model="show_credits">
 										<?php if ($is_disabled): ?>
 											<p class="gdpr-show_credits_message">
@@ -210,7 +202,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									</c-col>
 								</c-row>
 								<c-row  v-show="show_revoke_card">
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Cookie Expiry', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'The amount of time that the cookie should be stored for.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Cookie Expiry', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'The amount of time that the cookie should be stored for.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
 										<v-select class="form-group" id="gdpr-cookie-consent-cookie-expiry" :reduce="label => label.code" :options="cookie_expiry_options" v-model="cookie_expiry">
 										</v-select>
@@ -219,7 +211,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								</c-row>
 								<?php if ( ! $is_pro_active ) : ?>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Enable Safe Mode for Cookies', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'When safe mode is enabled, all integrations will be disabled temporarily.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Enable Safe Mode for Cookies', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'When safe mode is enabled, all integrations will be disabled temporarily.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 										<c-col class="col-sm-8">
 												<input type="hidden" name="gcc-enable-safe" v-model="enable_safe">					
                                                 <c-switch  v-bind="labelIcon " id="gdpr-cookie-consent-enable-safe" variant="3d" color="success" :checked="enable_safe" v-on:update:checked="onSwitchEnableSafe" v-model="enable_safe"></c-switch>
@@ -228,7 +220,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<?php endif; ?>
 								<?php if ( ! $is_pro_active ) : ?>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Share Usage Data', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'Allow us to collect anonymous data about how you use the plugin. This helps us identify issues, improve features, and enhance user experience. No personal or sensitive information is ever collected.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Share Usage Data', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'Allow us to collect anonymous data about how you use the plugin. This helps us identify issues, improve features, and enhance user experience. No personal or sensitive information is ever collected.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 										<c-col class="col-sm-8">
 											<input type="hidden" name="gcc-usage-data" v-model="usage_data"><c-switch  v-bind="labelIcon " id="gdpr-cookie-consent-usage-data" variant="3d" color="success" :checked="usage_data" v-on:update:checked="onSwitchEnableUsageData" v-model="usage_data"></c-switch>
 										</c-col>
@@ -238,7 +230,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<?php do_action( 'gdpr_consent_settings_safe_enable' ); ?>
 								<?php endif; ?>
 								<c-row>
-								<c-col class="col-sm-4"><label><?php esc_attr_e( 'Export Personal Data', 'gdpr-cookie-consent' ); ?> </label></c-col>
+								<c-col class="col-sm-4"><label><?php esc_html_e( 'Export Personal Data', 'gdpr-cookie-consent' ); ?> </label></c-col>
 								<c-col class="col-sm-8">
 										<?php
 										$export_personal_data_url = admin_url( 'export-personal-data.php' );
@@ -248,7 +240,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Erase Personal Data', 'gdpr-cookie-consent' ); ?> </label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Erase Personal Data', 'gdpr-cookie-consent' ); ?> </label></c-col>
 									<c-col class="col-sm-8">
 										<?php
 										$erase_personal_data_url = admin_url( 'erase-personal-data.php' );
@@ -258,7 +250,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 										</c-col>
 								</c-row>
 								<c-row>
-									<c-col class="col-sm-4"><label><?php esc_attr_e( 'Reset Settings', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_html_e( 'This will reset the settings to their default values.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
+									<c-col class="col-sm-4"><label><?php esc_html_e( 'Reset Settings', 'gdpr-cookie-consent' ); ?> <tooltip text="<?php esc_attr_e( 'This will reset the settings to their default values.', 'gdpr-cookie-consent' ); ?>"></tooltip></label></c-col>
 									<c-col class="col-sm-8">
 										<c-button id="reset-settings-btn" color="danger" variant="outline" @click="onClickRestoreButton"><?php esc_html_e( 'Restore to Default', 'gdpr-cookie-consent' ); ?></c-button>
 									</c-col>
@@ -268,14 +260,19 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </c-tab> 
 
                     <!-- Export/Import Settings Start -->
-                    <c-tab href="#advanced_settings#export_import" class="export_import" title="<?php esc_attr_e( 'Cookie Settings Export/Import', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-export-import-settings" >
+                    <c-tab href="#advanced_settings#export_import" class="export_import" title="<?php esc_attr_e( 'Import/Export', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-export-import-settings" >
                         <c-card class="export_import_card">
                             <c-card-body>
                                 <!-- Export Settings Label -->
+								<c-row>
+									<c-col class="col-sm-32">
+										<div id="gdpr-cookie-consent-settings-configure-cookie-bar-top"><?php esc_html_e( 'Import/Export Settings', 'gdpr-cookie-consent' ); ?></div>
+									</c-col>
+								</c-row>
 
 							    <c-row class="mb-3" >
 							    	<c-col class="col-sm-4">
-							    		<label class="mb-0"><?php esc_attr_e( 'Export Settings ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_html_e( ' You can use this to export your settings to another site. ', 'gdpr-cookie-consent' ); ?>"></tooltip>  <span class="probadge bg-badge"><?php esc_attr_e( 'Pro', 'gdpr-cookie-consent' ); ?></span></label>
+							    		<label class="mb-0"><?php esc_html_e( 'Export Settings ', 'gdpr-cookie-consent' ); ?><tooltip text="<?php esc_attr_e( ' You can use this to export your settings to another site. ', 'gdpr-cookie-consent' ); ?>"></tooltip>  <a href="https://wplegalpages.com/pricing?utm_source=wp_cookie_consent&utm_medium=export_settings&utm_campaign=plugin_upgrade" class="probadge bg-badge"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 640" fill="#f5af2f"> <path d="M345 151.2C354.2 143.9 360 132.6 360 120C360 97.9 342.1 80 320 80C297.9 80 280 97.9 280 120C280 132.6 285.9 143.9 295 151.2L226.6 258.8C216.6 274.5 195.3 278.4 180.4 267.2L120.9 222.7C125.4 216.3 128 208.4 128 200C128 177.9 110.1 160 88 160C65.9 160 48 177.9 48 200C48 221.8 65.5 239.6 87.2 240L119.8 457.5C124.5 488.8 151.4 512 183.1 512L456.9 512C488.6 512 515.5 488.8 520.2 457.5L552.8 240C574.5 239.6 592 221.8 592 200C592 177.9 574.1 160 552 160C529.9 160 512 177.9 512 200C512 208.4 514.6 216.3 519.1 222.7L459.7 267.3C444.8 278.5 423.5 274.6 413.5 258.9L345 151.2z"/><path d="M180 550H460" fill="none" stroke="#f5af2f" stroke-width="28" stroke-linecap="round"/></svg></a></label>
 							    	</c-col>
 							    	<c-col class="col-sm-8">
 										<div class="gdpr-disabled-export-settings">
@@ -291,7 +288,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							    <c-row class="mb-3 pb-3" >
 							    	<c-col class="col-sm-4" style="flex-direction:column;align-items:baseline;position: relative;">
 							    		<div style="display:flex" >
-							    			<label style="margin-bottom:0;cursor:pointer"><?php esc_attr_e( 'Import Settings', 'gdpr-cookie-consent' ); ?>  <span class="probadge bg-badge"><?php esc_attr_e( 'Pro', 'gdpr-cookie-consent' ); ?></span></label>
+							    			<label style="margin-bottom:0;cursor:pointer"><?php esc_html_e( 'Import Settings', 'gdpr-cookie-consent' ); ?>  <a href="https://wplegalpages.com/pricing?utm_source=wp_cookie_consent&utm_medium=import_settings&utm_campaign=plugin_upgrade" class="probadge bg-badge"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 640 640" fill="#f5af2f"> <path d="M345 151.2C354.2 143.9 360 132.6 360 120C360 97.9 342.1 80 320 80C297.9 80 280 97.9 280 120C280 132.6 285.9 143.9 295 151.2L226.6 258.8C216.6 274.5 195.3 278.4 180.4 267.2L120.9 222.7C125.4 216.3 128 208.4 128 200C128 177.9 110.1 160 88 160C65.9 160 48 177.9 48 200C48 221.8 65.5 239.6 87.2 240L119.8 457.5C124.5 488.8 151.4 512 183.1 512L456.9 512C488.6 512 515.5 488.8 520.2 457.5L552.8 240C574.5 239.6 592 221.8 592 200C592 177.9 574.1 160 552 160C529.9 160 512 177.9 512 200C512 208.4 514.6 216.3 519.1 222.7L459.7 267.3C444.8 278.5 423.5 274.6 413.5 258.9L345 151.2z"/><path d="M180 550H460" fill="none" stroke="#f5af2f" stroke-width="28" stroke-linecap="round"/></svg></a></label>
 							    			<?php
 							    			$plugin_version = defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ? GDPR_COOKIE_CONSENT_VERSION : '';
 							    			if ( version_compare( $plugin_version, '2.5.2', '<=' ) ) {
@@ -318,7 +315,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         ?> text-decoration:underline;margin: right 10px ;padding-left:42px;margin-top:6px;" for="fileInput"  <?php echo (!$is_user_connected || !$api_user_plan === 'free')? 'onclick="return false;"' : ''; ?>>Choose file</label>
 										 <?php if ( ! $is_user_connected || $api_user_plan === 'free') : ?>
 											<p class="gdpr-import-message">
-												<?php esc_attr_e( 'To use this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
+												<?php esc_html_e( 'To use this feature, connect to your pro account', 'gdpr-cookie-consent' ); ?>
 											</p>
 										<?php endif; ?>
 									</div>
@@ -336,6 +333,28 @@ if ( ! defined( 'ABSPATH' ) ) {
                             </c-card-body>
                         </c-card>
                     </c-tab> 
+					<?php if ( $is_user_connected && ! $pro_is_activated ) : ?>
+					<c-tab href="#advanced_settings#connection" class="connection" title="<?php esc_attr_e( 'Connection', 'gdpr-cookie-consent' ); ?>" id="gdpr-cookie-consent-connection-settings" >
+						<c-card class="connection_card gdpr-cookie-consent-settings-cookie-notice-top">
+							<c-card-body class="gdpr-connection-card-body" >
+								<!-- Connection -->	
+								<div class="gdpr-connect-information">
+									<div class="gdpr-connection-success-tick">
+										<div class="gdpr-connection-success-img"><img src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/check_ring.svg'; ?>" alt="API Connection Success Mark"></div>
+										<div class="gdpr-connection-success-descreption"><?php esc_html_e( 'Your website is connected to WPLP Cookie Consent', 'gdpr-cookie-consent' ); ?></div>
+									</div>
+									<div class="gdpr-connect-information-section">
+										<p class="gpdr-email-info"><span class="gdpr-info-title" ><?php esc_html_e( 'Email : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html( $api_user_email ); ?>  </p>
+										<p><span class="gdpr-info-title" ><?php esc_html_e( 'Site Key : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html( $api_user_site_key ); ?>  </p>
+										<p><span class="gdpr-info-title" ><?php esc_html_e( 'Plan : ', 'gdpr-cookie-consent' ); ?></span> <?php echo esc_html( $api_user_plan ); ?>  </p>
+										<!-- API Disconnect Button  -->
+										<div class="api-connection-disconnect-btn" ><?php esc_html_e( 'Disconnect', 'gdpr-cookie-consent' ); ?></div>
+									</div>
+								</div>
+							</c-card-body>
+						</c-card>
+					</c-tab>
+					<?php endif; ?>
                 </c-tabs>
             </div>
         </c-form>

@@ -20,6 +20,20 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
   const cmpVersion = 1;
   cmpstub();
 
+  function initDisclosedVendors() {
+    const vendors = iabtcf?.data?.vendors || [];
+    const vendorIds = Array.isArray(vendors) ? vendors.map(v => Number(v.id)).filter(Boolean) : [];
+    var ids = vendorIds;
+
+    if (ids.length === 0) {
+        if (typeof gvl !== 'undefined' && gvl?.vendors) {
+            ids = Object.keys(gvl.vendors).map(Number);
+        } else {
+            ids = [];
+        }
+    }
+    ids.forEach(id => tcModel.vendorsDisclosed.set(id));
+  }
   //functions to handle tc string cookie
   var GDPR_Cookie = {
     set: function (name, value, days) {
@@ -91,9 +105,10 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
   //initializaation of cmp api instance that is used to read tcString by vendors and validator
   let cmpApi;
 
-  //if tc string cookie for consent by user exists, read it, decode it and strore in the object
-  if (GDPR_Cookie.exists("wpl_tc_string")) {
-    const decoded_consent = TCString.decode(GDPR_Cookie.read("wpl_tc_string"));
+  // Load the consent held in a TC string into user_iab_consent, the state the
+  // toggles are synced from (including vendors rendered later on scroll).
+  function setUserConsentFromTCString(tcString) {
+    const decoded_consent = TCString.decode(tcString);
     user_iab_consent.purpose_consent = Array.from(
       decoded_consent.purposeConsents.set_
     );
@@ -108,6 +123,19 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
       decoded_consent.specialFeatureOptins.set_
     );
   }
+
+  // Every Google Ad Tech Provider ID listed for the site (rows without an ID,
+  // such as a trailing blank row, are skipped).
+  function allGacmVendorIds() {
+    return (iabtcf.gacm_data || [])
+      .map((vendor) => Number(vendor && vendor[0]))
+      .filter((id) => id > 0);
+  }
+
+  //if tc string cookie for consent by user exists, read it, decode it and strore in the object
+  if (GDPR_Cookie.exists("wpl_tc_string")) {
+    setUserConsentFromTCString(GDPR_Cookie.read("wpl_tc_string"));
+  }
   if (GDPR_Cookie.exists("IABTCF_AddtlConsent")) {
     const [specVersion, consentedPart, disclosedPart] = GDPR_Cookie.read(
       "IABTCF_AddtlConsent"
@@ -119,29 +147,39 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
     if (user_gacm_consent.length == 1 && Number(user_gacm_consent[0]) == 0)
       user_gacm_consent = [];
   }
+  window.syncVendorToggles = function () {
+    jQuery(".vendor-switch-handler.consent-switch").each(function () {
+      // Get the value of the current element
+      const value = jQuery(this).val();
+
+      // Check if the value is in the user_iab_consent.consent array
+      if (user_iab_consent.consent.includes(Number(value))) { 
+        jQuery(this).prop("checked", true); // Mark as checked
+      } else {
+        jQuery(this).prop("checked", false); // Ensure it is unchecked
+      }
+    });
+    jQuery(".vendor-switch-handler.legint-switch").each(function () {
+      const value = jQuery(this).val();
+
+      if (user_iab_consent.legint.includes(Number(value))) {
+        jQuery(this).prop("checked", true);
+      } else {
+        jQuery(this).prop("checked", false);
+      }
+    });
+  }
+
+  jQuery(document).on("wplp_vendors_rendered", function () {
+    if (typeof window.syncVendorToggles === "function") {
+      window.syncVendorToggles();
+    }
+  });
+
   //function to set switches of selected consents to on
   (function ($) {
     // Select all input elements using the class
-    $(".vendor-switch-handler.consent-switch").each(function () {
-      // Get the value of the current element
-      const value = $(this).val();
-
-      // Check if the value is in the user_iab_consent.consent array
-      if (user_iab_consent.consent.includes(Number(value))) {
-        $(this).prop("checked", true); // Mark as checked
-      } else {
-        $(this).prop("checked", false); // Ensure it is unchecked
-      }
-    });
-    $(".vendor-switch-handler.legint-switch").each(function () {
-      const value = $(this).val();
-
-      if (user_iab_consent.legint.includes(Number(value))) {
-        $(this).prop("checked", true);
-      } else {
-        $(this).prop("checked", false);
-      }
-    });
+    window.syncVendorToggles();
     $(".purposes-switch-handler.consent-switch").each(function () {
       const value = $(this).val();
 
@@ -257,6 +295,8 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
       else $(this).prop("checked", false);
     });
   })(jQuery);
+  
+  
 
   //function to setup gvl once it has returned the promise and resolved it
   gvl.readyPromise.then(() => {
@@ -269,6 +309,9 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
       tcModel.cmpVersion = cmpVersion;
       tcModel.gdprApplies = true;
       tcModel.isServiceSpecific = false;
+
+      initDisclosedVendors();
+
       //initializing the cmp api
       if (tcModel && tcModel.gvl) {
         cmpApi = new CmpApi(cmpId, cmpVersion, false, {
@@ -289,10 +332,21 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
       }
       if (GDPR_Cookie.exists("wpl_tc_string")) {
         updateTCModel();
+      } else if (window.WPLConsent && window.WPLConsent.hasDecision("optin")) {
+        // A decision recorded before this bundle loaded (GPC, Do Not Track, a
+        // migrated consent) still needs its TC string.
+        var decision = (window.WPLConsent.get() || {}).decision;
+        if (decision == "accept_all") {
+          selectAllUpdateTCModel();
+        } else if (decision == "reject" || decision == "dismiss" || decision == "gpc" || decision == "dnt") {
+          rejectTCModel();
+        }
       }
     } catch (error) {
       console.error("Error during CMP initialization:", error);
     }
+  }).catch(err => {
+    console.error("GVL readyPromise failed:", err);
   });
 
   function updateTCModel() {
@@ -404,6 +458,9 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
 
       // Encode the updated tcModel
       encodedString = TCString.encode(tcModel);
+      // Keep the in-memory consent in step with the string just written, so
+      // vendors rendered later (on scroll) and later saves use this decision.
+      setUserConsentFromTCString(encodedString);
       user_iab_consent.tcString = encodedString;
       tcModel.tcString = encodedString;
       GDPR_Cookie.set("wpl_tc_string", encodedString, 365);
@@ -447,18 +504,27 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
 
       var specVersion = "2";
 
-      user_gacm_consent = [];
+      // Accept All consents to every Google Ad Tech Provider as well, matching
+      // the ATP toggles switched on below.
+      user_gacm_consent = allGacmVendorIds();
 
+      // Part 3: List of user-consented vendors
+      var consentedIds = user_gacm_consent.join(".");
       // Part 5: List of disclosed vendors (from gacm_data that are NOT in user_gacm_consent)
-      var disclosedVendors = iabtcf.gacm_data.map((vendor) => vendor[0]);
-      var disclosedIds = disclosedVendors.join(".");
+      var disclosedIds = (iabtcf.gacm_data || [])
+        .map((vendor) => vendor[0])
+        .filter((vendorId) => vendorId != null && vendorId !== "" && !user_gacm_consent.includes(Number(vendorId)))
+        .join(".");
 
       // Create the AC string
-      acString = `${specVersion}~~dv.${disclosedIds}`;
+      acString = `${specVersion}~${consentedIds}~dv.${disclosedIds}`;
       tcModel.addtlConsent = acString;
 
       // Encode the updated tcModel
       encodedString = TCString.encode(tcModel);
+      // Keep the in-memory consent in step with the string just written, so
+      // vendors rendered later (on scroll) and later saves use this decision.
+      setUserConsentFromTCString(encodedString);
       user_iab_consent.tcString = encodedString;
       tcModel.tcString = encodedString;
       GDPR_Cookie.set("wpl_tc_string", encodedString, 365);
@@ -486,25 +552,30 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
      *  be set before creating any instance of the GVL class.
      */
 
-    $(".gdpr_action_button").click(function (e) {
-      var elm = $(this);
-      var button_action = elm.attr("data-gdpr_action");
-      if (button_action == "accept") {
-        tcModel.gvl.readyPromise.then(() => {
+    // Every opt-in decision reaches the TC model through the consent core,
+    // including Close X and the browser privacy signals, not only the buttons.
+    function onConsentChange(event) {
+      if (!event || event.type !== "change") {
+        return;
+      }
+      var action = event.action;
+      if (action == "accept") {
+        gvl.readyPromise.then(() => {
           updateTCModel();
         });
-      }
-      if (button_action == "accept_all") {
-        tcModel.gvl.readyPromise.then(() => {
+      } else if (action == "accept_all") {
+        gvl.readyPromise.then(() => {
           selectAllUpdateTCModel();
         });
-      }
-      if (button_action == "reject") {
-        tcModel.gvl.readyPromise.then(() => {
+      } else if (action == "reject" || action == "dismiss" || action == "gpc" || action == "dnt") {
+        gvl.readyPromise.then(() => {
           rejectTCModel();
         });
       }
-    });
+    }
+    if (window.WPLConsent) {
+      window.WPLConsent.on(onConsentChange);
+    }
 
     $(".vendor-all-switch-handler").click(function () {
       $(".vendor-all-switch-handler", this);
@@ -526,32 +597,37 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
         user_iab_consent.legint = [];
       }
     });
-    $(".vendor-switch-handler.consent-switch").click(function () {
-      var val = $(this).val();
+    $(document).on("click", ".vendor-switch-handler.consent-switch", function () {
+      var val = Number($(this).val());
       if ($(this).is(":checked")) {
-        user_iab_consent.consent.push(Number(val));
+        if (!user_iab_consent.consent.includes(val)) {
+          user_iab_consent.consent.push(val);
+        }
         $(this).prop("checked", true);
       } else {
         $(this).prop("checked", false);
         $(".vendor-all-switch-handler").prop("checked", false);
-        user_iab_consent.consent.splice(
-          user_iab_consent.consent.indexOf(Number(val)),
-          1
-        );
+        var idx = user_iab_consent.consent.indexOf(val);
+        if (idx > -1) {
+          user_iab_consent.consent.splice(idx, 1);
+        }
       }
+
     });
-    $(".vendor-switch-handler.legint-switch").click(function () {
-      var val = $(this).val();
+    $(document).on("click", ".vendor-switch-handler.legint-switch", function () {
+      var val = Number($(this).val());
       if ($(this).is(":checked")) {
-        user_iab_consent.legint.push(Number(val));
+        if (!user_iab_consent.legint.includes(val)) {
+          user_iab_consent.legint.push(val);
+        }
         $(this).prop("checked", true);
       } else {
         $(this).prop("checked", false);
         $(".vendor-all-switch-handler").prop("checked", false);
-        user_iab_consent.legint.splice(
-          user_iab_consent.legint.indexOf(Number(val)),
-          1
-        );
+        var idx = user_iab_consent.legint.indexOf(val);
+        if (idx > -1) {
+          user_iab_consent.legint.splice(idx, 1);
+        }
       }
     });
     $(".purposes-all-switch-handler").click(function () {

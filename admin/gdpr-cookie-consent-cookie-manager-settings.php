@@ -2,6 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+$law_selection_mode = get_option( 'gdpr_law_selection_mode', 'manual' );
 ?>
 <div class="gdpr-cookie-consent-app-container" id="gdpr-cookie-consent-cookie_manager-settings">
     <c-container class="gdpr-cookie-consent-settings-container gdpr-cookie-consent-cookie-manager-container">
@@ -13,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<div id="gdpr-cookie-consent-updating-settings-alert-ckm">Updating Setting</div>
 
                <c-tabs variant="pills" ref="active_tab" class="gdpr-cookie-consent-settings-nav">
-                    <c-tab title="<?php esc_attr_e( 'Cookie Manager', 'gdpr-cookie-consent' ); ?>" href="#cookie_settings#cookie_list" 	id="gdpr-cookie-consent-cookies-list" style="position: relative;">
+                    <c-tab title="<?php esc_attr_e( 'Cookie Categories', 'gdpr-cookie-consent' ); ?>" href="#cookie_manager#cookie_list" 	id="gdpr-cookie-consent-cookies-list" style="position: relative;">
 						<c-card class="gdpr-cookie-list-tabs-container" v-show="cookie_list_tab == true">
 							<c-card-body>
 								<c-row>
@@ -39,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				    				<div class="gdpr-cooki-list-tabs-popup-content">
 				    					<div class="cookie-list-tittle-bar">
 				    						<div></div>
-				    						<div class="cookie-list-tittle" slot="header"><?php esc_attr_e('Create Custom Cookie', 'gdpr-cookie-consent'); ?></div>
+				    						<div class="cookie-list-tittle" slot="header"><?php esc_html_e('Create Custom Cookie', 'gdpr-cookie-consent'); ?></div>
 				    						<div><img  @click="showCreateCookiePopup" class="cookie-list-close-img" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/Close_round.svg'; ?>" alt="Add new entry logo"></div>
 				    					</div>
 				    					<div class="gdpr-add-custom-cookie-form">
@@ -66,8 +67,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 				    									<input type="button" @click="onSaveCustomCookie" class="gdpr-custom-cookie-box-save-btn gdpr-custom-cookie-link gdpr-custom-save-cookie" value="Save Cookie">
 				    									<input type="button" @click="showCreateCookiePopup" class="gdpr-custom-cookie-box-cancle-btn" value="Cancel">
 				    								</div>
-				    									<!-- <a class="table-cols-left gdpr-custom-cookie-link gdpr-custom-save-cookie" @click="onSaveCustomCookie"><?php esc_attr_e( 'Save', 'gdpr-cookie-consent' ); ?></a>
-				    									<a class="gdpr-custom-cookie-link" @click="hideCookieForm"><?php esc_attr_e( 'Cancel', 'gdpr-cookie-consent' ); ?></a> -->
+				    									<!-- <a class="table-cols-left gdpr-custom-cookie-link gdpr-custom-save-cookie" @click="onSaveCustomCookie"><?php esc_html_e( 'Save', 'gdpr-cookie-consent' ); ?></a>
+				    									<a class="gdpr-custom-cookie-link" @click="hideCookieForm"><?php esc_html_e( 'Cancel', 'gdpr-cookie-consent' ); ?></a> -->
 				    								</div>
 				    							</div>
 				    							<!-- <c-col class="col-sm-3"></c-col> -->
@@ -107,6 +108,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 							</c-card-body>
 				    	</c-card>
 				    </c-tab>
+					<?php if ( $the_options['cookie_usage_for'] !== 'us_state_laws' || 'auto' === $law_selection_mode ) :?>
+							<?php do_action( 'gdpr_settings_script_blocker_tab' ); ?>
+				<?php endif; ?>
                </c-tabs>
             </div>
         </c-form>

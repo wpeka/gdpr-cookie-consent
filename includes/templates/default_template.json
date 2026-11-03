@@ -1,17 +1,17 @@
 {
-        "name": "default",
+        "name": "new_default",
         "styles": {
-            "background-color": "#ffffff",
-            "color": "#000000",
+            "background-color": "#F8FBFF",
+            "color": "#3A3A41",
             "border-style": "none",
             "border-width": "1px",
-            "border-color": "#ffffff",
-            "border-radius": "0px",
+            "border-color": "#074FA8",
+            "border-radius": "8px",
             "font-family": "Arial",
             "opacity": "1"
         },
         "static-settings": {
-            "layout" : "row_spaced",
+            "layout" : "left_align_buttons",
             "button_padding": "12px 29px"
         },
         "heading":{
@@ -21,20 +21,20 @@
             "src":"",
             "margin-left": "0px",
             "width": "fit-content",
-            "height": "50px",
+            "height": "28px",
             "transform": "none"
         },
         "accept_button": {
             "is_on": false,
-            "background-color": "#176CAE",
+            "background-color": "#074FA8",
             "color": "#ffffff",
             "font-family": "Arial",
             "border-style": "solid",
-            "border-width": "2px",
-            "border-color": "#176CAE",
+            "border-width": "1px",
+            "border-color": "#074FA8",
             "border-radius": "0px",
             "opacity": "1",
-            "min-width": "150px",
+            "min-width": "120px",
             "display": "flex",
             "justify-content": "center",
             "align-items": "center",
@@ -42,15 +42,15 @@
         },
         "decline_button": {
             "is_on": true,
-            "background-color": "#ffffff",
-            "color": "#176CAE",
+            "background-color": "#074FA8",
+            "color": "#ffffff",
             "font-family": "Arial",
             "border-style": "solid",
-            "border-width": "2px",
-            "border-color": "#176CAE",
+            "border-width": "1px",
+            "border-color": "#074FA8",
             "border-radius": "0px",
             "opacity": "1",
-            "min-width": "150px",
+            "min-width": "120px",
             "display": "flex",
             "justify-content": "center",
             "align-items": "center",
@@ -58,15 +58,15 @@
         },
         "settings_button": {
             "is_on": true,
-            "background-color": "#ffffff",
-            "color": "#176CAE",
+            "background-color": "#F8FBFF",
+            "color": "#074FA8",
             "font-family": "Arial",
             "border-style": "solid",
-            "border-width": "2px",
-            "border-color": "#176CAE",
+            "border-width": "1px",
+            "border-color": "#074FA8",
             "border-radius": "0px",
             "opacity": "1",
-            "min-width": "150px",
+            "min-width": "120px",
             "display": "flex",
             "justify-content": "center",
             "align-items": "center",
@@ -74,23 +74,23 @@
         },
         "accept_all_button": {
             "is_on": true,
-            "background-color": "#176CAE",
+            "background-color": "#074FA8",
             "color": "#ffffff",
             "font-family": "Arial",
             "border-style": "solid",
-            "border-width": "2px",
-            "border-color": "#176CAE",
+            "border-width": "1px",
+            "border-color": "#074FA8",
             "border-radius": "0px",
             "opacity": "1",
-            "min-width": "150px",
+            "min-width": "120px",
             "display": "flex",
             "justify-content": "center",
             "align-items": "center",
             "text-align": "center"
         },
         "readmore_button":{
-            "background-color": "#ffffff",
-            "color": "#176CAE",
+            "background-color": "#F8FBFF",
+            "color": "#074FA8",
             "font-family": "Arial",
             "border-style": "solid",
             "border-width": "1px",
@@ -99,10 +99,10 @@
             "opacity": "1"
         },
         "opt_out_button":{
-            "color": "#176CAE"
+            "color": "#074FA8"
         },
         "revoke_consent_button": {
             "color": "#ffffff",
-            "background-color": "#176CAE"
+            "background-color": "#074FA8"
         }
     }

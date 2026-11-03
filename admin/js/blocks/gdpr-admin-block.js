@@ -68,7 +68,7 @@
 	);
 
     registerBlockType('gdpr/block', {
-        title: __('WP Cookie Policy Details'),
+        title: __('WPLP Cookie Policy Details'),
         description: __('A custom block to generate 3rd Party cookie table.'),
         icon,
         category: __('common'),
@@ -85,6 +85,27 @@
         },
         save() {
             return null; // Save has to exist. This all we need.
+        }
+    });
+
+	registerBlockType('gdpr/cookie-table', {
+        title: __('WPLP Autoupdate Cookies List'),
+        description: __('A custom block to list the detected cookies on your website.'),
+        icon,
+        category: 'text',
+        keywords: [__('gdpr'), __('cookie'), __('cookie links')],
+        edit(props) {
+            return createElement(
+                'div',
+                {},
+                createElement(ServerSideRender, {
+                    block: 'gdpr/cookie-table',
+                    key: 'gdpr-cookie-table'
+                })
+            );
+        },
+        save() {
+            return null;
         }
     });
 })(jQuery);

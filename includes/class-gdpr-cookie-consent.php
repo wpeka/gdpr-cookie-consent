@@ -85,7 +85,7 @@ class Gdpr_Cookie_Consent {
 		if ( defined( 'GDPR_COOKIE_CONSENT_VERSION' ) ) {
 			$this->version = GDPR_COOKIE_CONSENT_VERSION;
 		} else {
-			$this->version = '4.2.3';
+			$this->version = '4.4.8';
 		}
 		add_action(
 			'current_screen',
@@ -135,6 +135,11 @@ class Gdpr_Cookie_Consent {
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/class-gdpr-cookie-consent-i18n.php';
 
 		/**
+		 * Banner page view counter.
+		 */
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/class-gdpr-cookie-consent-page-views.php';
+
+		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/class-gdpr-cookie-consent-admin.php';
@@ -153,6 +158,8 @@ class Gdpr_Cookie_Consent {
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'public/modules/script-blocker/class-wpl-cookie-consent-script-blocker.php';
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/consent-logs/class-wpl-cookie-consent-consent-logs.php';
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'admin/modules/cookie-scanner/class-wpl-cookie-consent-cookie-scanner.php';
+		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . 'includes/class-gdpr-cookie-consent-cookie-inventory.php';
+		add_action( 'admin_init', array( 'Gdpr_Cookie_Consent_Cookie_Inventory', 'maybe_migrate' ) );
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/public/modules/geo-ip/class-wpl-cookie-consent-geo-ip.php';
 		require_once GDPR_COOKIE_CONSENT_PLUGIN_PATH . '/admin/modules/ab-testing/class-wpl-cookie-consent-ab-testing.php';
 		/**
@@ -206,6 +213,24 @@ class Gdpr_Cookie_Consent {
 	}
 
 	/**
+	 * Is the current request one of the admin screens that render the admin revamp app?
+	 *
+	 * Module scripts that depend on the 'gdpr-cookie-consent-admin-revamp' handle must
+	 * only be enqueued on these screens, as that handle is enqueued by their callbacks.
+	 *
+	 * @since 4.4.5
+	 *
+	 * @return bool
+	 */
+	public static function is_revamp_admin_screen() {
+		if ( ! isset( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			return false;
+		}
+		$page = sanitize_text_field( wp_unslash( $_GET['page'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		return in_array( $page, array( 'wplp-dashboard', 'gdpr-cookie-consent', 'wp-legal-pages' ), true );
+	}
+
+	/**
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
 	 *
@@ -220,7 +245,7 @@ class Gdpr_Cookie_Consent {
 		 */
 		$plugin_admin->admin_modules();
 		$this->loader->add_action( 'init', $plugin_admin, 'gdpr_register_block_type' );
-		$this->loader->add_filter( 'cron_schedules', $plugin_admin,'add_every_minute_cron_schedule');
+		$this->loader->add_filter( 'cron_schedules', $plugin_admin,'add_scan_cron_schedule');
 		
 		if ( ! self::is_request( 'admin' ) ) {
 			$this->loader->add_action( 'admin_bar_menu', $plugin_admin, 'gdpr_quick_toolbar_menu', 999 );
@@ -236,16 +261,15 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 			$this->loader->add_filter( 'plugin_action_links_' . GDPR_COOKIE_CONSENT_PLUGIN_BASENAME, $plugin_admin, 'admin_plugin_action_links' );
 			$this->loader->add_action( 'wp_ajax_gcc_save_admin_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_settings', 10, 1 );
+			$this->loader->add_action( 'wp_ajax_gdpr_enable_banner', $plugin_admin, 'gdpr_enable_banner', 10, 1);
 			$this->loader->add_action( 'wp_ajax_gcc_save_advanced_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_advanced_settings', 10, 1 );
-			$this->loader->add_action( 'wp_ajax_gcc_save_abtesting_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_abtesting_settings', 10, 1 );
-			$this->loader->add_action( 'wp_ajax_gcc_save_script_blocker_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_script_blocker_settings', 10, 1 );
+			
 			$this->loader->add_action( 'wp_ajax_gcc_save_language_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_language_settings', 10, 1);
 			$this->loader->add_action( 'wp_ajax_gcc_save_cookie_manager_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_cookie_manager_settings', 10, 1);
 			$this->loader->add_action( 'wp_ajax_gcc_enable_iab', $plugin_admin, 'gdpr_cookie_consent_ajax_enable_iab', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_save_gcm_region_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_save_gcm_region', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_ab_testing_enable', $plugin_admin, 'gdpr_cookie_consent_ab_testing_enable', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_restore_default_settings', $plugin_admin, 'gdpr_cookie_consent_ajax_restore_default_settings', 10, 1 );
-			$this->loader->add_action( 'wp_ajax_gcc_auto_generated_banner', $plugin_admin, 'gdpr_cookie_consent_ajax_auto_generated_banner', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_switch_preview_banner', $plugin_admin, 'gdpr_cookie_consent_ajax_switch_preview_banner', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_get_preview_banner_state', $plugin_admin, 'gdpr_cookie_consent_ajax_get_preview_banner_state', 10, 1 );
 			$this->loader->add_action( 'wp_ajax_gcc_save_schedule_scan', $plugin_admin, 'gdpr_cookie_consent_ajax_save_schedule_scan', 10, 1 );
@@ -256,7 +280,6 @@ class Gdpr_Cookie_Consent {
 			// added ajax for import settings.
 			$this->loader->add_action( 'wp_ajax_gcc_update_imported_settings', $plugin_admin, 'gdpr_cookie_consent_import_settings', 10, 1 );
 
-			$this->loader->add_action( 'add_policy_data_content', $plugin_admin, 'gdpr_policy_data_overview' );
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'gdpr_policy_process_delete' );
 			$this->loader->add_filter( 'gdpr_get_maxmind_integrated', $plugin_admin, 'wpl_get_maxmind_integrated' );
 			$this->loader->add_action( 'wp_ajax_wpl_cookie_consent_integrations_settings', $plugin_admin, 'wpl_cookie_consent_integrations_settings' );
@@ -309,7 +332,6 @@ class Gdpr_Cookie_Consent {
 			$this->loader->add_action( 'template_redirect', $plugin_public, 'gdprcookieconsent_template_redirect', 99 );
 			$this->loader->add_action( 'wp_footer', $plugin_public, 'gdprcookieconsent_inject_gdpr_script' );
 			// added rest endpoint for fetching current options for banner.
-			$this->loader->add_action( 'rest_api_init', $plugin_public, 'gdpr_cookie_data_endpoint' );
 			if ( ! get_option( 'wpl_pro_active' ) ) {
 				// action hooks for geo integration.
 				$this->loader->add_action( 'wp_ajax_gdpr_fire_scripts', $plugin_public, 'gdprcookieconsent_inject_sripts_on_consent' );
@@ -625,35 +647,204 @@ class Gdpr_Cookie_Consent {
 	 * @return array|mixed
 	 */
 	public static function gdpr_get_default_settings( $key = '' ) {
+		
 		$settings = array(
 			'gdpr_cookie_bar_logo_url_holder'        => '',
 			'animate_speed_hide'                     => '500',
 			'animate_speed_show'                     => '500',
 
-			'background'                             => '#ffffff',
+			'background'                             => '#F8FBFF',
 			'opacity'                                => '1',
-			'background_border_width'                => '0',
+			'background_border_width'                => '1',
 			'background_border_style'                => 'none',
-			'background_border_color'                => '#ffffff',
-			'background_border_radius'               => '0',
-			'template'                               => 'default',
+			'background_border_color'                => '#074FA8',
+			'background_border_radius'               => '8',
+			'template'                               => 'new_default',
 			'banner_template'                        => 'banner-default',
 			'popup_template'                         => 'popup-default',
 			'widget_template'                        => 'widget-default',
+
+			'cookie_bar_popup_overlay_opacity'        => 50,
+			'cookie_bar_padding'                      => 14,
+			'cookie_bar_horizontal_padding'           => 30,
+			'cookie_bar_vertical_padding'             => 14,
+			'cookie_bar_spacing'                      => 5,
+			'cookie_bar_blur'                         => 0,
+			'cookie_bar_shadow_color'                 => '#a1a1a1',
+			'cookie_bar_shadow_size'                  => 3.5,
+
+			'logo_is_on'                              => false,
+			'default_logo'                            => 'icon1',
+			'use_uploaded_logo'                       => true,
+
+			'bypass_button_is_on'                     => true,
+			'bypass_button_size'                      => 'md',
+			'bypass_button_text_color'                => '#074FA8',
+
+			'heading_is_on'                           => false,
+			'cookie_heading_color'                    => '#3A3A41',
+			'button_readmore_as_button'               => false,
+			'heading_text_size'                       => 18,
+			'heading_text_weight'                     => '700',
+
+			'cookie_text_color'                       => '#3A3A41',
+			'banner_text_alignment'                   => 'justify',
+			'cookie_font_size'                        => 14,
+			'cookie_text_weight'                      => '400',
+
+			'button_font_size'                        => 14,
+			'button_text_weight'                      => '400',
+
+			'button_accept_all_btn_width'             => 'fit',
+			'button_accept_all_btn_min_width'         => 132,
+
+			'button_accept_button_width'              => 'fit',
+			'button_accept_button_min_width'          => 132,
+
+			'button_decline_button_width'             => 'fit',
+			'button_decline_button_min_width'         => 132,
+
+			'button_settings_button_width'            => 'fit',
+			'button_settings_button_min_width'        => 132,
+
+			'banner_layouts'                          => wp_json_encode(
+				array(
+					'c1' => array(
+						'justify'   => 'start',
+						'direction' => 'row',
+					),
+					'c2' => array(
+						'justify'   => 'start',
+						'direction' => 'col',
+					),
+					'c3' => array(
+						'justify'   => 'start',
+						'direction' => 'row',
+					),
+					'c4' => array(
+						'justify'   => 'start',
+						'direction' => 'row',
+					),
+					'c5' => array(
+						'justify'   => 'start',
+						'direction' => 'row',
+					),
+					'c6' => array(
+						'justify'   => 'end',
+						'direction' => 'row',
+					),
+				)
+			),
+
+			'banner_structure'                        => wp_json_encode(
+				array(
+					'c1' => array( 'logo', 'heading' ),
+					'c2' => array( 'bannerText', 'buttonGroup' ),
+					'c5' => array( 'settings', 'accept', 'decline', 'accept_all' ),
+					'c6' => array(),
+				)
+			),
+
+			'cookie_bar_popup_overlay_opacity1'        => 50,
+			'cookie_bar_padding1'                      => 14,
+			'cookie_bar_horizontal_padding1'           => 30,
+			'cookie_bar_vertical_padding1'             => 14,
+			'cookie_bar_spacing1'                      => 5,
+			'cookie_bar_blur1'                         => 0,
+			'cookie_bar_shadow_color1'                 => '#a1a1a1',
+			'cookie_bar_shadow_size1'                  => 5,
+
+			'logo_is_on1'                              => false,
+			'default_logo1'                            => 'icon1',
+			'use_uploaded_logo1'                       => true,
+
+			'bypass_button_is_on1'                     => true,
+			'bypass_button_size1'                      => 'md',
+			'bypass_button_text_color1'                => '#074FA8',
+
+			'heading_is_on1'                           => false,
+			'cookie_heading_color1'                    => '#3A3A41',
+			'button_readmore_as_button1'               => false,
+			'heading_text_size1'                       => 18,
+			'heading_text_weight1'                     => '700',
+
+			'cookie_text_color1'                       => '#3A3A41',
+			'banner_text_alignment1'                   => 'justify',
+			'cookie_font_size1'                        => 14,
+			'cookie_text_weight1'                      => '400',
+
+			'button_font_size1'                        => 14,
+			'button_text_weight1'                      => '400',
+
+			'button_accept_all_btn_width1'             => 'fit',
+			'button_accept_all_btn_min_width1'         => 132,
+
+			'button_accept_button_width1'              => 'fit',
+			'button_accept_button_min_width1'          => 132,
+
+			'button_decline_button_width1'             => 'fit',
+			'button_decline_button_min_width1'         => 132,
+
+			'button_settings_button_width1'            => 'fit',
+			'button_settings_button_min_width1'        => 132,
+
+			'cookie_bar_popup_overlay_opacity2'        => 50,
+			'cookie_bar_padding2'                      => 14,
+			'cookie_bar_horizontal_padding2'           => 30,
+			'cookie_bar_vertical_padding2'             => 14,
+			'cookie_bar_spacing2'                      => 5,
+			'cookie_bar_blur2'                         => 0,
+			'cookie_bar_shadow_color2'                 => '#a1a1a1',
+			'cookie_bar_shadow_size2'                  => 3.5,
+
+			'logo_is_on2'                              => false,
+			'default_logo2'                            => 'icon1',
+			'use_uploaded_logo2'                       => true,
+
+			'bypass_button_is_on2'                     => true,
+			'bypass_button_size2'                      => 'md',
+			'bypass_button_text_color2'                => '#074FA8',
+
+			'heading_is_on2'                           => false,
+			'cookie_heading_color2'                    => '#3A3A41',
+			'button_readmore_as_button2'               => false,
+			'heading_text_size2'                       => 18,
+			'heading_text_weight2'                     => '700',
+
+			'cookie_text_color2'                       => '#3A3A41',
+			'banner_text_alignment2'                   => 'justify',
+			'cookie_font_size2'                        => 14,
+			'cookie_text_weight2'                      => '400',
+
+			'button_font_size2'                        => 14,
+			'button_text_weight2'                      => '400',
+
+			'button_accept_all_btn_width2'             => 'fit',
+			'button_accept_all_btn_min_width2'         => 132,
+
+			'button_accept_button_width2'              => 'fit',
+			'button_accept_button_min_width2'          => 132,
+
+			'button_decline_button_width2'             => 'fit',
+			'button_decline_button_min_width2'         => 132,
+
+			'button_settings_button_width2'            => 'fit',
+			'button_settings_button_min_width2'        => 132,
+
 
 			'button_accept_text'                     => 'Accept',
 			'button_accept_url'                      => '#',
 			'button_accept_action'                   => '#cookie_action_close_header',
 			'button_accept_link_color'               => '#ffffff',
-			'button_accept_button_color'             => '#176CAE',
+			'button_accept_button_color'             => '#074FA8',
 			'button_accept_new_win'                  => false,
 			'button_accept_as_button'                => true,
 			'button_accept_button_size'              => 'medium',
 			'button_accept_is_on'                    => false,
 			'button_accept_button_opacity'           => '1', // 0 to 1.
-			'button_accept_button_border_width'      => '2', // in pixel.
+			'button_accept_button_border_width'      => '1', // in pixel.
 			'button_accept_button_border_style'      => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_accept_button_border_color'      => '#176CAE',
+			'button_accept_button_border_color'      => '#074FA8',
 			'button_accept_button_border_radius'     => '0', // in pixel.
 
 			'button_accept_all_is_on'                => true,
@@ -663,18 +854,18 @@ class Gdpr_Cookie_Consent {
 			'button_accept_all_action'               => '#cookie_action_close_header',
 			'button_accept_all_url'                  => '#',
 			'button_accept_all_new_win'              => false,
-			'button_accept_all_button_color'         => '#176CAE',
+			'button_accept_all_button_color'         => '#074FA8',
 			'button_accept_all_button_size'          => 'medium',
 			'button_accept_all_btn_border_style'     => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_accept_all_btn_border_color'     => '#176CAE',
+			'button_accept_all_btn_border_color'     => '#074FA8',
 			'button_accept_all_btn_opacity'          => '1', // 0 to 1.
-			'button_accept_all_btn_border_width'     => '2', // in pixel.
+			'button_accept_all_btn_border_width'     => '1', // in pixel.
 			'button_accept_all_btn_border_radius'    => '0', // in pixel.
 
 			'button_readmore_text'                   => 'Read More',
 			'button_readmore_url'                    => '#',
 			'button_readmore_action'                 => 'CONSTANT_OPEN_URL',
-			'button_readmore_link_color'             => '#176CAE',
+			'button_readmore_link_color'             => '#074FA8',
 			'button_readmore_button_color'           => '#ffffff',
 			'button_readmore_new_win'                => false,
 			'button_readmore_as_button'              => false,
@@ -686,28 +877,28 @@ class Gdpr_Cookie_Consent {
 			'button_readmore_button_opacity'         => '1', // 0 to 1.
 			'button_readmore_button_border_width'    => '1', // in pixel.
 			'button_readmore_button_border_style'    => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_readmore_button_border_color'    => '#176CAE',
+			'button_readmore_button_border_color'    => '#074FA8',
 			'button_readmore_button_border_radius'   => '0', // in pixel.
 
-			'button_decline_text'                    => 'Decline',
+			'button_decline_text'                    => 'Reject All',
 			'button_decline_url'                     => '#',
 			'button_decline_action'                  => '#cookie_action_close_header_reject',
-			'button_decline_link_color'              => '#176CAE',
-			'button_decline_button_color'            => '#ffffff',
+			'button_decline_link_color'              => '#ffffff',
+			'button_decline_button_color'            => '#074FA8',
 			'button_decline_new_win'                 => false,
 			'button_decline_as_button'               => true,
 			'button_decline_button_size'             => 'medium',
 			'button_decline_is_on'                   => true,
 			'button_decline_button_opacity'          => '1', // 0 to 1.
-			'button_decline_button_border_width'     => '2', // in pixel.
+			'button_decline_button_border_width'     => '1', // in pixel.
 			'button_decline_button_border_style'     => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_decline_button_border_color'     => '#176CAE',
+			'button_decline_button_border_color'     => '#074FA8',
 			'button_decline_button_border_radius'    => '0', // in pixel.
 
-			'button_settings_text'                   => 'Cookie Settings',
+			'button_settings_text'                   => 'Preferences',
 			'button_settings_url'                    => '#',
 			'button_settings_action'                 => '#cookie_action_settings',
-			'button_settings_link_color'             => '#176CAE',
+			'button_settings_link_color'             => '#074FA8',
 			'button_settings_button_color'           => '#ffffff',
 			'button_settings_new_win'                => false,
 			'button_settings_as_button'              => true,
@@ -716,38 +907,38 @@ class Gdpr_Cookie_Consent {
 			'button_settings_display_cookies'        => true,
 			'button_settings_as_popup'               => true,
 			'button_settings_button_opacity'         => '1', // 0 to 1.
-			'button_settings_button_border_width'    => '2', // in pixel.
+			'button_settings_button_border_width'    => '1', // in pixel.
 			'button_settings_button_border_style'    => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_settings_button_border_color'    => '#176CAE',
+			'button_settings_button_border_color'    => '#074FA8',
 			'button_settings_button_border_radius'   => '0', // in pixel.
 
 			'button_donotsell_text'                  => 'Do Not Sell My Personal Information',
-			'button_donotsell_link_color'            => '#176CAE',
+			'button_donotsell_link_color'            => '#074FA8',
 			'button_donotsell_as_button'             => false,
 			'button_donotsell_is_on'                 => true,
 
-			'button_confirm_text'                    => 'Confirm',
-			'button_confirm_button_color'            => '#176CAE',
+			'button_confirm_text'                    => 'Save My Preferences',
+			'button_confirm_button_color'            => '#074FA8',
 			'button_confirm_link_color'              => '#ffffff',
 			'button_confirm_as_button'               => true,
 			'button_confirm_button_size'             => 'medium',
 			'button_confirm_is_on'                   => true,
 			'button_confirm_button_opacity'          => '1', // 0 to 1.
-			'button_confirm_button_border_width'     => '2', // in pixel.
+			'button_confirm_button_border_width'     => '1', // in pixel.
 			'button_confirm_button_border_style'     => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_confirm_button_border_color'     => '#176CAE',
+			'button_confirm_button_border_color'     => '#074FA8',
 			'button_confirm_button_border_radius'    => '0', // in pixel.
 
 			'button_cancel_text'                     => 'Cancel',
 			'button_cancel_button_color'             => '#ffffff',
-			'button_cancel_link_color'               => '#176CAE',
+			'button_cancel_link_color'               => '#074FA8',
 			'button_cancel_as_button'                => true,
 			'button_cancel_button_size'              => 'medium',
 			'button_cancel_is_on'                    => true,
 			'button_cancel_button_opacity'           => '1', // 0 to 1.
-			'button_cancel_button_border_width'      => '2', // in pixel.
+			'button_cancel_button_border_width'      => '1', // in pixel.
 			'button_cancel_button_border_style'      => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_cancel_button_border_color'      => '#176CAE',
+			'button_cancel_button_border_color'      => '#074FA8',
 			'button_cancel_button_border_radius'     => '0', // in pixel.
 
 			'cookie_bar_color1' 					 => "#ffffff",
@@ -772,15 +963,15 @@ class Gdpr_Cookie_Consent {
 			'button_accept_url1'                      => '#',
 			'button_accept_action1'                   => '#cookie_action_close_header',
 			'button_accept_link_color1'               => '#ffffff',
-			'button_accept_button_color1'             => '#176CAE',
+			'button_accept_button_color1'             => '#074FA8',
 			'button_accept_new_win1'                  => false,
 			'button_accept_as_button1'                => true,
 			'button_accept_button_size1'              => 'medium',
 			'button_accept_is_on1'                    => false,
 			'button_accept_button_opacity1'           => '1', // 0 to 1.
-			'button_accept_button_border_width1'      => '2', // in pixel.
+			'button_accept_button_border_width1'      => '1', // in pixel.
 			'button_accept_button_border_style1'      => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_accept_button_border_color1'      => '#176CAE',
+			'button_accept_button_border_color1'      => '#074FA8',
 			'button_accept_button_border_radius1'     => '0', // in pixel.
 
 			'button_accept_all_is_on1'                => true,
@@ -790,18 +981,18 @@ class Gdpr_Cookie_Consent {
 			'button_accept_all_action1'               => '#cookie_action_close_header',
 			'button_accept_all_url1'                  => '#',
 			'button_accept_all_new_win1'              => false,
-			'button_accept_all_button_color1'         => '#176CAE',
+			'button_accept_all_button_color1'         => '#074FA8',
 			'button_accept_all_button_size1'          => 'medium',
 			'button_accept_all_btn_border_style1'     => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_accept_all_btn_border_color1'     => '#176CAE',
+			'button_accept_all_btn_border_color1'     => '#074FA8',
 			'button_accept_all_btn_opacity1'          => '1', // 0 to 1.
-			'button_accept_all_btn_border_width1'     => '2', // in pixel.
+			'button_accept_all_btn_border_width1'     => '1', // in pixel.
 			'button_accept_all_btn_border_radius1'    => '0', // in pixel.
 
 			'button_readmore_text1'                   => 'Read More',
 			'button_readmore_url1'                    => '#',
 			'button_readmore_action1'                 => 'CONSTANT_OPEN_URL',
-			'button_readmore_link_color1'             => '#176CAE',
+			'button_readmore_link_color1'             => '#074FA8',
 			'button_readmore_button_color1'           => '#ffffff',
 			'button_readmore_new_win1'                => false,
 			'button_readmore_as_button1'              => false,
@@ -813,28 +1004,28 @@ class Gdpr_Cookie_Consent {
 			'button_readmore_button_opacity1'         => '1', // 0 to 1.
 			'button_readmore_button_border_width1'    => '1', // in pixel.
 			'button_readmore_button_border_style1'    => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_readmore_button_border_color1'    => '#176CAE',
+			'button_readmore_button_border_color1'    => '#074FA8',
 			'button_readmore_button_border_radius1'   => '0', // in pixel.
 
-			'button_decline_text1'                    => 'Decline',
+			'button_decline_text1'                    => 'Reject All',
 			'button_decline_url1'                     => '#',
 			'button_decline_action1'                  => '#cookie_action_close_header_reject',
-			'button_decline_link_color1'              => '#176CAE',
-			'button_decline_button_color1'            => '#ffffff',
+			'button_decline_link_color1'              => '#ffffff',
+			'button_decline_button_color1'            => '#074FA8',
 			'button_decline_new_win1'                 => false,
 			'button_decline_as_button1'               => true,
 			'button_decline_button_size1'             => 'medium',
 			'button_decline_is_on1'                   => true,
 			'button_decline_button_opacity1'          => '1', // 0 to 1.
-			'button_decline_button_border_width1'     => '2', // in pixel.
+			'button_decline_button_border_width1'     => '1', // in pixel.
 			'button_decline_button_border_style1'     => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_decline_button_border_color1'     => '#176CAE',
+			'button_decline_button_border_color1'     => '#074FA8',
 			'button_decline_button_border_radius1'    => '0', // in pixel.
 
-			'button_settings_text1'                   => 'Cookie Settings',
+			'button_settings_text1'                   => 'Preferences',
 			'button_settings_url1'                    => '#',
 			'button_settings_action1'                 => '#cookie_action_settings',
-			'button_settings_link_color1'             => '#176CAE',
+			'button_settings_link_color1'             => '#074FA8',
 			'button_settings_button_color1'           => '#ffffff',
 			'button_settings_new_win1'                => false,
 			'button_settings_as_button1'              => true,
@@ -843,53 +1034,53 @@ class Gdpr_Cookie_Consent {
 			'button_settings_display_cookies1'        => true,
 			'button_settings_as_popup1'               => true,
 			'button_settings_button_opacity1'         => '1', // 0 to 1.
-			'button_settings_button_border_width1'    => '2', // in pixel.
+			'button_settings_button_border_width1'    => '1', // in pixel.
 			'button_settings_button_border_style1'    => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_settings_button_border_color1'    => '#176CAE',
+			'button_settings_button_border_color1'    => '#074FA8',
 			'button_settings_button_border_radius1'   => '0', // in pixel.
 
 			'button_donotsell_text1'                  => 'Do Not Sell My Personal Information',
-			'button_donotsell_link_color1'            => '#176CAE',
+			'button_donotsell_link_color1'            => '#074FA8',
 			'button_donotsell_as_button1'             => false,
 			'button_donotsell_is_on1'                 => true,
 
-			'button_confirm_text1'                    => 'Confirm',
-			'button_confirm_button_color1'            => '#176CAE',
+			'button_confirm_text1'                    => 'Save My Preferences',
+			'button_confirm_button_color1'            => '#074FA8',
 			'button_confirm_link_color1'              => '#ffffff',
 			'button_confirm_as_button1'               => true,
 			'button_confirm_button_size1'             => 'medium',
 			'button_confirm_is_on1'                   => true,
 			'button_confirm_button_opacity1'          => '1', // 0 to 1.
-			'button_confirm_button_border_width1'     => '2', // in pixel.
+			'button_confirm_button_border_width1'     => '1', // in pixel.
 			'button_confirm_button_border_style1'     => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_confirm_button_border_color1'     => '#176CAE',
+			'button_confirm_button_border_color1'     => '#074FA8',
 			'button_confirm_button_border_radius1'    => '0', // in pixel.
 
 			'button_cancel_text1'                     => 'Cancel',
 			'button_cancel_button_color1'             => '#ffffff',
-			'button_cancel_link_color1'               => '#176CAE',
+			'button_cancel_link_color1'               => '#074FA8',
 			'button_cancel_as_button1'                => true,
 			'button_cancel_button_size1'              => 'medium',
 			'button_cancel_is_on1'                    => true,
 			'button_cancel_button_opacity1'           => '1', // 0 to 1.
-			'button_cancel_button_border_width1'      => '2', // in pixel.
+			'button_cancel_button_border_width1'      => '1', // in pixel.
 			'button_cancel_button_border_style1'      => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_cancel_button_border_color1'      => '#176CAE',
+			'button_cancel_button_border_color1'      => '#074FA8',
 			'button_cancel_button_border_radius1'     => '0', // in pixel.
 
 			'button_accept_text2'                     => 'Accept',
 			'button_accept_url2'                      => '#',
 			'button_accept_action2'                   => '#cookie_action_close_header',
 			'button_accept_link_color2'               => '#ffffff',
-			'button_accept_button_color2'             => '#176CAE',
+			'button_accept_button_color2'             => '#074FA8',
 			'button_accept_new_win2'                  => false,
 			'button_accept_as_button2'                => true,
 			'button_accept_button_size2'              => 'medium',
 			'button_accept_is_on2'                    => false,
 			'button_accept_button_opacity2'           => '1', // 0 to 1.
-			'button_accept_button_border_width2'      => '2', // in pixel.
+			'button_accept_button_border_width2'      => '1', // in pixel.
 			'button_accept_button_border_style2'      => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_accept_button_border_color2'      => '#176CAE',
+			'button_accept_button_border_color2'      => '#074FA8',
 			'button_accept_button_border_radius2'     => '0', // in pixel.
 
 			'button_accept_all_is_on2'                => true,
@@ -899,18 +1090,18 @@ class Gdpr_Cookie_Consent {
 			'button_accept_all_action2'               => '#cookie_action_close_header',
 			'button_accept_all_url2'                  => '#',
 			'button_accept_all_new_win2'              => false,
-			'button_accept_all_button_color2'         => '#176CAE',
+			'button_accept_all_button_color2'         => '#074FA8',
 			'button_accept_all_button_size2'          => 'medium',
 			'button_accept_all_btn_border_style2'     => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_accept_all_btn_border_color2'     => '#176CAE',
+			'button_accept_all_btn_border_color2'     => '#074FA8',
 			'button_accept_all_btn_opacity2'          => '1', // 0 to 1.
-			'button_accept_all_btn_border_width2'     => '2', // in pixel.
+			'button_accept_all_btn_border_width2'     => '1', // in pixel.
 			'button_accept_all_btn_border_radius2'    => '0', // in pixel.
 
 			'button_readmore_text2'                   => 'Read More',
 			'button_readmore_url2'                    => '#',
 			'button_readmore_action2'                 => 'CONSTANT_OPEN_URL',
-			'button_readmore_link_color2'             => '#176CAE',
+			'button_readmore_link_color2'             => '#074FA8',
 			'button_readmore_button_color2'           => '#ffffff',
 			'button_readmore_new_win2'                => false,
 			'button_readmore_as_button2'              => false,
@@ -922,28 +1113,28 @@ class Gdpr_Cookie_Consent {
 			'button_readmore_button_opacity2'         => '1', // 0 to 1.
 			'button_readmore_button_border_width2'    => '1', // in pixel.
 			'button_readmore_button_border_style2'    => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_readmore_button_border_color2'    => '#176CAE',
+			'button_readmore_button_border_color2'    => '#074FA8',
 			'button_readmore_button_border_radius2'   => '0', // in pixel.
 
-			'button_decline_text2'                    => 'Decline',
+			'button_decline_text2'                    => 'Reject All',
 			'button_decline_url2'                     => '#',
 			'button_decline_action2'                  => '#cookie_action_close_header_reject',
-			'button_decline_link_color2'              => '#176CAE',
-			'button_decline_button_color2'            => '#ffffff',
+			'button_decline_link_color2'              => '#ffffff',
+			'button_decline_button_color2'            => '#074FA8',
 			'button_decline_new_win2'                 => false,
 			'button_decline_as_button2'               => true,
 			'button_decline_button_size2'             => 'medium',
 			'button_decline_is_on2'                   => true,
 			'button_decline_button_opacity2'          => '1', // 0 to 1.
-			'button_decline_button_border_width2'     => '2', // in pixel.
+			'button_decline_button_border_width2'     => '1', // in pixel.
 			'button_decline_button_border_style2'     => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_decline_button_border_color2'     => '#176CAE',
+			'button_decline_button_border_color2'     => '#074FA8',
 			'button_decline_button_border_radius2'    => '0', // in pixel.
 
-			'button_settings_text2'                   => 'Cookie Settings',
+			'button_settings_text2'                   => 'Preferences',
 			'button_settings_url2'                    => '#',
 			'button_settings_action2'                 => '#cookie_action_settings',
-			'button_settings_link_color2'             => '#176CAE',
+			'button_settings_link_color2'             => '#074FA8',
 			'button_settings_button_color2'           => '#ffffff',
 			'button_settings_new_win2'                => false,
 			'button_settings_as_button2'              => true,
@@ -952,38 +1143,38 @@ class Gdpr_Cookie_Consent {
 			'button_settings_display_cookies2'        => true,
 			'button_settings_as_popup2'               => true,
 			'button_settings_button_opacity2'         => '1', // 0 to 1.
-			'button_settings_button_border_width2'    => '2', // in pixel.
+			'button_settings_button_border_width2'    => '1', // in pixel.
 			'button_settings_button_border_style2'    => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_settings_button_border_color2'    => '#176CAE',
+			'button_settings_button_border_color2'    => '#074FA8',
 			'button_settings_button_border_radius2'   => '0', // in pixel.
 
 			'button_donotsell_text2'                  => 'Do Not Sell My Personal Information',
-			'button_donotsell_link_color2'            => '#176CAE',
+			'button_donotsell_link_color2'            => '#074FA8',
 			'button_donotsell_as_button2'             => false,
 			'button_donotsell_is_on2'                 => true,
 
-			'button_confirm_text2'                    => 'Confirm',
-			'button_confirm_button_color2'            => '#176CAE',
+			'button_confirm_text2'                    => 'Save My Preferences',
+			'button_confirm_button_color2'            => '#074FA8',
 			'button_confirm_link_color2'              => '#ffffff',
 			'button_confirm_as_button2'               => true,
 			'button_confirm_button_size2'             => 'medium',
 			'button_confirm_is_on2'                   => true,
 			'button_confirm_button_opacity2'          => '1', // 0 to 1.
-			'button_confirm_button_border_width2'     => '2', // in pixel.
+			'button_confirm_button_border_width2'     => '1', // in pixel.
 			'button_confirm_button_border_style2'     => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_confirm_button_border_color2'     => '#176CAE',
+			'button_confirm_button_border_color2'     => '#074FA8',
 			'button_confirm_button_border_radius2'    => '0', // in pixel.
 
 			'button_cancel_text2'                     => 'Cancel',
 			'button_cancel_button_color2'             => '#ffffff',
-			'button_cancel_link_color2'               => '#176CAE',
+			'button_cancel_link_color2'               => '#074FA8',
 			'button_cancel_as_button2'                => true,
 			'button_cancel_button_size2'              => 'medium',
 			'button_cancel_is_on2'                    => true,
 			'button_cancel_button_opacity2'           => '1', // 0 to 1.
-			'button_cancel_button_border_width2'      => '2', // in pixel.
+			'button_cancel_button_border_width2'      => '1', // in pixel.
 			'button_cancel_button_border_style2'      => 'solid', // none, solid, hidden, dashed, dotted, double, groove, ridge, inset, outset.
-			'button_cancel_button_border_color2'      => '#176CAE',
+			'button_cancel_button_border_color2'      => '#074FA8',
 			'button_cancel_button_border_radius2'     => '0', // in pixel.
 			
 
@@ -999,6 +1190,7 @@ class Gdpr_Cookie_Consent {
 			'is_iabtcf_on'                         => false,
 			'is_gacm_on'						   => false,
 			'is_eu_on'                             => false,
+			'is_law_region_on'                     => false,
 			'is_ccpa_on'                           => false,
 			'is_ccpa_iab_on'                       => false,
 			'is_worldwide_on'                      => true,
@@ -1011,6 +1203,9 @@ class Gdpr_Cookie_Consent {
 			'show_again'                           => true,
 			'show_again1'                          => true,
 			'show_again2'                          => true,
+			'ccpa_show_again'                      => false,
+			'ccpa_show_again1'                     => false,
+			'ccpa_show_again2'                     => false,
 			'is_script_blocker_on'                 => false,
 			'auto_hide'                            => false,
 			'auto_banner_initialize'               => false,
@@ -1031,24 +1226,52 @@ class Gdpr_Cookie_Consent {
 			'show_again_margin'                      => '5',
 			'show_again_margin1'                      => '5',
 			'show_again_margin2'                      => '5',
+			'show_again_as'							=> 'text',
+			'show_again_as1'						=> 'text',
+			'show_again_as2'						=> 'text',
+			'show_again_icon'						=> 'cookie',
+			'show_again_icon1'						=> 'cookie',
+			'show_again_icon2'						=> 'cookie',
 			'button_revoke_consent_text_color'       => '#ffffff',
-			'button_revoke_consent_background_color' => '#176CAE',
+			'button_revoke_consent_background_color' => '#074FA8',
 			'button_revoke_consent_text_color1'       => '#ffffff',
-			'button_revoke_consent_background_color1' => '#176CAE',
+			'button_revoke_consent_background_color1' => '#074FA8',
 			'button_revoke_consent_text_color2'       => '#ffffff',
-			'button_revoke_consent_background_color2' => '#176CAE',
+			'button_revoke_consent_background_color2' => '#074FA8',
+			'ccpa_show_again_position'                    => 'right', // 'left' = left | 'right' = right.
+			'ccpa_show_again_position1'                   => 'right',
+			'ccpa_show_again_position2'                   => 'right',
+			'ccpa_show_again_text'                        => 'Opt Out',
+			'ccpa_show_again_text1'                       => 'Opt Out',
+			'ccpa_show_again_text2'                       => 'Opt Out',
+			'ccpa_show_again_margin'                      => '5',
+			'ccpa_show_again_margin1'                      => '5',
+			'ccpa_show_again_margin2'                      => '5',
+			'ccpa_button_revoke_consent_text_color'       => '#ffffff',
+			'ccpa_button_revoke_consent_background_color' => '#074FA8',
+			'ccpa_button_revoke_consent_text_color1'       => '#ffffff',
+			'ccpa_button_revoke_consent_background_color1' => '#074FA8',
+			'ccpa_button_revoke_consent_text_color2'       => '#ffffff',
+			'ccpa_button_revoke_consent_background_color2' => '#074FA8',
 			'auto_hide_delay'                        => '10000',
 			'auto_banner_initialize_delay'           => '10000',
 			'auto_scroll_offset'                     => '10',
 			'cookie_expiry'                          => '365',
 			'show_again_div_id'                      => '#gdpr-cookie-consent-show-again',
+			'ccpa_show_again_div_id'                 => '#ccpa-cookie-consent-show-again',
 			'notify_animate_hide'                    => true,
 			'notify_animate_show'                    => false,
-			'notify_message'                         => addslashes( "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish." ),
-			'notify_message_lgpd'                    => addslashes( "This website uses cookies for technical and other purposes as specified in the cookie policy. We'll assume you're ok with this, but you can opt-out if you wish." ),
+			'notify_message'                         => addslashes( "We use cookies to optimize your experience, analyze traffic, and personalize ads. Please choose whether you accept our use of non-essential cookies." ),
+			'notify_message_uk_gdpr'                 => addslashes( 'We use cookies to improve our site, analyze performance, and serve personalized marketing. Please select your cookie preferences.' ),
+			'notify_message_pdpl'                    => addslashes( 'We utilize cookies to analyze traffic and customize your experience in compliance with KSA PDPL. Please provide your consent for non-essential tracking.' ),
+			'notify_message_pipeda'                  => addslashes( 'We use cookies to analyze performance and power our site. For details on how we protect your privacy or to adjust your choices, view our Cookie Policy.' ),
+			'notify_message_app'                     => addslashes( 'We collect data via tracking technologies to optimize our site and deliver marketing. To review your options or opt-out of sharing, view our Privacy Policy.' ),
+			'notify_message_lgpd'                    => addslashes( "This website uses cookies to provide a better browsing experience. You can select your cookie preferences or accept all tracking categories below." ),
 			'notify_message_eprivacy'                => addslashes( "This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish." ),
-			'notify_message_ccpa'                    => addslashes( "In case of sale of your personal information, you may opt out by using the link" ),
-			'optout_text'                            => addslashes( 'Do you really wish to opt-out?' ),
+			'notify_message_ccpa'                    => addslashes( "We use tracking tools to provide targeted advertising. Under state law, you have the right to opt-out of the sharing or sale of your personal information." ),
+			'notify_message_default_opt_out'     	 => addslashes( 'We use cookies and similar technologies for targeted advertising. You have the right to opt-out of the sale or processing of your personal data.' ),
+			'notify_message_pure_opt_out'     	 	 => addslashes( 'We collect personal data via tracking technologies for analytics and marketing. To exercise your right to opt-out of this processing, choose below.' ),
+			'optout_text'                            => addslashes( 'We use third-party cookies that help us analyse how you use this website, store your preferences, and provide the content and advertisements that are relevant to you. However, you can opt out of these cookies by checking "Do Not Sell or Share My Personal Information" and clicking the "Save My Preferences" button. Once you opt out, you can opt in again at any time by unchecking "Do Not Sell or Share My Personal Information" and clicking the "Save My Preferences" button.' ),
 			'notify_div_id'                          => '#gdpr-cookie-consent-bar',
 			'notify_position_vertical'               => 'bottom', // 'top' = header | 'bottom' = footer.
 			'notify_position_horizontal'             => 'left', // 'left' = left | 'right' = right.
@@ -1061,16 +1284,21 @@ class Gdpr_Cookie_Consent {
 			'popup_overlay'                          => true,
 			'about_message'                          => addslashes( ( 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.' ) ),
 			'about_message_lgpd'                     => addslashes( ( 'Cookies are small text files that can be used by websites to make a user\'s experience more efficient. The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages.' ) ),
+			'gcm_about_message'                      => addslashes( ( "For more information on how Google's third party cookies operate and handle your data, see: " ) ),
+			'gcm_privacy_policy_text'                => addslashes( ( "Google's Privacy Settings")),
 			'is_script_dependency_on'                => false,
 			'header_scripts'                         => '',
 			'body_scripts'                           => '',
 			'footer_scripts'                         => '',
+			// Consent category each custom scripts group is released by.
 			'restrict_posts'                         => array(),
 			'select_pages'                           => array(),
 			'header_dependency'					 	 => '',
 			'footer_dependency'					 	 => '',
 			'gdpr_css_text'                          => '',
 			'do_not_track_on'                        => false,
+			'ip_anonymization_on'                   => false,
+			'ip_masking_level'                       => "2",
 			'data_req_editor_message'                => '&lt;p&gt;Hi {name}&lt;/p&gt;&lt;p&gt;We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;{blogname}&lt;/p&gt;',
 			'data_req_subject'                       => 'We have received your request',
 			'enable_safe'                            => false,
@@ -1099,12 +1327,16 @@ class Gdpr_Cookie_Consent {
 			case 'is_on':
 			case 'is_iabtcf_on':
 			case 'is_eu_on':
+			case 'is_law_region_on':
 			case 'is_ccpa_on':
 			case 'is_ccpa_iab_on':
 			case 'is_script_blocker_on':
 			case 'show_again':
 			case 'show_again1':
 			case 'show_again2':
+			case 'ccpa_show_again':
+			case 'ccpa_show_again1':
+			case 'ccpa_show_again2':
 			case 'auto_hide':
 			case 'is_worldwide_on':
 			case 'is_selectedCountry_on':
@@ -1183,6 +1415,12 @@ class Gdpr_Cookie_Consent {
 			case 'button_revoke_consent_text_color1':
 			case 'button_revoke_consent_background_color2':
 			case 'button_revoke_consent_text_color2':
+			case 'ccpa_button_revoke_consent_background_color':
+			case 'ccpa_button_revoke_consent_text_color':
+			case 'ccpa_button_revoke_consent_background_color1':
+			case 'ccpa_button_revoke_consent_text_color1':
+			case 'ccpa_button_revoke_consent_background_color2':
+			case 'ccpa_button_revoke_consent_text_color2':
 			case 'button_readmore_button_color':
 			case 'button_readmore_button_border_color':
 			case 'button_decline_link_color':
@@ -1209,10 +1447,18 @@ class Gdpr_Cookie_Consent {
 			// Allow some HTML, but no JavaScript. Note that deliberately NOT stripping out line breaks here, that's done when sending JavaScript parameter elsewhere.
 			case 'about_message':
 			case 'about_message_lgpd':
+			case 'gcm_about_message':
+			case 'gcm_privacy_policy_text':
 			case 'notify_message':
 			case 'notify_message_lgpd':
 			case 'notify_message_eprivacy':
 			case 'notify_message_ccpa':
+			case 'notify_message_uk_gdpr':
+			case 'notify_message_pdpl':
+			case 'notify_message_pipeda':
+			case 'notify_message_app':
+			case 'notify_message_default_opt_out':
+			case 'notify_message_pure_opt_out':
 			case 'optout_text':
 			case 'bar_heading_text':
 			case 'bar_heading_lgpd_text':
@@ -1265,6 +1511,28 @@ class Gdpr_Cookie_Consent {
 	}
 
 	/**
+	 * Get the WPML language of the current request when it is a translated view.
+	 *
+	 * WPML filters the plugin's admin texts per language, so on a non-default
+	 * language page the stored banner texts are already translated and must
+	 * neither be overridden by the plugin's own translations nor saved back.
+	 *
+	 * @return string WPML language code, or an empty string when WPML is inactive
+	 *                or the current language is the default language.
+	 */
+	public static function gdpr_get_wpml_translated_language() {
+		if ( ! defined( 'ICL_SITEPRESS_VERSION' ) ) {
+			return '';
+		}
+		$current_language = apply_filters( 'wpml_current_language', null );
+		$default_language = apply_filters( 'wpml_default_language', null );
+		if ( ! is_string( $current_language ) || '' === $current_language || 'all' === $current_language || $current_language === $default_language ) {
+			return '';
+		}
+		return sanitize_key( $current_language );
+	}
+
+	/**
 	 * Get current settings.
 	 *
 	 * @return array|mixed
@@ -1277,7 +1545,13 @@ class Gdpr_Cookie_Consent {
 				$settings[ $key ] = self::gdpr_sanitise_settings( $key, $option );
 			}
 		}
-		update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings );
+		// Persist newly added defaults only when the option is missing or the plugin version changed,
+		// not on every call: this getter runs many times per request, including on the frontend.
+		// On a WPML translated view get_option() returns translated texts, so never save them back.
+		if ( empty( self::$stored_options ) || ( get_option( 'gdpr_settings_db_version' ) !== GDPR_COOKIE_CONSENT_VERSION && '' === self::gdpr_get_wpml_translated_language() ) ) {
+			update_option( GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $settings );
+			update_option( 'gdpr_settings_db_version', GDPR_COOKIE_CONSENT_VERSION );
+		}
 		$settings['scan_in_progress'] = get_option('gdpr_scanning_action_hash') ? true : false;
 		return $settings;
 	}
@@ -1536,7 +1810,7 @@ class Gdpr_Cookie_Consent {
 								}
 							},
 							"dataDeclaration": [1, 3, 4, 6, 8, 10, 11],
-							"deviceStorageDisclosureUrl": "https://vdxtv.expo.workers.dev"
+							"deviceStorageDisclosureUrl": ""
 							},
 							{
 							"id": 2,
@@ -1568,7 +1842,7 @@ class Gdpr_Cookie_Consent {
 								}
 							},
 							"dataDeclaration": [1, 2, 4, 6, 11],
-							"deviceStorageDisclosureUrl": "https://static.dp.cpx.to/gvl/deviceStorageDisclosure.json"
+							"deviceStorageDisclosureUrl": ""
 							},
 							{
 							"id": 4,
@@ -1600,7 +1874,7 @@ class Gdpr_Cookie_Consent {
 								}
 							},
 							"dataDeclaration": [1, 2, 3, 4, 5, 6, 8, 9, 11],
-							"deviceStorageDisclosureUrl": "https://roqad-public.s3.eu-central-1.amazonaws.com/tcf-disclosure.json"
+							"deviceStorageDisclosureUrl": ""
 							},
 							{
 							"id": 6,
@@ -1641,7 +1915,7 @@ class Gdpr_Cookie_Consent {
 								}
 							},
 							"dataDeclaration": [1, 2, 3, 4, 6, 8, 10, 11],
-							"deviceStorageDisclosureUrl": "https://help.adspirit.de/deviceStorage.json"
+							"deviceStorageDisclosureUrl": ""
 							}
 						],
 						"allvendors":[1,2,4,6],
@@ -1676,6 +1950,7 @@ class Gdpr_Cookie_Consent {
 			$vendors->featureVendorCount = 0;
 			$vendors->specialFeatures = new stdClass();
 			$vendors->specialFeatureVendorCount = 0;
+			$vendors->featureStandardText = "";
 			$vendors->allvendors = "";
 
 		} 
@@ -1813,6 +2088,8 @@ class Gdpr_Cookie_Consent {
 			'animate_speed_hide'                     => $settings['animate_speed_hide'],
 			'animate_speed_show'                     => $settings['animate_speed_show'],
 			'background'                             => $settings['background'],
+			'cookie_settings_border_color'		     => isset($settings['cookie_settings_border_color']) ? $settings['cookie_settings_border_color'] : '',
+			'cookie_settings_overlay_color'			 => isset($settings['cookie_settings_overlay_color']) ? $settings['cookie_settings_overlay_color'] : '',
 			'opacity'                                => $settings['opacity'],
 			'background_border_width'                => $settings['background_border_width'],
 			'background_border_style'                => $settings['background_border_style'],
@@ -2010,6 +2287,7 @@ class Gdpr_Cookie_Consent {
 			'button_readmore_link_color'             => $settings['button_readmore_link_color'],
 			'button_revoke_consent_text_color'       => $settings['button_revoke_consent_text_color'],
 			'button_revoke_consent_background_color' => $settings['button_revoke_consent_background_color'],
+			'ccpa_button_revoke_consent_background_color' => $settings['ccpa_button_revoke_consent_background_color'],
 			'button_readmore_button_color'           => $settings['button_readmore_button_color'],
 			'button_readmore_button_hover'           => ( self::gdpr_su_hex_shift( $settings['button_readmore_button_color'], 'down', 20 ) ),
 			'button_readmore_as_button'              => $settings['button_readmore_as_button'],
@@ -2022,6 +2300,8 @@ class Gdpr_Cookie_Consent {
 			'button_readmore_link_color1'             => $settings['button_readmore_link_color1'],
 			'button_revoke_consent_text_color1'       => $settings['button_revoke_consent_text_color1'],
 			'button_revoke_consent_background_color1' => $settings['button_revoke_consent_background_color1'],
+			'ccpa_button_revoke_consent_background_color1' => $settings['ccpa_button_revoke_consent_background_color1'],
+
 			'button_readmore_button_color1'           => $settings['button_readmore_button_color1'],
 			'button_readmore_button_hover1'           => ( self::gdpr_su_hex_shift( $settings['button_readmore_button_color1'], 'down', 20 ) ),
 			'button_readmore_as_button1'              => $settings['button_readmore_as_button1'],
@@ -2034,6 +2314,8 @@ class Gdpr_Cookie_Consent {
 			'button_readmore_link_color2'             => $settings['button_readmore_link_color2'],
 			'button_revoke_consent_text_color2'       => $settings['button_revoke_consent_text_color2'],
 			'button_revoke_consent_background_color2' => $settings['button_revoke_consent_background_color2'],
+			'ccpa_button_revoke_consent_background_color2' => $settings['ccpa_button_revoke_consent_background_color2'],
+
 			'button_readmore_button_color2'           => $settings['button_readmore_button_color2'],
 			'button_readmore_button_hover2'           => ( self::gdpr_su_hex_shift( $settings['button_readmore_button_color2'], 'down', 20 ) ),
 			'button_readmore_as_button2'              => $settings['button_readmore_as_button2'],
@@ -2066,6 +2348,7 @@ class Gdpr_Cookie_Consent {
 			'text'                                   => $settings['text'],
 			'cookie_bar_as'                          => $settings['cookie_bar_as'],
 			'cookie_usage_for'                       => $settings['cookie_usage_for'],
+			'law_selection_mode'                     => get_option( 'gdpr_law_selection_mode', 'manual' ),
 			'popup_overlay'                          => $settings['popup_overlay'],
 			'border_color'                           => ( self::gdpr_su_hex_shift( $settings['text'], 'up', 40 ) ),
 			'background_color'                       => ( self::gdpr_su_hex_shift( $settings['background'], 'down', 10 ) ),
@@ -2110,6 +2393,19 @@ class Gdpr_Cookie_Consent {
 			'show_again_margin1'                      => $settings['show_again_margin1'],
 			'show_again_margin2'                      => $settings['show_again_margin2'],
 			'show_again_div_id'                      => $settings['show_again_div_id'],
+			'ccpa_show_again'                             => $settings['ccpa_show_again'],
+			'ccpa_show_again1'                            => $settings['ccpa_show_again1'],
+			'ccpa_show_again2'                            => $settings['ccpa_show_again2'],
+			'ccpa_show_again_position'                    => $settings['ccpa_show_again_position'],
+			'ccpa_show_again_position1'                   => $settings['ccpa_show_again_position1'],
+			'ccpa_show_again_position2'                   => $settings['ccpa_show_again_position2'],
+			'ccpa_show_again_text'                        => $settings['ccpa_show_again_text'],
+			'ccpa_show_again_text1'                       => $settings['ccpa_show_again_text1'],
+			'ccpa_show_again_text2'                       => $settings['ccpa_show_again_text2'],
+			'ccpa_show_again_margin'                      => $settings['ccpa_show_again_margin'],
+			'ccpa_show_again_margin1'                      => $settings['ccpa_show_again_margin1'],
+			'ccpa_show_again_margin2'                      => $settings['ccpa_show_again_margin2'],
+			'ccpa_show_again_div_id'                      => $settings['ccpa_show_again_div_id'], 
 			'button_accept_button_opacity'           => $settings['button_accept_button_opacity'],
 			'button_accept_all_btn_opacity'          => $settings['button_accept_all_btn_opacity'],
 			'button_decline_button_opacity'          => $settings['button_decline_button_opacity'],
@@ -2235,5 +2531,121 @@ class Gdpr_Cookie_Consent {
 				'GB', // United Kingdom.
 			)
 		);
+	}
+
+	/**
+	 * Map of law code => the ISO-3166-1 alpha-2 countries that law governs.
+	 */
+	public static function get_law_region_map() {
+		return apply_filters(
+			'gdprcookieconsent_law_region_map',
+			array(
+				'uk_gdpr'       => array( 'GB' ),
+				'us_state_laws' => array( 'US' ),
+				'lgpd'          => array( 'BR' ),
+				'pipeda'        => array( 'CA' ),
+				'au_app'        => array( 'AU' ),
+				'sa_pdpl'       => array( 'SA' ),
+				'gdpr'          => self::get_eu_countries(),
+			)
+		);
+	}
+
+	/**
+	 * Resolve the privacy law that applies to a visitor's country.
+	 *
+	 * Used by auto ("Detect Automatically") law-selection mode. Any country not
+	 * covered by a specific law falls back to GDPR — the strictest of the
+	 * supported laws, and the safe default for an unknown visitor.
+	 *
+	 * @since 4.4.0
+	 * @param string|false $country_code ISO-3166-1 alpha-2 code, or false when the lookup failed.
+	 * @return string Law code.
+	 */
+	public static function resolve_law_for_country( $country_code ) {
+		if ( empty( $country_code ) || ! is_string( $country_code ) ) {
+			return 'gdpr';
+		}
+
+		$country_code = strtoupper( $country_code );
+
+		foreach ( self::get_law_region_map() as $law => $countries ) {
+			if ( in_array( $country_code, $countries, true ) ) {
+				return $law;
+			}
+		}
+
+		return 'gdpr';
+	}
+
+	/**
+	 * The law whose existing content a banner borrows when it has none of its own.
+	 */
+	public static function get_content_law( $law ) {
+		if ( in_array( $law, array( 'uk_gdpr', 'pipeda', 'au_app', 'sa_pdpl' ), true ) ) {
+			return 'gdpr';
+		}
+
+		if ( 'us_state_laws' === $law ) {
+			return 'ccpa';
+		}
+
+		return $law;
+	}
+
+	/**
+	 * Law codes whose banner copy has not been written yet.
+	 */
+	public static function get_placeholder_laws() {
+		return array( 'uk_gdpr', 'pipeda', 'au_app', 'sa_pdpl', 'us_state_laws', 'ccpa' );
+	}
+
+	/**
+	 * Which of the three US state-law notice groups a state belongs to.
+	 */
+	public static function get_us_state_law_group( $state_code ) {
+		$groups = apply_filters(
+			'gdprcookieconsent_us_state_law_groups',
+			array(
+				1 => array( 'CA', 'CO', 'CT', 'MD', 'MN', 'MT', 'NE', 'NH', 'NJ', 'OR', 'TX', 'DE' ),
+				2 => array( 'VA', 'IN', 'KY', 'TN', 'RI' ),
+				3 => array( 'UT', 'IA', 'FL' ),
+			)
+		);
+
+		$state_code = strtoupper( (string) $state_code );
+
+		foreach ( $groups as $group => $states ) {
+			if ( in_array( $state_code, $states, true ) ) {
+				return (int) $group;
+			}
+		}
+
+		return 3;
+	}
+
+	/**
+	 * Which of the three US state-law notice messages a state's group maps to.
+	 */
+	public static function resolve_us_state_law_variant( $state_code ) {
+		$variants = array(
+			1 => 'ccpa',
+			2 => 'default_opt_out',
+			3 => 'pure_opt_out',
+		);
+		$group = self::get_us_state_law_group( $state_code );
+
+		return isset( $variants[ $group ] ) ? $variants[ $group ] : 'ccpa';
+	}
+
+	/**
+	 * Placeholder notice text for a law that has no copy of its own yet.
+	 *
+	 * Every law resolve_law_for_country() can return now has real copy
+	 * (see cookie-notice.php), so this always returns ''. Kept for any future
+	 * law added ahead of its own banner copy.
+	 */
+	public static function get_law_placeholder_message( $law, $state_code = '' ) {
+		return '';
 	}
 }

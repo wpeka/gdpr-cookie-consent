@@ -88,11 +88,11 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 
 		if ( ! empty( $_REQUEST['orderby'] ) ) {
 			echo '<input type="hidden" name="orderby" value="'
-				. esc_attr( $_REQUEST['orderby'] ) . '" />';
+				. esc_attr( sanitize_key( wp_unslash( $_REQUEST['orderby'] ) ) ) . '" />';
 		}
 		if ( ! empty( $_REQUEST['order'] ) ) {
 			echo '<input type="hidden" name="order" value="'
-				. esc_attr( $_REQUEST['order'] ) . '" />';
+				. esc_attr( sanitize_key( wp_unslash( $_REQUEST['order'] ) ) ) . '" />';
 		}
 		$search = $this->get_search();
 		?>
@@ -102,7 +102,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 				<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>">
 					<?php echo esc_html( $text ); ?>:
 				</label>
-				<input placeholder="Search Policy Data"type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_html( $search ); ?>"/>
+				<input placeholder="Search Policy Data"type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php echo esc_attr( $search ); ?>"/>
 				<img id="search-logo-policy-data" src="<?php echo esc_url( GDPR_COOKIE_CONSENT_PLUGIN_URL ) . 'admin/images/vector.png'; ?>" alt="Search Logo">
 				<?php
 				submit_button(
@@ -116,8 +116,14 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 			</div>
 		</div>
 		<script type="text/javascript">
-			document.getElementById('search-logo-policy-data').addEventListener('click', function() {
-				document.getElementById('search-submit-policy-data').click();
+			document.addEventListener('click', function (event) {
+				if (!event.target.closest || !event.target.closest('#search-logo-policy-data')) {
+					return;
+				}
+				var submitButton = document.getElementById('search-submit-policy-data');
+				if (submitButton) {
+					submitButton.click();
+				}
 			});
 		</script>
 		<?php
@@ -266,18 +272,33 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 */
 	public function process_bulk_action() {
 
-		$ids = isset( $_GET['user_id'] ) ? $_GET['user_id'] : false;
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( 'Unauthorized request.' );
+		}
 
-		if ( ! $ids ) {
+		$ids = isset( $_GET['user_id'] ) ? absint( $_GET['user_id'] ) : false;
+		$action = $this->current_action();
+		if ( ! $action ) {
+			// If no action was found, check for action2 (bottom dropdown)
+			$action = isset( $_GET['action2'] ) && '-1' !== $_GET['action2'] ? sanitize_key( wp_unslash( $_GET['action2'] ) ) : false;
+		}
+		if ( ! $action || ! $ids ) {
 			return;
 		}
+		check_admin_referer( 'bulk-' . $this->_args['plural'] );
 
 		if ( ! is_array( $ids ) ) {
 			$ids = array( $ids );
 		}
 
 		foreach ( $ids as $id ) {
-			if ( 'delete' === $this->current_action() ) {
+			if ( 'delete' === $action ) {
+				$id = absint( $id );
+
+				// Never touch anything outside this table's own post type.
+				if ( ! $id || 'gdprpolicies' !== get_post_type( $id ) ) {
+					continue;
+				}
 
 				wp_delete_post( $id, true );
 
@@ -303,7 +324,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * @since 2.16.0
 	 */
 	public function get_search() {
-		return ! empty( $_GET['s'] ) ? urldecode( trim( $_GET['s'] ) ) : false;
+		return isset( $_GET['s'] ) && is_string( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : false;
 	}
 
 
@@ -414,7 +435,10 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 		array_unshift( $options, __( 'ALL Dates', 'gdpr-cookie-consent' ) );
 
 		if ( isset( $_GET['wpl_resolved_select1'] ) ) {
-			$args['month'] = $options[$_GET['wpl_resolved_select1']];
+			$selected = sanitize_key( wp_unslash( $_GET['wpl_resolved_select1'] ) );
+			if ( isset( $options[ $selected ] ) ) {
+				$args['month'] = $options[ $selected ];
+			}
 		}
 		$this->options = $options;
 		$this->args = $args;
@@ -494,7 +518,7 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 	 * @return array
 	 */
 	public function get_requests( $args ) {
-		global $post;
+	
 		$number = isset( $args['number'] ) ? intval( $args['number'] ) : 10;
 		$offset = isset( $args['offset'] ) ? intval( $args['offset'] ) : 0;
 		$search = isset( $args['name'] ) ? sanitize_text_field( $args['name'] ) : '';
@@ -531,27 +555,27 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 		$custom_posts     = get_posts( $post_args );
 		$all_consent_data = array(); // Initialize the $data array
 
-		foreach ( $custom_posts as $post ) {
+		foreach ( $custom_posts as $policy_post ) {
 
-			setup_postdata( $post ); // Setup post data for each post
+			setup_postdata( $policy_post ); // Setup post data for each post
 
-			$post_id = $post->ID;
+			$post_id = $policy_post->ID;
 
 			// title
 
-			if ( isset( $post->post_title ) ) {
-				$policy_data_title = $post->post_title;
+			if ( isset( $policy_post->post_title ) ) {
+				$policy_data_title = $policy_post->post_title;
 			}
 
 			// purpose
 
-			if ( isset( $post->post_content ) ) {
-				$policy_data_purpose = esc_attr( $post->post_content );
+			if ( isset( $policy_post->post_content ) ) {
+				$policy_data_purpose = esc_attr( $policy_post->post_content );
 			}
 
 			// links
 
-			$custom = get_post_custom();
+			$custom = get_post_custom( $post_id );
 			if ( isset( $custom['_gdpr_policies_links_editor'][0] ) ) {
 				$policy_data_links = wp_kses_post( $custom['_gdpr_policies_links_editor'][0] );
 			}
@@ -570,6 +594,8 @@ class GDPR_Policy_Data_Table extends WP_List_Table {
 			);
 
 		}
+
+		wp_reset_postdata(); // Restore the global $post.
 
 		return $all_consent_data;
 	}
