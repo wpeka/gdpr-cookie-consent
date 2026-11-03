@@ -304,10 +304,10 @@ No plugin can promise that. WPLP Cookie Consent gives you the tools to collect, 
 == Change Log ==
 
 = 4.5.0 =
-* **Script Blocker Improvement:** Improved the script blocker to more reliably hold back third-party scripts until the visitor gives consent.
-* **Cookie Blocker Improvement:** Improved cookie blocking so non-essential cookies are not set before consent is given.
+* **Script Blocker Improvement:** Third-party scripts, iframes and embeds, including ones added after page load, are held until their category is accepted, and blocking now works with full-page caching.
+* **Cookie Blocker Improvement:** Cookies and local/session storage from categories the visitor has not accepted are now blocked and removed, including trackers with IDs in their names (such as _ga_*).
 * **Security Improvement:** Strengthened validation and permission checks on the Google Consent Mode status update endpoint.
-* **New Privacy Laws:** Added support for new privacy laws in the app, so you can configure compliance for more regions.
+* **New Privacy Laws in the App:** PIPEDA (Canada), APP (Australia), UK GDPR, PDPL (Saudi Arabia) and US State Laws, already available in the plugin, can now also be configured from the app.
 * **Bug Fixes:** Fixed minor bugs to improve overall stability.
 
 = 4.4.8 =
@@ -1052,7 +1052,7 @@ No plugin can promise that. WPLP Cookie Consent gives you the tools to collect, 
 == Upgrade Notice ==
 
 = 4.5.0 =
-* Improves the script and cookie blockers, adds a security improvement for the Google Consent Mode status endpoint, adds support for new privacy laws, and fixes minor bugs. Updating is recommended.
+* Improves the script and cookie blockers, adds a security improvement for the Google Consent Mode status endpoint, adds PIPEDA, APP, UK GDPR, PDPL and US State Laws to the app, and fixes minor bugs. Updating is recommended.
 
 = 4.4.8 =
 * This release includes important security fixes. Updating immediately is strongly recommended.
