@@ -3,7 +3,7 @@ Contributors: wplegalpages
 Tags: cookie consent, cookie banner, gdpr, ccpa, cookie notice
 Requires at least: 6.2
 Tested up to: 7.1.3
-Stable tag: 4.4.8
+Stable tag: 4.5.0
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -302,6 +302,13 @@ No plugin can promise that. WPLP Cookie Consent gives you the tools to collect, 
 11. Consent Log table
 
 == Change Log ==
+
+= 4.5.0 =
+* **Script Blocker Improvement:** Improved the script blocker to more reliably hold back third-party scripts until the visitor gives consent.
+* **Cookie Blocker Improvement:** Improved cookie blocking so non-essential cookies are not set before consent is given.
+* **Security Improvement:** Strengthened validation and permission checks on the Google Consent Mode status update endpoint.
+* **New Privacy Laws:** Added support for new privacy laws in the app, so you can configure compliance for more regions.
+* **Bug Fixes:** Fixed minor bugs to improve overall stability.
 
 = 4.4.8 =
 * **Security Fix:** Hardened license activation and app authentication handlers by sanitizing and validating all incoming request data before it is stored.
@@ -1043,6 +1050,9 @@ No plugin can promise that. WPLP Cookie Consent gives you the tools to collect, 
 * Initial version
 
 == Upgrade Notice ==
+
+= 4.5.0 =
+* Improves the script and cookie blockers, adds a security improvement for the Google Consent Mode status endpoint, adds support for new privacy laws, and fixes minor bugs. Updating is recommended.
 
 = 4.4.8 =
 * This release includes important security fixes. Updating immediately is strongly recommended.
