@@ -147,10 +147,23 @@ GDPR_CCPA_COOKIE_EXPIRE =
       Core.update(change);
     }
   }
+  // The IAB TCF purpose, special feature, vendor and Google ATP toggles share
+  // the settings modal with the cookie categories but are owned by the TCF
+  // bundle (their state lives in the TC string). Their values are purpose or
+  // vendor IDs, and the "all" toggles reuse a category slug, so they must never
+  // be read or written as cookie categories.
+  var IAB_TOGGLE_SELECTOR =
+    ".vendor-switch-handler, .vendor-all-switch-handler, " +
+    ".purposes-switch-handler, .purposes-all-switch-handler, " +
+    ".special-features-switch-handler, .special-features-all-switch-handler, " +
+    ".gacm-vendor-switch-handler, .gacm-vendor-all-switch-handler";
+  function categoryInputs() {
+    return jQuery(".gdpr_messagebar_detail input, .gdpr_messagebar_body_button").not(IAB_TOGGLE_SELECTOR);
+  }
   // Category toggles in the banner and the settings modal.
   function collectCategories() {
     var categories = {};
-    jQuery(".gdpr_messagebar_detail input, .gdpr_messagebar_body_button").each(function () {
+    categoryInputs().each(function () {
       var key = jQuery(this).val();
       if (key && jQuery(this).is(":checked")) {
         categories[key] = true;
@@ -167,7 +180,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
     var record = Core ? Core.get() : null;
     var autoTick = GDPR.settings && (GDPR.settings.is_ticked === true || GDPR.settings.is_ticked === "true");
     var optinLaw = !Core || Core.lawKind() !== "optout";
-    jQuery(".gdpr_messagebar_detail input, .gdpr_messagebar_body_button").each(function () {
+    categoryInputs().each(function () {
       var key = jQuery(this).val();
       if (!key || key === "necessary" || jQuery(this).attr("type") === "hidden") {
         return;
@@ -1886,7 +1899,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
 
     // Untick the category toggles; the record itself is written by the core.
     disableAllCookies: function () {
-      jQuery(".gdpr_messagebar_detail input, .gdpr_messagebar_body_button").each(function () {
+      categoryInputs().each(function () {
         var key = jQuery(this).val();
         if (key && key !== "necessary" && jQuery(this).attr("type") !== "hidden") {
           jQuery(this).prop("checked", false);
@@ -1895,7 +1908,7 @@ GDPR_CCPA_COOKIE_EXPIRE =
     },
     // Tick every category toggle; the record itself is written by the core.
     acceptAllCookies: function () {
-      jQuery(".gdpr_messagebar_detail input, .gdpr_messagebar_body_button").each(function () {
+      categoryInputs().each(function () {
         var key = jQuery(this).val();
         if (key && key !== "necessary" && jQuery(this).attr("type") !== "hidden") {
           jQuery(this).prop("checked", true);
