@@ -195,7 +195,7 @@ class Gdpr_Cookie_Consent_Public {
 
 		$config = array(
 			'law'              => $law,
-			'consentVersion'   => (int) $the_options['consent_version'],
+			'consentVersion'   => (int) ( $the_options['consent_version'] ?? 0 ),
 			'categories'       => $categories,
 			/**
 			 * Categories a US-law opt-out of sale/sharing (or GPC) denies.

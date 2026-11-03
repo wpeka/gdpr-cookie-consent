@@ -455,9 +455,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 																<?php
 															} 
 															?>
-															id="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" class="<?php echo esc_attr($classnames);?>-all-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>" value=<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>>
-															<label for="gdpr_messagebar_body_button_<?php echo esc_attr( $category['gdpr_cookie_category_slug'] ); ?>">
-																<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
+															id="gdpr_messagebar_body_button_all_<?php echo esc_attr( $classnames ); ?>" class="<?php echo esc_attr($classnames);?>-all-switch-handler" type="checkbox" name="gdpr_messagebar_body_button_all_<?php echo esc_attr( $classnames ); ?>" value="all_<?php echo esc_attr( $classnames ); ?>">
+															<label for="gdpr_messagebar_body_button_all_<?php echo esc_attr( $classnames ); ?>">
+																<span class="label-text"><?php echo esc_html( $value ); ?></span>
 															</label>
 															<!-- DYNAMICALLY GENERATE Input ID  -->
 														</div>
@@ -650,13 +650,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 																			<?php
 																		} 
 																		?>
-																		id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+																		id="gdpr_messagebar_body_button_all_vendors" 
 																		class="vendor-all-switch-handler" 
 																		type="checkbox" 
-																		name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+																		name="gdpr_messagebar_body_button_all_vendors" 
 																		value="<?php echo esc_attr( is_array($data->allvendors) ? implode(',', $data->allvendors) : $data->allvendors ); ?>">
-																		<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
-																			<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
+																		<label for="gdpr_messagebar_body_button_all_vendors">
+																			<span class="label-text"><?php echo esc_html( $vendor ); ?></span>
 																		</label>
 																		<!-- DYNAMICALLY GENERATE Input ID  -->
 																	</div>
@@ -716,13 +716,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 																		<?php
 																	} 
 																	?>
-																	id="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+																	id="gdpr_messagebar_body_button_all_gacm_vendors" 
 																	class="gacm-vendor-all-switch-handler" 
 																	type="checkbox" 
-																	name="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>" 
+																	name="gdpr_messagebar_body_button_all_gacm_vendors" 
 																	value="<?php echo esc_attr( is_array($data->allvendors) ? implode(',', $data->allvendors) : $data->allvendors ); ?>">
-																	<label for="gdpr_messagebar_body_button_<?php echo esc_html( $category['gdpr_cookie_category_slug'] ); ?>">
-																		<span class="label-text"><?php echo esc_html( $category['gdpr_cookie_category_name'] ); ?></span>
+																	<label for="gdpr_messagebar_body_button_all_gacm_vendors">
+																		<span class="label-text"><?php echo esc_html( $vendor ); ?></span>
 																	</label>
 																	<!-- DYNAMICALLY GENERATE Input ID  -->
 																</div>

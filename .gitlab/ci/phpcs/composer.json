@@ -1,0 +1,14 @@
+{
+    "name": "app-wplegalpages/phpcs-tools",
+    "description": "PHPCS + WordPress Coding Standards + WordPress VIP standards, used by CI (and runnable locally).",
+    "require": {
+        "automattic/vipwpcs": "^3.0",
+        "wp-coding-standards/wpcs": "^3.1",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}
