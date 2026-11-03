@@ -652,10 +652,10 @@ class Gdpr_Cookie_Consent_Admin {
 				if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
 					$json_data = wp_remote_retrieve_body($response);
 					$this -> templates_json = json_decode($json_data, true);
-					if(!isset($the_options['selected_template_json']) || json_decode($the_options['selected_template_json'], true)['name'] != $the_options['template']) $the_options['selected_template_json'] = ($the_options['template'] == 'new_default' ? json_encode(get_option('gdpr_default_template_object')) : json_encode($this -> templates_json[$the_options['template']]));
+					if(!isset($the_options['selected_template_json']) || ( json_decode($the_options['selected_template_json'], true)['name'] ?? null ) != $the_options['template']) $the_options['selected_template_json'] = ($the_options['template'] == 'new_default' ? wp_json_encode(get_option('gdpr_default_template_object')) : wp_json_encode($this -> templates_json[$the_options['template']]));
 				} else {
 					$this -> templates_json = []; // Fallback in case of error
-					if(!isset($the_options['selected_template_json']) || json_decode($the_options['selected_template_json'], true)['name'] != $the_options['template']) $the_options['selected_template_json'] = json_encode([]);
+					if(!isset($the_options['selected_template_json']) || ( json_decode($the_options['selected_template_json'], true)['name'] ?? null ) != $the_options['template']) $the_options['selected_template_json'] = wp_json_encode([]);
 				}
 			}
 			else{
@@ -14047,7 +14047,7 @@ public function gdpr_support_request_handler() {
 		update_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options);
 
 		// check gcm status.
-		$wpl_api_url   = 'https://app.wplegalpages.com/wp-json/wplcookies/v2/';
+		$wpl_api_url   = GDPR_APP_URL . '/wp-json/wplcookies/v2/';
 		$site_url      = site_url();
 		$response_url  = get_rest_url(null, 'gdpr/v2/update_gcm_status');
 		$response      = wpl_signed_gcm_status_request( $wpl_api_url, $site_url, $response_url );

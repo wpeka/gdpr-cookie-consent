@@ -64,8 +64,13 @@ HEAD_SHA="$CI_COMMIT_SHA"
 START_SHA=""
 POSITION_HEAD_SHA=""
 
+if can_comment && ! MR_JSON=$(api "$MR_API"); then
+	echo "WARN: GITLAB_TOKEN cannot read this MR (check it was created in this project or its group, role >= Developer, scope 'api')."
+	echo "WARN: continuing without MR comments - results will only appear in this job log."
+	unset GITLAB_TOKEN
+fi
+
 if can_comment; then
-	MR_JSON=$(api "$MR_API")
 	BASE_SHA=$(jq -r '.diff_refs.base_sha // empty' <<<"$MR_JSON")
 	START_SHA=$(jq -r '.diff_refs.start_sha // empty' <<<"$MR_JSON")
 	POSITION_HEAD_SHA=$(jq -r '.diff_refs.head_sha // empty' <<<"$MR_JSON")
