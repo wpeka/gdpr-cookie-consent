@@ -44,9 +44,6 @@ phpcs_wpvip:
   stage: lint
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-  # TEMPORARY: PHPCS errors don't block merge for now (job shows as a warning,
-  # comments are still posted). Remove this line to re-enable merge blocking.
-  allow_failure: true
   variables:
     GIT_DEPTH: 0   # full history so the MR base commit is available to diff against
     PHPCS_BIN: "$CI_PROJECT_DIR/.gitlab/ci/phpcs/vendor/bin/phpcs"
