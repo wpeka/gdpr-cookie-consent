@@ -105,9 +105,10 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
   //initializaation of cmp api instance that is used to read tcString by vendors and validator
   let cmpApi;
 
-  //if tc string cookie for consent by user exists, read it, decode it and strore in the object
-  if (GDPR_Cookie.exists("wpl_tc_string")) {
-    const decoded_consent = TCString.decode(GDPR_Cookie.read("wpl_tc_string"));
+  // Load the consent held in a TC string into user_iab_consent, the state the
+  // toggles are synced from (including vendors rendered later on scroll).
+  function setUserConsentFromTCString(tcString) {
+    const decoded_consent = TCString.decode(tcString);
     user_iab_consent.purpose_consent = Array.from(
       decoded_consent.purposeConsents.set_
     );
@@ -121,6 +122,19 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
     user_iab_consent.feature_consent = Array.from(
       decoded_consent.specialFeatureOptins.set_
     );
+  }
+
+  // Every Google Ad Tech Provider ID listed for the site (rows without an ID,
+  // such as a trailing blank row, are skipped).
+  function allGacmVendorIds() {
+    return (iabtcf.gacm_data || [])
+      .map((vendor) => Number(vendor && vendor[0]))
+      .filter((id) => id > 0);
+  }
+
+  //if tc string cookie for consent by user exists, read it, decode it and strore in the object
+  if (GDPR_Cookie.exists("wpl_tc_string")) {
+    setUserConsentFromTCString(GDPR_Cookie.read("wpl_tc_string"));
   }
   if (GDPR_Cookie.exists("IABTCF_AddtlConsent")) {
     const [specVersion, consentedPart, disclosedPart] = GDPR_Cookie.read(
@@ -444,6 +458,9 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
 
       // Encode the updated tcModel
       encodedString = TCString.encode(tcModel);
+      // Keep the in-memory consent in step with the string just written, so
+      // vendors rendered later (on scroll) and later saves use this decision.
+      setUserConsentFromTCString(encodedString);
       user_iab_consent.tcString = encodedString;
       tcModel.tcString = encodedString;
       GDPR_Cookie.set("wpl_tc_string", encodedString, 365);
@@ -487,18 +504,27 @@ if (!(iabtcf.is_iabtcf_on === true || iabtcf.is_iabtcf_on === "true" || iabtcf.i
 
       var specVersion = "2";
 
-      user_gacm_consent = [];
+      // Accept All consents to every Google Ad Tech Provider as well, matching
+      // the ATP toggles switched on below.
+      user_gacm_consent = allGacmVendorIds();
 
+      // Part 3: List of user-consented vendors
+      var consentedIds = user_gacm_consent.join(".");
       // Part 5: List of disclosed vendors (from gacm_data that are NOT in user_gacm_consent)
-      var disclosedVendors = iabtcf.gacm_data.map((vendor) => vendor[0]);
-      var disclosedIds = disclosedVendors.join(".");
+      var disclosedIds = (iabtcf.gacm_data || [])
+        .map((vendor) => vendor[0])
+        .filter((vendorId) => vendorId != null && vendorId !== "" && !user_gacm_consent.includes(Number(vendorId)))
+        .join(".");
 
       // Create the AC string
-      acString = `${specVersion}~~dv.${disclosedIds}`;
+      acString = `${specVersion}~${consentedIds}~dv.${disclosedIds}`;
       tcModel.addtlConsent = acString;
 
       // Encode the updated tcModel
       encodedString = TCString.encode(tcModel);
+      // Keep the in-memory consent in step with the string just written, so
+      // vendors rendered later (on scroll) and later saves use this decision.
+      setUserConsentFromTCString(encodedString);
       user_iab_consent.tcString = encodedString;
       tcModel.tcString = encodedString;
       GDPR_Cookie.set("wpl_tc_string", encodedString, 365);
