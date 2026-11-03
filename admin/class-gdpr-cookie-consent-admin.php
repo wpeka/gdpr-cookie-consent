@@ -14047,7 +14047,7 @@ public function gdpr_support_request_handler() {
 		update_option(GDPR_COOKIE_CONSENT_SETTINGS_FIELD, $the_options);
 
 		// check gcm status.
-		$wpl_api_url   = 'https://app.wplegalpages.com/wp-json/wplcookies/v2/';
+		$wpl_api_url   = GDPR_APP_URL . '/wp-json/wplcookies/v2/';
 		$site_url      = site_url();
 		$response_url  = get_rest_url(null, 'gdpr/v2/update_gcm_status');
 		$response      = wpl_signed_gcm_status_request( $wpl_api_url, $site_url, $response_url );
