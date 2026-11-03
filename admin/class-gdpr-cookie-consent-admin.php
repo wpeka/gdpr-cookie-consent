@@ -652,10 +652,10 @@ class Gdpr_Cookie_Consent_Admin {
 				if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
 					$json_data = wp_remote_retrieve_body($response);
 					$this -> templates_json = json_decode($json_data, true);
-					if(!isset($the_options['selected_template_json']) || ( json_decode($the_options['selected_template_json'], true)['name'] ?? null ) != $the_options['template']) $the_options['selected_template_json'] = ($the_options['template'] == 'new_default' ? json_encode(get_option('gdpr_default_template_object')) : json_encode($this -> templates_json[$the_options['template']]));
+					if(!isset($the_options['selected_template_json']) || ( json_decode($the_options['selected_template_json'], true)['name'] ?? null ) != $the_options['template']) $the_options['selected_template_json'] = ($the_options['template'] == 'new_default' ? wp_json_encode(get_option('gdpr_default_template_object')) : wp_json_encode($this -> templates_json[$the_options['template']]));
 				} else {
 					$this -> templates_json = []; // Fallback in case of error
-					if(!isset($the_options['selected_template_json']) || ( json_decode($the_options['selected_template_json'], true)['name'] ?? null ) != $the_options['template']) $the_options['selected_template_json'] = json_encode([]);
+					if(!isset($the_options['selected_template_json']) || ( json_decode($the_options['selected_template_json'], true)['name'] ?? null ) != $the_options['template']) $the_options['selected_template_json'] = wp_json_encode([]);
 				}
 			}
 			else{
