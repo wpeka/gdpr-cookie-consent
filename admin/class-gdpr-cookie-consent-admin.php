@@ -15074,6 +15074,8 @@ public function gdpr_support_request_handler() {
 		if ( $this->gdpr_is_free_tier() && in_array( $the_options['cookie_usage_for'], $this->gdpr_pro_only_law_codes(), true ) ) {
 			$the_options['cookie_usage_for'] = 'gdpr';
 		}
+		$the_options['banner_edit_law'] = $the_options['cookie_usage_for'];
+		update_option( 'gdpr_law_selection_mode', 'manual' );
 		if ( isset( $the_options['cookie_usage_for'] ) ) {
 			switch ( $the_options['cookie_usage_for'] ) {
 				case 'both':
